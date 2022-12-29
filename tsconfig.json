@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.extend.json",
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "target": "es6",
     "module": "esnext",
@@ -17,10 +17,7 @@
     "noEmit": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "jsx": "react-jsx",
-    "baseUrl": "./src",
-    "paths": {
-      "@img/*": ["./images/*"]
-    }
-  }
+    "jsx": "react-jsx"
+  },
+  "include": ["src", "tsconfig.paths.json"]
 }
