@@ -6,7 +6,8 @@ import { v4 as uuidV4 } from "uuid";
 import { peersReducer } from "./peerReducer";
 import { addPeerAction, removePeerAction } from "./peerActions";
 
-const WS = "http://localhost:8080";
+// const WS = "http://localhost:8080";
+const WS = "https://momstown.herokuapp.com/";
 
 const RoomContext = createContext<null | any>(null);
 
@@ -21,6 +22,7 @@ const RoomProvider: React.FunctionComponent<Props> = ({ children }) => {
     const [me, setMe] = useState<Peer>();
     const [stream, setStream] = useState<MediaStream>();
     const [peers, dispatch] = useReducer(peersReducer, {});
+    const [screenSharingId, setScreesharingId] = useState<string>("")
 
     const enterRoom = ({ roomId }: { roomId: "string" }) => {
         console.log({ roomId });
@@ -33,9 +35,20 @@ const RoomProvider: React.FunctionComponent<Props> = ({ children }) => {
     const removePeer = (peerId:string) =>{
         dispatch(removePeerAction(peerId))
     }
-    // const shareScreen = () => {
-    //     navigator.mediaDevices.getDisplayMedia({}).then(stream)
-    // }
+
+    const switchStream = (stream:MediaStream) => {
+        setStream(stream);
+        setScreesharingId(me?.id || "");
+    }
+
+    const shareScreen = () => {
+        if(screenSharingId){
+            navigator.mediaDevices.getUserMedia({video:true, audio:true}).then(switchStream)
+        } else {
+            navigator.mediaDevices.getDisplayMedia({}).then(switchStream)
+        }
+
+    }
     useEffect(() => {
         const meId = uuidV4();
 
@@ -75,7 +88,7 @@ const RoomProvider: React.FunctionComponent<Props> = ({ children }) => {
     console.log({ peers });
 
     return (
-        <RoomContext.Provider value={{ ws, me, stream, peers}}>
+        <RoomContext.Provider value={{ ws, me, stream, peers, shareScreen}}>
             {children}
         </RoomContext.Provider>
     );

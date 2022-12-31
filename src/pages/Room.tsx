@@ -7,7 +7,7 @@ import { RoomContext } from "src/context/RoomContext";
 
 export const Room = () => {
     const { id } = useParams();
-    const { ws, me, stream, peers } = useContext(RoomContext);
+    const { ws, me, stream, peers, shareScreen } = useContext(RoomContext);
     useEffect(() => {
         if (me) ws.emit("join-room", { roomId: id, peerId: me._id });
     }, [id, me, ws]);
@@ -22,7 +22,7 @@ export const Room = () => {
                 
             </div>
             <div className="fixed bottom-0 p-6 w-full flex justify-center border-t-2">
-                <ShareScreenButton />
+                <ShareScreenButton onClick={shareScreen} />
             </div>
         </>
     );
