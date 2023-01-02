@@ -102,8 +102,8 @@ const ProgressBar = styled(LinearProgress)`
 `
 
 export default function RoomSelectionDialog() {
-  const [showCustomRoom, setShowCustomRoom] = useState(false)
-  const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
+  // const [showCustomRoom, setShowCustomRoom] = useState(false)
+  // const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
   const [showSnackbar, setShowSnackbar] = useState(false)
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined)
 
