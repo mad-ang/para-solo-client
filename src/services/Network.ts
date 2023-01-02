@@ -19,9 +19,9 @@ import {
 import {
   setLobbyJoined,
   setJoinedRoomData,
-  setAvailableRooms,
-  addAvailableRooms,
-  removeAvailableRooms,
+  // setAvailableRooms,
+  // addAvailableRooms,
+  // removeAvailableRooms,
 } from "../stores/RoomStore";
 import {
   pushChatMessage,
@@ -69,17 +69,17 @@ export default class Network {
   async joinLobbyRoom() {
     this.lobby = await this.client.joinOrCreate(RoomType.LOBBY);
 
-    this.lobby.onMessage("rooms", (rooms) => {
-      store.dispatch(setAvailableRooms(rooms));
-    });
+    // this.lobby.onMessage("rooms", (rooms) => {
+    //   store.dispatch(setAvailableRooms(rooms));
+    // });
 
-    this.lobby.onMessage("+", ([roomId, room]) => {
-      store.dispatch(addAvailableRooms({ roomId, room }));
-    });
+    // this.lobby.onMessage("+", ([roomId, room]) => {
+    //   store.dispatch(addAvailableRooms({ roomId, room }));
+    // });
 
-    this.lobby.onMessage("-", (roomId) => {
-      store.dispatch(removeAvailableRooms(roomId));
-    });
+    // this.lobby.onMessage("-", (roomId) => {
+    //   store.dispatch(removeAvailableRooms(roomId));
+    // });
   }
 
   // method to join the public lobby
