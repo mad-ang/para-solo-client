@@ -81,14 +81,29 @@ export default class Game extends Phaser.Scene {
 
     const BuildingImage = this.map.addTilesetImage("buildings", "buildings");
 
+    const InteriorImage = this.map.addTilesetImage("interior", "interior");
+    // const DollImage = this.map.addTilesetImage("doll", "interior");
+
+    const TestImage = this.map.addTilesetImage("bench", "bench");
+
     // debugDraw(groundLayer, this)
     const GroundLayer = this.map.createLayer("grass", GroundImage);
 
     const BuildingLayer = this.map.createLayer("buildings", BuildingImage);
 
+    const BenchLayer = this.map.createLayer("interior", InteriorImage);
+
+    const TestLayer = this.map.createLayer("bench", TestImage);
+
+    const DollLayer = this.map.createLayer("doll", InteriorImage);
+
+    // const SwingLayer = this.map.createLayer("swing", BenchImage);
+
     GroundLayer.setCollisionByProperty({ collisions: true });
     BuildingLayer.setCollisionByProperty({ collisions: true });
-
+    BenchLayer.setCollisionByProperty({ collisions: true });
+    // DollLayer.setCollisionByProperty({ collisions: true });
+    // SwingLayer.setCollisionByProperty({ collisions: true });
     // const debugGraphics = this.add.graphics().setAlpha(0.7)
     // GroundLayer.renderDebug(debugGraphics, {
     //   tileColor: null, // Color of non-colliding tiles
@@ -163,9 +178,15 @@ export default class Game extends Phaser.Scene {
       [this.myPlayer, this.myPlayer.playerContainer],
       GroundLayer
     );
+
     this.physics.add.collider(
       [this.myPlayer, this.myPlayer.playerContainer],
       BuildingLayer
+    );
+
+    this.physics.add.collider(
+      [this.myPlayer, this.myPlayer.playerContainer],
+      BenchLayer
     );
 
     // this.physics.add.overlap(

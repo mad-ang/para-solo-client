@@ -33,7 +33,18 @@ export default class Bootstrap extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16,
     });
+
     this.load.spritesheet("buildings", "assets/map/buildings.png", {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet("interior", "assets/map/interior.png", {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet("bench", "assets/map/bench.png", {
       frameWidth: 16,
       frameHeight: 16,
     });
@@ -66,7 +77,7 @@ export default class Bootstrap extends Phaser.Scene {
     //   frameWidth: 32,
     //   frameHeight: 32,
     // })
-    this.load.spritesheet('adam', 'assets/character/adam.png', {
+    this.load.spritesheet("adam", "assets/character/adam.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
