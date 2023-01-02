@@ -30,7 +30,7 @@ import {
   userCntup,
   userCntdown,
 } from "../stores/ChatStore";
-import { setWhiteboardUrls } from "../stores/WhiteboardStore";
+// import { setWhiteboardUrls } from "../stores/WhiteboardStore";
 
 export default class Network {
   private client: Client;
@@ -165,12 +165,12 @@ export default class Network {
       whiteboard: IWhiteboard,
       key: string
     ) => {
-      store.dispatch(
-        setWhiteboardUrls({
-          whiteboardId: key,
-          roomId: whiteboard.roomId,
-        })
-      );
+      // store.dispatch(
+      //   setWhiteboardUrls({
+      //     whiteboardId: key,
+      //     roomId: whiteboard.roomId,
+      //   })
+      // );
       // track changes on every child object's connectedUser
       whiteboard.connectedUser.onAdd = (item, index) => {
         phaserEvents.emit(
@@ -211,10 +211,10 @@ export default class Network {
     });
 
     // when a computer user stops sharing screen
-    this.room.onMessage(Message.STOP_SCREEN_SHARE, (clientId: string) => {
-      const computerState = store.getState().computer;
-      computerState.shareScreenManager?.onUserLeft(clientId);
-    });
+    // this.room.onMessage(Message.STOP_SCREEN_SHARE, (clientId: string) => {
+    //   const computerState = store.getState().computer;
+    //   computerState.shareScreenManager?.onUserLeft(clientId);
+    // });
   }
 
   // method to register event listener and call back function when a item user added
