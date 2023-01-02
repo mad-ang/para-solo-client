@@ -304,25 +304,25 @@ export default class Network {
     this.webRTC?.deleteVideoStream(id);
   }
 
-  connectToComputer(id: string) {
-    this.room?.send(Message.CONNECT_TO_COMPUTER, { computerId: id });
-  }
+  // connectToComputer(id: string) {
+  //   this.room?.send(Message.CONNECT_TO_COMPUTER, { computerId: id });
+  // }
 
-  disconnectFromComputer(id: string) {
-    this.room?.send(Message.DISCONNECT_FROM_COMPUTER, { computerId: id });
-  }
+  // disconnectFromComputer(id: string) {
+  //   this.room?.send(Message.DISCONNECT_FROM_COMPUTER, { computerId: id });
+  // }
 
-  connectToWhiteboard(id: string) {
-    this.room?.send(Message.CONNECT_TO_WHITEBOARD, { whiteboardId: id });
-  }
+  // connectToWhiteboard(id: string) {
+  //   this.room?.send(Message.CONNECT_TO_WHITEBOARD, { whiteboardId: id });
+  // }
 
-  disconnectFromWhiteboard(id: string) {
-    this.room?.send(Message.DISCONNECT_FROM_WHITEBOARD, { whiteboardId: id });
-  }
+  // disconnectFromWhiteboard(id: string) {
+  //   this.room?.send(Message.DISCONNECT_FROM_WHITEBOARD, { whiteboardId: id });
+  // }
 
-  onStopScreenShare(id: string) {
-    this.room?.send(Message.STOP_SCREEN_SHARE, { computerId: id });
-  }
+  // onStopScreenShare(id: string) {
+  //   this.room?.send(Message.STOP_SCREEN_SHARE, { computerId: id });
+  // }
 
   addChatMessage(content: string) {
     this.room?.send(Message.ADD_CHAT_MESSAGE, { content: content });
