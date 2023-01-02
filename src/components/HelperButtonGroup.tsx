@@ -1,23 +1,23 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import Fab from '@mui/material/Fab'
-import IconButton from '@mui/material/IconButton'
-import Avatar from '@mui/material/Avatar'
-import Tooltip from '@mui/material/Tooltip'
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
-import ShareIcon from '@mui/icons-material/Share'
-import LightModeIcon from '@mui/icons-material/LightMode'
-import DarkModeIcon from '@mui/icons-material/DarkMode'
-import CloseIcon from '@mui/icons-material/Close'
-import LightbulbIcon from '@mui/icons-material/Lightbulb'
-import ArrowRightIcon from '@mui/icons-material/ArrowRight'
-import GitHubIcon from '@mui/icons-material/GitHub'
-import TwitterIcon from '@mui/icons-material/Twitter'
+import React, { useState } from "react";
+import styled from "styled-components";
+import Fab from "@mui/material/Fab";
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import ShareIcon from "@mui/icons-material/Share";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import CloseIcon from "@mui/icons-material/Close";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import TwitterIcon from "@mui/icons-material/Twitter";
 
-import { BackgroundMode } from '../../../types/BackgroundMode'
-import { toggleBackgroundMode } from '../stores/UserStore'
-import { useAppSelector, useAppDispatch } from '../hooks'
-import { getAvatarString, getColorByString } from '../util'
+import { BackgroundMode } from "../types/BackgroundMode";
+import { toggleBackgroundMode } from "../stores/UserStore";
+import { useAppSelector, useAppDispatch } from "../hooks";
+import { getAvatarString, getColorByString } from "../util";
 
 const Backdrop = styled.div`
   position: fixed;
@@ -32,7 +32,7 @@ const Backdrop = styled.div`
     flex-direction: column;
     gap: 10px;
   }
-`
+`;
 
 const Wrapper = styled.div`
   position: relative;
@@ -55,18 +55,18 @@ const Wrapper = styled.div`
   .tip {
     margin-left: 12px;
   }
-`
+`;
 
 const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
-`
+`;
 
 const Title = styled.h3`
   font-size: 24px;
   color: #eee;
   text-align: center;
-`
+`;
 
 const RoomName = styled.div`
   margin: 10px 20px;
@@ -83,7 +83,7 @@ const RoomName = styled.div`
     font-size: 24px;
     color: #eee;
   }
-`
+`;
 
 const RoomDescription = styled.div`
   margin: 0 20px;
@@ -95,30 +95,34 @@ const RoomDescription = styled.div`
   color: #c2c2c2;
   display: flex;
   justify-content: center;
-`
+`;
 
 const StyledFab = styled(Fab)<{ target?: string }>`
   &:hover {
     color: #1ea2df;
   }
-`
+`;
 
 export default function HelperButtonGroup() {
-  const [showControlGuide, setShowControlGuide] = useState(false)
-  const [showRoomInfo, setShowRoomInfo] = useState(false)
-  const backgroundMode = useAppSelector((state) => state.user.backgroundMode)
-  const roomJoined = useAppSelector((state) => state.room.roomJoined)
-  const roomId = useAppSelector((state) => state.room.roomId)
-  const roomName = useAppSelector((state) => state.room.roomName)
-  const roomDescription = useAppSelector((state) => state.room.roomDescription)
-  const dispatch = useAppDispatch()
+  const [showControlGuide, setShowControlGuide] = useState(false);
+  const [showRoomInfo, setShowRoomInfo] = useState(false);
+  const backgroundMode = useAppSelector((state) => state.user.backgroundMode);
+  const roomJoined = useAppSelector((state) => state.room.roomJoined);
+  const roomId = useAppSelector((state) => state.room.roomId);
+  const roomName = useAppSelector((state) => state.room.roomName);
+  const roomDescription = useAppSelector((state) => state.room.roomDescription);
+  const dispatch = useAppDispatch();
 
   return (
     <Backdrop>
       <div className="wrapper-group">
         {showRoomInfo && (
           <Wrapper>
-            <IconButton className="close" onClick={() => setShowRoomInfo(false)} size="small">
+            <IconButton
+              className="close"
+              onClick={() => setShowRoomInfo(false)}
+              size="small"
+            >
               <CloseIcon />
             </IconButton>
             <RoomName>
@@ -142,7 +146,11 @@ export default function HelperButtonGroup() {
         {showControlGuide && (
           <Wrapper>
             <Title>Controls</Title>
-            <IconButton className="close" onClick={() => setShowControlGuide(false)} size="small">
+            <IconButton
+              className="close"
+              onClick={() => setShowControlGuide(false)}
+              size="small"
+            >
               <CloseIcon />
             </IconButton>
             <ul>
@@ -153,7 +161,8 @@ export default function HelperButtonGroup() {
                 <strong>E</strong> to sit down (when facing a chair)
               </li>
               <li>
-                <strong>R</strong> to use computer to screen share (when facing a computer)
+                <strong>R</strong> to use computer to screen share (when facing
+                a computer)
               </li>
               <li>
                 <strong>Enter</strong> to open chat
@@ -176,8 +185,8 @@ export default function HelperButtonGroup() {
               <StyledFab
                 size="small"
                 onClick={() => {
-                  setShowRoomInfo(!showRoomInfo)
-                  setShowControlGuide(false)
+                  setShowRoomInfo(!showRoomInfo);
+                  setShowControlGuide(false);
                 }}
               >
                 <ShareIcon />
@@ -187,8 +196,8 @@ export default function HelperButtonGroup() {
               <StyledFab
                 size="small"
                 onClick={() => {
-                  setShowControlGuide(!showControlGuide)
-                  setShowRoomInfo(false)
+                  setShowControlGuide(!showControlGuide);
+                  setShowRoomInfo(false);
                 }}
               >
                 <HelpOutlineIcon />
@@ -206,16 +215,27 @@ export default function HelperButtonGroup() {
           </StyledFab>
         </Tooltip>
         <Tooltip title="Follow Us on Twitter">
-          <StyledFab size="small" href="https://twitter.com/SkyOfficeApp" target="_blank">
+          <StyledFab
+            size="small"
+            href="https://twitter.com/SkyOfficeApp"
+            target="_blank"
+          >
             <TwitterIcon />
           </StyledFab>
         </Tooltip>
         <Tooltip title="Switch Background Theme">
-          <StyledFab size="small" onClick={() => dispatch(toggleBackgroundMode())}>
-            {backgroundMode === BackgroundMode.DAY ? <DarkModeIcon /> : <LightModeIcon />}
+          <StyledFab
+            size="small"
+            onClick={() => dispatch(toggleBackgroundMode())}
+          >
+            {backgroundMode === BackgroundMode.DAY ? (
+              <DarkModeIcon />
+            ) : (
+              <LightModeIcon />
+            )}
           </StyledFab>
         </Tooltip>
       </ButtonGroup>
     </Backdrop>
-  )
+  );
 }
