@@ -5,7 +5,7 @@ import { useAppSelector } from './hooks'
 
 import RoomSelectionDialog from './components/RoomSelectionDialog'
 import LoginDialog from './components/LoginDialog'
-import ComputerDialog from './components/ComputerDialog'
+// import ComputerDialog from './components/ComputerDialog'
 import WhiteboardDialog from './components/WhiteboardDialog'
 import VideoConnectionDialog from './components/VideoConnectionDialog'
 import Chat from './components/Chat'
@@ -26,10 +26,10 @@ function App() {
 
   let ui: JSX.Element
   if (loggedIn) {
-    if (computerDialogOpen) {
+    // if (computerDialogOpen) {
       /* Render ComputerDialog if user is using a computer. */
-      ui = <ComputerDialog />
-    } else if (whiteboardDialogOpen) {
+      // ui = <ComputerDialog />
+    if (whiteboardDialogOpen) {
       /* Render WhiteboardDialog if user is using a whiteboard. */
       ui = <WhiteboardDialog />
     } else {
