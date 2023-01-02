@@ -81,7 +81,7 @@ export default class Game extends Phaser.Scene {
 
     const BuildingImage = this.map.addTilesetImage("buildings", "buildings");
 
-    const BenchImage = this.map.addTilesetImage("interior", "interior");
+    const InteriorImage = this.map.addTilesetImage("interior", "interior");
     // const DollImage = this.map.addTilesetImage("doll", "interior");
 
     const TestImage = this.map.addTilesetImage("bench", "bench");
@@ -91,11 +91,11 @@ export default class Game extends Phaser.Scene {
 
     const BuildingLayer = this.map.createLayer("buildings", BuildingImage);
 
-    const BenchLayer = this.map.createLayer("interior", BenchImage);
+    const BenchLayer = this.map.createLayer("interior", InteriorImage);
 
     const TestLayer = this.map.createLayer("bench", TestImage);
 
-    const DollLayer = this.map.createLayer("doll", BenchImage);
+    const DollLayer = this.map.createLayer("doll", InteriorImage);
 
     // const SwingLayer = this.map.createLayer("swing", BenchImage);
 
