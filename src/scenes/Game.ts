@@ -1,13 +1,13 @@
-import Phaser from "phaser";
+// import Phaser from "phaser";
 
 // import { debugDraw } from '../utils/debug'
 import { createCharacterAnims } from "../anims/CharacterAnims";
 
 import Item from "../items/Item";
-import Chair from "../items/Chair";
-import Computer from "../items/Computer";
-import Whiteboard from "../items/Whiteboard";
-import VendingMachine from "../items/VendingMachine";
+// import Chair from "../items/Chair";
+// import Computer from "../items/Computer";
+// import Whiteboard from "../items/Whiteboard";
+// import VendingMachine from "../items/VendingMachine";
 import "../characters/MyPlayer";
 import "../characters/OtherPlayer";
 import MyPlayer from "../characters/MyPlayer";
@@ -32,8 +32,8 @@ export default class Game extends Phaser.Scene {
   private playerSelector!: Phaser.GameObjects.Zone;
   private otherPlayers!: Phaser.Physics.Arcade.Group;
   private otherPlayerMap = new Map<string, OtherPlayer>();
-  computerMap = new Map<string, Computer>();
-  private whiteboardMap = new Map<string, Whiteboard>();
+  // computerMap = new Map<string, Computer>();
+  // private whiteboardMap = new Map<string, Whiteboard>();
 
   constructor() {
     super("game");
@@ -190,8 +190,8 @@ export default class Game extends Phaser.Scene {
     this.network.onMyPlayerReady(this.handleMyPlayerReady, this);
     this.network.onMyPlayerVideoConnected(this.handleMyVideoConnected, this);
     this.network.onPlayerUpdated(this.handlePlayerUpdated, this);
-    this.network.onItemUserAdded(this.handleItemUserAdded, this);
-    this.network.onItemUserRemoved(this.handleItemUserRemoved, this);
+    // this.network.onItemUserAdded(this.handleItemUserAdded, this);
+    // this.network.onItemUserRemoved(this.handleItemUserRemoved, this);
     this.network.onChatMessageAdded(this.handleChatMessageAdded, this);
   }
 
@@ -307,33 +307,33 @@ export default class Game extends Phaser.Scene {
     otherPlayer.makeCall(myPlayer, this.network?.webRTC);
   }
 
-  private handleItemUserAdded(
-    playerId: string,
-    itemId: string,
-    itemType: ItemType
-  ) {
-    if (itemType === ItemType.COMPUTER) {
-      const computer = this.computerMap.get(itemId);
-      computer?.addCurrentUser(playerId);
-    } else if (itemType === ItemType.WHITEBOARD) {
-      const whiteboard = this.whiteboardMap.get(itemId);
-      whiteboard?.addCurrentUser(playerId);
-    }
-  }
+  // private handleItemUserAdded(
+  //   playerId: string,
+  //   itemId: string,
+  //   itemType: ItemType
+  // ) {
+  //   if (itemType === ItemType.COMPUTER) {
+  //     const computer = this.computerMap.get(itemId);
+  //     computer?.addCurrentUser(playerId);
+  //   } else if (itemType === ItemType.WHITEBOARD) {
+  //     const whiteboard = this.whiteboardMap.get(itemId);
+  //     whiteboard?.addCurrentUser(playerId);
+  //   }
+  // }
 
-  private handleItemUserRemoved(
-    playerId: string,
-    itemId: string,
-    itemType: ItemType
-  ) {
-    if (itemType === ItemType.COMPUTER) {
-      const computer = this.computerMap.get(itemId);
-      computer?.removeCurrentUser(playerId);
-    } else if (itemType === ItemType.WHITEBOARD) {
-      const whiteboard = this.whiteboardMap.get(itemId);
-      whiteboard?.removeCurrentUser(playerId);
-    }
-  }
+  // private handleItemUserRemoved(
+  //   playerId: string,
+  //   itemId: string,
+  //   itemType: ItemType
+  // ) {
+  //   if (itemType === ItemType.COMPUTER) {
+  //     const computer = this.computerMap.get(itemId);
+  //     computer?.removeCurrentUser(playerId);
+  //   } else if (itemType === ItemType.WHITEBOARD) {
+  //     const whiteboard = this.whiteboardMap.get(itemId);
+  //     whiteboard?.removeCurrentUser(playerId);
+  //   }
+  // }
 
   private handleChatMessageAdded(playerId: string, content: string) {
     const otherPlayer = this.otherPlayerMap.get(playerId);
