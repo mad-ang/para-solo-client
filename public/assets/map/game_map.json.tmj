@@ -1,12 +1,4 @@
 { "compressionlevel":-1,
- "editorsettings":
-    {
-     "export":
-        {
-         "format":"json",
-         "target":"game_map.json.tmj"
-        }
-    },
  "height":40,
  "infinite":false,
  "layers":[

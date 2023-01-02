@@ -21,6 +21,7 @@ import { ItemType } from "../types/Items";
 import store from "../stores";
 import { setFocused, setShowChat } from "../stores/ChatStore";
 import { NavKeys, Keyboard } from "../types/KeyboardState";
+import { Grass } from "@mui/icons-material";
 
 export default class Game extends Phaser.Scene {
   network!: Network;
@@ -77,33 +78,26 @@ export default class Game extends Phaser.Scene {
 
     this.map = this.make.tilemap({ key: "tilemap" });
 
-    const GroundImage = this.map.addTilesetImage("tiles", "tiles_wall");
+    const TileImage = this.map.addTilesetImage("tiles", "tiles");
 
     const BuildingImage = this.map.addTilesetImage("buildings", "buildings");
 
     const InteriorImage = this.map.addTilesetImage("interior", "interior");
-    // const DollImage = this.map.addTilesetImage("doll", "interior");
-
-    const TestImage = this.map.addTilesetImage("bench", "bench");
 
     // debugDraw(groundLayer, this)
-    const GroundLayer = this.map.createLayer("grass", GroundImage);
+    const GrassLayer = this.map.createLayer("grass", TileImage);
 
     const BuildingLayer = this.map.createLayer("buildings", BuildingImage);
 
-    const BenchLayer = this.map.createLayer("interior", InteriorImage);
+    const BenchLayer = this.map.createLayer("bench", InteriorImage);
 
-    const TestLayer = this.map.createLayer("bench", TestImage);
+    const SwingLayer = this.map.createLayer("swing", TileImage);
 
-    const DollLayer = this.map.createLayer("doll", InteriorImage);
-
-    // const SwingLayer = this.map.createLayer("swing", BenchImage);
-
-    GroundLayer.setCollisionByProperty({ collisions: true });
+    GrassLayer.setCollisionByProperty({ collisions: true });
     BuildingLayer.setCollisionByProperty({ collisions: true });
     BenchLayer.setCollisionByProperty({ collisions: true });
-    // DollLayer.setCollisionByProperty({ collisions: true });
-    // SwingLayer.setCollisionByProperty({ collisions: true });
+    SwingLayer.setCollisionByProperty({ collisions: true });
+
     // const debugGraphics = this.add.graphics().setAlpha(0.7)
     // GroundLayer.renderDebug(debugGraphics, {
     //   tileColor: null, // Color of non-colliding tiles
@@ -171,12 +165,12 @@ export default class Game extends Phaser.Scene {
 
     this.otherPlayers = this.physics.add.group({ classType: OtherPlayer });
 
-    this.cameras.main.zoom = 1.5;
+    this.cameras.main.zoom = 2;
     this.cameras.main.startFollow(this.myPlayer, true);
 
     this.physics.add.collider(
       [this.myPlayer, this.myPlayer.playerContainer],
-      GroundLayer
+      GrassLayer
     );
 
     this.physics.add.collider(
@@ -187,6 +181,11 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(
       [this.myPlayer, this.myPlayer.playerContainer],
       BenchLayer
+    );
+
+    this.physics.add.collider(
+      [this.myPlayer, this.myPlayer.playerContainer],
+      SwingLayer
     );
 
     // this.physics.add.overlap(
