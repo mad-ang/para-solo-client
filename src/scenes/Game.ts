@@ -93,6 +93,13 @@ export default class Game extends Phaser.Scene {
 
     const SwingLayer = this.map.createLayer("swing", TileImage);
 
+    const ForeGround = this.map.createLayer("foreground", [
+      TileImage,
+      BuildingImage,
+    ]);
+
+    ForeGround.setDepth(6000);
+
     GrassLayer.setCollisionByProperty({ collisions: true });
     BuildingLayer.setCollisionByProperty({ collisions: true });
     BenchLayer.setCollisionByProperty({ collisions: true });
