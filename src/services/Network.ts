@@ -1,9 +1,9 @@
 import { Client, Room } from "colyseus.js";
 import {
-  IComputer,
+  // IComputer,
   IOfficeState,
   IPlayer,
-  IWhiteboard,
+  // IWhiteboard,
 } from "../types/IOfficeState";
 import { Message } from "../types/Messages";
 import { IRoomData, RoomType } from "../types/Rooms";
@@ -145,50 +145,50 @@ export default class Network {
     };
 
     // new instance added to the computers MapSchema
-    this.room.state.computers.onAdd = (computer: IComputer, key: string) => {
-      // track changes on every child object's connectedUser
-      computer.connectedUser.onAdd = (item, index) => {
-        phaserEvents.emit(Event.ITEM_USER_ADDED, item, key, ItemType.COMPUTER);
-      };
-      computer.connectedUser.onRemove = (item, index) => {
-        phaserEvents.emit(
-          Event.ITEM_USER_REMOVED,
-          item,
-          key,
-          ItemType.COMPUTER
-        );
-      };
-    };
+    // this.room.state.computers.onAdd = (computer: IComputer, key: string) => {
+    //   // track changes on every child object's connectedUser
+    //   computer.connectedUser.onAdd = (item, index) => {
+    //     phaserEvents.emit(Event.ITEM_USER_ADDED, item, key, ItemType.COMPUTER);
+    //   };
+    //   computer.connectedUser.onRemove = (item, index) => {
+    //     phaserEvents.emit(
+    //       Event.ITEM_USER_REMOVED,
+    //       item,
+    //       key,
+    //       ItemType.COMPUTER
+    //     );
+    //   };
+    // };
 
     // new instance added to the whiteboards MapSchema
-    this.room.state.whiteboards.onAdd = (
-      whiteboard: IWhiteboard,
-      key: string
-    ) => {
-      // store.dispatch(
-      //   setWhiteboardUrls({
-      //     whiteboardId: key,
-      //     roomId: whiteboard.roomId,
-      //   })
-      // );
-      // track changes on every child object's connectedUser
-      whiteboard.connectedUser.onAdd = (item, index) => {
-        phaserEvents.emit(
-          Event.ITEM_USER_ADDED,
-          item,
-          key,
-          ItemType.WHITEBOARD
-        );
-      };
-      whiteboard.connectedUser.onRemove = (item, index) => {
-        phaserEvents.emit(
-          Event.ITEM_USER_REMOVED,
-          item,
-          key,
-          ItemType.WHITEBOARD
-        );
-      };
-    };
+    // this.room.state.whiteboards.onAdd = (
+    //   whiteboard: IWhiteboard,
+    //   key: string
+    // ) => {
+    //   // store.dispatch(
+    //   //   setWhiteboardUrls({
+    //   //     whiteboardId: key,
+    //   //     roomId: whiteboard.roomId,
+    //   //   })
+    //   // );
+    //   // track changes on every child object's connectedUser
+    //   whiteboard.connectedUser.onAdd = (item, index) => {
+    //     phaserEvents.emit(
+    //       Event.ITEM_USER_ADDED,
+    //       item,
+    //       key,
+    //       ItemType.WHITEBOARD
+    //     );
+    //   };
+    //   whiteboard.connectedUser.onRemove = (item, index) => {
+    //     phaserEvents.emit(
+    //       Event.ITEM_USER_REMOVED,
+    //       item,
+    //       key,
+    //       ItemType.WHITEBOARD
+    //     );
+    //   };
+    // };
 
     // new instance added to the chatMessages ArraySchema
     this.room.state.chatMessages.onAdd = (item, index) => {
@@ -304,25 +304,25 @@ export default class Network {
     this.webRTC?.deleteVideoStream(id);
   }
 
-  connectToComputer(id: string) {
-    this.room?.send(Message.CONNECT_TO_COMPUTER, { computerId: id });
-  }
+  // connectToComputer(id: string) {
+  //   this.room?.send(Message.CONNECT_TO_COMPUTER, { computerId: id });
+  // }
 
-  disconnectFromComputer(id: string) {
-    this.room?.send(Message.DISCONNECT_FROM_COMPUTER, { computerId: id });
-  }
+  // disconnectFromComputer(id: string) {
+  //   this.room?.send(Message.DISCONNECT_FROM_COMPUTER, { computerId: id });
+  // }
 
-  connectToWhiteboard(id: string) {
-    this.room?.send(Message.CONNECT_TO_WHITEBOARD, { whiteboardId: id });
-  }
+  // connectToWhiteboard(id: string) {
+  //   this.room?.send(Message.CONNECT_TO_WHITEBOARD, { whiteboardId: id });
+  // }
 
-  disconnectFromWhiteboard(id: string) {
-    this.room?.send(Message.DISCONNECT_FROM_WHITEBOARD, { whiteboardId: id });
-  }
+  // disconnectFromWhiteboard(id: string) {
+  //   this.room?.send(Message.DISCONNECT_FROM_WHITEBOARD, { whiteboardId: id });
+  // }
 
-  onStopScreenShare(id: string) {
-    this.room?.send(Message.STOP_SCREEN_SHARE, { computerId: id });
-  }
+  // onStopScreenShare(id: string) {
+  //   this.room?.send(Message.STOP_SCREEN_SHARE, { computerId: id });
+  // }
 
   addChatMessage(content: string) {
     this.room?.send(Message.ADD_CHAT_MESSAGE, { content: content });

@@ -1,6 +1,6 @@
 export enum ItemType {
   CHAIR,
-  COMPUTER,
-  WHITEBOARD,
-  VENDINGMACHINE,
+  // COMPUTER,
+  // WHITEBOARD,
+  // VENDINGMACHINE,
 }

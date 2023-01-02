@@ -35,37 +35,37 @@ const Wrapper = styled.div`
   box-shadow: 0px 0px 5px #0000006f;
 `
 
-const CustomRoomWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  justify-content: center;
+// const CustomRoomWrapper = styled.div`
+//   position: relative;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 20px;
+//   align-items: center;
+//   justify-content: center;
 
-  .tip {
-    font-size: 18px;
-  }
-`
+//   .tip {
+//     font-size: 18px;
+//   }
+// `
 
-const TitleWrapper = styled.div`
-  display: grid;
-  width: 100%;
+// const TitleWrapper = styled.div`
+//   display: grid;
+//   width: 100%;
 
-  .back-button {
-    grid-column: 1;
-    grid-row: 1;
-    justify-self: start;
-    align-self: center;
-  }
+//   .back-button {
+//     grid-column: 1;
+//     grid-row: 1;
+//     justify-self: start;
+//     align-self: center;
+//   }
 
-  h1 {
-    grid-column: 1;
-    grid-row: 1;
-    justify-self: center;
-    align-self: center;
-  }
-`
+//   h1 {
+//     grid-column: 1;
+//     grid-row: 1;
+//     justify-self: center;
+//     align-self: center;
+//   }
+// `
 
 const Title = styled.h1`
   font-size: 24px;
@@ -102,8 +102,8 @@ const ProgressBar = styled(LinearProgress)`
 `
 
 export default function RoomSelectionDialog() {
-  const [showCustomRoom, setShowCustomRoom] = useState(false)
-  const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
+  // const [showCustomRoom, setShowCustomRoom] = useState(false)
+  // const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
   const [showSnackbar, setShowSnackbar] = useState(false)
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined)
 
