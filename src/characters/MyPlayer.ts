@@ -5,8 +5,6 @@ import { sittingShiftData } from "./Player";
 import Player from "./Player";
 import Network from "../services/Network";
 import Chair from "../items/Chair";
-// import Computer from "../items/Computer";
-// import Whiteboard from "../items/Whiteboard";
 
 import { phaserEvents, Event } from "../events/EventCenter";
 import store from "../stores";
@@ -58,7 +56,7 @@ export default class MyPlayer extends Player {
     if (!cursors) return;
 
     const item = playerSelector.selectedItem;
-
+    //  쓰일수 있어서 주석처리.
     // if (Phaser.Input.Keyboard.JustDown(keyR)) {
     //   switch (item?.itemType) {
     //     case ItemType.COMPUTER:
