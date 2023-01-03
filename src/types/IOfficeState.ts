@@ -9,6 +9,10 @@ export interface IPlayer extends Schema {
   videoConnected: boolean
 }
 
+export interface ITable extends Schema {
+  connectedUser: SetSchema<string>
+}
+
 export interface IChatMessage extends Schema {
   author: string
   createdAt: number
@@ -18,4 +22,5 @@ export interface IChatMessage extends Schema {
 export interface IOfficeState extends Schema {
   players: MapSchema<IPlayer>
   chatMessages: ArraySchema<IChatMessage>
+  tables: MapSchema<ITable>
 }

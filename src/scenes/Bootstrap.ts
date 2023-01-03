@@ -36,12 +36,6 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-    this.load.spritesheet("chair", "assets/map/interior.png", {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-
     this.load.spritesheet("tiles", "assets/map/tiles.png", {
       frameWidth: 16,
       frameHeight: 16,

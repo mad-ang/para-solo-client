@@ -1,5 +1,6 @@
 import { enableMapSet } from 'immer'
 import { configureStore } from '@reduxjs/toolkit'
+import tableReducer from './tableStore'
 import userReducer from './UserStore'
 import chatReducer from './ChatStore'
 import roomReducer from './RoomStore'
@@ -9,6 +10,7 @@ enableMapSet()
 const store = configureStore({
   reducer: {
     user: userReducer,
+    table: tableReducer,
     chat: chatReducer,
     room: roomReducer,
   },

@@ -11,6 +11,7 @@ import store from "../stores";
 import { pushPlayerJoinedMessage } from "../stores/ChatStore";
 import { ItemType } from "../types/Items";
 import { NavKeys } from "../types/KeyboardState";
+import Table from "../items/Table";
 
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
@@ -57,22 +58,22 @@ export default class MyPlayer extends Player {
 
     const item = playerSelector.selectedItem;
     //  쓰일수 있어서 주석처리.
-    // if (Phaser.Input.Keyboard.JustDown(keyR)) {
-    //   switch (item?.itemType) {
-    //     case ItemType.COMPUTER:
-    //       const computer = item as Computer;
-    //       computer.openDialog(this.playerId, network);
-    //       break;
-    //     case ItemType.WHITEBOARD:
-    //       const whiteboard = item as Whiteboard;
-    //       whiteboard.openDialog(network);
-    //       break;
-    //     case ItemType.VENDINGMACHINE:
-    //       // hacky and hard-coded, but leaving it as is for now
-    //       window.open("https://www.buymeacoffee.com/skyoffice", "_blank");
-    //       break;
-    //   }
-    // }
+    if (Phaser.Input.Keyboard.JustDown(keyR)) {
+      switch (item?.itemType) {
+        case ItemType.TABLE:
+          const table = item as Table;
+          table.openDialog(this.playerId, network);
+          break;
+        // case ItemType.WHITEBOARD:
+        //   const whiteboard = item as Whiteboard;
+        //   whiteboard.openDialog(network);
+        //   break;
+        // case ItemType.VENDINGMACHINE:
+        //   // hacky and hard-coded, but leaving it as is for now
+        //   window.open("https://www.buymeacoffee.com/skyoffice", "_blank");
+        //   break;
+      }
+    }
 
     switch (this.playerBehavior) {
       case PlayerBehavior.IDLE:

@@ -1,6 +1,6 @@
 import { Client, Room } from "colyseus.js";
 import {
-  // IComputer,
+  ITable,
   IOfficeState,
   IPlayer,
   // IWhiteboard,
@@ -39,14 +39,14 @@ export default class Network {
   constructor() {
 
     /*로컬 서버 접속*/
-    // const protocol = window.location.protocol.replace("http", "ws");
-    // const endpoint =
-    //   process.env.NODE_ENV === "production"
-    //     ? import.meta.env.VITE_SERVER_URL
-    //     : `${protocol}//${window.location.hostname}:2567`;
+    const protocol = window.location.protocol.replace("http", "ws");
+    const endpoint =
+      process.env.NODE_ENV === "production"
+        ? import.meta.env.VITE_SERVER_URL
+        : `${protocol}//${window.location.hostname}:2567`;
     
     /*배포 서버 접속*/
-    const endpoint = "wss://momstown.herokuapp.com/";
+    // const endpoint = "wss://momstown.herokuapp.com/";
     
 
     this.client = new Client(endpoint);
@@ -132,6 +132,16 @@ export default class Network {
       store.dispatch(pushPlayerLeftMessage(player.name));
       store.dispatch(removePlayerNameMap(key));
     };
+
+    this.room.state.tables.onAdd = (table: ITable, key: string) => {
+      // track changes on every child object's connectedUser
+      table.connectedUser.onAdd = (item, index) => {
+        phaserEvents.emit(Event.ITEM_USER_ADDED, item, key, ItemType.TABLE)
+      }
+      table.connectedUser.onRemove = (item, index) => {
+        phaserEvents.emit(Event.ITEM_USER_REMOVED, item, key, ItemType.TABLE)
+      }
+    }
 
     // new instance added to the chatMessages ArraySchema
     this.room.state.chatMessages.onAdd = (item, index) => {
@@ -245,6 +255,16 @@ export default class Network {
   playerStreamDisconnect(id: string) {
     this.room?.send(Message.DISCONNECT_STREAM, { clientId: id });
     this.webRTC?.deleteVideoStream(id);
+  }
+  connectToTable(id: string) {
+    this.room?.send(Message.CONNECT_TO_TABLE, { tableId: id })
+  }
+
+  disconnectFromTable(id: string) {
+    this.room?.send(Message.DISCONNECT_FROM_TABLE, { tableId: id })
+  }
+  stopTableTalk(id: string) {
+    this.room?.send(Message.STOP_TABLE_TALK, {tableId: id})
   }
 
   addChatMessage(content: string) {
