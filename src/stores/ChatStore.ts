@@ -18,7 +18,7 @@ export const chatSlice = createSlice({
     }>(),
     focused: false,
     showChat: true,
-    userCnt_update: 0,
+    userCnt_update: -1,
   },
   reducers: {
     userCntup: (state) => {
