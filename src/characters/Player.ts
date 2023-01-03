@@ -48,7 +48,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     // add playerName to playerContainer
     this.playerName = this.scene.add
-      .text(0, 6, "")
+      .text(0, 5, "")
       .setFontFamily("Arial")
       .setFontSize(8)
       .setColor("#000000")
