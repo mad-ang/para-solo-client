@@ -17,6 +17,7 @@ import Game from '../scenes/Game'
 import { getColorByString } from '../util'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { MessageType, setFocused, setShowChat} from '../stores/ChatStore'
+import { roomSlice } from '../stores/RoomStore'
 
 const Backdrop = styled.div`
   position: fixed;
@@ -170,7 +171,7 @@ export default function Chat() {
   const focused = useAppSelector((state) => state.chat.focused)
   const showChat = useAppSelector((state) => state.chat.showChat)
   const dispatch = useAppDispatch()
-  const userCnt = useAppSelector((state) => state.chat.userCnt)
+  const userCnt = useAppSelector((state) => state.room.userCnt)
   const game = phaserGame.scene.keys.game as Game
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
