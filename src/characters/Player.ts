@@ -5,8 +5,8 @@ import { PlayerBehavior } from "../types/PlayerBehavior";
  * format: direction: [xShift, yShift, depthShift]
  */
 export const sittingShiftData = {
-  up: [0, 3, -10],
-  down: [0, 3, 1],
+  up: [0, -8, 1],
+  down: [0, -8, 1],
   left: [0, -8, 10],
   right: [0, -8, 10],
 };

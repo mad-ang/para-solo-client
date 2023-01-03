@@ -4,6 +4,7 @@
 import { createCharacterAnims } from "../anims/CharacterAnims";
 
 import Item from "../items/Item";
+import Chair from '../items/Chair'
 import "../characters/MyPlayer";
 import "../characters/OtherPlayer";
 import MyPlayer from "../characters/MyPlayer";
@@ -80,21 +81,26 @@ export default class Game extends Phaser.Scene {
 
     const InteriorImage = this.map.addTilesetImage("interior", "interior");
 
+    // const chairImage = this.map.addTilesetImage("interior", "chair");
+
     // debugDraw(groundLayer, this)
     const GrassLayer = this.map.createLayer("grass", [
       TileImage,
       InteriorImage,
     ]);
+    
+    
 
     const BuildingLayer = this.map.createLayer("buildings", BuildingImage);
 
-    const BenchLayer = this.map.createLayer("bench", InteriorImage);
+    // const BenchLayer = this.map.createLayer("bench", InteriorImage);
 
     const SwingLayer = this.map.createLayer("swing", TileImage);
 
     const ForeGround = this.map.createLayer("foreground", [
       TileImage,
       BuildingImage,
+      InteriorImage
     ]);
     const cafeLayer = this.map.createLayer("cafe", InteriorImage);
 
@@ -102,6 +108,22 @@ export default class Game extends Phaser.Scene {
       TileImage,
       InteriorImage,
     ]);
+    const chairs = this.physics.add.staticGroup({ classType: Chair })
+    const chairLayer = this.map.getObjectLayer('Objects')
+    chairLayer.objects.forEach((chairObj) => {
+      const item = this.addObjectFromTiled(chairs, chairObj, 'interior', 'interior') as Chair
+      // custom properties[0] is the object direction specified in Tiled
+      item.itemDirection = "down"
+      // item.itemDirection = chairObj.properties[0].value
+    })
+    const tables = this.physics.add.staticGroup({ classType: Chair })
+    const tablesLayer = this.map.getObjectLayer('Table')
+    tablesLayer.objects.forEach((tableObj) => {
+      const item = this.addObjectFromTiled(tables, tableObj, 'interior', 'interior') as Chair
+      // custom properties[0] is the object direction specified in Tiled
+      item.itemDirection = "down"
+      // item.itemDirection = chairObj.properties[0].value
+    })
 
     ForeGround.setDepth(6000);
 
@@ -118,9 +140,7 @@ export default class Game extends Phaser.Scene {
       this.network.mySessionId
     );
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16);
-
     this.otherPlayers = this.physics.add.group({ classType: OtherPlayer });
-
     this.cameras.main.zoom = 2;
     this.cameras.main.startFollow(this.myPlayer, true);
 
@@ -136,11 +156,6 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.collider(
       [this.myPlayer, this.myPlayer.playerContainer],
-      BenchLayer
-    );
-
-    this.physics.add.collider(
-      [this.myPlayer, this.myPlayer.playerContainer],
       SwingLayer
     );
     this.physics.add.collider(
@@ -151,6 +166,13 @@ export default class Game extends Phaser.Scene {
       [this.myPlayer, this.myPlayer.playerContainer],
       cafe_fenceLayer
     );
+    this.physics.add.overlap(
+      this.playerSelector,
+      [chairs],
+      this.handleItemSelectorOverlap,
+      undefined,
+      this
+    )
 
     this.physics.add.overlap(
       this.myPlayer,
@@ -197,7 +219,9 @@ export default class Game extends Phaser.Scene {
     tilesetName: string
   ) {
     const actualX = object.x! + object.width! * 0.5;
+    
     const actualY = object.y! - object.height! * 0.5;
+    
     const obj = group
       .get(
         actualX,
@@ -205,7 +229,8 @@ export default class Game extends Phaser.Scene {
         key,
         object.gid! - this.map.getTileset(tilesetName).firstgid
       )
-      .setDepth(actualY);
+      .setDepth(actualY); 
+  
     return obj;
   }
 
