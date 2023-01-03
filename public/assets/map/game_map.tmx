@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="70" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="26" nextobjectid="1">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="70" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="37" nextobjectid="69">
  <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="3015" columns="45">
   <properties>
    <property name="collisions" type="bool" value="false"/>
@@ -46814,21 +46814,25 @@
   <tile id="3799">
    <properties>
     <property name="collisions" type="bool" value="true"/>
+    <property name="object" type="object" value="35"/>
    </properties>
   </tile>
   <tile id="3800">
    <properties>
     <property name="collisions" type="bool" value="true"/>
+    <property name="object" type="object" value="35"/>
    </properties>
   </tile>
   <tile id="3801">
    <properties>
     <property name="collisions" type="bool" value="true"/>
+    <property name="object" type="object" value="35"/>
    </properties>
   </tile>
   <tile id="3802">
    <properties>
     <property name="collisions" type="bool" value="true"/>
+    <property name="object" type="object" value="35"/>
    </properties>
   </tile>
   <tile id="3803">
@@ -73069,7 +73073,7 @@
 0,10160,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10158,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,10160,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10158,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,10160,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10158,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,10160,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10158,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,10160,0,0,0,0,13261,0,0,0,0,0,0,0,0,0,0,10158,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,10160,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10158,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,10160,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10158,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,10160,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10158,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -73256,5 +73260,13 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="22" name="chair"/>
+ <objectgroup id="31" name="Objects">
+  <properties>
+   <property name="object1" type="object" value="28"/>
+   <property name="object2" type="object" value="30"/>
+  </properties>
+  <object id="67" gid="9630" x="144" y="512" width="16" height="16"/>
+  <object id="68" gid="9630" x="160" y="512" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="34" name="ObjectsOnCollisions"/>
 </map>
