@@ -34,6 +34,8 @@ export default class Table extends Item {
   }
 
   addCurrentUser(userId: string) {
+    console.log("calling addCurrentUser");
+    
     if (!this.currentUsers || this.currentUsers.has(userId)) return
     this.currentUsers.add(userId)
     const tableState = store.getState().table
@@ -56,6 +58,7 @@ export default class Table extends Item {
   openDialog(playerId: string, network: Network) {
     if (!this.id) return
     store.dispatch(openTableDialog({ tableId: this.id, myUserId: playerId }))
+    console.log("opendialog", this.id)
     network.connectToTable(this.id)
   }
 }

@@ -5,16 +5,16 @@ import { createCharacterAnims } from "../anims/CharacterAnims";
 
 import Item from "../items/Item";
 import Chair from "../items/Chair";
+import Table from "../items/Table";
 import "../characters/MyPlayer";
 import "../characters/OtherPlayer";
 import MyPlayer from "../characters/MyPlayer";
 import OtherPlayer from "../characters/OtherPlayer";
 import PlayerSelector from "../characters/PlayerSelector";
 import Network from "../services/Network";
-import { IPlayer } from "../types/IOfficeState";
+import { IPlayer } from "../types/ITownState";
 import { PlayerBehavior } from "../types/PlayerBehavior";
 import { ItemType } from "../types/Items";
-import Table from "../items/Table";
 
 import store from "../stores";
 import { setFocused, setShowChat } from "../stores/ChatStore";
@@ -325,6 +325,8 @@ export default class Game extends Phaser.Scene {
         itemId: string,
         itemType: ItemType
     ) {
+        console.log("handleItemUserAdded");
+        
         if (itemType === ItemType.TABLE) {
             const table = this.tableMap.get(itemId);
             table?.addCurrentUser(playerId);
