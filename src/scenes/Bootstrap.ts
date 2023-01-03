@@ -29,20 +29,30 @@ export default class Bootstrap extends Phaser.Scene {
 
     this.load.tilemapTiledJSON("tilemap", "assets/map/game_map.json");
 
+
+
+    this.load.spritesheet("interior", "assets/map/interior.png", {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet("chair", "assets/map/interior.png", {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+
     this.load.spritesheet("tiles", "assets/map/tiles.png", {
       frameWidth: 16,
       frameHeight: 16,
     });
+
 
     this.load.spritesheet("buildings", "assets/map/buildings.png", {
       frameWidth: 16,
       frameHeight: 16,
     });
 
-    this.load.spritesheet("interior", "assets/map/interior.png", {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
 
     this.load.spritesheet("adam", "assets/character/adam.png", {
       frameWidth: 32,

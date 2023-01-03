@@ -19,16 +19,12 @@ import {
 import {
   setLobbyJoined,
   setJoinedRoomData,
-  // setAvailableRooms,
-  // addAvailableRooms,
-  // removeAvailableRooms,
+  setNumPlayer,
 } from "../stores/RoomStore";
 import {
   pushChatMessage,
   pushPlayerJoinedMessage,
   pushPlayerLeftMessage,
-  userCntup,
-  userCntdown,
 } from "../stores/ChatStore";
 // import { setWhiteboardUrls } from "../stores/WhiteboardStore";
 
@@ -123,7 +119,6 @@ export default class Network {
             phaserEvents.emit(Event.PLAYER_JOINED, player, key);
             store.dispatch(setPlayerNameMap({ id: key, name: value }));
             store.dispatch(pushPlayerJoinedMessage(value));
-            store.dispatch(userCntup());
           }
         });
       };
@@ -136,7 +131,6 @@ export default class Network {
       this.webRTC?.deleteOnCalledVideoStream(key);
       store.dispatch(pushPlayerLeftMessage(player.name));
       store.dispatch(removePlayerNameMap(key));
-      store.dispatch(userCntdown());
     };
 
     this.room.state.tables.onAdd = (table: ITable, key: string) => {
@@ -169,6 +163,11 @@ export default class Network {
       this.webRTC?.deleteOnCalledVideoStream(clientId);
     });
 
+    this.room.onStateChange((state) => {
+      let numPlayers:number = this.room?.state.players.size
+      console.log("loook,", numPlayers)
+      store.dispatch(setNumPlayer(numPlayers));
+    })
   }
 
   // method to register event listener and call back function when a item user added

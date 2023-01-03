@@ -5,8 +5,8 @@ import { PlayerBehavior } from "../types/PlayerBehavior";
  * format: direction: [xShift, yShift, depthShift]
  */
 export const sittingShiftData = {
-  up: [0, 3, -10],
-  down: [0, 3, 1],
+  up: [0, -8, 1],
+  down: [0, -8, 1],
   left: [0, -8, 10],
   right: [0, -8, 10],
 };
@@ -39,7 +39,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.anims.play(`${this.playerTexture}_idle_down`, true);
 
     this.playerContainer = this.scene.add
-      .container(this.x, this.y - 30)
+      .container(this.x, this.y - 22)
       .setDepth(7000);
 
     // add dialogBubble to playerContainer
@@ -48,11 +48,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     // add playerName to playerContainer
     this.playerName = this.scene.add
-      .text(0, 0, "")
+      .text(0, 5, "")
       .setFontFamily("Arial")
-      .setFontSize(12)
+      .setFontSize(8)
       .setColor("#000000")
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setResolution(10);
+
     this.playerContainer.add(this.playerName);
 
     this.scene.physics.world.enable(this.playerContainer);

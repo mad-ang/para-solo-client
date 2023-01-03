@@ -25,7 +25,7 @@ export default class Item extends Phaser.Physics.Arcade.Sprite {
     const innerText = this.scene.add
       .text(0, 0, text)
       .setFontFamily("Arial")
-      .setFontSize(12)
+      .setFontSize(8)
       .setColor("#000000");
 
     // set dialogBox slightly larger than the text in it
