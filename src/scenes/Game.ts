@@ -4,7 +4,7 @@
 import { createCharacterAnims } from "../anims/CharacterAnims";
 
 import Item from "../items/Item";
-import Chair from '../items/Chair'
+import Chair from "../items/Chair";
 import "../characters/MyPlayer";
 import "../characters/OtherPlayer";
 import MyPlayer from "../characters/MyPlayer";
@@ -27,7 +27,7 @@ export default class Game extends Phaser.Scene {
     private keyE!: Phaser.Input.Keyboard.Key;
     private keyR!: Phaser.Input.Keyboard.Key;
     private keySpace!: Phaser.Input.Keyboard.Key;
-  private map!: Phaser.Tilemaps.Tilemap;
+    private map!: Phaser.Tilemaps.Tilemap;
     myPlayer!: MyPlayer;
     private playerSelector!: Phaser.GameObjects.Zone;
     private otherPlayers!: Phaser.Physics.Arcade.Group;
@@ -38,25 +38,25 @@ export default class Game extends Phaser.Scene {
         super("game");
     }
 
-  registerKeys() {
-    this.cursors = {
-      ...this.input.keyboard.createCursorKeys(),
-      ...(this.input.keyboard.addKeys("W,S,A,D,Space") as Keyboard),
-    };
+    registerKeys() {
+        this.cursors = {
+            ...this.input.keyboard.createCursorKeys(),
+            ...(this.input.keyboard.addKeys("W,S,A,D,Space") as Keyboard),
+        };
 
-    // maybe we can have a dedicated method for adding keys if more keys are needed in the future
-    this.keyE = this.input.keyboard.addKey("E");
-    this.keyR = this.input.keyboard.addKey("R");
-    this.keySpace = this.input.keyboard.addKey("Space");
-    this.input.keyboard.disableGlobalCapture();
-    this.input.keyboard.on("keydown-ENTER", (event) => {
-      store.dispatch(setShowChat(true));
-      store.dispatch(setFocused(true));
-    });
-    this.input.keyboard.on("keydown-ESC", (event) => {
-      store.dispatch(setShowChat(false));
-    });
-  }
+        // maybe we can have a dedicated method for adding keys if more keys are needed in the future
+        this.keyE = this.input.keyboard.addKey("E");
+        this.keyR = this.input.keyboard.addKey("R");
+        this.keySpace = this.input.keyboard.addKey("Space");
+        this.input.keyboard.disableGlobalCapture();
+        this.input.keyboard.on("keydown-ENTER", (event) => {
+            store.dispatch(setShowChat(true));
+            store.dispatch(setFocused(true));
+        });
+        this.input.keyboard.on("keydown-ESC", (event) => {
+            store.dispatch(setShowChat(false));
+        });
+    }
 
     disableKeys() {
         this.input.keyboard.enabled = false;
@@ -86,31 +86,29 @@ export default class Game extends Phaser.Scene {
 
         const InteriorImage = this.map.addTilesetImage("interior", "interior");
 
-    // debugDraw(groundLayer, this)
-    const GrassLayer = this.map.createLayer("grass", [
-      TileImage,
-      InteriorImage,
-    ]);
-    
-    
+        // debugDraw(groundLayer, this)
+        const GrassLayer = this.map.createLayer("grass", [
+            TileImage,
+            InteriorImage,
+        ]);
 
         const BuildingLayer = this.map.createLayer("buildings", BuildingImage);
 
-    // const BenchLayer = this.map.createLayer("bench", InteriorImage);
+        // const BenchLayer = this.map.createLayer("bench", InteriorImage);
 
         const SwingLayer = this.map.createLayer("swing", TileImage);
 
         const ForeGround = this.map.createLayer("foreground", [
             TileImage,
             BuildingImage,
-          InteriorImage
-    ]);
-    const cafeLayer = this.map.createLayer("cafe", InteriorImage);
+            InteriorImage,
+        ]);
+        const cafeLayer = this.map.createLayer("cafe", InteriorImage);
 
-    const cafe_fenceLayer = this.map.createLayer("cafe_fence", [
-      TileImage,
-      InteriorImage,
-    ]);
+        const cafe_fenceLayer = this.map.createLayer("cafe_fence", [
+            TileImage,
+            InteriorImage,
+        ]);
         const tables = this.physics.add.staticGroup({ classType: Table });
         const tableLayer = this.map.getObjectLayer("Table");
         tableLayer.objects.forEach((obj, i) => {
@@ -125,23 +123,27 @@ export default class Game extends Phaser.Scene {
             item.id = id;
             this.tableMap.set(id, item);
         });
-    const chairs = this.physics.add.staticGroup({ classType: Chair })
-    const chairLayer = this.map.getObjectLayer('Objects')
-    chairLayer.objects.forEach((chairObj) => {
-      const item = this.addObjectFromTiled(chairs, chairObj, 'interior', 'interior') as Chair
-      // custom properties[0] is the object direction specified in Tiled
-      item.itemDirection = "down"
-      // item.itemDirection = chairObj.properties[0].value
-    })
-    
+        const chairs = this.physics.add.staticGroup({ classType: Chair });
+        const chairLayer = this.map.getObjectLayer("Objects");
+        chairLayer.objects.forEach((chairObj) => {
+            const item = this.addObjectFromTiled(
+                chairs,
+                chairObj,
+                "interior",
+                "interior"
+            ) as Chair;
+            // custom properties[0] is the object direction specified in Tiled
+            item.itemDirection = "down";
+            // item.itemDirection = chairObj.properties[0].value
+        });
 
         ForeGround.setDepth(6000);
 
-    GrassLayer.setCollisionByProperty({ collisions: true });
-    BuildingLayer.setCollisionByProperty({ collisions: true });
-    SwingLayer.setCollisionByProperty({ collisions: true });
-    cafeLayer.setCollisionByProperty({ collisions: true });
-    cafe_fenceLayer.setCollisionByProperty({ collisions: true });
+        GrassLayer.setCollisionByProperty({ collisions: true });
+        BuildingLayer.setCollisionByProperty({ collisions: true });
+        SwingLayer.setCollisionByProperty({ collisions: true });
+        cafeLayer.setCollisionByProperty({ collisions: true });
+        cafe_fenceLayer.setCollisionByProperty({ collisions: true });
 
         this.myPlayer = this.add.myPlayer(
             230,
@@ -184,25 +186,25 @@ export default class Game extends Phaser.Scene {
             BuildingLayer
         );
 
-    this.physics.add.collider(
-      [this.myPlayer, this.myPlayer.playerContainer],
-      SwingLayer
-    );
-    this.physics.add.collider(
-      [this.myPlayer, this.myPlayer.playerContainer],
-      cafeLayer
-    );
-    this.physics.add.collider(
-      [this.myPlayer, this.myPlayer.playerContainer],
-      cafe_fenceLayer
-    );
-    this.physics.add.overlap(
-      this.playerSelector,
-      [chairs, tables],
-      this.handleItemSelectorOverlap,
-      undefined,
-      this
-    )
+        this.physics.add.collider(
+            [this.myPlayer, this.myPlayer.playerContainer],
+            SwingLayer
+        );
+        this.physics.add.collider(
+            [this.myPlayer, this.myPlayer.playerContainer],
+            cafeLayer
+        );
+        this.physics.add.collider(
+            [this.myPlayer, this.myPlayer.playerContainer],
+            cafe_fenceLayer
+        );
+        this.physics.add.overlap(
+            this.playerSelector,
+            [chairs, tables],
+            this.handleItemSelectorOverlap,
+            undefined,
+            this
+        );
 
         this.physics.add.overlap(
             this.myPlayer,
@@ -363,17 +365,17 @@ export default class Game extends Phaser.Scene {
         otherPlayer?.updateDialogBubble(content);
     }
 
-  update(t: number, dt: number) {
-    if (this.myPlayer && this.network) {
-      this.playerSelector.update(this.myPlayer, this.cursors);
-      this.myPlayer.update(
-        this.playerSelector,
-        this.cursors,
-        this.keyE,
-        this.keyR,
-        this.keySpace,
-        this.network
-      );
+    update(t: number, dt: number) {
+        if (this.myPlayer && this.network) {
+            this.playerSelector.update(this.myPlayer, this.cursors);
+            this.myPlayer.update(
+                this.playerSelector,
+                this.cursors,
+                this.keyE,
+                this.keyR,
+                this.keySpace,
+                this.network
+            );
+        }
     }
-  }
 }
