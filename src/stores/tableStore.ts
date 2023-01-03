@@ -45,7 +45,7 @@ export const tableSlice = createSlice({
       state.tableId = action.payload.tableId
     },
     closeTableDialog: (state) => {
-      // Tell server the computer dialog is closed.
+      // Tell server the table dialog is closed.
       const game = phaserGame.scene.keys.game as Game
       game.enableKeys()
       game.network.disconnectFromTable(state.tableId!)
