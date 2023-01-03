@@ -17,7 +17,11 @@ const config: Phaser.Types.Core.GameConfig = {
     default: "arcade",
     arcade: {
       gravity: { y: 0 },
+<<<<<<< Updated upstream
       debug: import.meta.env.VITE_DEV_MODE === "true",
+=======
+      debug: false,
+>>>>>>> Stashed changes
     },
   },
   autoFocus: true,

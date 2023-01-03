@@ -81,7 +81,10 @@ export default class Game extends Phaser.Scene {
     const InteriorImage = this.map.addTilesetImage("interior", "interior");
 
     // debugDraw(groundLayer, this)
-    const GrassLayer = this.map.createLayer("grass", TileImage);
+    const GrassLayer = this.map.createLayer("grass", [
+      TileImage,
+      InteriorImage,
+    ]);
 
     const BuildingLayer = this.map.createLayer("buildings", BuildingImage);
 
@@ -93,13 +96,20 @@ export default class Game extends Phaser.Scene {
       TileImage,
       BuildingImage,
     ]);
+    const cafeLayer = this.map.createLayer("cafe", InteriorImage);
+
+    const cafe_fenceLayer = this.map.createLayer("cafe_fence", [
+      TileImage,
+      InteriorImage,
+    ]);
 
     ForeGround.setDepth(6000);
 
     GrassLayer.setCollisionByProperty({ collisions: true });
     BuildingLayer.setCollisionByProperty({ collisions: true });
-    BenchLayer.setCollisionByProperty({ collisions: true });
     SwingLayer.setCollisionByProperty({ collisions: true });
+    cafeLayer.setCollisionByProperty({ collisions: true });
+    cafe_fenceLayer.setCollisionByProperty({ collisions: true });
 
     this.myPlayer = this.add.myPlayer(
       230,
@@ -111,7 +121,7 @@ export default class Game extends Phaser.Scene {
 
     this.otherPlayers = this.physics.add.group({ classType: OtherPlayer });
 
-    this.cameras.main.zoom = 1.8;
+    this.cameras.main.zoom = 2;
     this.cameras.main.startFollow(this.myPlayer, true);
 
     this.physics.add.collider(
@@ -132,6 +142,14 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(
       [this.myPlayer, this.myPlayer.playerContainer],
       SwingLayer
+    );
+    this.physics.add.collider(
+      [this.myPlayer, this.myPlayer.playerContainer],
+      cafeLayer
+    );
+    this.physics.add.collider(
+      [this.myPlayer, this.myPlayer.playerContainer],
+      cafe_fenceLayer
     );
 
     this.physics.add.overlap(
