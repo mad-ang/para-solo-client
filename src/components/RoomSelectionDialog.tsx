@@ -10,8 +10,8 @@ import Snackbar from '@mui/material/Snackbar'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
-import { CustomRoomTable } from './CustomRoomTable'
-import { CreateRoomForm } from './CreateRoomForm'
+// import { CustomRoomTable } from './CustomRoomTable'
+// import { CreateRoomForm } from './CreateRoomForm'
 import { useAppSelector } from '../hooks'
 
 import phaserGame from '../PhaserGame'
@@ -33,38 +33,6 @@ const Wrapper = styled.div`
   border-radius: 16px;
   padding: 36px 60px;
   box-shadow: 0px 0px 5px #0000006f;
-`
-
-const CustomRoomWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  justify-content: center;
-
-  .tip {
-    font-size: 18px;
-  }
-`
-
-const TitleWrapper = styled.div`
-  display: grid;
-  width: 100%;
-
-  .back-button {
-    grid-column: 1;
-    grid-row: 1;
-    justify-self: start;
-    align-self: center;
-  }
-
-  h1 {
-    grid-column: 1;
-    grid-row: 1;
-    justify-self: center;
-    align-self: center;
-  }
 `
 
 const Title = styled.h1`
@@ -102,8 +70,8 @@ const ProgressBar = styled(LinearProgress)`
 `
 
 export default function RoomSelectionDialog() {
-  const [showCustomRoom, setShowCustomRoom] = useState(false)
-  const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
+  // const [showCustomRoom, setShowCustomRoom] = useState(false)
+  // const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
   const [showSnackbar, setShowSnackbar] = useState(false)
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined)
 
@@ -140,45 +108,7 @@ export default function RoomSelectionDialog() {
       </Snackbar>
       <Backdrop>
         <Wrapper>
-          {showCreateRoomForm ? (
-            <CustomRoomWrapper>
-              <TitleWrapper>
-                <IconButton className="back-button" onClick={() => setShowCreateRoomForm(false)}>
-                  <ArrowBackIcon />
-                </IconButton>
-                <Title>Create Custom Room</Title>
-              </TitleWrapper>
-              <CreateRoomForm />
-            </CustomRoomWrapper>
-          ) : showCustomRoom ? (
-            <CustomRoomWrapper>
-              <TitleWrapper>
-                <IconButton className="back-button" onClick={() => setShowCustomRoom(false)}>
-                  <ArrowBackIcon />
-                </IconButton>
-                <Title>
-                  Custom Rooms
-                  <Tooltip
-                    title="We update the results in realtime, no refresh needed!"
-                    placement="top"
-                  >
-                    <IconButton>
-                      <HelpOutlineIcon className="tip" />
-                    </IconButton>
-                  </Tooltip>
-                </Title>
-              </TitleWrapper>
-              <CustomRoomTable />
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => setShowCreateRoomForm(true)}
-              >
-                Create new room
-              </Button>
-            </CustomRoomWrapper>
-          ) : (
-            <>
+        <>
               <Title>o(*°▽°)ﾉ 맘스타운에 오신 것을 환영합니다</Title>
               <Content>
                 <img src={logo} alt="logo" />
@@ -186,7 +116,7 @@ export default function RoomSelectionDialog() {
                   맘스타운 입장할래요
                 </Button>
                 {/* <Button
-                  variant="outlined"
+                  variant="outlineds"
                   color="secondary"
                   onClick={() => (lobbyJoined ? setShowCustomRoom(true) : setShowSnackbar(true))}
                 >
@@ -194,7 +124,6 @@ export default function RoomSelectionDialog() {
                 </Button> */}
               </Content>
             </>
-          )}
         </Wrapper>
         {!lobbyJoined && (
           <ProgressBarWrapper>

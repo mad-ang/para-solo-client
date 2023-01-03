@@ -1,20 +1,22 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { sanitizeId } from '../util'
-import { BackgroundMode } from '../../../types/BackgroundMode'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { sanitizeId } from "../util";
+import { BackgroundMode } from "../types/BackgroundMode";
 
-import phaserGame from '../PhaserGame'
-import Bootstrap from '../scenes/Bootstrap'
+import phaserGame from "../PhaserGame";
+import Bootstrap from "../scenes/Bootstrap";
 
 export function getInitialBackgroundMode() {
-  const currentHour = new Date().getHours()
-  return currentHour > 6 && currentHour <= 18 ? BackgroundMode.DAY : BackgroundMode.NIGHT
+  const currentHour = new Date().getHours();
+  return currentHour > 6 && currentHour <= 18
+    ? BackgroundMode.DAY
+    : BackgroundMode.NIGHT;
 }
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState: {
     backgroundMode: getInitialBackgroundMode(),
-    sessionId: '',
+    sessionId: "",
     videoConnected: false,
     loggedIn: false,
     playerNameMap: new Map<string, string>(),
@@ -22,29 +24,37 @@ export const userSlice = createSlice({
   reducers: {
     toggleBackgroundMode: (state) => {
       const newMode =
-        state.backgroundMode === BackgroundMode.DAY ? BackgroundMode.NIGHT : BackgroundMode.DAY
+        state.backgroundMode === BackgroundMode.DAY
+          ? BackgroundMode.NIGHT
+          : BackgroundMode.DAY;
 
-      state.backgroundMode = newMode
-      const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
-      bootstrap.changeBackgroundMode(newMode)
+      state.backgroundMode = newMode;
+      const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
+      bootstrap.changeBackgroundMode(newMode);
     },
     setSessionId: (state, action: PayloadAction<string>) => {
-      state.sessionId = action.payload
+      state.sessionId = action.payload;
     },
     setVideoConnected: (state, action: PayloadAction<boolean>) => {
-      state.videoConnected = action.payload
+      state.videoConnected = action.payload;
     },
     setLoggedIn: (state, action: PayloadAction<boolean>) => {
-      state.loggedIn = action.payload
+      state.loggedIn = action.payload;
     },
-    setPlayerNameMap: (state, action: PayloadAction<{ id: string; name: string }>) => {
-      state.playerNameMap.set(sanitizeId(action.payload.id), action.payload.name)
+    setPlayerNameMap: (
+      state,
+      action: PayloadAction<{ id: string; name: string }>
+    ) => {
+      state.playerNameMap.set(
+        sanitizeId(action.payload.id),
+        action.payload.name
+      );
     },
     removePlayerNameMap: (state, action: PayloadAction<string>) => {
-      state.playerNameMap.delete(sanitizeId(action.payload))
+      state.playerNameMap.delete(sanitizeId(action.payload));
     },
   },
-})
+});
 
 export const {
   toggleBackgroundMode,
@@ -53,6 +63,6 @@ export const {
   setLoggedIn,
   setPlayerNameMap,
   removePlayerNameMap,
-} = userSlice.actions
+} = userSlice.actions;
 
-export default userSlice.reducer
+export default userSlice.reducer;
