@@ -16,8 +16,8 @@ import Game from '../scenes/Game'
 
 import { getColorByString } from '../util'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { MessageType, setFocused, setShowChat} from '../stores/ChatStore'
-import { roomSlice } from '../stores/RoomStore'
+import { MessageType, setFocused, setShowChat, chatSlice} from '../stores/ChatStore'
+import { roomSlice} from '../stores/RoomStore'
 
 const Backdrop = styled.div`
   position: fixed;
@@ -125,6 +125,18 @@ const dateFormatter = new Intl.DateTimeFormat('en', {
   dateStyle: 'short',
 })
 
+function Showusercnt(){
+  const userCnt_fromserver = useAppSelector((state) => state.room.userCnt)
+  const userCnt_update = useAppSelector((state) => state.chat.userCnt_update)
+
+  return (
+    <h3>
+      대화창 (현재 마을에 {userCnt_fromserver} 와 {userCnt_update} 명이 있어요)
+      <button onClick={() => console.log(userCnt_fromserver)}>uscnt디버깅</button> 
+    </h3>
+  )
+}
+
 const Message = ({ chatMessage, messageType }) => {
   const [tooltipOpen, setTooltipOpen] = useState(false)
 
@@ -171,7 +183,7 @@ export default function Chat() {
   const focused = useAppSelector((state) => state.chat.focused)
   const showChat = useAppSelector((state) => state.chat.showChat)
   const dispatch = useAppDispatch()
-  const userCnt = useAppSelector((state) => state.room.userCnt)
+  // const userCnt = useAppSelector((state) => state.room.userCnt)
   const game = phaserGame.scene.keys.game as Game
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -228,9 +240,7 @@ export default function Chat() {
         {showChat ? (
           <>
             <ChatHeader>
-              <h3>대화창 (현재 마을에 {userCnt} 명이 있어요)
-              <button onClick={() => console.log(userCnt)}>닫기</button>
-              </h3>
+            <Showusercnt />
               <IconButton
                 aria-label="close dialog"
                 className="close"

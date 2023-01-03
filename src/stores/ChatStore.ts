@@ -18,19 +18,19 @@ export const chatSlice = createSlice({
     }>(),
     focused: false,
     showChat: true,
-    userCnt: 1,
+    userCnt_update: 0,
   },
   reducers: {
     userCntup: (state) => {
       // fetch 업
-      state.userCnt += 1;
+      state.userCnt_update += 1;
       // get함수 땡겨서 업데이트
       console.log("up");
     },
 
     userCntdown: (state) => {
       // fetch 다운
-      state.userCnt -= 1;
+      state.userCnt_update -= 1;
       console.log("down");
       // get함수 호출
     },
