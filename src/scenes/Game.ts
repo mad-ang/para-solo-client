@@ -24,6 +24,7 @@ export default class Game extends Phaser.Scene {
   private cursors!: NavKeys;
   private keyE!: Phaser.Input.Keyboard.Key;
   private keyR!: Phaser.Input.Keyboard.Key;
+  private keySpace!: Phaser.Input.Keyboard.Key;
   private map!: Phaser.Tilemaps.Tilemap;
   myPlayer!: MyPlayer;
   private playerSelector!: Phaser.GameObjects.Zone;
@@ -37,12 +38,13 @@ export default class Game extends Phaser.Scene {
   registerKeys() {
     this.cursors = {
       ...this.input.keyboard.createCursorKeys(),
-      ...(this.input.keyboard.addKeys("W,S,A,D") as Keyboard),
+      ...(this.input.keyboard.addKeys("W,S,A,D,Space") as Keyboard),
     };
 
     // maybe we can have a dedicated method for adding keys if more keys are needed in the future
     this.keyE = this.input.keyboard.addKey("E");
     this.keyR = this.input.keyboard.addKey("R");
+    this.keySpace = this.input.keyboard.addKey("Space");
     this.input.keyboard.disableGlobalCapture();
     this.input.keyboard.on("keydown-ENTER", (event) => {
       store.dispatch(setShowChat(true));
@@ -100,8 +102,8 @@ export default class Game extends Phaser.Scene {
     SwingLayer.setCollisionByProperty({ collisions: true });
 
     this.myPlayer = this.add.myPlayer(
-      705,
-      500,
+      230,
+      280,
       "adam",
       this.network.mySessionId
     );
@@ -109,7 +111,7 @@ export default class Game extends Phaser.Scene {
 
     this.otherPlayers = this.physics.add.group({ classType: OtherPlayer });
 
-    this.cameras.main.zoom = 2;
+    this.cameras.main.zoom = 1.8;
     this.cameras.main.startFollow(this.myPlayer, true);
 
     this.physics.add.collider(
@@ -274,6 +276,7 @@ export default class Game extends Phaser.Scene {
         this.cursors,
         this.keyE,
         this.keyR,
+        this.keySpace,
         this.network
       );
     }
