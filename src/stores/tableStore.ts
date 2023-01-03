@@ -40,6 +40,9 @@ export const tableSlice = createSlice({
       }
       const game = phaserGame.scene.keys.game as Game
       game.disableKeys()
+      console.log(action.payload.tableId);
+      console.log(action.payload.myUserId);
+      
       state.tableTalkManager.onOpen()
       state.tableDialogOpen = true
       state.tableId = action.payload.tableId
