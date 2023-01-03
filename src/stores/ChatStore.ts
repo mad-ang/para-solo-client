@@ -21,19 +21,19 @@ export const chatSlice = createSlice({
     userCnt_update: 0,
   },
   reducers: {
-    userCntup: (state) => {
-      // fetch 업
-      state.userCnt_update += 1;
-      // get함수 땡겨서 업데이트
-      console.log("up");
-    },
+    // userCntup: (state) => {
+    //   // fetch 업
+    //   state.userCnt_update += 1;
+    //   // get함수 땡겨서 업데이트
+    //   console.log("up");
+    // },
 
-    userCntdown: (state) => {
-      // fetch 다운
-      state.userCnt_update -= 1;
-      console.log("down");
-      // get함수 호출
-    },
+    // userCntdown: (state) => {
+    //   // fetch 다운
+    //   state.userCnt_update -= 1;
+    //   console.log("down");
+    //   // get함수 호출
+    // },
     // get함수~
 
     pushChatMessage: (state, action: PayloadAction<IChatMessage>) => {
@@ -74,8 +74,8 @@ export const chatSlice = createSlice({
 });
 
 export const {
-  userCntup,
-  userCntdown,
+  // userCntup,
+  // userCntdown,
   pushChatMessage,
   pushPlayerJoinedMessage,
   pushPlayerLeftMessage,

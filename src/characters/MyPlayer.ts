@@ -8,7 +8,7 @@ import Chair from "../items/Chair";
 
 import { phaserEvents, Event } from "../events/EventCenter";
 import store from "../stores";
-import { pushPlayerJoinedMessage, userCntup } from "../stores/ChatStore";
+import { pushPlayerJoinedMessage } from "../stores/ChatStore";
 import { ItemType } from "../types/Items";
 import { NavKeys } from "../types/KeyboardState";
 

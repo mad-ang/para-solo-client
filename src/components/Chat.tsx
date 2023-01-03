@@ -127,11 +127,10 @@ const dateFormatter = new Intl.DateTimeFormat('en', {
 
 function Showusercnt(){
   const userCnt_fromserver = useAppSelector((state) => state.room.userCnt)
-  const userCnt_update = useAppSelector((state) => state.chat.userCnt_update)
 
   return (
     <h3>
-      대화창 (현재 마을에 {userCnt_fromserver} 와 {userCnt_update} 명이 있어요)
+      대화창 (현재 마을에 {userCnt_fromserver} 명이 있어요)
       <button onClick={() => console.log(userCnt_fromserver)}>uscnt디버깅</button> 
     </h3>
   )
@@ -183,7 +182,6 @@ export default function Chat() {
   const focused = useAppSelector((state) => state.chat.focused)
   const showChat = useAppSelector((state) => state.chat.showChat)
   const dispatch = useAppDispatch()
-  // const userCnt = useAppSelector((state) => state.room.userCnt)
   const game = phaserGame.scene.keys.game as Game
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

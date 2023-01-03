@@ -35,7 +35,10 @@ export const roomSlice = createSlice({
       state.roomName = action.payload.name;
       state.roomDescription = action.payload.description;
       state.userCnt = action.payload.userCnt;
-    }
+    },
+    setNumPlayer : (state,action: PayloadAction<number> )=> {
+      state.userCnt = action.payload;
+    },
   }
 });
 
@@ -43,6 +46,7 @@ export const {
   setLobbyJoined,
   setRoomJoined,
   setJoinedRoomData,
+  setNumPlayer,
 } = roomSlice.actions;
 
 export default roomSlice.reducer;

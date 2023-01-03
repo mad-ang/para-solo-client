@@ -4,7 +4,6 @@ import MyPlayer from "./MyPlayer";
 import { sittingShiftData } from "./Player";
 import WebRTC from "../web/WebRTC";
 import { Event, phaserEvents } from "../events/EventCenter";
-import { userCntup } from "../stores/ChatStore";
 import store from "../stores";
 
 export default class OtherPlayer extends Player {
@@ -205,7 +204,6 @@ Phaser.GameObjects.GameObjectFactory.register(
     frame?: string | number
   ) {
     const sprite = new OtherPlayer(this.scene, x, y, texture, id, name, frame);
-    store.dispatch(userCntup());
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
