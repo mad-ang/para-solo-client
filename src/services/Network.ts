@@ -123,7 +123,7 @@ export default class Network {
             phaserEvents.emit(Event.PLAYER_JOINED, player, key);
             store.dispatch(setPlayerNameMap({ id: key, name: value }));
             store.dispatch(pushPlayerJoinedMessage(value));
-            store.dispatch(userCntup());
+            // store.dispatch(userCntup());
           }
         });
       };
