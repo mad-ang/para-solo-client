@@ -28,6 +28,7 @@ export default class Game extends Phaser.Scene {
   private cursors!: NavKeys;
   private keyE!: Phaser.Input.Keyboard.Key;
   private keyR!: Phaser.Input.Keyboard.Key;
+  private keySpace!: Phaser.Input.Keyboard.Key;
   private map!: Phaser.Tilemaps.Tilemap;
   myPlayer!: MyPlayer;
   private playerSelector!: Phaser.GameObjects.Zone;
@@ -43,12 +44,13 @@ export default class Game extends Phaser.Scene {
   registerKeys() {
     this.cursors = {
       ...this.input.keyboard.createCursorKeys(),
-      ...(this.input.keyboard.addKeys("W,S,A,D") as Keyboard),
+      ...(this.input.keyboard.addKeys("W,S,A,D,Space") as Keyboard),
     };
 
     // maybe we can have a dedicated method for adding keys if more keys are needed in the future
     this.keyE = this.input.keyboard.addKey("E");
     this.keyR = this.input.keyboard.addKey("R");
+    this.keySpace = this.input.keyboard.addKey("Space");
     this.input.keyboard.disableGlobalCapture();
     this.input.keyboard.on("keydown-ENTER", (event) => {
       store.dispatch(setShowChat(true));
@@ -113,8 +115,8 @@ export default class Game extends Phaser.Scene {
     // })
 
     this.myPlayer = this.add.myPlayer(
-      705,
-      500,
+      170,
+      300,
       "adam",
       this.network.mySessionId
     );
@@ -172,7 +174,7 @@ export default class Game extends Phaser.Scene {
 
     this.otherPlayers = this.physics.add.group({ classType: OtherPlayer });
 
-    this.cameras.main.zoom = 2;
+    this.cameras.main.zoom = 1.8;
     this.cameras.main.startFollow(this.myPlayer, true);
 
     this.physics.add.collider(
@@ -195,6 +197,16 @@ export default class Game extends Phaser.Scene {
       SwingLayer
     );
 
+    this.physics.add.collider(
+      [this.myPlayer, this.myPlayer.playerContainer],
+      SwingLayer
+    );
+
+    // The bounce property just adds a bit of vivacity when our player jumps and lands.
+    this.myPlayer.setBounce(0.1);
+
+    // more softly collide with other players
+
     // this.physics.add.overlap(
     //   this.playerSelector,
     //   [chairs, computers, whiteboards, vendingMachines],
@@ -202,7 +214,7 @@ export default class Game extends Phaser.Scene {
     //   undefined,
     //   this
     // )
-
+    // this.physics.add.collider(this.myPlayer, this.otherPlayers);
     this.physics.add.overlap(
       this.myPlayer,
       this.otherPlayers,
@@ -375,6 +387,7 @@ export default class Game extends Phaser.Scene {
         this.cursors,
         this.keyE,
         this.keyR,
+        this.keySpace,
         this.network
       );
     }

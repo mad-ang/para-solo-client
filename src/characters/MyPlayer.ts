@@ -52,6 +52,7 @@ export default class MyPlayer extends Player {
     cursors: NavKeys,
     keyE: Phaser.Input.Keyboard.Key,
     keyR: Phaser.Input.Keyboard.Key,
+    keySpace: Phaser.Input.Keyboard.Key,
     network: Network
   ) {
     if (!cursors) return;
@@ -147,12 +148,13 @@ export default class MyPlayer extends Player {
           vy += speed;
           this.setDepth(this.y); //change player.depth if player.y changes
         }
+
         // update character velocity
         this.setVelocity(vx, vy);
         this.body.velocity.setLength(speed);
         // also update playerNameContainer velocity
-        this.playContainerBody.setVelocity(vx, vy);
-        this.playContainerBody.velocity.setLength(speed);
+        this.playContainerBody.setVelocity(vx, vy); // 캐릭터
+        this.playContainerBody.velocity.setLength(speed); // 이름
 
         // update animation according to velocity and send new location and anim to server
         if (vx !== 0 || vy !== 0)

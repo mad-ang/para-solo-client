@@ -31,13 +31,13 @@ export default class PlayerSelector extends Phaser.GameObjects.Zone {
     // update player selection box position so that it's always in front of the player
     const { x, y } = player;
     if (cursors.left?.isDown || cursors.A?.isDown) {
-      this.setPosition(x - 32, y);
+      this.setPosition(x - 2, y);
     } else if (cursors.right?.isDown || cursors.D?.isDown) {
-      this.setPosition(x + 32, y);
+      this.setPosition(x + 2, y);
     } else if (cursors.up?.isDown || cursors.W?.isDown) {
-      this.setPosition(x, y - 32);
+      this.setPosition(x, y - 2);
     } else if (cursors.down?.isDown || cursors.S?.isDown) {
-      this.setPosition(x, y + 32);
+      this.setPosition(x, y + 2);
     }
 
     // while currently selecting an item,
