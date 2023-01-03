@@ -10,7 +10,6 @@ export default defineConfig(({ command, mode }) => {
     plugins: [react()],
     define: {
       __APP_ENV__: env.APP_ENV,
-      VITE_DEV_MODE: env.VITE_DEV_MODE,
     },
   };
 });
