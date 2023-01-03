@@ -4,10 +4,6 @@
 import { createCharacterAnims } from "../anims/CharacterAnims";
 
 import Item from "../items/Item";
-// import Chair from "../items/Chair";
-// import Computer from "../items/Computer";
-// import Whiteboard from "../items/Whiteboard";
-// import VendingMachine from "../items/VendingMachine";
 import "../characters/MyPlayer";
 import "../characters/OtherPlayer";
 import MyPlayer from "../characters/MyPlayer";
@@ -33,8 +29,6 @@ export default class Game extends Phaser.Scene {
   private playerSelector!: Phaser.GameObjects.Zone;
   private otherPlayers!: Phaser.Physics.Arcade.Group;
   private otherPlayerMap = new Map<string, OtherPlayer>();
-  // computerMap = new Map<string, Computer>();
-  // private whiteboardMap = new Map<string, Whiteboard>();
 
   constructor() {
     super("game");
@@ -105,13 +99,6 @@ export default class Game extends Phaser.Scene {
     BenchLayer.setCollisionByProperty({ collisions: true });
     SwingLayer.setCollisionByProperty({ collisions: true });
 
-    // const debugGraphics = this.add.graphics().setAlpha(0.7)
-    // GroundLayer.renderDebug(debugGraphics, {
-    //   tileColor: null, // Color of non-colliding tiles
-    //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-    //   faceColor: new Phaser.Display.Color(40, 39, 37, 255), // Color of colliding face edges
-    // })
-
     this.myPlayer = this.add.myPlayer(
       705,
       500,
@@ -119,56 +106,6 @@ export default class Game extends Phaser.Scene {
       this.network.mySessionId
     );
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16);
-
-    // import chair objects from Tiled map to Phaser
-    // const chairs = this.physics.add.staticGroup({ classType: Chair })
-    // const chairLayer = this.map.getObjectLayer('Chair')
-    // chairLayer.objects.forEach((chairObj) => {
-    //   const item = this.addObjectFromTiled(chairs, chairObj, 'chairs', 'chair') as Chair
-    //   // custom properties[0] is the object direction specified in Tiled
-    //   item.itemDirection = chairObj.properties[0].value
-    // })
-
-    // import computers objects from Tiled map to Phaser
-    // const computers = this.physics.add.staticGroup({ classType: Computer })
-    // const computerLayer = this.map.getObjectLayer('Computer')
-    // computerLayer.objects.forEach((obj, i) => {
-    //   const item = this.addObjectFromTiled(computers, obj, 'computers', 'computer') as Computer
-    //   item.setDepth(item.y + item.height * 0.27)
-    //   const id = `${i}`
-    //   item.id = id
-    //   this.computerMap.set(id, item)
-    // })
-
-    // // import whiteboards objects from Tiled map to Phaser
-    // const whiteboards = this.physics.add.staticGroup({ classType: Whiteboard })
-    // const whiteboardLayer = this.map.getObjectLayer('Whiteboard')
-    // whiteboardLayer.objects.forEach((obj, i) => {
-    //   const item = this.addObjectFromTiled(
-    //     whiteboards,
-    //     obj,
-    //     'whiteboards',
-    //     'whiteboard'
-    //   ) as Whiteboard
-    //   const id = `${i}`
-    //   item.id = id
-    //   this.whiteboardMap.set(id, item)
-    // })
-
-    // // import vending machine objects from Tiled map to Phaser
-    // const vendingMachines = this.physics.add.staticGroup({ classType: VendingMachine })
-    // const vendingMachineLayer = this.map.getObjectLayer('VendingMachine')
-    // vendingMachineLayer.objects.forEach((obj, i) => {
-    //   this.addObjectFromTiled(vendingMachines, obj, 'vendingmachines', 'vendingmachine')
-    // })
-
-    // import other objects from Tiled map to Phaser
-    // this.addGroupFromTiled('Wall', 'tiles_wall', 'FloorAndGround', false)
-    // this.addGroupFromTiled('Objects', 'office', 'Modern_Office_Black_Shadow', false)
-    // this.addGroupFromTiled('ObjectsOnCollide', 'office', 'Modern_Office_Black_Shadow', true)
-    // this.addGroupFromTiled('GenericObjects', 'generic', 'Generic', false)
-    // this.addGroupFromTiled('GenericObjectsOnCollide', 'generic', 'Generic', true)
-    // this.addGroupFromTiled('Basement', 'basement', 'Basement', true)
 
     this.otherPlayers = this.physics.add.group({ classType: OtherPlayer });
 
@@ -195,14 +132,6 @@ export default class Game extends Phaser.Scene {
       SwingLayer
     );
 
-    // this.physics.add.overlap(
-    //   this.playerSelector,
-    //   [chairs, computers, whiteboards, vendingMachines],
-    //   this.handleItemSelectorOverlap,
-    //   undefined,
-    //   this
-    // )
-
     this.physics.add.overlap(
       this.myPlayer,
       this.otherPlayers,
@@ -217,8 +146,6 @@ export default class Game extends Phaser.Scene {
     this.network.onMyPlayerReady(this.handleMyPlayerReady, this);
     this.network.onMyPlayerVideoConnected(this.handleMyVideoConnected, this);
     this.network.onPlayerUpdated(this.handlePlayerUpdated, this);
-    // this.network.onItemUserAdded(this.handleItemUserAdded, this);
-    // this.network.onItemUserRemoved(this.handleItemUserRemoved, this);
     this.network.onChatMessageAdded(this.handleChatMessageAdded, this);
   }
 
@@ -333,34 +260,6 @@ export default class Game extends Phaser.Scene {
   private handlePlayersOverlap(myPlayer, otherPlayer) {
     otherPlayer.makeCall(myPlayer, this.network?.webRTC);
   }
-
-  // private handleItemUserAdded(
-  //   playerId: string,
-  //   itemId: string,
-  //   itemType: ItemType
-  // ) {
-  //   if (itemType === ItemType.COMPUTER) {
-  //     const computer = this.computerMap.get(itemId);
-  //     computer?.addCurrentUser(playerId);
-  //   } else if (itemType === ItemType.WHITEBOARD) {
-  //     const whiteboard = this.whiteboardMap.get(itemId);
-  //     whiteboard?.addCurrentUser(playerId);
-  //   }
-  // }
-
-  // private handleItemUserRemoved(
-  //   playerId: string,
-  //   itemId: string,
-  //   itemType: ItemType
-  // ) {
-  //   if (itemType === ItemType.COMPUTER) {
-  //     const computer = this.computerMap.get(itemId);
-  //     computer?.removeCurrentUser(playerId);
-  //   } else if (itemType === ItemType.WHITEBOARD) {
-  //     const whiteboard = this.whiteboardMap.get(itemId);
-  //     whiteboard?.removeCurrentUser(playerId);
-  //   }
-  // }
 
   private handleChatMessageAdded(playerId: string, content: string) {
     const otherPlayer = this.otherPlayerMap.get(playerId);

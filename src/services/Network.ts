@@ -73,18 +73,6 @@ export default class Network {
    */
   async joinLobbyRoom() {
     this.lobby = await this.client.joinOrCreate(RoomType.LOBBY);
-
-    // this.lobby.onMessage("rooms", (rooms) => {
-    //   store.dispatch(setAvailableRooms(rooms));
-    // });
-
-    // this.lobby.onMessage("+", ([roomId, room]) => {
-    //   store.dispatch(addAvailableRooms({ roomId, room }));
-    // });
-
-    // this.lobby.onMessage("-", (roomId) => {
-    //   store.dispatch(removeAvailableRooms(roomId));
-    // });
   }
 
   // method to join the public lobby
@@ -151,52 +139,6 @@ export default class Network {
       store.dispatch(userCntdown());
     };
 
-    // new instance added to the computers MapSchema
-    // this.room.state.computers.onAdd = (computer: IComputer, key: string) => {
-    //   // track changes on every child object's connectedUser
-    //   computer.connectedUser.onAdd = (item, index) => {
-    //     phaserEvents.emit(Event.ITEM_USER_ADDED, item, key, ItemType.COMPUTER);
-    //   };
-    //   computer.connectedUser.onRemove = (item, index) => {
-    //     phaserEvents.emit(
-    //       Event.ITEM_USER_REMOVED,
-    //       item,
-    //       key,
-    //       ItemType.COMPUTER
-    //     );
-    //   };
-    // };
-
-    // new instance added to the whiteboards MapSchema
-    // this.room.state.whiteboards.onAdd = (
-    //   whiteboard: IWhiteboard,
-    //   key: string
-    // ) => {
-    //   // store.dispatch(
-    //   //   setWhiteboardUrls({
-    //   //     whiteboardId: key,
-    //   //     roomId: whiteboard.roomId,
-    //   //   })
-    //   // );
-    //   // track changes on every child object's connectedUser
-    //   whiteboard.connectedUser.onAdd = (item, index) => {
-    //     phaserEvents.emit(
-    //       Event.ITEM_USER_ADDED,
-    //       item,
-    //       key,
-    //       ItemType.WHITEBOARD
-    //     );
-    //   };
-    //   whiteboard.connectedUser.onRemove = (item, index) => {
-    //     phaserEvents.emit(
-    //       Event.ITEM_USER_REMOVED,
-    //       item,
-    //       key,
-    //       ItemType.WHITEBOARD
-    //     );
-    //   };
-    // };
-
     // new instance added to the chatMessages ArraySchema
     this.room.state.chatMessages.onAdd = (item, index) => {
       store.dispatch(pushChatMessage(item));
@@ -217,11 +159,6 @@ export default class Network {
       this.webRTC?.deleteOnCalledVideoStream(clientId);
     });
 
-    // when a computer user stops sharing screen
-    // this.room.onMessage(Message.STOP_SCREEN_SHARE, (clientId: string) => {
-    //   const computerState = store.getState().computer;
-    //   computerState.shareScreenManager?.onUserLeft(clientId);
-    // });
   }
 
   // method to register event listener and call back function when a item user added
@@ -310,26 +247,6 @@ export default class Network {
     this.room?.send(Message.DISCONNECT_STREAM, { clientId: id });
     this.webRTC?.deleteVideoStream(id);
   }
-
-  // connectToComputer(id: string) {
-  //   this.room?.send(Message.CONNECT_TO_COMPUTER, { computerId: id });
-  // }
-
-  // disconnectFromComputer(id: string) {
-  //   this.room?.send(Message.DISCONNECT_FROM_COMPUTER, { computerId: id });
-  // }
-
-  // connectToWhiteboard(id: string) {
-  //   this.room?.send(Message.CONNECT_TO_WHITEBOARD, { whiteboardId: id });
-  // }
-
-  // disconnectFromWhiteboard(id: string) {
-  //   this.room?.send(Message.DISCONNECT_FROM_WHITEBOARD, { whiteboardId: id });
-  // }
-
-  // onStopScreenShare(id: string) {
-  //   this.room?.send(Message.STOP_SCREEN_SHARE, { computerId: id });
-  // }
 
   addChatMessage(content: string) {
     this.room?.send(Message.ADD_CHAT_MESSAGE, { content: content });
