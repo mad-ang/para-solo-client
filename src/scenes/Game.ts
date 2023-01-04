@@ -325,8 +325,6 @@ export default class Game extends Phaser.Scene {
         itemId: string,
         itemType: ItemType
     ) {
-        console.log("handleItemUserAdded");
-        
         if (itemType === ItemType.TABLE) {
             const table = this.tableMap.get(itemId);
             table?.addCurrentUser(playerId);
