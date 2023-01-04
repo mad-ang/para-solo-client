@@ -8,9 +8,10 @@ import Chair from "../items/Chair";
 
 import { phaserEvents, Event } from "../events/EventCenter";
 import store from "../stores";
-import { pushPlayerJoinedMessage, userCntup } from "../stores/ChatStore";
+import { pushPlayerJoinedMessage } from "../stores/ChatStore";
 import { ItemType } from "../types/Items";
 import { NavKeys } from "../types/KeyboardState";
+import Table from "../items/Table";
 
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
@@ -50,28 +51,29 @@ export default class MyPlayer extends Player {
     cursors: NavKeys,
     keyE: Phaser.Input.Keyboard.Key,
     keyR: Phaser.Input.Keyboard.Key,
+    keySpace: Phaser.Input.Keyboard.Key,
     network: Network
   ) {
     if (!cursors) return;
 
     const item = playerSelector.selectedItem;
     //  쓰일수 있어서 주석처리.
-    // if (Phaser.Input.Keyboard.JustDown(keyR)) {
-    //   switch (item?.itemType) {
-    //     case ItemType.COMPUTER:
-    //       const computer = item as Computer;
-    //       computer.openDialog(this.playerId, network);
-    //       break;
-    //     case ItemType.WHITEBOARD:
-    //       const whiteboard = item as Whiteboard;
-    //       whiteboard.openDialog(network);
-    //       break;
-    //     case ItemType.VENDINGMACHINE:
-    //       // hacky and hard-coded, but leaving it as is for now
-    //       window.open("https://www.buymeacoffee.com/skyoffice", "_blank");
-    //       break;
-    //   }
-    // }
+    if (Phaser.Input.Keyboard.JustDown(keyR)) {
+      switch (item?.itemType) {
+        case ItemType.TABLE:
+          const table = item as Table;
+          table.openDialog(this.playerId, network);
+          break;
+        // case ItemType.WHITEBOARD:
+        //   const whiteboard = item as Whiteboard;
+        //   whiteboard.openDialog(network);
+        //   break;
+        // case ItemType.VENDINGMACHINE:
+        //   // hacky and hard-coded, but leaving it as is for now
+        //   window.open("https://www.buymeacoffee.com/skyoffice", "_blank");
+        //   break;
+      }
+    }
 
     switch (this.playerBehavior) {
       case PlayerBehavior.IDLE:
@@ -145,12 +147,13 @@ export default class MyPlayer extends Player {
           vy += speed;
           this.setDepth(this.y); //change player.depth if player.y changes
         }
+
         // update character velocity
         this.setVelocity(vx, vy);
         this.body.velocity.setLength(speed);
         // also update playerNameContainer velocity
-        this.playContainerBody.setVelocity(vx, vy);
-        this.playContainerBody.velocity.setLength(speed);
+        this.playContainerBody.setVelocity(vx, vy); // 캐릭터
+        this.playContainerBody.velocity.setLength(speed); // 이름
 
         // update animation according to velocity and send new location and anim to server
         if (vx !== 0 || vy !== 0)

@@ -25,8 +25,9 @@ export default class Item extends Phaser.Physics.Arcade.Sprite {
     const innerText = this.scene.add
       .text(0, 0, text)
       .setFontFamily("Arial")
-      .setFontSize(12)
-      .setColor("#000000");
+      .setFontSize(8)
+      .setColor("#000000")
+      .setResolution(10);
 
     // set dialogBox slightly larger than the text in it
     const dialogBoxWidth = innerText.width + 4;
@@ -55,6 +56,29 @@ export default class Item extends Phaser.Physics.Arcade.Sprite {
         )
     );
     this.dialogBox.add(innerText.setPosition(dialogBoxX + 2, dialogBoxY));
+  }
+
+  setStatusBox(text: string) {
+    const innerText = this.scene.add
+      .text(0, 0, text)
+      .setFontFamily('Arial')
+      .setFontSize(12)
+      .setColor('#000000')
+
+    // set dialogBox slightly larger than the text in it
+    const statusBoxWidth = innerText.width + 4
+    const statusBoxHeight = innerText.height + 2
+    const statusBoxX = this.x - statusBoxWidth * 0.5
+    const statusBoxY = this.y - this.height * 0.25
+    this.statusBox.add(
+      this.scene.add
+        .graphics()
+        .fillStyle(0xffffff, 1)
+        .fillRoundedRect(statusBoxX, statusBoxY, statusBoxWidth, statusBoxHeight, 3)
+        .lineStyle(1.5, 0x000000, 1)
+        .strokeRoundedRect(statusBoxX, statusBoxY, statusBoxWidth, statusBoxHeight, 3)
+    )
+    this.statusBox.add(innerText.setPosition(statusBoxX + 2, statusBoxY))
   }
 
   // remove everything in the dialog box container

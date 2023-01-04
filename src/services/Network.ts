@@ -1,10 +1,10 @@
 import { Client, Room } from "colyseus.js";
 import {
-  // IComputer,
-  IOfficeState,
-  IPlayer,
-  // IWhiteboard,
-} from "../types/IOfficeState";
+    ITable,
+    ITownState,
+    IPlayer,
+    // IWhiteboard,
+} from "../types/ITownState";
 import { Message } from "../types/Messages";
 import { IRoomData, RoomType } from "../types/Rooms";
 import { ItemType } from "../types/Items";
@@ -12,243 +12,294 @@ import WebRTC from "../web/WebRTC";
 import { phaserEvents, Event } from "../events/EventCenter";
 import store from "../stores";
 import {
-  setSessionId,
-  setPlayerNameMap,
-  removePlayerNameMap,
+    setSessionId,
+    setPlayerNameMap,
+    removePlayerNameMap,
 } from "../stores/UserStore";
 import {
-  setLobbyJoined,
-  setJoinedRoomData,
-  // setAvailableRooms,
-  // addAvailableRooms,
-  // removeAvailableRooms,
+    setLobbyJoined,
+    setJoinedRoomData,
+    setNumPlayer,
 } from "../stores/RoomStore";
 import {
-  pushChatMessage,
-  pushPlayerJoinedMessage,
-  pushPlayerLeftMessage,
-  userCntup,
-  userCntdown,
+    pushChatMessage,
+    pushPlayerJoinedMessage,
+    pushPlayerLeftMessage,
 } from "../stores/ChatStore";
 // import { setWhiteboardUrls } from "../stores/WhiteboardStore";
 
 export default class Network {
-  private client: Client;
-  private room?: Room<IOfficeState>;
-  private lobby!: Room;
-  webRTC?: WebRTC;
+    private client: Client;
+    private room?: Room<ITownState>;
+    private lobby!: Room;
+    webRTC?: WebRTC;
 
-  mySessionId!: string;
+    mySessionId!: string;
 
-  constructor() {
+    constructor() {
+        /*로컬 서버 접속*/
+        const protocol = window.location.protocol.replace("http", "ws");
+        const endpoint =
+            process.env.NODE_ENV === "production"
+                ? import.meta.env.VITE_SERVER_URL
+                : `${protocol}//${window.location.hostname}:2567`;
 
-    /*로컬 서버 접속*/
-    // const protocol = window.location.protocol.replace("http", "ws");
-    // const endpoint =
-    //   process.env.NODE_ENV === "production"
-    //     ? import.meta.env.VITE_SERVER_URL
-    //     : `${protocol}//${window.location.hostname}:2567`;
-    
-    /*배포 서버 접속*/
-    const endpoint = "wss://momstown.herokuapp.com/";
-    
+        /*배포 서버 접속*/
+        // const endpoint = "wss://momstown.herokuapp.com/";
 
-    this.client = new Client(endpoint);
-    this.joinLobbyRoom().then(() => {
-      store.dispatch(setLobbyJoined(true));
-    });
-
-    phaserEvents.on(Event.MY_PLAYER_NAME_CHANGE, this.updatePlayerName, this);
-    phaserEvents.on(Event.MY_PLAYER_TEXTURE_CHANGE, this.updatePlayer, this);
-    phaserEvents.on(
-      Event.PLAYER_DISCONNECTED,
-      this.playerStreamDisconnect,
-      this
-    );
-  }
-
-  /**
-   * method to join Colyseus' built-in LobbyRoom, which automatically notifies
-   * connected clients whenever rooms with "realtime listing" have updates
-   */
-  async joinLobbyRoom() {
-    this.lobby = await this.client.joinOrCreate(RoomType.LOBBY);
-  }
-
-  // method to join the public lobby
-  async joinOrCreatePublic() {
-    this.room = await this.client.joinOrCreate(RoomType.PUBLIC);
-    this.initialize();
-  }
-
-  // method to join a custom room
-  async joinCustomById(roomId: string, password: string | null) {
-    this.room = await this.client.joinById(roomId, { password });
-    this.initialize();
-  }
-
-  // method to create a custom room
-  async createCustom(roomData: IRoomData) {
-    const { name, description, password, autoDispose } = roomData;
-    this.room = await this.client.create(RoomType.CUSTOM, {
-      name,
-      description,
-      password,
-      autoDispose,
-    });
-    this.initialize();
-  }
-
-  // set up all network listeners before the game starts
-  initialize() {
-    if (!this.room) return;
-
-    this.lobby.leave();
-    this.mySessionId = this.room.sessionId;
-    store.dispatch(setSessionId(this.room.sessionId));
-    this.webRTC = new WebRTC(this.mySessionId, this);
-
-    // new instance added to the players MapSchema
-    this.room.state.players.onAdd = (player: IPlayer, key: string) => {
-      if (key === this.mySessionId) return;
-
-      // track changes on every child object inside the players MapSchema
-      player.onChange = (changes) => {
-        changes.forEach((change) => {
-          const { field, value } = change;
-          phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
-
-          // when a new player finished setting up player name
-          if (field === "name" && value !== "") {
-            phaserEvents.emit(Event.PLAYER_JOINED, player, key);
-            store.dispatch(setPlayerNameMap({ id: key, name: value }));
-            store.dispatch(pushPlayerJoinedMessage(value));
-            store.dispatch(userCntup());
-          }
+        this.client = new Client(endpoint);
+        this.joinLobbyRoom().then(() => {
+            store.dispatch(setLobbyJoined(true));
         });
-      };
-    };
 
-    // an instance removed from the players MapSchema
-    this.room.state.players.onRemove = (player: IPlayer, key: string) => {
-      phaserEvents.emit(Event.PLAYER_LEFT, key);
-      this.webRTC?.deleteVideoStream(key);
-      this.webRTC?.deleteOnCalledVideoStream(key);
-      store.dispatch(pushPlayerLeftMessage(player.name));
-      store.dispatch(removePlayerNameMap(key));
-      store.dispatch(userCntdown());
-    };
+        phaserEvents.on(
+            Event.MY_PLAYER_NAME_CHANGE,
+            this.updatePlayerName,
+            this
+        );
+        phaserEvents.on(
+            Event.MY_PLAYER_TEXTURE_CHANGE,
+            this.updatePlayer,
+            this
+        );
+        phaserEvents.on(
+            Event.PLAYER_DISCONNECTED,
+            this.playerStreamDisconnect,
+            this
+        );
+    }
 
-    // new instance added to the chatMessages ArraySchema
-    this.room.state.chatMessages.onAdd = (item, index) => {
-      store.dispatch(pushChatMessage(item));
-    };
+    /**
+     * method to join Colyseus' built-in LobbyRoom, which automatically notifies
+     * connected clients whenever rooms with "realtime listing" have updates
+     */
+    async joinLobbyRoom() {
+        this.lobby = await this.client.joinOrCreate(RoomType.LOBBY);
+    }
 
-    // when the server sends room data
-    this.room.onMessage(Message.SEND_ROOM_DATA, (content) => {
-      store.dispatch(setJoinedRoomData(content));
-    });
+    // method to join the public lobby
+    async joinOrCreatePublic() {
+        this.room = await this.client.joinOrCreate(RoomType.PUBLIC);
+        this.initialize();
+    }
 
-    // when a user sends a message
-    this.room.onMessage(Message.ADD_CHAT_MESSAGE, ({ clientId, content }) => {
-      phaserEvents.emit(Event.UPDATE_DIALOG_BUBBLE, clientId, content);
-    });
+    // method to join a custom room
+    async joinCustomById(roomId: string, password: string | null) {
+        this.room = await this.client.joinById(roomId, { password });
+        this.initialize();
+    }
 
-    // when a peer disconnects with myPeer
-    this.room.onMessage(Message.DISCONNECT_STREAM, (clientId: string) => {
-      this.webRTC?.deleteOnCalledVideoStream(clientId);
-    });
+    // method to create a custom room
+    async createCustom(roomData: IRoomData) {
+        const { name, description, password, autoDispose } = roomData;
+        this.room = await this.client.create(RoomType.CUSTOM, {
+            name,
+            description,
+            password,
+            autoDispose,
+        });
+        this.initialize();
+    }
 
-  }
+    // set up all network listeners before the game starts
+    initialize() {
+        if (!this.room) return;
 
-  // method to register event listener and call back function when a item user added
-  onChatMessageAdded(
-    callback: (playerId: string, content: string) => void,
-    context?: any
-  ) {
-    phaserEvents.on(Event.UPDATE_DIALOG_BUBBLE, callback, context);
-  }
+        this.lobby.leave();
+        this.mySessionId = this.room.sessionId;
+        store.dispatch(setSessionId(this.room.sessionId));
+        this.webRTC = new WebRTC(this.mySessionId, this);
 
-  // method to register event listener and call back function when a item user added
-  onItemUserAdded(
-    callback: (playerId: string, key: string, itemType: ItemType) => void,
-    context?: any
-  ) {
-    phaserEvents.on(Event.ITEM_USER_ADDED, callback, context);
-  }
+        // new instance added to the players MapSchema
+        this.room.state.players.onAdd = (player: IPlayer, key: string) => {
+            if (key === this.mySessionId) return;
 
-  // method to register event listener and call back function when a item user removed
-  onItemUserRemoved(
-    callback: (playerId: string, key: string, itemType: ItemType) => void,
-    context?: any
-  ) {
-    phaserEvents.on(Event.ITEM_USER_REMOVED, callback, context);
-  }
+            // track changes on every child object inside the players MapSchema
+            player.onChange = (changes) => {
+                changes.forEach((change) => {
+                    const { field, value } = change;
+                    phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
 
-  // method to register event listener and call back function when a player joined
-  onPlayerJoined(
-    callback: (Player: IPlayer, key: string) => void,
-    context?: any
-  ) {
-    phaserEvents.on(Event.PLAYER_JOINED, callback, context);
-  }
+                    // when a new player finished setting up player name
+                    if (field === "name" && value !== "") {
+                        phaserEvents.emit(Event.PLAYER_JOINED, player, key);
+                        store.dispatch(
+                            setPlayerNameMap({ id: key, name: value })
+                        );
+                        store.dispatch(pushPlayerJoinedMessage(value));
+                    }
+                });
+            };
+        };
 
-  // method to register event listener and call back function when a player left
-  onPlayerLeft(callback: (key: string) => void, context?: any) {
-    phaserEvents.on(Event.PLAYER_LEFT, callback, context);
-  }
+        // an instance removed from the players MapSchema
+        this.room.state.players.onRemove = (player: IPlayer, key: string) => {
+            phaserEvents.emit(Event.PLAYER_LEFT, key);
+            this.webRTC?.deleteVideoStream(key);
+            this.webRTC?.deleteOnCalledVideoStream(key);
+            store.dispatch(pushPlayerLeftMessage(player.name));
+            store.dispatch(removePlayerNameMap(key));
+        };
 
-  // method to register event listener and call back function when myPlayer is ready to connect
-  onMyPlayerReady(callback: (key: string) => void, context?: any) {
-    phaserEvents.on(Event.MY_PLAYER_READY, callback, context);
-  }
+        this.room.state.tables.onAdd = (table: ITable, key: string) => {
+            // track changes on every child object's connectedUser
+            table.connectedUser.onAdd = (item, index) => {
+                console.log("check phaserEvent emit");
+                phaserEvents.emit(
+                    Event.ITEM_USER_ADDED,
+                    item,
+                    key,
+                    ItemType.TABLE
+                );
+            };
+            table.connectedUser.onRemove = (item, index) => {
+                phaserEvents.emit(
+                    Event.ITEM_USER_REMOVED,
+                    item,
+                    key,
+                    ItemType.TABLE
+                );
+            };
+        };
 
-  // method to register event listener and call back function when my video is connected
-  onMyPlayerVideoConnected(callback: (key: string) => void, context?: any) {
-    phaserEvents.on(Event.MY_PLAYER_VIDEO_CONNECTED, callback, context);
-  }
+        // new instance added to the chatMessages ArraySchema
+        this.room.state.chatMessages.onAdd = (item, index) => {
+            store.dispatch(pushChatMessage(item));
+        };
 
-  // method to register event listener and call back function when a player updated
-  onPlayerUpdated(
-    callback: (field: string, value: number | string, key: string) => void,
-    context?: any
-  ) {
-    phaserEvents.on(Event.PLAYER_UPDATED, callback, context);
-  }
+        // when the server sends room data
+        this.room.onMessage(Message.SEND_ROOM_DATA, (content) => {
+            store.dispatch(setJoinedRoomData(content));
+        });
 
-  // method to send player updates to Colyseus server
-  updatePlayer(currentX: number, currentY: number, currentAnim: string) {
-    this.room?.send(Message.UPDATE_PLAYER, {
-      x: currentX,
-      y: currentY,
-      anim: currentAnim,
-    });
-  }
+        // when a user sends a message
+        this.room.onMessage(
+            Message.ADD_CHAT_MESSAGE,
+            ({ clientId, content }) => {
+                phaserEvents.emit(
+                    Event.UPDATE_DIALOG_BUBBLE,
+                    clientId,
+                    content
+                );
+            }
+        );
 
-  // method to send player name to Colyseus server
-  updatePlayerName(currentName: string) {
-    this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName });
-  }
+        // when a peer disconnects with myPeer
+        this.room.onMessage(Message.DISCONNECT_STREAM, (clientId: string) => {
+            this.webRTC?.deleteOnCalledVideoStream(clientId);
+        });
 
-  // method to send ready-to-connect signal to Colyseus server
-  readyToConnect() {
-    this.room?.send(Message.READY_TO_CONNECT);
-    phaserEvents.emit(Event.MY_PLAYER_READY);
-  }
+        this.room.onMessage(Message.STOP_TABLE_TALK, (clientId: string) => {
+            const tableState = store.getState().table;
+            tableState.tableTalkManager?.onUserLeft(clientId);
+        });
 
-  // method to send ready-to-connect signal to Colyseus server
-  videoConnected() {
-    this.room?.send(Message.VIDEO_CONNECTED);
-    phaserEvents.emit(Event.MY_PLAYER_VIDEO_CONNECTED);
-  }
+        this.room.onStateChange((state) => {
+            let numPlayers: number = this.room?.state.players.size;
+            console.log("loook,", numPlayers);
+            store.dispatch(setNumPlayer(numPlayers));
+        });
+    }
 
-  // method to send stream-disconnection signal to Colyseus server
-  playerStreamDisconnect(id: string) {
-    this.room?.send(Message.DISCONNECT_STREAM, { clientId: id });
-    this.webRTC?.deleteVideoStream(id);
-  }
+    // method to register event listener and call back function when a item user added
+    onChatMessageAdded(
+        callback: (playerId: string, content: string) => void,
+        context?: any
+    ) {
+        phaserEvents.on(Event.UPDATE_DIALOG_BUBBLE, callback, context);
+    }
 
-  addChatMessage(content: string) {
-    this.room?.send(Message.ADD_CHAT_MESSAGE, { content: content });
-  }
+    // method to register event listener and call back function when a item user added
+    onItemUserAdded(
+        callback: (playerId: string, key: string, itemType: ItemType) => void,
+        context?: any
+    ) {
+        console.log("onItemUserAdded");
+        phaserEvents.on(Event.ITEM_USER_ADDED, callback, context);
+    }
+
+    // method to register event listener and call back function when a item user removed
+    onItemUserRemoved(
+        callback: (playerId: string, key: string, itemType: ItemType) => void,
+        context?: any
+    ) {
+        phaserEvents.on(Event.ITEM_USER_REMOVED, callback, context);
+    }
+
+    // method to register event listener and call back function when a player joined
+    onPlayerJoined(
+        callback: (Player: IPlayer, key: string) => void,
+        context?: any
+    ) {
+        phaserEvents.on(Event.PLAYER_JOINED, callback, context);
+    }
+
+    // method to register event listener and call back function when a player left
+    onPlayerLeft(callback: (key: string) => void, context?: any) {
+        phaserEvents.on(Event.PLAYER_LEFT, callback, context);
+    }
+
+    // method to register event listener and call back function when myPlayer is ready to connect
+    onMyPlayerReady(callback: (key: string) => void, context?: any) {
+        phaserEvents.on(Event.MY_PLAYER_READY, callback, context);
+    }
+
+    // method to register event listener and call back function when my video is connected
+    onMyPlayerVideoConnected(callback: (key: string) => void, context?: any) {
+        phaserEvents.on(Event.MY_PLAYER_VIDEO_CONNECTED, callback, context);
+    }
+
+    // method to register event listener and call back function when a player updated
+    onPlayerUpdated(
+        callback: (field: string, value: number | string, key: string) => void,
+        context?: any
+    ) {
+        phaserEvents.on(Event.PLAYER_UPDATED, callback, context);
+    }
+
+    // method to send player updates to Colyseus server
+    updatePlayer(currentX: number, currentY: number, currentAnim: string) {
+        this.room?.send(Message.UPDATE_PLAYER, {
+            x: currentX,
+            y: currentY,
+            anim: currentAnim,
+        });
+    }
+
+    // method to send player name to Colyseus server
+    updatePlayerName(currentName: string) {
+        this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName });
+    }
+
+    // method to send ready-to-connect signal to Colyseus server
+    readyToConnect() {
+        this.room?.send(Message.READY_TO_CONNECT);
+        phaserEvents.emit(Event.MY_PLAYER_READY);
+    }
+
+    // method to send ready-to-connect signal to Colyseus server
+    videoConnected() {
+        this.room?.send(Message.VIDEO_CONNECTED);
+        phaserEvents.emit(Event.MY_PLAYER_VIDEO_CONNECTED);
+    }
+
+    // method to send stream-disconnection signal to Colyseus server
+    playerStreamDisconnect(id: string) {
+        this.room?.send(Message.DISCONNECT_STREAM, { clientId: id });
+        this.webRTC?.deleteVideoStream(id);
+    }
+    connectToTable(id: string) {
+        this.room?.send(Message.CONNECT_TO_TABLE, { tableId: id });
+    }
+
+    disconnectFromTable(id: string) {
+        this.room?.send(Message.DISCONNECT_FROM_TABLE, { tableId: id });
+    }
+    onStopTableTalk(id: string) {
+        this.room?.send(Message.STOP_TABLE_TALK, { tableId: id });
+    }
+
+    addChatMessage(content: string) {
+        this.room?.send(Message.ADD_CHAT_MESSAGE, { content: content });
+    }
 }
