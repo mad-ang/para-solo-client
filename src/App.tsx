@@ -9,6 +9,7 @@ import VideoConnectionDialog from "./components/VideoConnectionDialog";
 import TableDialog from "./components/TableDialog";
 import Chat from "./components/Chat";
 import HelperButtonGroup from "./components/HelperButtonGroup";
+import WelcomeToast from "./components/ToastNotification";
 
 const Backdrop = styled.div`
   position: absolute;
@@ -20,9 +21,9 @@ function App() {
     const loggedIn = useAppSelector((state) => state.user.loggedIn);
     const tableDialogOpen = useAppSelector(
         (state) => state.table.tableDialogOpen
-    );
-    const videoConnected = useAppSelector((state) => state.user.videoConnected);
-    const roomJoined = useAppSelector((state) => state.room.roomJoined);
+  );
+  const videoConnected = useAppSelector((state) => state.user.videoConnected);
+  const roomJoined = useAppSelector((state) => state.room.roomJoined);
 
     let ui: JSX.Element;
     if (loggedIn) {
@@ -35,6 +36,7 @@ function App() {
                     <Chat />
                     {/* Render VideoConnectionDialog if user is not connected to a webcam. */}
                     {!videoConnected && <VideoConnectionDialog />}
+                    <WelcomeToast />
                 </>
             );
         }
