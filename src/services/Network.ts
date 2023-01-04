@@ -198,7 +198,7 @@ export default class Network {
             const playerSize = this.room?.state.players.size;
             if (playerSize === undefined) return;
             let numPlayers: number = playerSize;
-            console.log("loook,", numPlayers);
+            // console.log("loook,", numPlayers);
             store.dispatch(setNumPlayer(numPlayers));
           });
     }
