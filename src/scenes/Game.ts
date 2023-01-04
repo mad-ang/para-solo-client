@@ -146,8 +146,8 @@ export default class Game extends Phaser.Scene {
         cafe_fenceLayer.setCollisionByProperty({ collisions: true });
 
         this.myPlayer = this.add.myPlayer(
-            230,
-            280,
+            Phaser.Math.RND.between(200, 700),
+            Phaser.Math.RND.between(200, 300),
             "adam",
             this.network.mySessionId
         );
