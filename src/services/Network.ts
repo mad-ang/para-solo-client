@@ -195,10 +195,12 @@ export default class Network {
         });
 
         this.room.onStateChange((state) => {
-            let numPlayers: number = this.room?.state.players.size;
+            const playerSize = this.room?.state.players.size;
+            if (playerSize === undefined) return;
+            let numPlayers: number = playerSize;
             console.log("loook,", numPlayers);
             store.dispatch(setNumPlayer(numPlayers));
-        });
+          });
     }
 
     // method to register event listener and call back function when a item user added
