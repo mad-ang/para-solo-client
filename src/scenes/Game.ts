@@ -19,7 +19,7 @@ import { ItemType } from "../types/Items";
 import store from "../stores";
 import { setFocused, setShowChat } from "../stores/ChatStore";
 import { NavKeys, Keyboard } from "../types/KeyboardState";
-import { Grass } from "@mui/icons-material";
+
 
 export default class Game extends Phaser.Scene {
   network!: Network;
@@ -184,7 +184,7 @@ export default class Game extends Phaser.Scene {
       undefined,
       this
     );
-
+    
     this.physics.add.overlap(
       this.myPlayer,
       this.otherPlayers,

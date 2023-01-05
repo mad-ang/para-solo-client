@@ -134,7 +134,7 @@ export default class MyPlayer extends Player {
           return;
         }
 
-        const speed = cursors.shift?.isDown ? 400 : 200;
+        const speed = cursors.shift?.isDown ? 240 : 120;
         let vx = 0;
         let vy = 0;
         if (cursors.left?.isDown || cursors.A?.isDown) vx -= speed;
