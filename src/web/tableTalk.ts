@@ -69,7 +69,6 @@ export default class TableTalkManager {
         const game = phaserGame.scene.keys.game as Game
         const tableItem = game.tableMap.get(store.getState().table.tableId!)
         if (tableItem) {
-          console.log("tableItem.currentUsers", tableItem.currentUsers)
           for (const userId of tableItem.currentUsers) {
             this.onUserJoined(userId)
           }

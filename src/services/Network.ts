@@ -198,7 +198,7 @@ export default class Network {
             const playerSize = this.room?.state.players.size;
             if (playerSize === undefined) return;
             let numPlayers: number = playerSize;
-            console.log("loook,", numPlayers);
+            // console.log("loook,", numPlayers);
             store.dispatch(setNumPlayer(numPlayers));
           });
     }
@@ -216,7 +216,6 @@ export default class Network {
         callback: (playerId: string, key: string, itemType: ItemType) => void,
         context?: any
     ) {
-        console.log("onItemUserAdded");
         phaserEvents.on(Event.ITEM_USER_ADDED, callback, context);
     }
 
