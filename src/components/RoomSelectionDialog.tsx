@@ -87,6 +87,30 @@ export default function RoomSelectionDialog() {
     }
   };
 
+  const signUpConnect = () => {
+    if (lobbyJoined) {
+      const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
+      bootstrap.network
+        .joinOrCreatePublic()
+        .then(() => bootstrap.launchGame())
+        .catch((error) => console.error(error));
+    } else {
+      setShowSnackbar(true);
+    }
+  };
+
+  const loginConnect = () => {
+    if (lobbyJoined) {
+      const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
+      bootstrap.network
+        .joinOrCreatePublic()
+        .then(() => bootstrap.launchGame())
+        .catch((error) => console.error(error));
+    } else {
+      setShowSnackbar(true);
+    }
+  };
+ 
   return (
     <>
       <Snackbar
@@ -128,6 +152,25 @@ export default function RoomSelectionDialog() {
                 >
                   Create/find custom rooms
                 </Button> */}
+                {(
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={signUpConnect}
+                >
+                  회원가입
+                </Button>
+                )}
+                 {(
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={loginConnect}
+                >
+                  로그인
+                </Button>
+                
+              )}
             </Content>
           </>
         </Wrapper>
