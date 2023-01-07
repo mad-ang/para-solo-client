@@ -10,7 +10,7 @@ export interface IPlayer extends Schema {
 }
 export interface IChair extends Schema {
   occupied: boolean
-  
+  clientId: string
 }
 export interface ITable extends Schema {
   connectedUser: SetSchema<string>

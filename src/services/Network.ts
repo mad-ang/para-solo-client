@@ -208,12 +208,13 @@ export default class Network {
             
             store.dispatch(setNumPlayer(numPlayers));
           });
-        this.chair?.onStateChange((state) => {
-            console.log("chair state changed", state);
-        });
-
     }
-
+    getChairState() {
+        return this.room?.state.chairs;
+    }
+    getPlayerIds(){
+        return this.room?.state.players;
+    }
     // method to register event listener and call back function when a item user added
     onChatMessageAdded(
         callback: (playerId: string, content: string) => void,

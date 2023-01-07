@@ -11,7 +11,9 @@ import { pushPlayerJoinedMessage } from "../stores/ChatStore";
 import { ItemType } from "../types/Items";
 import { ITownState } from "../types/ITownState";
 import { NavKeys } from "../types/KeyboardState";
+
 import Table from "../items/Table";
+import OtherPlayer from "./OtherPlayer";
 
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
@@ -84,15 +86,12 @@ export default class MyPlayer extends Player {
           item?.itemType === ItemType.TABLE
         ) {
           const tableItem = item as Table;
-          console.log("chairId", tableItem.chairId);
-          let tableId = tableItem.tableId
-          console.log("tableId", tableItem.tableId);
-          console.log("table is occupied", tableItem.occupied);
-          console.log("table chair Id ", this.room?.state.chairs.get(String(tableItem.chairId)));
-          
-          console.log("table is occupied", this.room?.state.chairs.get(String(tableItem.chairId))?.occupied);
-
-          if (this.room?.state.chairs.get(String(tableId))?.occupied) {
+          const chair = network.getChairState()?.get(String(tableItem.chairId));
+          console.log("chair?.client", chair?.clientId);
+          console.log("chair?.occupied", chair?.occupied);
+          console.log("playerIds", network.getPlayerIds());
+          console.log("client in chair", network.getPlayerIds()?.has(String(chair?.clientId)));
+          if (chair?.occupied && network.getPlayerIds()?.has(chair?.clientId)) {
             console.log("table is occupied", tableItem.occupied);
             break;
           }
@@ -227,9 +226,7 @@ export default class MyPlayer extends Player {
         }
         window.addEventListener("beforeunload", (event) => {
           network.updateChairStatus(
-            this.chairOnSit?.tableId,
-            this.chairOnSit?.chairId,
-            false
+            this.chairOnSit?.chairId
           );
           event.returnValue = "다음에 또 방문해주세요!";
         });
