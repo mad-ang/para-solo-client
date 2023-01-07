@@ -9,7 +9,6 @@ export default class Table extends Item {
   tableId?: string;
   currentUsers = new Set<string>();
   itemDirection?: string;
-  occupied?: boolean
 
   constructor(
     scene: Phaser.Scene,
@@ -21,7 +20,6 @@ export default class Table extends Item {
     super(scene, x, y, texture, frame);
 
     this.itemType = ItemType.TABLE;
-    this.occupied = false;
   }
 
   private updateStatus() {
@@ -68,14 +66,6 @@ export default class Table extends Item {
   openDialog(playerId: string, network: Network) {
     if (!this.tableId) return;
     store.dispatch(openTableDialog({ tableId: this.tableId, myUserId: playerId }));
-    console.log("opendialog", this.tableId);
     network.connectToTable(this.tableId);
-  }
-  updateChairStatus(chairId, status) {
-
-    const chair = game.tableMap.get(chairId)
-    if (chair) {
-      chair.occupied = status
-    }
   }
 }

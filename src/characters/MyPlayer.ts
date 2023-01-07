@@ -87,12 +87,9 @@ export default class MyPlayer extends Player {
         ) {
           const tableItem = item as Table;
           const chair = network.getChairState()?.get(String(tableItem.chairId));
-          console.log("chair?.client", chair?.clientId);
-          console.log("chair?.occupied", chair?.occupied);
-          console.log("playerIds", network.getPlayerIds());
-          console.log("client in chair", network.getPlayerIds()?.has(String(chair?.clientId)));
-          if (chair?.occupied && network.getPlayerIds()?.has(chair?.clientId)) {
-            console.log("table is occupied", tableItem.occupied);
+          const isExisted = network.getPlayersIds()?.has(String(chair?.clientId));
+          if (chair?.occupied && isExisted) {
+            console.log("chair occupied");
             break;
           }
 
@@ -137,12 +134,6 @@ export default class MyPlayer extends Player {
               }
               // send new location and anim to server
               network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
-              console.log(
-                "tableId",
-                tableItem.tableId,
-                "chairId",
-                tableItem.chairId
-              );
               network.updateChairStatus(
                 tableItem.tableId,
                 tableItem.chairId,
@@ -155,9 +146,7 @@ export default class MyPlayer extends Player {
           // chairItem.clearDialogBox();
           // chairItem.setDialogBox("Press E to leave");
           this.chairOnSit = tableItem;
-          console.log("chairOnsit" + tableItem);
           this.playerBehavior = PlayerBehavior.SITTING;
-          console.log(tableItem.occupied);
 
           return;
         }
@@ -224,12 +213,12 @@ export default class MyPlayer extends Player {
           );
           network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
         }
-        window.addEventListener("beforeunload", (event) => {
-          network.updateChairStatus(
-            this.chairOnSit?.chairId
-          );
-          event.returnValue = "다음에 또 방문해주세요!";
-        });
+        // window.addEventListener("beforeunload", (event) => {
+        //   network.updateChairStatus(
+        //     this.chairOnSit?.chairId
+        //   );
+        //   event.returnValue = "다음에 또 방문해주세요!";
+        // });
 
         break;
     }

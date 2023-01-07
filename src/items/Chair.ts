@@ -4,7 +4,6 @@ import Item from "./Item";
 export default class Chair extends Item {
   chairId?: string;
   itemDirection?: string;
-  occupied?: boolean;
 
   constructor(
     scene: Phaser.Scene,
@@ -14,7 +13,6 @@ export default class Chair extends Item {
     frame?: string | number
   ) {
     super(scene, x, y, texture, frame);
-    this.occupied = false;
     this.itemType = ItemType.CHAIR;
   }
 }

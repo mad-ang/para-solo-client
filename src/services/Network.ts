@@ -27,9 +27,6 @@ import {
     pushPlayerJoinedMessage,
     pushPlayerLeftMessage,
 } from "../stores/ChatStore";
-import { setChairId, setOccupied} from "../stores/ChairStore";
-import { Game } from "phaser";
-import { log } from "console";
 // import { setWhiteboardUrls } from "../stores/WhiteboardStore";
 
 export default class Network {
@@ -149,7 +146,6 @@ export default class Network {
         this.room.state.tables.onAdd = (table: ITable, key: string) => {
             // track changes on every child object's connectedUser
             table.connectedUser.onAdd = (item, index) => {
-                console.log("check phaserEvent emit");
                 phaserEvents.emit(
                     Event.ITEM_USER_ADDED,
                     item,
@@ -201,18 +197,13 @@ export default class Network {
             const playerSize = this.room?.state.players.size;
             if (playerSize === undefined) return;
             let numPlayers: number = playerSize;
-            const chair = this.room?.state.chairs;
-            chair?.forEach(chair => {
-                console.log("chair", chair)
-            })
-            
             store.dispatch(setNumPlayer(numPlayers));
           });
     }
     getChairState() {
         return this.room?.state.chairs;
     }
-    getPlayerIds(){
+    getPlayersIds(){
         return this.room?.state.players;
     }
     // method to register event listener and call back function when a item user added
