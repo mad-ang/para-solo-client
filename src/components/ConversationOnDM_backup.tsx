@@ -1,6 +1,7 @@
 import react from 'react';
 import React, { useState } from 'react';
 import styled, {keyframes} from "styled-components";
+
 import channelTalkPNG from '../../public/assets/directmessage/channeltalk.png';
 
 const Wrapper = styled.div`

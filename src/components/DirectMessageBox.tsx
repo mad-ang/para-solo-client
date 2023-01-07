@@ -2,6 +2,32 @@ import React, { useState } from 'react';
 import styled, {keyframes} from "styled-components";
 import DMboxSVG from '../../public/assets/directmessage/DM.svg';
 import channelTalkPNG from '../../public/assets/directmessage/channeltalk.png';
+import { useNavigate } from 'react-router-dom';
+import ConversationView from './ConversationOnDM';
+
+
+// function FriendList() {
+//   const navigate = useNavigate();
+
+//   function handleDirectMessage(friendId: string) {
+//     navigate(`/conversation/${friendId}`);
+//   }
+
+//   return (
+//     <ul>
+//       {friends.map(friend => (
+//         <li key={friend.id}>
+//           <button onClick={() => handleDirectMessage(friend.id)}>
+//             Direct Message
+//           </button>
+//           {friend.name}
+//         </li>
+//       ))}
+//     </ul>
+//   );
+// }
+
+
 
 const Wrapper = styled.div`
     position: fixed;
@@ -9,8 +35,6 @@ const Wrapper = styled.div`
     left: 95%;
     transform: translate(-50%, -50%);
 `
-
-
 const DMwrapper = styled.div`
     position: fixed;
     top: -400%;
@@ -22,19 +46,17 @@ const DMwrapper = styled.div`
     height: 1000px;
     width: 500px;   
   `
-    
 const DM = styled.div`
     padding: 15px 35px 15px 15px;
     font-size: 28px;
     font-weight: bold;
     `
-
 const DMtop = styled.div`
 background : #EFEFF0; 
 padding: 15px 35px 15px 15px;
 font-size: 28px;
-border-top-left-radius: 16px;
-border-top-right-radius: 16px;
+border-top-left-radius: 25px;
+border-top-right-radius: 25px;
 font-weight: bold;
 `
 const DMsearch = styled.div`
@@ -43,9 +65,6 @@ padding: 15px 35px 15px 15px;
 font-size: 28px;
 font-weight: bold;
 `
-
-
-    
 const DMFormWrapper = styled.div`
     background : #CFCFCF;
     width: "500px";
@@ -60,21 +79,21 @@ const DMFormWrapper = styled.div`
     justify-content: center;
     text-align: center;
 `
-
 const DMmessageList = styled.div`
     background : #FFFFFF;
-    height: 800px;
+    height: 750px;
     overflow: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
 `
 const DMmessage = styled.div`
     background : #FFFFFF;
     height: 100px;
     font-size: 28px;
 `
-
 const TopController = styled.div`
     background : #EFEFF0;
     display: flex;
@@ -82,20 +101,18 @@ const TopController = styled.div`
     alsign-items: center;
     justify-content: space-between
 `
-
 const UnorderedList = styled.ul` 
     list-style: none;
+    border-bottom: none;
     padding: 0;
     margin: 0;
 `
-
 const ListTag = styled.li`
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: none;
     cursor: pointer;
 `
 const IDwithLastmessage = styled.div`
@@ -104,10 +121,9 @@ const IDwithLastmessage = styled.div`
     align-items: flex-start;
     justify-content: space-between;
     padding: 10px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: none;
     cursor: pointer;
 `
-
 
 /* Conversation */
 interface Conversation {
@@ -122,16 +138,25 @@ interface Props {
 }
 
 const ConversationList: React.FC<Props> = ({ conversations }) => {
+  /* 서버 열리면 이 코드 사용*/
+  // const navigate = useNavigate();
+  // function handleDirectMessage(conversation: string) {
+  //   navigate(`/conversation/${conversation}`);
+  // }
+
   return (
     <UnorderedList>
       {conversations.map((conversation) => (
-        <ListTag key={conversation.id}>
+        <ListTag key={conversation.name} onClick= {()=>
+          { //handleDirectMessage(conversation.name) //서버 열리면 이코드 사용
+            <ConversationView/>
+            console.log(conversation.name)}
+        }>
           <img src={conversation.picture} alt={conversation.name} />
-            <IDwithLastmessage>
-              <h3>{conversation.name}</h3>
-              <p>{conversation.lastMessage}</p>
-            </IDwithLastmessage>
-
+          <IDwithLastmessage>
+            <h3>{conversation.name}</h3>
+            <p>{conversation.lastMessage}</p>
+          </IDwithLastmessage>
         </ListTag>
       ))}
     </UnorderedList>
@@ -141,10 +166,6 @@ const ConversationList: React.FC<Props> = ({ conversations }) => {
 
 /* DMbox */
 function DMbox(props) {
-    const sendDM = (recipient, message) => {
-      sendDM(recipient, message);
-    }
-
     const conversations = [
       {
         id: "1",
@@ -201,7 +222,6 @@ function DMbox(props) {
         lastMessage: "I'm good, how about you?",
       },
     ];
-    
 
     function handleClick() {
       props.setShowMessage(false);
@@ -218,21 +238,21 @@ function DMbox(props) {
                     <div>
                       <button onClick={handleClick}> X </button>
                     </div>
-
                   </TopController>
                 </DMtop>
                 <DMsearch>
                   <p>여기는 검색하는 곳!</p>
                 </DMsearch>
                 <DMmessageList>
-                  <ConversationList conversations= {conversations} />
+                  <ConversationList conversations= {conversations}/>
                 </DMmessageList>
         </DMwrapper>
     );
   }
   
-export default function DMboxButton() {
 
+/* DMboxButton, something pop-up when clicks it */
+export default function DMboxButton() {
   const [showMessage, setShowMessage] = useState(false);
 
   function handleClick() {
