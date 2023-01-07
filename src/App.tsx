@@ -10,7 +10,7 @@ import TableDialog from "./components/TableDialog";
 import Chat from "./components/Chat";
 import HelperButtonGroup from "./components/HelperButtonGroup";
 import WelcomeToast from "./components/ToastNotification";
-import DMbutton from "./components/DirectMessage";
+import DMbutton from "./components/DirectMessageBox";
 
 const Backdrop = styled.div`
   position: absolute;
