@@ -3,6 +3,7 @@ import {
     ITable,
     ITownState,
     IPlayer,
+    IChair,
     // IWhiteboard,
 } from "../types/ITownState";
 import { Message } from "../types/Messages";
@@ -26,11 +27,15 @@ import {
     pushPlayerJoinedMessage,
     pushPlayerLeftMessage,
 } from "../stores/ChatStore";
+import { setChairId, setOccupied} from "../stores/ChairStore";
+import { Game } from "phaser";
+import { log } from "console";
 // import { setWhiteboardUrls } from "../stores/WhiteboardStore";
 
 export default class Network {
     private client: Client;
     private room?: Room<ITownState>;
+    private chair?: Room<IChair>
     private lobby!: Room;
     webRTC?: WebRTC;
 
@@ -38,14 +43,14 @@ export default class Network {
 
     constructor() {
         /*로컬 서버 접속*/
-        // const protocol = window.location.protocol.replace("http", "ws");
-        // const endpoint =
-        //     process.env.NODE_ENV === "production"
-        //         ? import.meta.env.VITE_SERVER_URL
-        //         : `${protocol}//${window.location.hostname}:2567`;
+        const protocol = window.location.protocol.replace("http", "ws");
+        const endpoint =
+            process.env.NODE_ENV === "production"
+                ? import.meta.env.VITE_SERVER_URL
+                : `${protocol}//${window.location.hostname}:2567`;
 
         /*배포 서버 접속*/
-        const endpoint = "wss://momstown.herokuapp.com/";
+        // const endpoint = "wss://momstown.herokuapp.com/";
 
         this.client = new Client(endpoint);
         this.joinLobbyRoom().then(() => {
@@ -188,19 +193,25 @@ export default class Network {
         this.room.onMessage(Message.DISCONNECT_STREAM, (clientId: string) => {
             this.webRTC?.deleteOnCalledVideoStream(clientId);
         });
-
         this.room.onMessage(Message.STOP_TABLE_TALK, (clientId: string) => {
             const tableState = store.getState().table;
             tableState.tableTalkManager?.onUserLeft(clientId);
         });
-
         this.room.onStateChange((state) => {
             const playerSize = this.room?.state.players.size;
             if (playerSize === undefined) return;
             let numPlayers: number = playerSize;
-            // console.log("loook,", numPlayers);
+            const chair = this.room?.state.chairs;
+            chair?.forEach(chair => {
+                console.log("chair", chair)
+            })
+            
             store.dispatch(setNumPlayer(numPlayers));
           });
+        this.chair?.onStateChange((state) => {
+            console.log("chair state changed", state);
+        });
+
     }
 
     // method to register event listener and call back function when a item user added
@@ -267,30 +278,40 @@ export default class Network {
         });
     }
 
+    
     // method to send player name to Colyseus server
     updatePlayerName(currentName: string) {
         this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName });
     }
-
+    
     // method to send ready-to-connect signal to Colyseus server
     readyToConnect() {
         this.room?.send(Message.READY_TO_CONNECT);
         phaserEvents.emit(Event.MY_PLAYER_READY);
     }
-
+    
     // method to send ready-to-connect signal to Colyseus server
     videoConnected() {
         this.room?.send(Message.VIDEO_CONNECTED);
         phaserEvents.emit(Event.MY_PLAYER_VIDEO_CONNECTED);
     }
-
+    
     // method to send stream-disconnection signal to Colyseus server
     playerStreamDisconnect(id: string) {
         this.room?.send(Message.DISCONNECT_STREAM, { clientId: id });
         this.webRTC?.deleteVideoStream(id);
     }
+
     connectToTable(id: string) {
         this.room?.send(Message.CONNECT_TO_TABLE, { tableId: id });
+    }
+    
+    updateChairStatus(tableId?: string, chairId?: string , status?: boolean) {
+        this.room?.send(Message.UPDATE_CHAIR_STATUS, {
+            tableId: tableId,
+            chairId: chairId,
+            status: status,
+        });
     }
 
     disconnectFromTable(id: string) {
@@ -299,7 +320,7 @@ export default class Network {
     onStopTableTalk(id: string) {
         this.room?.send(Message.STOP_TABLE_TALK, { tableId: id });
     }
-
+    
     addChatMessage(content: string) {
         this.room?.send(Message.ADD_CHAT_MESSAGE, { content: content });
     }

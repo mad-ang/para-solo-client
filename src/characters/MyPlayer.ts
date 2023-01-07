@@ -1,21 +1,22 @@
 import Phaser from "phaser";
+import { Room } from "colyseus.js";
 import PlayerSelector from "./PlayerSelector";
 import { PlayerBehavior } from "../types/PlayerBehavior";
 import { sittingShiftData } from "./Player";
 import Player from "./Player";
 import Network from "../services/Network";
-import Chair from "../items/Chair";
-
 import { phaserEvents, Event } from "../events/EventCenter";
 import store from "../stores";
 import { pushPlayerJoinedMessage } from "../stores/ChatStore";
 import { ItemType } from "../types/Items";
+import { ITownState } from "../types/ITownState";
 import { NavKeys } from "../types/KeyboardState";
 import Table from "../items/Table";
 
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
-  private chairOnSit?: Chair;
+  private chairOnSit?: Table;
+  private room?: Room<ITownState>
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -58,79 +59,107 @@ export default class MyPlayer extends Player {
 
     const item = playerSelector.selectedItem;
     //  쓰일수 있어서 주석처리.
-    if (Phaser.Input.Keyboard.JustDown(keyR)) {
-      switch (item?.itemType) {
-        case ItemType.TABLE:
-          const table = item as Table;
-          table.openDialog(this.playerId, network);
-          break;
-        // case ItemType.WHITEBOARD:
-        //   const whiteboard = item as Whiteboard;
-        //   whiteboard.openDialog(network);
-        //   break;
-        // case ItemType.VENDINGMACHINE:
-        //   // hacky and hard-coded, but leaving it as is for now
-        //   window.open("https://www.buymeacoffee.com/skyoffice", "_blank");
-        //   break;
-      }
-    }
+    // if (Phaser.Input.Keyboard.JustDown(keyE)) {
+    //   switch (item?.itemType) {
+    //     case ItemType.TABLE:
+    //       const table = item as Table;
+
+    // break;
+    // case ItemType.WHITEBOARD:
+    //   const whiteboard = item as Whiteboard;
+    //   whiteboard.openDialog(network);
+    //   break;
+    // case ItemType.VENDINGMACHINE:
+    //   // hacky and hard-coded, but leaving it as is for now
+    //   window.open("https://www.buymeacoffee.com/skyoffice", "_blank");
+    //   break;
+    // }
+    // }
 
     switch (this.playerBehavior) {
       case PlayerBehavior.IDLE:
         // if press E in front of selected chair
         if (
           Phaser.Input.Keyboard.JustDown(keyE) &&
-          item?.itemType === ItemType.CHAIR
+          item?.itemType === ItemType.TABLE
         ) {
-          const chairItem = item as Chair;
+          const tableItem = item as Table;
+          console.log("chairId", tableItem.chairId);
+          let tableId = tableItem.tableId
+          console.log("tableId", tableItem.tableId);
+          console.log("table is occupied", tableItem.occupied);
+          console.log("table chair Id ", this.room?.state.chairs.get(String(tableItem.chairId)));
+          
+          console.log("table is occupied", this.room?.state.chairs.get(String(tableItem.chairId))?.occupied);
+
+          if (this.room?.state.chairs.get(String(tableId))?.occupied) {
+            console.log("table is occupied", tableItem.occupied);
+            break;
+          }
+
           /**
            * move player to the chair and play sit animation
            * a delay is called to wait for player movement (from previous velocity) to end
            * as the player tends to move one more frame before sitting down causing player
            * not sitting at the center of the chair
            */
+          tableItem.openDialog(this.playerId, network);
           this.scene.time.addEvent({
             delay: 10,
             callback: () => {
               // update character velocity and position
               this.setVelocity(0, 0);
-              if (chairItem.itemDirection) {
+              if (tableItem.itemDirection) {
                 this.setPosition(
-                  chairItem.x + sittingShiftData[chairItem.itemDirection][0],
-                  chairItem.y + sittingShiftData[chairItem.itemDirection][1]
+                  tableItem.x + sittingShiftData[tableItem.itemDirection][0],
+                  tableItem.y + sittingShiftData[tableItem.itemDirection][1]
                 ).setDepth(
-                  chairItem.depth + sittingShiftData[chairItem.itemDirection][2]
+                  tableItem.depth + sittingShiftData[tableItem.itemDirection][2]
                 );
                 // also update playerNameContainer velocity and position
                 this.playContainerBody.setVelocity(0, 0);
                 this.playerContainer.setPosition(
-                  chairItem.x + sittingShiftData[chairItem.itemDirection][0],
-                  chairItem.y +
-                    sittingShiftData[chairItem.itemDirection][1] -
+                  tableItem.x + sittingShiftData[tableItem.itemDirection][0],
+                  tableItem.y +
+                    sittingShiftData[tableItem.itemDirection][1] -
                     30
                 );
               }
 
               this.play(
-                `${this.playerTexture}_sit_${chairItem.itemDirection}`,
+                `${this.playerTexture}_sit_${tableItem.itemDirection}`,
                 true
               );
               playerSelector.selectedItem = undefined;
-              if (chairItem.itemDirection === "up") {
+              if (tableItem.itemDirection === "up") {
                 playerSelector.setPosition(this.x, this.y - this.height);
               } else {
                 playerSelector.setPosition(0, 0);
               }
               // send new location and anim to server
               network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
+              console.log(
+                "tableId",
+                tableItem.tableId,
+                "chairId",
+                tableItem.chairId
+              );
+              network.updateChairStatus(
+                tableItem.tableId,
+                tableItem.chairId,
+                true
+              );
             },
             loop: false,
           });
           // set up new dialog as player sits down
-          chairItem.clearDialogBox();
-          chairItem.setDialogBox("Press E to leave");
-          this.chairOnSit = chairItem;
+          // chairItem.clearDialogBox();
+          // chairItem.setDialogBox("Press E to leave");
+          this.chairOnSit = tableItem;
+          console.log("chairOnsit" + tableItem);
           this.playerBehavior = PlayerBehavior.SITTING;
+          console.log(tableItem.occupied);
+
           return;
         }
 
@@ -189,8 +218,22 @@ export default class MyPlayer extends Player {
           this.chairOnSit?.clearDialogBox();
           playerSelector.setPosition(this.x, this.y);
           playerSelector.update(this, cursors);
+          network.updateChairStatus(
+            this.chairOnSit?.tableId,
+            this.chairOnSit?.chairId,
+            false
+          );
           network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
         }
+        window.addEventListener("beforeunload", (event) => {
+          network.updateChairStatus(
+            this.chairOnSit?.tableId,
+            this.chairOnSit?.chairId,
+            false
+          );
+          event.returnValue = "다음에 또 방문해주세요!";
+        });
+
         break;
     }
   }
