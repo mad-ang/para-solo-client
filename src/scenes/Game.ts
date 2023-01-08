@@ -5,7 +5,6 @@ import { createCharacterAnims } from "../anims/CharacterAnims";
 
 import Item from "../items/Item";
 import Chair from "../items/Chair";
-import Table from "../items/Table";
 import "../characters/MyPlayer";
 import "../characters/OtherPlayer";
 import MyPlayer from "../characters/MyPlayer";
@@ -19,7 +18,6 @@ import { ItemType } from "../types/Items";
 import store from "../stores";
 import { setFocused, setShowChat } from "../stores/ChatStore";
 import { NavKeys, Keyboard } from "../types/KeyboardState";
-import { log } from "console";
 
 export default class Game extends Phaser.Scene {
   network!: Network;
@@ -32,8 +30,8 @@ export default class Game extends Phaser.Scene {
   private playerSelector!: Phaser.GameObjects.Zone;
   private otherPlayers!: Phaser.Physics.Arcade.Group;
   private otherPlayerMap = new Map<string, OtherPlayer>();
-  tableMap = new Map<string, Table>();
-  chairMap = new Map<string, Table>();
+  tableMap = new Map<string, Chair>();
+  chairMap = new Map<string, Chair>();
 
   constructor() {
     super("game");
@@ -105,7 +103,7 @@ export default class Game extends Phaser.Scene {
       TileImage,
       InteriorImage,
     ]);
-    const tables = this.physics.add.staticGroup({ classType: Table });
+    const tables = this.physics.add.staticGroup({ classType: Chair });
     const tableLayer = this.map.getObjectLayer("Objects");
     tableLayer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(
@@ -113,11 +111,13 @@ export default class Game extends Phaser.Scene {
         obj,
         "interior",
         "interior"
-      ) as Table;
+      ) as Chair;
     //   item.setDepth(item.y + item.height * 0.27);
       const tableId = `${Math.floor(i / 4)}`;
       const chairId = `${i}`;
-      item.itemDirection = "down";
+      // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
+      //   item.itemDirection = chairObj.properties[0].value
+      item.itemDirection = "down"; 
       item.tableId = tableId;
       item.chairId = chairId;
       this.tableMap.set(tableId, item);
@@ -329,7 +329,7 @@ export default class Game extends Phaser.Scene {
   ) {
     console.log("handleItemUserAdded");
 
-    if (itemType === ItemType.TABLE) {
+    if (itemType === ItemType.CHAIR) {
       const table = this.tableMap.get(itemId);
       table?.addCurrentUser(playerId);
     }
@@ -339,7 +339,7 @@ export default class Game extends Phaser.Scene {
     itemId: string,
     itemType: ItemType
   ) {
-    if (itemType === ItemType.TABLE) {
+    if (itemType === ItemType.CHAIR) {
       const table = this.tableMap.get(itemId);
       table?.removeCurrentUser(playerId);
     }

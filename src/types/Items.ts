@@ -1,4 +1,3 @@
 export enum ItemType {
-  CHAIR,
-  TABLE
+  CHAIR
 }

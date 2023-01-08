@@ -3,7 +3,6 @@ import {
     ITable,
     ITownState,
     IPlayer,
-    IChair,
     // IWhiteboard,
 } from "../types/ITownState";
 import { Message } from "../types/Messages";
@@ -32,7 +31,6 @@ import {
 export default class Network {
     private client: Client;
     private room?: Room<ITownState>;
-    private chair?: Room<IChair>
     private lobby!: Room;
     webRTC?: WebRTC;
 
@@ -150,7 +148,7 @@ export default class Network {
                     Event.ITEM_USER_ADDED,
                     item,
                     key,
-                    ItemType.TABLE
+                    ItemType.CHAIR
                 );
             };
             table.connectedUser.onRemove = (item, index) => {
@@ -158,7 +156,7 @@ export default class Network {
                     Event.ITEM_USER_REMOVED,
                     item,
                     key,
-                    ItemType.TABLE
+                    ItemType.CHAIR
                 );
             };
         };
