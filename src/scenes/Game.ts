@@ -5,7 +5,6 @@ import { createCharacterAnims } from "../anims/CharacterAnims";
 
 import Item from "../items/Item";
 import Chair from "../items/Chair";
-import Table from "../items/Table";
 import "../characters/MyPlayer";
 import "../characters/OtherPlayer";
 import MyPlayer from "../characters/MyPlayer";
@@ -20,7 +19,6 @@ import store from "../stores";
 import { setFocused, setShowChat } from "../stores/ChatStore";
 import { NavKeys, Keyboard } from "../types/KeyboardState";
 
-
 export default class Game extends Phaser.Scene {
   network!: Network;
   private cursors!: NavKeys;
@@ -32,7 +30,8 @@ export default class Game extends Phaser.Scene {
   private playerSelector!: Phaser.GameObjects.Zone;
   private otherPlayers!: Phaser.Physics.Arcade.Group;
   private otherPlayerMap = new Map<string, OtherPlayer>();
-  tableMap = new Map<string, Table>();
+  tableMap = new Map<string, Chair>();
+  chairMap = new Map<string, Chair>();
 
   constructor() {
     super("game");
@@ -65,7 +64,9 @@ export default class Game extends Phaser.Scene {
   enableKeys() {
     this.input.keyboard.enabled = true;
   }
-
+  allOtherPlayers() {
+    return this.otherPlayerMap;
+  }
   create(data: { network: Network }) {
     if (!data.network) {
       throw new Error("server instance missing");
@@ -91,8 +92,6 @@ export default class Game extends Phaser.Scene {
 
     const BuildingLayer = this.map.createLayer("buildings", BuildingImage);
 
-    // const BenchLayer = this.map.createLayer("bench", InteriorImage);
-
     const SwingLayer = this.map.createLayer("swing", TileImage);
 
     const ForeGround = this.map.createLayer("foreground", [
@@ -106,33 +105,42 @@ export default class Game extends Phaser.Scene {
       TileImage,
       InteriorImage,
     ]);
-    const tables = this.physics.add.staticGroup({ classType: Table });
-    const tableLayer = this.map.getObjectLayer("Table");
-    tableLayer.objects.forEach((obj, i) => {
+    const chairs = this.physics.add.staticGroup({ classType: Chair });
+    const chairLayer = this.map.getObjectLayer("Objects");
+    chairLayer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(
-        tables,
+        chairs,
         obj,
         "interior",
         "interior"
-      ) as Table;
-      item.setDepth(item.y + item.height * 0.27);
-      const id = `${i}`;
-      item.id = id;
-      this.tableMap.set(id, item);
-    });
-    const chairs = this.physics.add.staticGroup({ classType: Chair });
-    const chairLayer = this.map.getObjectLayer("Objects");
-    chairLayer.objects.forEach((chairObj) => {
-      const item = this.addObjectFromTiled(
-        chairs,
-        chairObj,
-        "interior",
-        "interior"
       ) as Chair;
-      // custom properties[0] is the object direction specified in Tiled
-      item.itemDirection = "down";
-      // item.itemDirection = chairObj.properties[0].value
+    //   item.setDepth(item.y + item.height * 0.27);
+      const tableId = `${Math.floor(i / 4)}`;
+      const chairId = `${i}`;
+      // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
+      //   item.itemDirection = chairObj.properties[0].value
+      item.itemDirection = "down"; 
+      item.tableId = tableId;
+      item.chairId = chairId;
+      this.tableMap.set(tableId, item);
+      this.chairMap.set(chairId, item);
     });
+
+    // const chairs = this.physics.add.staticGroup({ classType: Chair });
+    // const chairLayer = this.map.getObjectLayer("Objects");
+    // chairLayer.objects.forEach((chairObj, i) => {
+    //   const item = this.addObjectFromTiled(
+    //     chairs,
+    //     chairObj,
+    //     "interior",
+    //     "interior"
+    //   ) as Chair;
+    //   const chairId = `${i}`;
+    //   item.chairId = chairId;
+    //   this.chairMap.set(chairId, item);
+    //   //   item.itemDirection = "down";
+    //   //   item.itemDirection = chairObj.properties[0].value
+    // });
 
     ForeGround.setDepth(6000);
 
@@ -179,12 +187,12 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.overlap(
       this.playerSelector,
-      [chairs, tables],
+      [chairs],
       this.handleItemSelectorOverlap,
       undefined,
       this
     );
-    
+
     this.physics.add.overlap(
       this.myPlayer,
       this.otherPlayers,
@@ -222,7 +230,8 @@ export default class Game extends Phaser.Scene {
 
     // set selected item and set up new dialog
     playerSelector.selectedItem = selectionItem;
-    selectionItem.onOverlapDialog();
+    selectionItem.onOverlapDialog()
+        
   }
 
   private addObjectFromTiled(
@@ -313,8 +322,12 @@ export default class Game extends Phaser.Scene {
   }
 
   private handlePlayersOverlap(myPlayer, otherPlayer) {
+    if (myPlayer.playerBehavior === PlayerBehavior.SITTING) {
+        return;
+    }
     otherPlayer.makeCall(myPlayer, this.network?.webRTC);
   }
+
   private handleItemUserAdded(
     playerId: string,
     itemId: string,
@@ -322,17 +335,18 @@ export default class Game extends Phaser.Scene {
   ) {
     console.log("handleItemUserAdded");
 
-    if (itemType === ItemType.TABLE) {
+    if (itemType === ItemType.CHAIR) {
       const table = this.tableMap.get(itemId);
       table?.addCurrentUser(playerId);
     }
   }
+
   private handleItemUserRemoved(
     playerId: string,
     itemId: string,
     itemType: ItemType
   ) {
-    if (itemType === ItemType.TABLE) {
+    if (itemType === ItemType.CHAIR) {
       const table = this.tableMap.get(itemId);
       table?.removeCurrentUser(playerId);
     }

@@ -8,6 +8,8 @@ import { sanitizeId } from '../util'
 interface tableState {
   tableDialogOpen: boolean
   tableId: null | string
+  chairId: null | string
+  occupied: boolean
   myStream: null | MediaStream
   peerStreams: Map<
     string,
@@ -22,6 +24,8 @@ interface tableState {
 const initialState: tableState = {
   tableDialogOpen: false,
   tableId: null,
+  chairId: null,
+  occupied: false,
   myStream: null,
   peerStreams: new Map(),
   tableTalkManager: null,
@@ -74,6 +78,9 @@ export const tableSlice = createSlice({
     removeVideoStream: (state, action: PayloadAction<string>) => {
       state.peerStreams.delete(sanitizeId(action.payload))
     },
+    setOccupied: (state, action: PayloadAction<boolean>) => {
+      state.occupied = action.payload
+    }
   },
 })
 
@@ -83,6 +90,7 @@ export const {
   setMyStream,
   addVideoStream,
   removeVideoStream,
+  setOccupied,
 } = tableSlice.actions
 
 export default tableSlice.reducer
