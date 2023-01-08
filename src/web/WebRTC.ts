@@ -104,15 +104,7 @@ export default class WebRTC {
     })
     if (this.videoGrid) this.videoGrid.append(video)
   }
-
-  connectedPeer() {
-    return this.peers
-  }
   
-  connectedOnCalledPeer() {
-    return this.onCalledPeers
-  }
-
   // method to remove video stream (when we are the host of the call)
   deleteVideoStream(userId: string) {
     const sanitizedId = this.replaceInvalidId(userId)
