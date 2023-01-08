@@ -61,8 +61,8 @@ export default function SignUpDialog() {
   console.log({userId})
   console.log({password})
 
-  axios.post("/auth/login", body)
-  .then((response) => response.data);
+  axios.post("http://localhost:2567/auth/signup", body)
+  .then((response) => {response.data;});
   // dispatch(registerUser(body))
   //       .then(response => {
   //           if(response.payload.success){
