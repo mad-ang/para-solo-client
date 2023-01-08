@@ -12,6 +12,9 @@ import HelperButtonGroup from "./components/HelperButtonGroup";
 import WelcomeToast from "./components/ToastNotification";
 import SignUpDialog from "./components/SignUpDialog";
 import SignInDialog from "./components/SignInDialog";
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://localhost:2567';
 
 const Backdrop = styled.div`
   position: absolute;

@@ -3,7 +3,12 @@ import styled from 'styled-components'
 import TextField from '@mui/material/TextField'
 import Button from "@mui/material/Button";
 import axios from 'axios'
-import { useAppDispatch } from '../hooks'; 
+import { useAppSelector, useAppDispatch } from '../hooks'; 
+import { setSignUp, setSignIn } from '../stores/UserStore'
+import { Alert, AlertTitle } from '@mui/material';
+import { Warning } from '@mui/icons-material';
+import { css, keyframes } from 'styled-components';
+
 
 const Wrapper = styled.form`
   position: fixed;
@@ -22,16 +27,6 @@ const Title = styled.h3`
   font-size: 24px;
   color: #eee;
 `
-// interface User {
-//   id: string;
-//   password: string;
-// }
-
-// const [user, setUser] = useState<User>({ id: "", password: ""});
-// const handleChangeUser = (e:React.ChangeEvent<HTMLInputElement) => {
-//   const {name, value} = e.target;
-//   setUser({...user, [name]: value});
-// }
 
 
 export default function SignUpDialog() {
@@ -41,7 +36,10 @@ export default function SignUpDialog() {
 
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  
+  const [userIdFieldEmpty, setUserIdFieldEmpty] = useState<boolean>(false)
+  const [userIdFieldWrong, setUserIdFieldWrong] = useState<boolean>(false)
+  const [pwFieldEmpty, setPwFieldEmpty] = useState<boolean>(false)
+
   const onUserIdHandler = (event) => {
         setUserId(event.currentTarget.value);
   }
@@ -53,6 +51,19 @@ export default function SignUpDialog() {
   const onSubmitHandler = (event) => {
       event.preventDefault();
 
+    console.log(userId);
+    console.log(userIdFieldEmpty);
+      if (userId === '') {
+        setUserIdFieldEmpty(true)
+      } 
+      if (password === '') {
+        setPwFieldEmpty(true)
+      }
+      else  {
+        
+
+
+
   let body = {
           userId: userId,
           password: password,
@@ -61,20 +72,45 @@ export default function SignUpDialog() {
   console.log({userId})
   console.log({password})
 
-  axios.post("http://localhost:2567/auth/signup", body)
-  .then((response) => {response.data;});
-  // dispatch(registerUser(body))
-  //       .then(response => {
-  //           if(response.payload.success){
-  //               props.history.push('/loginPage')
-  //           } else {
-  //               alert('Error')
-  //           }
-  //       })
-  //   }
+
+    axios.post("/auth/signup", body)
+
+  .then(function (response) {
+       // response  
+       response.data;
+       console.log("hellow", response);
+       if(response.data.status == 200){
+         
+        dispatch(setSignUp(false));
+            dispatch(setSignIn(true));
+                    
+                } else {
+                    console.log('11111');
+            
+      }
+
+  }).catch(function (error) {
+      // 오류발생시 실행
+      setUserIdFieldWrong(true);
+      console.log("hi",error.message);
+      if(error.message == "Request failed with status code 409"){
+      console.log('22222');
+     }
+      else {
+        console.log('444444');
+      }
+  }).then(function() {
+      // 항상 실행
+      console.log('333333');
+  });
+
+      }
+
+
   };
 
     return (
+      <>
         <Wrapper>
             <Title>회원가입</Title>
             <TextField
@@ -84,8 +120,8 @@ export default function SignUpDialog() {
             variant="outlined"
             color="secondary"
             margin = "normal"
-            // error={nameFieldEmpty}
-            // helperText={nameFieldEmpty && '이름이 필요해요'}
+            error={userIdFieldEmpty || userIdFieldWrong}
+            helperText={(userIdFieldEmpty && '이름이 필요해요') || (userIdFieldWrong && '이미 존재하는 아이디입니다.')}
             onInput={(e) => {
               setUserId((e.target as HTMLInputElement).value)
              }}
@@ -97,8 +133,8 @@ export default function SignUpDialog() {
             variant="outlined"
             color="secondary"
             margin = "normal"
-            // error={nameFieldEmpty}
-            // helperText={nameFieldEmpty && '이름이 필요해요'}
+            error={pwFieldEmpty}
+            helperText={pwFieldEmpty && '비밀번호가 필요해요'}
             onInput={(e) => {
               setPassword((e.target as HTMLInputElement).value)
             }}
@@ -110,7 +146,9 @@ export default function SignUpDialog() {
                 >
                   회원가입 완료
                 </Button>
+        
         </Wrapper>
+        </>
         
     )
 }
