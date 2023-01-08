@@ -3,7 +3,7 @@ import styled, {keyframes} from "styled-components";
 import DMboxSVG from '../../../public/assets/directmessage/DM.svg';
 import channelTalkPNG from '../../../public/assets/directmessage/channeltalk.png';
 import { useNavigate } from 'react-router-dom';
-import ConversationView from './ConversationOnDM';
+// import ConversationView from './ConversationOnDM_backup2';
 import { blue } from '@mui/material/colors';
 
 
@@ -186,7 +186,7 @@ const ConversationList: React.FC<Props> = ({ conversations }) => {
       {conversations.map((conversation) => (
         <ListTag key={conversation.name} onClick= {()=>
           { //handleDirectMessage(conversation.name) //서버 열리면 이코드 사용
-            <ConversationView/>
+            // <ConversationView/>
             console.log(conversation.name)}
         }>
           <img src={conversation.picture} alt={conversation.name} width= "60"/>
