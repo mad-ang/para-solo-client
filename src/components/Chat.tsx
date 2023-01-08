@@ -23,8 +23,8 @@ const Backdrop = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
-  height: 400px;
-  width: 500px;
+  height: 30vh;
+  width: 30vw;
   max-height: 50%;
   max-width: 50%;
 `
@@ -129,10 +129,13 @@ function Showusercnt(){
   const userCnt_fromserver = useAppSelector((state) => state.room.userCnt)
 
   return (
+    <div>
     <h3>
       대화창 (현재 마을에 {userCnt_fromserver} 명이 있어요)
-      <button onClick={() => console.log(userCnt_fromserver)}>uscnt디버깅</button> 
     </h3>
+
+    </div>
+
   )
 }
 

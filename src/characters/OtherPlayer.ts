@@ -4,7 +4,10 @@ import MyPlayer from "./MyPlayer";
 import { sittingShiftData } from "./Player";
 import WebRTC from "../web/WebRTC";
 import { Event, phaserEvents } from "../events/EventCenter";
+import { PlayerBehavior } from "../types/PlayerBehavior";
+import PlayerSelector from "./PlayerSelector";
 import store from "../stores";
+import Item from "../items/Item";
 
 export default class OtherPlayer extends Player {
   private targetPosition: [number, number];
@@ -94,6 +97,12 @@ export default class OtherPlayer extends Player {
     super.destroy(fromScene);
   }
 
+  pauseConnect() {
+    phaserEvents.emit(Event.PLAYER_DISCONNECTED, this.playerId);
+    this.connectionBufferTime = 0;
+    this.connected = false;
+  }
+
   /** preUpdate is called every frame for every game object. */
   preUpdate(t: number, dt: number) {
     super.preUpdate(t, dt);
@@ -170,6 +179,8 @@ export default class OtherPlayer extends Player {
         this.myPlayer!.y > 515
       )
         return;
+      console.log("disconnecting from", this.playerId);
+      
       phaserEvents.emit(Event.PLAYER_DISCONNECTED, this.playerId);
       this.connectionBufferTime = 0;
       this.connected = false;
