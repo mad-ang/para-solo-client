@@ -85,6 +85,8 @@ export default class MyPlayer extends Player {
           Phaser.Input.Keyboard.JustDown(keyE) &&
           item?.itemType === ItemType.TABLE
         ) {
+          console.log("press E in Idle");
+          
           const tableItem = item as Table;
           const chair = network.getChairState()?.get(String(tableItem.chairId));
           const isExisted = network.getPlayersIds()?.has(String(chair?.clientId));
@@ -143,13 +145,13 @@ export default class MyPlayer extends Player {
             loop: false,
           });
           // set up new dialog as player sits down
-          // chairItem.clearDialogBox();
-          // chairItem.setDialogBox("Press E to leave");
+          tableItem.clearDialogBox();
+          tableItem.setDialogBox("E키를 눌러 일어나기");
           this.chairOnSit = tableItem;
           this.playerBehavior = PlayerBehavior.SITTING;
 
           return;
-        }
+        } else {
 
         const speed = cursors.shift?.isDown ? 240 : 120;
         let vx = 0;
@@ -195,15 +197,16 @@ export default class MyPlayer extends Player {
           }
         }
         break;
-
+      }
       case PlayerBehavior.SITTING:
         // back to idle if player press E while sitting
         if (Phaser.Input.Keyboard.JustDown(keyE)) {
+          console.log("E pressed");
+          
           const parts = this.anims.currentAnim.key.split("_");
           parts[1] = "idle";
           this.play(parts.join("_"), true);
           this.playerBehavior = PlayerBehavior.IDLE;
-          this.chairOnSit?.clearDialogBox();
           playerSelector.setPosition(this.x, this.y);
           playerSelector.update(this, cursors);
           network.updateChairStatus(
@@ -213,6 +216,8 @@ export default class MyPlayer extends Player {
           );
           network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
         }
+        // this.chairOnSit?.clearDialogBox();
+        // this.chairOnSit?.setDialogBox("E키를 눌러서 일어나기");
         // window.addEventListener("beforeunload", (event) => {
         //   network.updateChairStatus(
         //     this.chairOnSit?.chairId

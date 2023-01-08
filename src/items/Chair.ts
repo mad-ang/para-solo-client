@@ -3,6 +3,7 @@ import Item from "./Item";
 
 export default class Chair extends Item {
   chairId?: string;
+  tableId?: string;
   itemDirection?: string;
 
   constructor(

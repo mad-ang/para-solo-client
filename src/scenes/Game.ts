@@ -19,6 +19,7 @@ import { ItemType } from "../types/Items";
 import store from "../stores";
 import { setFocused, setShowChat } from "../stores/ChatStore";
 import { NavKeys, Keyboard } from "../types/KeyboardState";
+import { log } from "console";
 
 export default class Game extends Phaser.Scene {
   network!: Network;
@@ -113,7 +114,7 @@ export default class Game extends Phaser.Scene {
         "interior",
         "interior"
       ) as Table;
-      item.setDepth(item.y + item.height * 0.27);
+    //   item.setDepth(item.y + item.height * 0.27);
       const tableId = `${Math.floor(i / 4)}`;
       const chairId = `${i}`;
       item.itemDirection = "down";
@@ -227,7 +228,8 @@ export default class Game extends Phaser.Scene {
 
     // set selected item and set up new dialog
     playerSelector.selectedItem = selectionItem;
-    selectionItem.onOverlapDialog();
+    selectionItem.onOverlapDialog()
+        
   }
 
   private addObjectFromTiled(

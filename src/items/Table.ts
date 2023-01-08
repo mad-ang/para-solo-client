@@ -34,11 +34,7 @@ export default class Table extends Item {
   }
 
   onOverlapDialog() {
-    if (this.currentUsers.size === 0) {
-      this.setDialogBox("E 키를 눌러 대화를 시작하세요!");
-    } else {
-      this.setDialogBox("E 키를 눌러 대화에 참여하세요!");
-    }
+      this.setDialogBox("E 키를 눌러 대화를 시작하세요!")
   }
 
   addCurrentUser(userId: string) {
