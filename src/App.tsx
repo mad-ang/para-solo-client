@@ -10,6 +10,7 @@ import TableDialog from "./components/TableDialog";
 import Chat from "./components/Chat";
 import HelperButtonGroup from "./components/HelperButtonGroup";
 import WelcomeToast from "./components/ToastNotification";
+import DMbutton from "./components/DirectMessageBox";
 
 const Backdrop = styled.div`
   position: absolute;
@@ -37,6 +38,7 @@ function App() {
                     {/* Render VideoConnectionDialog if user is not connected to a webcam. */}
                     {!videoConnected && <VideoConnectionDialog />}
                     <WelcomeToast />
+                    <DMbutton />
                 </>
             );
         }
