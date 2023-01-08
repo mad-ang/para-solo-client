@@ -12,10 +12,11 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // import { CustomRoomTable } from './CustomRoomTable'
 // import { CreateRoomForm } from './CreateRoomForm'
-import { useAppSelector } from "../hooks";
+import { useAppSelector, useAppDispatch } from "../hooks";
 
 import phaserGame from "../PhaserGame";
 import Bootstrap from "../scenes/Bootstrap";
+import { setSignUp, setSignIn } from '../stores/UserStore'
 
 const Backdrop = styled.div`
   position: absolute;
@@ -75,6 +76,8 @@ export default function RoomSelectionDialog() {
   const [showSnackbar, setShowSnackbar] = useState(false);
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
   // 입장하기 버튼시 발동.
+  const dispatch = useAppDispatch();
+
   const handleConnect = () => {
     if (lobbyJoined) {
       const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
@@ -88,27 +91,11 @@ export default function RoomSelectionDialog() {
   };
 
   const signUpConnect = () => {
-    if (lobbyJoined) {
-      const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
-      bootstrap.network
-        .joinOrCreatePublic()
-        .then(() => bootstrap.launchGame())
-        .catch((error) => console.error(error));
-    } else {
-      setShowSnackbar(true);
-    }
+    dispatch(setSignUp(true));
   };
 
-  const loginConnect = () => {
-    if (lobbyJoined) {
-      const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
-      bootstrap.network
-        .joinOrCreatePublic()
-        .then(() => bootstrap.launchGame())
-        .catch((error) => console.error(error));
-    } else {
-      setShowSnackbar(true);
-    }
+  const signInConnect = () => {
+    dispatch(setSignIn(true));
   };
  
   return (
@@ -165,7 +152,7 @@ export default function RoomSelectionDialog() {
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={loginConnect}
+                  onClick={signInConnect}
                 >
                   로그인
                 </Button>

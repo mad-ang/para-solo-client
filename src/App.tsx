@@ -10,6 +10,8 @@ import TableDialog from "./components/TableDialog";
 import Chat from "./components/Chat";
 import HelperButtonGroup from "./components/HelperButtonGroup";
 import WelcomeToast from "./components/ToastNotification";
+import SignUpDialog from "./components/SignUpDialog";
+import SignInDialog from "./components/SignInDialog";
 
 const Backdrop = styled.div`
   position: absolute;
@@ -22,8 +24,10 @@ function App() {
     const tableDialogOpen = useAppSelector(
         (state) => state.table.tableDialogOpen
   );
-  const videoConnected = useAppSelector((state) => state.user.videoConnected);
-  const roomJoined = useAppSelector((state) => state.room.roomJoined);
+    const videoConnected = useAppSelector((state) => state.user.videoConnected);
+    const roomJoined = useAppSelector((state) => state.room.roomJoined);
+    const signUp = useAppSelector((state) => state.user.signUp);
+    const signIn = useAppSelector((state) => state.user.signIn);
 
     let ui: JSX.Element;
     if (loggedIn) {
@@ -43,6 +47,10 @@ function App() {
     } else if (roomJoined) {
         /* Render LoginDialog if not logged in but selected a room. */
         ui = <LoginDialog />;
+    } else if (signUp) {
+        ui = <SignUpDialog />;
+    } else if (signIn) {
+        ui = <SignInDialog />
     } else {
         /* Render RoomSelectionDialog if yet selected a room. */
         ui = <RoomSelectionDialog />;
