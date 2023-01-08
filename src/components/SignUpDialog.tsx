@@ -8,7 +8,7 @@ import { setSignUp, setSignIn } from '../stores/UserStore'
 import { Alert, AlertTitle } from '@mui/material';
 import { Warning } from '@mui/icons-material';
 import { css, keyframes } from 'styled-components';
-
+// import { TransitionsSnackbar from './AlertMessage';
 
 const Wrapper = styled.form`
   position: fixed;
@@ -36,20 +36,23 @@ export default function SignUpDialog() {
 
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
+  const [pwFieldEmpty, setPwFieldEmpty] = useState<boolean>(false)
+  
   const [userIdFieldEmpty, setUserIdFieldEmpty] = useState<boolean>(false)
   const [userIdFieldWrong, setUserIdFieldWrong] = useState<boolean>(false)
-  const [pwFieldEmpty, setPwFieldEmpty] = useState<boolean>(false)
-
   const onUserIdHandler = (event) => {
-        setUserId(event.currentTarget.value);
+    setUserId(event.currentTarget.value);
   }
   
   const onPasswordHandler = (event) => {
         setPassword(event.currentTarget.value);
   }
-    
+  
   const onSubmitHandler = (event) => {
-      event.preventDefault();
+    event.preventDefault();
+    setUserIdFieldEmpty(false);
+    setUserIdFieldWrong(false);
+    setPwFieldEmpty(false);
 
     console.log(userId);
     console.log(userIdFieldEmpty);
@@ -80,8 +83,8 @@ export default function SignUpDialog() {
        response.data;
        console.log("hellow", response);
        if(response.data.status == 200){
-         
-        dispatch(setSignUp(false));
+         dispatch(setSignUp(false));
+        //  TransitionsSnackbar();
             dispatch(setSignIn(true));
                     
                 } else {
