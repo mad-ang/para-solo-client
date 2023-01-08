@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled, {keyframes} from "styled-components";
-import DMboxSVG from '../../public/assets/directmessage/DM.svg';
-import channelTalkPNG from '../../public/assets/directmessage/channeltalk.png';
+import DMboxSVG from '../../../public/assets/directmessage/DM.svg';
+import channelTalkPNG from '../../../public/assets/directmessage/channeltalk.png';
 import { useNavigate } from 'react-router-dom';
 import ConversationView from './ConversationOnDM';
+import { blue } from '@mui/material/colors';
 
 
 // function FriendList() {
@@ -28,64 +29,83 @@ import ConversationView from './ConversationOnDM';
 // }
 
 
-
 const Wrapper = styled.div`
     position: fixed;
-    top: 85%;
+    top: 90%;
     left: 95%;
     transform: translate(-50%, -50%);
 `
+
 const DMwrapper = styled.div`
-    position: fixed;
-    top: -400%;
-    left: -180%;
+    position: absolute;
+    top: -200%;
+    left: -100%;
     transform: translate(-50%, -50%);
-    background : #FF00FF; 
+    background : none;
     gap: 10px;
     bottom: 60px;
-    height: 1000px;
-    width: 500px;   
-  `
+    height: 680px;
+    width: 370px;
+    border-radius: 25px;
+    box-shadow: 20px 0px 10px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+`
+
+// const DMwrapper = styled.div`
+//     position: absolute;
+//     top: -200%;
+//     left: -100%;
+//     transform: translate(-50%, -50%);
+//     background : none; 
+//     gap: 10px;
+//     bottom: 60px;
+//     height: 680px;
+//     width: 370px;
+//   `
 const DM = styled.div`
     padding: 15px 35px 15px 15px;
     font-size: 28px;
     font-weight: bold;
     `
 const DMtop = styled.div`
-background : #EFEFF0; 
-padding: 15px 35px 15px 15px;
-font-size: 28px;
-border-top-left-radius: 25px;
-border-top-right-radius: 25px;
-font-weight: bold;
+  background : #FFFFFF; 
+  padding: 0px 35px 0px 25px;
+  font-size: 28px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  font-weight: bold;
 `
-const DMsearch = styled.div`
-background : #EFEFF0; 
-padding: 15px 35px 15px 15px;
-font-size: 28px;
-font-weight: bold;
-`
-const DMFormWrapper = styled.div`
-    background : #CFCFCF;
-    width: "500px";
-    margin: "0 auto";
-    border-radius : 16px;
-    padding: 15px 35px 15px 15px;
-    font-size: 28px;
+const TopController = styled.div`
+    background : #FFFFFF;
     display: flex;
-    align-items: center;
-    text-align: center;
-    font-weight: bold;
-    justify-content: center;
-    text-align: center;
+    height: 60px;
+    flex-direction: row;
+    alsign-items: center;
+    justify-content: space-between;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
 `
+
+const DMsearch = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+background : #FFFFFF;
+height: 60px;
+padding: 0px 15px 0px 15px;
+font-size: 28px;
+font-weight: bold;
+`
+
 const DMmessageList = styled.div`
     background : #FFFFFF;
-    height: 750px;
+    height: 560px;
     overflow: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0px 0px 0px 10px;
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
 `
@@ -94,13 +114,7 @@ const DMmessage = styled.div`
     height: 100px;
     font-size: 28px;
 `
-const TopController = styled.div`
-    background : #EFEFF0;
-    display: flex;
-    flex-direction: row;
-    alsign-items: center;
-    justify-content: space-between
-`
+
 const UnorderedList = styled.ul` 
     list-style: none;
     border-bottom: none;
@@ -124,6 +138,29 @@ const IDwithLastmessage = styled.div`
     border-bottom: none;
     cursor: pointer;
 `
+const UserID = styled.div`
+    display: block;
+    font-size: 1.17em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+`
+const DMsearchDiv = styled.div`
+  font-size: 0.7em;
+  height: 40px;
+  background: #EBEBEB;
+  padding: 5px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+`
+const DirtyTalk = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+`
+
 
 /* Conversation */
 interface Conversation {
@@ -152,10 +189,10 @@ const ConversationList: React.FC<Props> = ({ conversations }) => {
             <ConversationView/>
             console.log(conversation.name)}
         }>
-          <img src={conversation.picture} alt={conversation.name} />
+          <img src={conversation.picture} alt={conversation.name} width= "60"/>
           <IDwithLastmessage>
-            <h3>{conversation.name}</h3>
-            <p>{conversation.lastMessage}</p>
+            <UserID>{conversation.name}</UserID>
+            <div>{conversation.lastMessage}</div>
           </IDwithLastmessage>
         </ListTag>
       ))}
@@ -231,17 +268,19 @@ function DMbox(props) {
         <DMwrapper>
                 <DMtop>
                   <TopController>
-                    <div>
+                    <DirtyTalk>
                       <img src={channelTalkPNG} width="30" />
                       최널톡
-                    </div>
+                    </DirtyTalk>                
                     <div>
-                      <button onClick={handleClick}> X </button>
+                      <button onClick={handleClick} > X </button>
                     </div>
                   </TopController>
                 </DMtop>
                 <DMsearch>
-                  <p>여기는 검색하는 곳!</p>
+                  <DMsearchDiv>
+                    🔍검색하기<input type="text" />
+                  </DMsearchDiv>
                 </DMsearch>
                 <DMmessageList>
                   <ConversationList conversations= {conversations}/>
