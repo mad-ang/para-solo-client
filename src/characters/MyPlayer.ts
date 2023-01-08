@@ -11,6 +11,8 @@ import { ItemType } from "../types/Items";
 import { NavKeys } from "../types/KeyboardState";
 import Chair from "../items/Chair";
 
+import phaserGame from '../PhaserGame'
+import Game from '../scenes/Game'
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
   private chairOnSit?: Chair;
@@ -55,6 +57,7 @@ export default class MyPlayer extends Player {
     if (!cursors) return;
 
     const item = playerSelector.selectedItem;
+    const game = phaserGame.scene.keys.game as Game
     //  쓰일수 있어서 주석처리.
     // if (Phaser.Input.Keyboard.JustDown(keyE)) {
     //   switch (item?.itemType) {
@@ -88,7 +91,8 @@ export default class MyPlayer extends Player {
             .getPlayersIds()
             ?.has(String(chair?.clientId));
           if (chair?.occupied && isExisted) {
-            console.log("chair occupied");
+            chairItem.clearDialogBox();
+            chairItem.setDialogBox("이미 사람이 앉아있습니다.");
             break;
           }
 
@@ -98,7 +102,11 @@ export default class MyPlayer extends Player {
            * as the player tends to move one more frame before sitting down causing player
            * not sitting at the center of the chair
            */
+          
           chairItem.openDialog(this.playerId, network);
+          game.allOtherPlayers().forEach((otherPlayer) => {
+            otherPlayer.pauseConnect();
+          })
           this.scene.time.addEvent({
             delay: 10,
             callback: () => {
@@ -146,7 +154,7 @@ export default class MyPlayer extends Player {
           chairItem.setDialogBox("E키를 눌러 일어나기");
           this.chairOnSit = chairItem;
           this.playerBehavior = PlayerBehavior.SITTING;
-
+          
           return;
         } else {
           const speed = cursors.shift?.isDown ? 240 : 120;
@@ -197,7 +205,6 @@ export default class MyPlayer extends Player {
       case PlayerBehavior.SITTING:
         // back to idle if player press E while sitting
         if (Phaser.Input.Keyboard.JustDown(keyE)) {
-          console.log("E pressed");
 
           const parts = this.anims.currentAnim.key.split("_");
           parts[1] = "idle";

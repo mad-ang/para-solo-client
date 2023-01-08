@@ -64,7 +64,9 @@ export default class Game extends Phaser.Scene {
   enableKeys() {
     this.input.keyboard.enabled = true;
   }
-
+  allOtherPlayers() {
+    return this.otherPlayerMap;
+  }
   create(data: { network: Network }) {
     if (!data.network) {
       throw new Error("server instance missing");
@@ -103,11 +105,11 @@ export default class Game extends Phaser.Scene {
       TileImage,
       InteriorImage,
     ]);
-    const tables = this.physics.add.staticGroup({ classType: Chair });
-    const tableLayer = this.map.getObjectLayer("Objects");
-    tableLayer.objects.forEach((obj, i) => {
+    const chairs = this.physics.add.staticGroup({ classType: Chair });
+    const chairLayer = this.map.getObjectLayer("Objects");
+    chairLayer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(
-        tables,
+        chairs,
         obj,
         "interior",
         "interior"
@@ -185,7 +187,7 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.overlap(
       this.playerSelector,
-      [tables],
+      [chairs],
       this.handleItemSelectorOverlap,
       undefined,
       this
@@ -320,8 +322,12 @@ export default class Game extends Phaser.Scene {
   }
 
   private handlePlayersOverlap(myPlayer, otherPlayer) {
+    if (myPlayer.playerBehavior === PlayerBehavior.SITTING) {
+        return;
+    }
     otherPlayer.makeCall(myPlayer, this.network?.webRTC);
   }
+
   private handleItemUserAdded(
     playerId: string,
     itemId: string,
@@ -334,6 +340,7 @@ export default class Game extends Phaser.Scene {
       table?.addCurrentUser(playerId);
     }
   }
+
   private handleItemUserRemoved(
     playerId: string,
     itemId: string,
