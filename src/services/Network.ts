@@ -26,7 +26,7 @@ import {
     pushPlayerJoinedMessage,
     pushPlayerLeftMessage,
 } from "../stores/ChatStore";
-// import { setWhiteboardUrls } from "../stores/WhiteboardStore";
+
 
 export default class Network {
     private client: Client;

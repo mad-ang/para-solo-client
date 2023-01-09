@@ -28,13 +28,11 @@ export interface ModalProps {
 }
 
 export function Portal(props) {
-  console.log("CCCCame in!!!!!!!!!!!")
   const scrollYRef = useRef(0);
   useEffect(() => {
     document.body.style.cssText = `position: fixed; top: -${window.scrollY}px`;
     scrollYRef.current = window.scrollY;
     return () => {
-      console.log("CCCCame in!!!!!!!!!!!")
       const scrollY = document.body.style.top;
       document.body.style.cssText = `position: "";  top: "";`;
       window.scrollTo(0, parseInt(scrollY || '0') * -1);

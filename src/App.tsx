@@ -1,3 +1,12 @@
+// Welcome to our source code!
+// Project: 동물의왕국
+// Contributed by: 윤중선 <https://github.com/Joong-Sunny> (FE,TL)
+//                 이송희 <https://github.com/soneelee> (FE)
+//                 우수연 <https://github.com/yeonwooz> (BE)
+//                 김희산 <https://github.com/heesankim> (BE)
+//                 김기운 <https://github.com/KiwoonKim> (BE)
+// Thanks to SWJungle & KAIST where we made this project.
+
 import React from "react";
 import styled from "styled-components";
 import { HashRouter } from 'react-router-dom';
@@ -10,7 +19,7 @@ import TableDialog from "./components/TableDialog";
 import Chat from "./components/Chat";
 import HelperButtonGroup from "./components/HelperButtonGroup";
 import WelcomeToast from "./components/ToastNotification";
-import DMbutton from "./components/DM/DirectMessageBox";
+import DMbutton from "./components/DM/ChattingList/DirectMessageBox";
 
 const Backdrop = styled.div`
   position: absolute;
@@ -58,5 +67,4 @@ function App() {
         </Backdrop>
     );
 }
-
 export default App;

@@ -1,35 +1,14 @@
 import React, { useState } from 'react';
 import styled, {keyframes} from "styled-components";
-import DMboxSVG from '../../../public/assets/directmessage/DM.svg';
-import channelTalkPNG from '../../../public/assets/directmessage/channeltalk.png';
+import DMboxSVG from '../../../../public/assets/directmessage/DM.svg';
+import channelTalkPNG from '../../../../public/assets/directmessage/channeltalk.png';
 import { useNavigate } from 'react-router-dom';
 // import ConversationView from './ConversationOnDM_backup2';
 import { blue } from '@mui/material/colors';
-import { Portal } from './Modal';
-import {InsideChattingRoom} from './ChattingRoom';
-import { DMSlice, SetTruelistORroom, SetFalselistORroom,Setkey} from '../../stores/DMbox';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-
-// function FriendList() {
-//   const navigate = useNavigate();
-
-//   function handleDirectMessage(friendId: string) {
-//     navigate(`/conversation/${friendId}`);
-//   }
-
-//   return (
-//     <ul>
-//       {friends.map(friend => (
-//         <li key={friend.id}>
-//           <button onClick={() => handleDirectMessage(friend.id)}>
-//             Direct Message
-//           </button>
-//           {friend.name}
-//         </li>
-//       ))}
-//     </ul>
-//   );
-// }
+import { Portal } from '../ChattingRoom/Modal_unused';
+import {InsideChattingRoom} from '../ChattingRoom/ChattingRoom';
+import { DMSlice, SetTruelistORroom, SetFalselistORroom,Setkey} from '../../../stores/DMbox';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 
 
 const Wrapper = styled.div`
@@ -221,7 +200,7 @@ function DMbox(props) {
         id: "5",
         name: "fox_sean",
         picture: "https://user-images.githubusercontent.com/63194662/211139480-0f155385-40a9-4fba-ae7b-679769d02318.png",
-        lastMessage: "동숲하실래요? ㅎㅎ",
+        lastMessage: "합석 고?ㅎㅎ",
       },
       {
         id: "6",
