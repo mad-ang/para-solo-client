@@ -1,6 +1,6 @@
 export enum RoomType {
   LOBBY = 'lobby',
-  PUBLIC = 'newtown',
+  PUBLIC = 'skyoffice',
   CUSTOM = 'custom',
   DM = 'dm',
 }
