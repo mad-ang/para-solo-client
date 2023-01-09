@@ -23,6 +23,7 @@ export const userSlice = createSlice({
     playerNameMap: new Map<string, string>(),
     signUp: false,
     signIn: false,
+    signedUp: false,
   },
   reducers: {
     toggleBackgroundMode: (state) => {
@@ -62,6 +63,9 @@ export const userSlice = createSlice({
     setSignIn: (state, action: PayloadAction<boolean>) => {
       state.signIn = action.payload
     },
+    setSignedUp: (state, action: PayloadAction<boolean>) => {
+      state.signedUp = action.payload
+    },
 
   },
 });
@@ -75,6 +79,7 @@ export const {
   removePlayerNameMap,
   setSignUp,
   setSignIn,
+  setSignedUp,
 } = userSlice.actions;
 
 export default userSlice.reducer;

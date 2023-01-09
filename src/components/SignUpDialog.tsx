@@ -4,11 +4,22 @@ import TextField from '@mui/material/TextField'
 import Button from "@mui/material/Button";
 import axios from 'axios'
 import { useAppSelector, useAppDispatch } from '../hooks'; 
-import { setSignUp, setSignIn } from '../stores/UserStore'
-import { Alert, AlertTitle } from '@mui/material';
+import { setSignUp, setSignIn, setSignedUp } from '../stores/UserStore'
+import { Alert, AlertTitle, OutlinedInput } from '@mui/material';
 import { Warning } from '@mui/icons-material';
 import { css, keyframes } from 'styled-components';
-// import { TransitionsSnackbar from './AlertMessage';
+import TransitionsSnackbar from './AlertMessage';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import FilledInput from '@mui/material/FilledInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
 
 const Wrapper = styled.form`
   position: fixed;
@@ -33,6 +44,13 @@ export default function SignUpDialog() {
 
   const dispatch = useAppDispatch();
 
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
@@ -76,15 +94,14 @@ export default function SignUpDialog() {
   console.log({password})
 
 
-    axios.post("/auth/signup", body)
-
-  .then(function (response) {
+    axios.post("/auth/signup", body).then(function (response) {
        // response  
        response.data;
        console.log("hellow", response);
        if(response.data.status == 200){
          dispatch(setSignUp(false));
         //  TransitionsSnackbar();
+        dispatch(setSignedUp(true));
             dispatch(setSignIn(true));
                     
                 } else {
@@ -141,7 +158,21 @@ export default function SignUpDialog() {
             onInput={(e) => {
               setPassword((e.target as HTMLInputElement).value)
             }}
+            type={showPassword ? 'text' : 'password'}
+            InputProps={{ endAdornment: <InputAdornment position="end">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={handleClickShowPassword}
+              onMouseDown={handleMouseDownPassword}
+              edge="end"
+            >
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </InputAdornment> }}
+          
+            
           />
+          
           <Button
                   variant="contained"
                   color="secondary"
@@ -151,6 +182,7 @@ export default function SignUpDialog() {
                 </Button>
         
         </Wrapper>
+        
         </>
         
     )
