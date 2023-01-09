@@ -16,6 +16,7 @@ import { useAppSelector } from "../hooks";
 
 import phaserGame from "../PhaserGame";
 import Bootstrap from "../scenes/Bootstrap";
+import { EnergySavingsLeaf } from "@mui/icons-material";
 
 const Backdrop = styled.div`
   position: absolute;
@@ -74,8 +75,11 @@ export default function RoomSelectionDialog() {
   // const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
   const [showSnackbar, setShowSnackbar] = useState(false);
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
+  const [enabled, setDisabled] = React.useState(false);
 
   const handleConnect = () => {
+    setDisabled(true);
+    // setTimeout(() => setDisabled(false), 1500);
     if (lobbyJoined) {
       const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
       bootstrap.network
@@ -83,6 +87,7 @@ export default function RoomSelectionDialog() {
         .then(() => bootstrap.launchGame())
         .catch((error) => console.error(error));
     } else {
+      setDisabled(false)
       setShowSnackbar(true);
     }
   };
@@ -114,9 +119,12 @@ export default function RoomSelectionDialog() {
               <img src={logo} alt="logo" />
               {lobbyJoined && (
                 <Button
+                  disabled={enabled}
                   variant="contained"
                   color="secondary"
-                  onClick={handleConnect}
+                  onClick={() => {
+                    handleConnect();
+                  }}
                 >
                   맘스타운 입장할래요
                 </Button>
