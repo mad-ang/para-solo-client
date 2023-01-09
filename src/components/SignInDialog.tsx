@@ -67,6 +67,10 @@ export default function SignInDialog() {
 
   const signedUp = useAppSelector((state) => state.user.signedUp);
 
+  useEffect(() => {
+    dispatch(setSignedUp(false))
+  }, [])
+
 console.log(signedUp);
 
 const dispatch = useAppDispatch();
@@ -93,6 +97,7 @@ const dispatch = useAppDispatch();
     setUserIdFieldEmpty(false);
     setUserIdFieldWrong(false);
     setPwFieldEmpty(false);
+
 
     console.log(userId);
     console.log(userIdFieldEmpty);
@@ -121,7 +126,7 @@ const dispatch = useAppDispatch();
        
        if(response.data.status == 200){
          dispatch(setSignIn(false));
-
+        console.log(response.data);
                     
                 } else {
                     console.log('11111');
