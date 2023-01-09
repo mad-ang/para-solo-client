@@ -167,7 +167,7 @@ const ConversationList: React.FC<Props> = ({ conversations }) => {
   //   navigate(`/conversation/${conversation}`);
   // }
   const dispatch = useAppDispatch();
- 
+
 
   return (
     <UnorderedList>
@@ -295,9 +295,8 @@ export default function DMboxButton() {
                 <img src={DMboxSVG} onClick = {handleClick} width="100" />
                 {showMessage &&(
                     <div className = "DMpopup">
-                          {listORroom ? 
                           <DMbox setShowMessage={setShowMessage} /> 
-                          :<InsideChattingRoom/>}
+                          {!listORroom ? <InsideChattingRoom/>: null}
                     </div>
                 )}
             </>
