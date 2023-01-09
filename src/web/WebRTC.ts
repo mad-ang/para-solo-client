@@ -21,7 +21,6 @@ export default class WebRTC {
       console.log(err.type)
       console.error(err)
     })
-
     // mute your own video stream (you don't want to hear yourself)
     this.myVideo.muted = true
 
@@ -76,7 +75,8 @@ export default class WebRTC {
         if (alertOnError) window.alert('No webcam or microphone found, or permission is blocked')
       })
   }
-
+  
+  
   // method to call a peer
   connectToNewUser(userId: string) {
     if (this.myStream) {
@@ -101,6 +101,14 @@ export default class WebRTC {
     video.srcObject = stream
     video.addEventListener('loadedmetadata', () => {
       video.play()
+    })
+    video.addEventListener('volumechange', () => {
+      if (video.volume === 0) {
+        video.muted = true
+      } else {
+        video.muted = false
+      }
+      video.style.border = '5px solid red'
     })
     if (this.videoGrid) this.videoGrid.append(video)
   }

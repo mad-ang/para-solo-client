@@ -8,8 +8,13 @@ export interface IPlayer extends Schema {
   readyToConnect: boolean
   videoConnected: boolean
 }
+export interface IChair extends Schema {
+  occupied: boolean
+  clientId: string
+}
 export interface ITable extends Schema {
   connectedUser: SetSchema<string>
+  containedChairs: MapSchema<IChair>
 }
 export interface IChatMessage extends Schema {
   author: string
@@ -21,4 +26,5 @@ export interface ITownState extends Schema {
   players: MapSchema<IPlayer>
   chatMessages: ArraySchema<IChatMessage>
   tables: MapSchema<ITable>
+  chairs: MapSchema<IChair>
 }

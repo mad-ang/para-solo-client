@@ -74,7 +74,7 @@ export default function RoomSelectionDialog() {
   // const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
   const [showSnackbar, setShowSnackbar] = useState(false);
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
-  // 입장하기 버튼시 발동.
+
   const handleConnect = () => {
     if (lobbyJoined) {
       const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
@@ -121,6 +121,7 @@ export default function RoomSelectionDialog() {
                   맘스타운 입장할래요
                 </Button>
               )}
+
               {/* <Button
                   variant="outlineds"
                   color="secondary"
