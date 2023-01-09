@@ -26,7 +26,7 @@ import {
     pushPlayerJoinedMessage,
     pushPlayerLeftMessage,
 } from "../stores/ChatStore";
-// import { setWhiteboardUrls } from "../stores/WhiteboardStore";
+
 
 export default class Network {
     private client: Client;
@@ -144,12 +144,11 @@ export default class Network {
         this.room.state.tables.onAdd = (table: ITable, key: string) => {
             // track changes on every child object's connectedUser
             table.connectedUser.onAdd = (item, index) => {
-                console.log("check phaserEvent emit");
                 phaserEvents.emit(
                     Event.ITEM_USER_ADDED,
                     item,
                     key,
-                    ItemType.TABLE
+                    ItemType.CHAIR
                 );
             };
             table.connectedUser.onRemove = (item, index) => {
@@ -157,7 +156,7 @@ export default class Network {
                     Event.ITEM_USER_REMOVED,
                     item,
                     key,
-                    ItemType.TABLE
+                    ItemType.CHAIR
                 );
             };
         };
@@ -188,21 +187,23 @@ export default class Network {
         this.room.onMessage(Message.DISCONNECT_STREAM, (clientId: string) => {
             this.webRTC?.deleteOnCalledVideoStream(clientId);
         });
-
         this.room.onMessage(Message.STOP_TABLE_TALK, (clientId: string) => {
             const tableState = store.getState().table;
             tableState.tableTalkManager?.onUserLeft(clientId);
         });
-
         this.room.onStateChange((state) => {
             const playerSize = this.room?.state.players.size;
             if (playerSize === undefined) return;
             let numPlayers: number = playerSize;
-            console.log("loook,", numPlayers);
             store.dispatch(setNumPlayer(numPlayers));
           });
     }
-
+    getChairState() {
+        return this.room?.state.chairs;
+    }
+    getPlayersIds(){
+        return this.room?.state.players;
+    }
     // method to register event listener and call back function when a item user added
     onChatMessageAdded(
         callback: (playerId: string, content: string) => void,
@@ -216,7 +217,6 @@ export default class Network {
         callback: (playerId: string, key: string, itemType: ItemType) => void,
         context?: any
     ) {
-        console.log("onItemUserAdded");
         phaserEvents.on(Event.ITEM_USER_ADDED, callback, context);
     }
 
@@ -268,30 +268,40 @@ export default class Network {
         });
     }
 
+    
     // method to send player name to Colyseus server
     updatePlayerName(currentName: string) {
         this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName });
     }
-
+    
     // method to send ready-to-connect signal to Colyseus server
     readyToConnect() {
         this.room?.send(Message.READY_TO_CONNECT);
         phaserEvents.emit(Event.MY_PLAYER_READY);
     }
-
+    
     // method to send ready-to-connect signal to Colyseus server
     videoConnected() {
         this.room?.send(Message.VIDEO_CONNECTED);
         phaserEvents.emit(Event.MY_PLAYER_VIDEO_CONNECTED);
     }
-
+    
     // method to send stream-disconnection signal to Colyseus server
     playerStreamDisconnect(id: string) {
         this.room?.send(Message.DISCONNECT_STREAM, { clientId: id });
         this.webRTC?.deleteVideoStream(id);
     }
+
     connectToTable(id: string) {
         this.room?.send(Message.CONNECT_TO_TABLE, { tableId: id });
+    }
+    
+    updateChairStatus(tableId?: string, chairId?: string , status?: boolean) {
+        this.room?.send(Message.UPDATE_CHAIR_STATUS, {
+            tableId: tableId,
+            chairId: chairId,
+            status: status,
+        });
     }
 
     disconnectFromTable(id: string) {
@@ -300,7 +310,7 @@ export default class Network {
     onStopTableTalk(id: string) {
         this.room?.send(Message.STOP_TABLE_TALK, { tableId: id });
     }
-
+    
     addChatMessage(content: string) {
         this.room?.send(Message.ADD_CHAT_MESSAGE, { content: content });
     }

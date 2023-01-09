@@ -1,6 +1,15 @@
+// Welcome to our source code!
+// Project: 동물의왕국
+// Contributed by: 윤중선 <https://github.com/Joong-Sunny> (FE,TL)
+//                 이송희 <https://github.com/soneelee> (FE)
+//                 우수연 <https://github.com/yeonwooz> (BE)
+//                 김희산 <https://github.com/heesankim> (BE)
+//                 김기운 <https://github.com/KiwoonKim> (BE)
+// Thanks to SWJungle & KAIST where we made this project.
+
 import React from "react";
 import styled from "styled-components";
-
+import { HashRouter } from 'react-router-dom';
 import { useAppSelector } from "./hooks";
 
 import RoomSelectionDialog from "./components/RoomSelectionDialog";
@@ -15,9 +24,11 @@ import SignInDialog from "./components/SignInDialog";
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:2567';
+import DMbutton from "./components/DM/ChattingList/DirectMessageBox";
 
 const Backdrop = styled.div`
   position: absolute;
+  z-index: 10;
   height: 100%;
   width: 100%;
 `;
@@ -44,6 +55,7 @@ function App() {
                     {/* Render VideoConnectionDialog if user is not connected to a webcam. */}
                     {!videoConnected && <VideoConnectionDialog />}
                     <WelcomeToast />
+                    <DMbutton />
                 </>
             );
         }
@@ -66,5 +78,4 @@ function App() {
         </Backdrop>
     );
 }
-
 export default App;

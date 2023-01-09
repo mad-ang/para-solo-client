@@ -4,15 +4,15 @@ import { PlayerBehavior } from "../types/PlayerBehavior";
 import { sittingShiftData } from "./Player";
 import Player from "./Player";
 import Network from "../services/Network";
-import Chair from "../items/Chair";
-
 import { phaserEvents, Event } from "../events/EventCenter";
 import store from "../stores";
 import { pushPlayerJoinedMessage } from "../stores/ChatStore";
 import { ItemType } from "../types/Items";
 import { NavKeys } from "../types/KeyboardState";
-import Table from "../items/Table";
+import Chair from "../items/Chair";
 
+import phaserGame from '../PhaserGame'
+import Game from '../scenes/Game'
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
   private chairOnSit?: Chair;
@@ -57,23 +57,24 @@ export default class MyPlayer extends Player {
     if (!cursors) return;
 
     const item = playerSelector.selectedItem;
+    const game = phaserGame.scene.keys.game as Game
     //  쓰일수 있어서 주석처리.
-    if (Phaser.Input.Keyboard.JustDown(keyR)) {
-      switch (item?.itemType) {
-        case ItemType.TABLE:
-          const table = item as Table;
-          table.openDialog(this.playerId, network);
-          break;
-        // case ItemType.WHITEBOARD:
-        //   const whiteboard = item as Whiteboard;
-        //   whiteboard.openDialog(network);
-        //   break;
-        // case ItemType.VENDINGMACHINE:
-        //   // hacky and hard-coded, but leaving it as is for now
-        //   window.open("https://www.buymeacoffee.com/skyoffice", "_blank");
-        //   break;
-      }
-    }
+    // if (Phaser.Input.Keyboard.JustDown(keyE)) {
+    //   switch (item?.itemType) {
+    //     case ItemType.TABLE:
+    //       const table = item as Table;
+
+    // break;
+    // case ItemType.WHITEBOARD:
+    //   const whiteboard = item as Whiteboard;
+    //   whiteboard.openDialog(network);
+    //   break;
+    // case ItemType.VENDINGMACHINE:
+    //   // hacky and hard-coded, but leaving it as is for now
+    //   window.open("https://www.buymeacoffee.com/skyoffice", "_blank");
+    //   break;
+    // }
+    // }
 
     switch (this.playerBehavior) {
       case PlayerBehavior.IDLE:
@@ -82,13 +83,30 @@ export default class MyPlayer extends Player {
           Phaser.Input.Keyboard.JustDown(keyE) &&
           item?.itemType === ItemType.CHAIR
         ) {
+          console.log("press E in Idle");
+
           const chairItem = item as Chair;
+          const chair = network.getChairState()?.get(String(chairItem.chairId));
+          const isExisted = network
+            .getPlayersIds()
+            ?.has(String(chair?.clientId));
+          if (chair?.occupied && isExisted) {
+            chairItem.clearDialogBox();
+            chairItem.setDialogBox("이미 사람이 앉아있습니다.");
+            break;
+          }
+
           /**
            * move player to the chair and play sit animation
            * a delay is called to wait for player movement (from previous velocity) to end
            * as the player tends to move one more frame before sitting down causing player
            * not sitting at the center of the chair
            */
+          
+          chairItem.openDialog(this.playerId, network);
+          game.allOtherPlayers().forEach((otherPlayer) => {
+            otherPlayer.pauseConnect();
+          })
           this.scene.time.addEvent({
             delay: 10,
             callback: () => {
@@ -123,74 +141,92 @@ export default class MyPlayer extends Player {
               }
               // send new location and anim to server
               network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
+              network.updateChairStatus(
+                chairItem.tableId,
+                chairItem.chairId,
+                true
+              );
             },
             loop: false,
           });
           // set up new dialog as player sits down
           chairItem.clearDialogBox();
-          chairItem.setDialogBox("Press E to leave");
+          chairItem.setDialogBox("E키를 눌러 일어나기");
           this.chairOnSit = chairItem;
           this.playerBehavior = PlayerBehavior.SITTING;
+          
           return;
-        }
-
-        const speed = cursors.shift?.isDown ? 400 : 200;
-        let vx = 0;
-        let vy = 0;
-        if (cursors.left?.isDown || cursors.A?.isDown) vx -= speed;
-        if (cursors.right?.isDown || cursors.D?.isDown) vx += speed;
-        if (cursors.up?.isDown || cursors.W?.isDown) {
-          vy -= speed;
-          this.setDepth(this.y); //change player.depth if player.y changes
-        }
-        if (cursors.down?.isDown || cursors.S?.isDown) {
-          vy += speed;
-          this.setDepth(this.y); //change player.depth if player.y changes
-        }
-
-        // update character velocity
-        this.setVelocity(vx, vy);
-        this.body.velocity.setLength(speed);
-        // also update playerNameContainer velocity
-        this.playContainerBody.setVelocity(vx, vy); // 캐릭터
-        this.playContainerBody.velocity.setLength(speed); // 이름
-
-        // update animation according to velocity and send new location and anim to server
-        if (vx !== 0 || vy !== 0)
-          network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
-        if (vx > 0) {
-          this.play(`${this.playerTexture}_run_right`, true);
-        } else if (vx < 0) {
-          this.play(`${this.playerTexture}_run_left`, true);
-        } else if (vy > 0) {
-          this.play(`${this.playerTexture}_run_down`, true);
-        } else if (vy < 0) {
-          this.play(`${this.playerTexture}_run_up`, true);
         } else {
-          const parts = this.anims.currentAnim.key.split("_");
-          parts[1] = "idle";
-          const newAnim = parts.join("_");
-          // this prevents idle animation keeps getting called
-          if (this.anims.currentAnim.key !== newAnim) {
-            this.play(parts.join("_"), true);
-            // send new location and anim to server
-            network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
+          const speed = cursors.shift?.isDown ? 240 : 120;
+          let vx = 0;
+          let vy = 0;
+          if (cursors.left?.isDown || cursors.A?.isDown) vx -= speed;
+          if (cursors.right?.isDown || cursors.D?.isDown) vx += speed;
+          if (cursors.up?.isDown || cursors.W?.isDown) {
+            vy -= speed;
+            this.setDepth(this.y); //change player.depth if player.y changes
           }
-        }
-        break;
+          if (cursors.down?.isDown || cursors.S?.isDown) {
+            vy += speed;
+            this.setDepth(this.y); //change player.depth if player.y changes
+          }
 
+          // update character velocity
+          this.setVelocity(vx, vy);
+          this.body.velocity.setLength(speed);
+          // also update playerNameContainer velocity
+          this.playContainerBody.setVelocity(vx, vy); // 캐릭터
+          this.playContainerBody.velocity.setLength(speed); // 이름
+
+          // update animation according to velocity and send new location and anim to server
+          if (vx !== 0 || vy !== 0)
+            network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
+          if (vx > 0) {
+            this.play(`${this.playerTexture}_run_right`, true);
+          } else if (vx < 0) {
+            this.play(`${this.playerTexture}_run_left`, true);
+          } else if (vy > 0) {
+            this.play(`${this.playerTexture}_run_down`, true);
+          } else if (vy < 0) {
+            this.play(`${this.playerTexture}_run_up`, true);
+          } else {
+            const parts = this.anims.currentAnim.key.split("_");
+            parts[1] = "idle";
+            const newAnim = parts.join("_");
+            // this prevents idle animation keeps getting called
+            if (this.anims.currentAnim.key !== newAnim) {
+              this.play(parts.join("_"), true);
+              // send new location and anim to server
+              network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
+            }
+          }
+          break;
+        }
       case PlayerBehavior.SITTING:
         // back to idle if player press E while sitting
         if (Phaser.Input.Keyboard.JustDown(keyE)) {
+
           const parts = this.anims.currentAnim.key.split("_");
           parts[1] = "idle";
           this.play(parts.join("_"), true);
           this.playerBehavior = PlayerBehavior.IDLE;
-          this.chairOnSit?.clearDialogBox();
           playerSelector.setPosition(this.x, this.y);
           playerSelector.update(this, cursors);
+          network.updateChairStatus(
+            this.chairOnSit?.tableId,
+            this.chairOnSit?.chairId,
+            false
+          );
           network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
         }
+        // this.chairOnSit?.clearDialogBox();
+        // this.chairOnSit?.setDialogBox("E키를 눌러서 일어나기");
+        // window.addEventListener("beforeunload", (event) => {
+        //   network.updateChairStatus(
+        //     this.chairOnSit?.chairId
+        //   );
+        //   event.returnValue = "다음에 또 방문해주세요!";
+        // });
         break;
     }
   }
