@@ -88,6 +88,7 @@ export default class Bootstrap extends Phaser.Scene {
 
     // update Redux state
     store.dispatch(setRoomJoined(true));
+    console.log("launchGame");
   }
 
   changeBackgroundMode(backgroundMode: BackgroundMode) {

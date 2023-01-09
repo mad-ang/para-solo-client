@@ -4,6 +4,7 @@ import { BackgroundMode } from "../types/BackgroundMode";
 
 import phaserGame from "../PhaserGame";
 import Bootstrap from "../scenes/Bootstrap";
+import { StreamTwoTone } from "@mui/icons-material";
 
 export function getInitialBackgroundMode() {
   const currentHour = new Date().getHours();
@@ -20,6 +21,9 @@ export const userSlice = createSlice({
     videoConnected: false,
     loggedIn: false,
     playerNameMap: new Map<string, string>(),
+    signUp: false,
+    signIn: false,
+    signedUp: false,
   },
   reducers: {
     toggleBackgroundMode: (state) => {
@@ -53,6 +57,16 @@ export const userSlice = createSlice({
     removePlayerNameMap: (state, action: PayloadAction<string>) => {
       state.playerNameMap.delete(sanitizeId(action.payload));
     },
+    setSignUp: (state, action: PayloadAction<boolean>) => {
+      state.signUp = action.payload
+    },
+    setSignIn: (state, action: PayloadAction<boolean>) => {
+      state.signIn = action.payload
+    },
+    setSignedUp: (state, action: PayloadAction<boolean>) => {
+      state.signedUp = action.payload
+    },
+
   },
 });
 
@@ -63,6 +77,9 @@ export const {
   setLoggedIn,
   setPlayerNameMap,
   removePlayerNameMap,
+  setSignUp,
+  setSignIn,
+  setSignedUp,
 } = userSlice.actions;
 
 export default userSlice.reducer;
