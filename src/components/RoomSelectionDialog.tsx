@@ -79,7 +79,7 @@ export default function RoomSelectionDialog() {
 
   const handleConnect = () => {
     setDisabled(true);
-    setTimeout(() => setDisabled(false), 1000);
+    // setTimeout(() => setDisabled(false), 1500);
     if (lobbyJoined) {
       const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
       bootstrap.network
@@ -87,6 +87,7 @@ export default function RoomSelectionDialog() {
         .then(() => bootstrap.launchGame())
         .catch((error) => console.error(error));
     } else {
+      setDisabled(false)
       setShowSnackbar(true);
     }
   };
