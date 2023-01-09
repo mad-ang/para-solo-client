@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
@@ -27,38 +27,34 @@ export interface ModalProps {
   onClose(): void;
 }
 
-export const Portal: React.FC = ({ children }) => {
-  // 모달 창이 나올 경우, 스크롤을 움직이지 못하도록 합니다.
+export function Portal(props) {
+  console.log("CCCCame in!!!!!!!!!!!")
+  const scrollYRef = useRef(0);
   useEffect(() => {
     document.body.style.cssText = `position: fixed; top: -${window.scrollY}px`;
+    scrollYRef.current = window.scrollY;
     return () => {
+      console.log("CCCCame in!!!!!!!!!!!")
       const scrollY = document.body.style.top;
       document.body.style.cssText = `position: "";  top: "";`;
       window.scrollTo(0, parseInt(scrollY || '0') * -1);
     };
   }, []);
-  // id가 modal인 DOM 노드에 모달 창을 render합니다.
-  const rootElement = document.getElementById('modal') as Element;
-  return createPortal(children, rootElement);
-};
 
-const Modal: React.FC<ModalProps> = ({
-  overlayClose = true,
-  onClose,
-  children
-}) => {
-  // 바깥 영역을 클릭 시, 모달 창을 닫을 지 여부
+  const rootElement = document.getElementById('modal') as Element;
+  return createPortal(props.children, rootElement);
+}
+
+export function Modal(props) {
   const onOverlayClick = () => {
-    if (overlayClose) {
-      onClose();
+    if (props.overlayClose) {
+      props.onClose();
     }
   };
   return (
     <Portal>
       <Overlay onClick={onOverlayClick} />
-      <Wrapper>{children}</Wrapper>
+      <Wrapper>{props.children}</Wrapper>
     </Portal>
   );
-};
-
-export default Modal;
+}

@@ -5,7 +5,10 @@ import channelTalkPNG from '../../../public/assets/directmessage/channeltalk.png
 import { useNavigate } from 'react-router-dom';
 // import ConversationView from './ConversationOnDM_backup2';
 import { blue } from '@mui/material/colors';
-
+import { Portal } from './Modal';
+import {InsideChattingRoom} from './ChattingRoom';
+import { DMSlice, SetTruelistORroom, SetFalselistORroom,Setkey} from '../../stores/DMbox';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 // function FriendList() {
 //   const navigate = useNavigate();
@@ -35,7 +38,6 @@ const Wrapper = styled.div`
     left: 95%;
     transform: translate(-50%, -50%);
 `
-
 const DMwrapper = styled.div`
     position: absolute;
     top: -200%;
@@ -51,18 +53,6 @@ const DMwrapper = styled.div`
     -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 `
-
-// const DMwrapper = styled.div`
-//     position: absolute;
-//     top: -200%;
-//     left: -100%;
-//     transform: translate(-50%, -50%);
-//     background : none; 
-//     gap: 10px;
-//     bottom: 60px;
-//     height: 680px;
-//     width: 370px;
-//   `
 const DM = styled.div`
     padding: 15px 35px 15px 15px;
     font-size: 28px;
@@ -86,7 +76,6 @@ const TopController = styled.div`
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
 `
-
 const DMsearch = styled.div`
 display: flex;
 justify-content: center;
@@ -97,7 +86,6 @@ padding: 0px 15px 0px 15px;
 font-size: 28px;
 font-weight: bold;
 `
-
 const DMmessageList = styled.div`
     background : #FFFFFF;
     height: 560px;
@@ -114,7 +102,6 @@ const DMmessage = styled.div`
     height: 100px;
     font-size: 28px;
 `
-
 const UnorderedList = styled.ul` 
     list-style: none;
     border-bottom: none;
@@ -161,7 +148,6 @@ const DirtyTalk = styled.div`
     align-items: center;
 `
 
-
 /* Conversation */
 interface Conversation {
   id: string;
@@ -180,15 +166,18 @@ const ConversationList: React.FC<Props> = ({ conversations }) => {
   // function handleDirectMessage(conversation: string) {
   //   navigate(`/conversation/${conversation}`);
   // }
+  const dispatch = useAppDispatch();
+ 
 
   return (
     <UnorderedList>
       {conversations.map((conversation) => (
-        <ListTag key={conversation.name} onClick= {()=>
-          { //handleDirectMessage(conversation.name) //서버 열리면 이코드 사용
-            // <ConversationView/>
-            console.log(conversation.name)}
-        }>
+        <ListTag key={conversation.name}  onClick= {()=>{
+          dispatch(SetFalselistORroom());
+          dispatch(Setkey(conversation.name));
+        } }>
+            {/* handleDirectMessage(conversation.name) //서버 열리면 이코드 사용(삭제 no) */}
+            {/* <ConversationView/>  //서버열리면 이코드 사용(삭제 no)*/} 
           <img src={conversation.picture} alt={conversation.name} width= "60"/>
           <IDwithLastmessage>
             <UserID>{conversation.name}</UserID>
@@ -293,6 +282,7 @@ function DMbox(props) {
 /* DMboxButton, something pop-up when clicks it */
 export default function DMboxButton() {
   const [showMessage, setShowMessage] = useState(false);
+  const listORroom = useAppSelector((state) => state.dm.listORroom);
 
   function handleClick() {
     setShowMessage(true);
@@ -305,7 +295,9 @@ export default function DMboxButton() {
                 <img src={DMboxSVG} onClick = {handleClick} width="100" />
                 {showMessage &&(
                     <div className = "DMpopup">
-                         <DMbox setShowMessage={setShowMessage} />
+                          {listORroom ? 
+                          <DMbox setShowMessage={setShowMessage} /> 
+                          :<InsideChattingRoom/>}
                     </div>
                 )}
             </>
