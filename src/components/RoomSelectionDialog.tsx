@@ -79,7 +79,7 @@ export default function RoomSelectionDialog() {
 
   const handleConnect = () => {
     setDisabled(true);
-    setTimeout(() => setDisabled(false), 800);
+    setTimeout(() => setDisabled(false), 1000);
     if (lobbyJoined) {
       const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
       bootstrap.network
