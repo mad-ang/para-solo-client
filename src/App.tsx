@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
+import { HashRouter } from 'react-router-dom';
 import { useAppSelector } from "./hooks";
 
 import RoomSelectionDialog from "./components/RoomSelectionDialog";
