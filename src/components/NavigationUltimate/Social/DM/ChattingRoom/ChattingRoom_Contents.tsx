@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import ChattingBlock from './ChattingBlock';
 
 const Contents = styled.div`

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
   display: flex;
   width: 400px;
-  justify-content: flex-start;
+  justify-content: flex-end;
 `
 
 export default function() {

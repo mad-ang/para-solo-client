@@ -1,8 +1,8 @@
 // import { HashRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { PropaneSharp } from '@mui/icons-material';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { SetFalselistORroom, SetTruelistORroom, Setkey} from '../../../stores/DMbox';
+import { useAppDispatch, useAppSelector } from '../../../../../hooks';
+import { SetFalselistORroom, SetTruelistORroom, Setkey} from '../../../../../stores/DMbox';
 import ChattingRoomHeader from './ChattingRoom_Header';
 import ChattingRoomContents from './ChattingRoom_Contents';
 import ChattingRoomBottom from './ChattingRoom_Bottom';

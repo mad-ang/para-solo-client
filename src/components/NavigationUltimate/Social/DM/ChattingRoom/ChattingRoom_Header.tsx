@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { SetFalselistORroom, SetTruelistORroom, Setkey} from '../../../stores/DMbox';
+import { useAppDispatch, useAppSelector } from '../../../../../hooks';
+import { SetFalselistORroom, SetTruelistORroom, Setkey} from '../../../../../stores/DMbox';
 
 
 const BackToChatlistbutton = styled.button`

@@ -9,8 +9,8 @@ import {
   SetTruelistORroom,
   SetFalselistORroom,
   Setkey,
-} from "../../../stores/DMbox";
-import { useAppDispatch, useAppSelector } from "../../../hooks";
+} from "../../../../../stores/DMbox";
+import { useAppDispatch, useAppSelector } from "../../../../../hooks";
 import io from "socket.io-client";
 const socketHost = "http://localhost";
 const socketPort = "5002";

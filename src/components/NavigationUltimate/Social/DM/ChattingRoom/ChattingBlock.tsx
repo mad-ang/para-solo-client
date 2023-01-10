@@ -1,7 +1,7 @@
 import {Portal} from './Modal_unused'
 import styled from 'styled-components';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { SetFalselistORroom, SetTruelistORroom, Setkey} from '../../../stores/DMbox';
+import { useAppDispatch, useAppSelector } from '../../../../../hooks';
+import { SetFalselistORroom, SetTruelistORroom, Setkey} from '../../../../../stores/DMbox';
 import { Message } from '@mui/icons-material';
 
 

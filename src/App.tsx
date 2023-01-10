@@ -19,7 +19,6 @@ import WelcomeToast from "./components/ToastNotification";
 import SignUpDialog from "./components/SignUpDialog";
 import SignInDialog from "./components/SignInDialog";
 import axios from 'axios';
-import DMbutton from "./components/DM/ChattingList/DirectMessageBox";
 import NavigationContainer from './components/NavigationUltimate/NavigationContainer';
 
 
@@ -51,10 +50,10 @@ function App() {
             ui = (
                 /* Render Chat or VideoConnectionDialog if no dialogs are opened. */
                 <>
+                     <NavigationContainer />
                     {/* Render VideoConnectionDialog if user is not connected to a webcam. */}
                     {!videoConnected && <VideoConnectionDialog />}
                     <WelcomeToast />
-                    <DMbutton />
                 </>
             );
         }
@@ -73,7 +72,7 @@ function App() {
     return (
         <Backdrop className='Backdrop'>
             {ui}
-            {!tableDialogOpen &&  <NavigationContainer />}
+            {!tableDialogOpen}
             
         </Backdrop>
     );

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, {keyframes} from "styled-components";
 import DMboxSVG from '../../../assets/directmessage/DM.svg';
-import channelTalkPNG from '../../../assets/directmessage/channeltalk.png';
+import channelTalkPNG from '../../../../../assets/directmessage/channelTalk.png';
 import { useNavigate } from 'react-router-dom';
 import {InsideChattingRoom} from '../ChattingRoom/ChattingRoom';
 

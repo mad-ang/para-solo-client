@@ -7,8 +7,8 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   display: flex;
-  width: 200px;
-  justify-content: flex-start;
+  width: 400px;
+  justify-content: flex-end;
 `
 
 export default function() {

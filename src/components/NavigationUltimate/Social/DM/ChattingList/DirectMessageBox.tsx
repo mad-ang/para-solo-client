@@ -3,23 +3,26 @@ import styled, {keyframes} from "styled-components";
 import DMboxSVG from '../../../assets/directmessage/DM.svg';
 import channelTalkPNG from '../../../assets/directmessage/channeltalk.png';
 import {InsideChattingRoom} from '../ChattingRoom/ChattingRoom';
-import { DMSlice, SetTruelistORroom, SetFalselistORroom,Setkey} from '../../../stores/DMbox';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { DMSlice, SetTruelistORroom, SetFalselistORroom,Setkey} from '../../../../../stores/DMbox';
+import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 
 import {ConversationList} from './DirectMessageBox_ConversationList';
 import {DMboxHeader} from './DirectMessageBox_Header';
 import {DMSearchConversation} from './DirectMessageBox_SearchConversation';
 
 const Wrapper = styled.div`
-    position: fixed;
-    top: 90%;
-    left: 95%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    top: 0;
+    left: 0;
 `
+// const Wrapper = styled.div`
+//     background-color: white;
+// `
+
 const DMwrapper = styled.div`
-    position: absolute;
-    top: -200%;
-    left: -100%;
+    position: fixed;
+    top: 70%;
+    left: 30%;
     transform: translate(-50%, -50%);
     background : none;
     gap: 10px;
@@ -129,7 +132,7 @@ export default function DMboxButton() {
 
   return (
     <Wrapper>
-      <img src={DMboxSVG} onClick={handleClick} width="100" />
+      <button onClick={handleClick}>이거누르면 DMbox가뜸 </button>
       {showMessage && (
         <div className="'DMpopup">
           <DMbox setShowMessage={setShowMessage} />
