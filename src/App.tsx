@@ -11,7 +11,6 @@ import React from "react";
 import styled from "styled-components";
 import { HashRouter } from 'react-router-dom';
 import { useAppSelector } from "./hooks";
-
 import RoomSelectionDialog from "./components/RoomSelectionDialog";
 import LoginDialog from "./components/LoginDialog";
 import VideoConnectionDialog from "./components/VideoConnectionDialog";
@@ -22,19 +21,19 @@ import WelcomeToast from "./components/ToastNotification";
 import DMbutton from "./components/DM/ChattingList/DirectMessageBox";
 
 const Backdrop = styled.div`
-  position: absolute;
-  z-index: 10;
-  height: 100%;
-  width: 100%;
+    position: absolute;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
 `;
 
 function App() {
     const loggedIn = useAppSelector((state) => state.user.loggedIn);
     const tableDialogOpen = useAppSelector(
         (state) => state.table.tableDialogOpen
-  );
-  const videoConnected = useAppSelector((state) => state.user.videoConnected);
-  const roomJoined = useAppSelector((state) => state.room.roomJoined);
+    );
+    const videoConnected = useAppSelector((state) => state.user.videoConnected);
+    const roomJoined = useAppSelector((state) => state.room.roomJoined);
 
     let ui: JSX.Element;
     if (loggedIn) {
