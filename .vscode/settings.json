@@ -1,3 +1,9 @@
 {
+<<<<<<< Updated upstream
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
+=======
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true
+}
+>>>>>>> Stashed changes

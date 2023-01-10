@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import TextField from "@mui/material/TextField";
-import { useAppSelector, useAppDispatch } from "../hooks";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Button from "@mui/material/Button";
-import axios from "axios";
-import { setSignIn, setSignedUp } from "../stores/UserStore";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import phaserGame from "../PhaserGame";
-import Bootstrap from "../scenes/Bootstrap";
-
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import TextField from '@mui/material/TextField';
+import { useAppSelector, useAppDispatch } from '../hooks';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Button from '@mui/material/Button';
+import axios from 'axios';
+import { setSignUp, setSignIn, setSignedUp } from '../stores/UserStore';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import phaserGame from '../PhaserGame';
+import Bootstrap from '../scenes/Bootstrap';
 
 const Wrapper = styled.form`
   position: fixed;
@@ -34,7 +33,10 @@ const Title = styled.h3`
 `;
 const Content = styled.div`
   display: flex;
-  margin: 36px 0;
+  gap: 20px;
+  margin: 20px 0;
+  align-items: center;
+  justify-content: center;
 `;
 
 function SignedUpToast() {
@@ -69,18 +71,23 @@ export default function SignInDialog() {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
 
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
+  const [userId, setUserId] = useState('');
+  const [password, setPassword] = useState('');
   const [pwFieldEmpty, setPwFieldEmpty] = useState<boolean>(false);
   const [userIdFieldEmpty, setUserIdFieldEmpty] = useState<boolean>(false);
   const [userIdFieldWrong, setUserIdFieldWrong] = useState<boolean>(false);
-  
+
+  const goToEntry = (event) => {
+    event.preventDefault();
+
+    dispatch(setSignUp(false));
+    dispatch(setSignedUp(false));
+    dispatch(setSignIn(false));
+  };
   const onSubmitHandler = (event) => {
     event.preventDefault();
     setUserIdFieldEmpty(false);
@@ -89,10 +96,10 @@ export default function SignInDialog() {
 
     console.log(userId);
     console.log(userIdFieldEmpty);
-    if (userId === "") {
+    if (userId === '') {
       setUserIdFieldEmpty(true);
     }
-    if (password === "") {
+    if (password === '') {
       setPwFieldEmpty(true);
     } else {
       let body = {
@@ -104,60 +111,57 @@ export default function SignInDialog() {
       console.log({ password });
 
       axios
-        .post("/auth/login", body)
+        .post('/auth/login', body)
         .then(function (response) {
           // response
 
           if (response.data.status == 200) {
             const accessToken = response.data.payload.accessToken;
 
-            axios.defaults.headers.common[
-              "Authorization"
-            ] = `Bearer ${accessToken}`;
-            
+            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
             console.log(response.data);
             console.log(accessToken);
 
             // dispatch(setSignIn(false));
 
             const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
-      bootstrap.network
-        .joinOrCreatePublic()
-        .then(() => bootstrap.launchGame())
-        .catch((error) => console.error(error));
-
+            bootstrap.network
+              .joinOrCreatePublic()
+              .then(() => bootstrap.launchGame())
+              .catch((error) => console.error(error));
           } else {
-            console.log("11111");
+            console.log('11111');
           }
         })
         .catch(function (error) {
           // 오류발생시 실행
           setUserIdFieldWrong(true);
-          console.log("hi", error.message);
-          if (error.message == "Request failed with status code 409") {
-            console.log("22222");
+          console.log('hi', error.message);
+          if (error.message == 'Request failed with status code 409') {
+            console.log('22222');
           } else {
-            console.log("444444");
+            console.log('444444');
           }
         })
         .then(function () {
           // 항상 실행
-          console.log("333333");
+          console.log('333333');
         });
     }
   };
   return (
     <>
       {signedUp === true
-        ? toast("회원가입이 완료되었어요! 로그인해주세요", {
-            position: "top-center",
+        ? toast('회원가입이 완료되었어요! 로그인해주세요', {
+            position: 'top-center',
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "light",
+            theme: 'light',
           })
         : null}
 
@@ -175,8 +179,8 @@ export default function SignInDialog() {
           margin="normal"
           error={userIdFieldEmpty || userIdFieldWrong}
           helperText={
-            (userIdFieldEmpty && "이름이 필요해요") ||
-            (userIdFieldWrong && "회원정보가 잘못되었습니다")
+            (userIdFieldEmpty && '이름이 필요해요') ||
+            (userIdFieldWrong && '회원정보가 잘못되었습니다')
           }
           onInput={(e) => {
             setUserId((e.target as HTMLInputElement).value);
@@ -191,13 +195,13 @@ export default function SignInDialog() {
           margin="normal"
           error={pwFieldEmpty || userIdFieldWrong}
           helperText={
-            (pwFieldEmpty && "비밀번호가 필요해요") ||
-            (userIdFieldWrong && "회원정보가 잘못되었습니다")
+            (pwFieldEmpty && '비밀번호가 필요해요') ||
+            (userIdFieldWrong && '회원정보가 잘못되었습니다')
           }
           onInput={(e) => {
             setPassword((e.target as HTMLInputElement).value);
           }}
-          type={showPassword ? "text" : "password"}
+          type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -213,9 +217,15 @@ export default function SignInDialog() {
             ),
           }}
         />
-        <Button variant="contained" color="secondary" onClick={onSubmitHandler}>
-          로그인 완료
-        </Button>
+        <Content>
+          <Button variant="contained" color="secondary" onClick={onSubmitHandler}>
+            로그인 완료
+          </Button>
+
+          <Button variant="contained" color="secondary" onClick={goToEntry} sx={{ mx: 2 }}>
+            뒤로 가기
+          </Button>
+        </Content>
       </Wrapper>
     </>
   );
