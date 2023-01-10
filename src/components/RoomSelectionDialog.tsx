@@ -12,10 +12,11 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // import { CustomRoomTable } from './CustomRoomTable'
 // import { CreateRoomForm } from './CreateRoomForm'
-import { useAppSelector } from "../hooks";
+import { useAppSelector, useAppDispatch } from "../hooks";
 
 import phaserGame from "../PhaserGame";
 import Bootstrap from "../scenes/Bootstrap";
+import { setSignUp, setSignIn } from '../stores/UserStore'
 import { EnergySavingsLeaf } from "@mui/icons-material";
 
 const Backdrop = styled.div`
@@ -75,6 +76,8 @@ export default function RoomSelectionDialog() {
   // const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
   const [showSnackbar, setShowSnackbar] = useState(false);
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
+  // 입장하기 버튼시 발동.
+  const dispatch = useAppDispatch();
   const [enabled, setDisabled] = React.useState(false);
 
   const handleConnect = () => {
@@ -92,6 +95,14 @@ export default function RoomSelectionDialog() {
     }
   };
 
+  const signUpConnect = () => {
+    dispatch(setSignUp(true));
+  };
+
+  const signInConnect = () => {
+    dispatch(setSignIn(true));
+  };
+ 
   return (
     <>
       <Snackbar
@@ -137,6 +148,25 @@ export default function RoomSelectionDialog() {
                 >
                   Create/find custom rooms
                 </Button> */}
+                {(
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={signUpConnect}
+                >
+                  회원가입
+                </Button>
+                )}
+                 {(
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={signInConnect}
+                >
+                  로그인
+                </Button>
+                
+              )}
             </Content>
           </>
         </Wrapper>
