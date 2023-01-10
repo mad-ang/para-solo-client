@@ -2,25 +2,18 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import { useAppSelector, useAppDispatch } from "../hooks";
-import TransitionsSnackbar from "./AlertMessage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { setSignUp, setSignIn, setSignedUp } from "../stores/UserStore";
-import { Alert, AlertTitle, OutlinedInput } from "@mui/material";
-import { Warning } from "@mui/icons-material";
-import { css, keyframes } from "styled-components";
-import Box from "@mui/material/Box";
+import { setSignIn, setSignedUp } from "../stores/UserStore";
 import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
-import FilledInput from "@mui/material/FilledInput";
-import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import phaserGame from "../PhaserGame";
+import Bootstrap from "../scenes/Bootstrap";
+
 
 const Wrapper = styled.form`
   position: fixed;
@@ -85,11 +78,9 @@ export default function SignInDialog() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [pwFieldEmpty, setPwFieldEmpty] = useState<boolean>(false);
-
   const [userIdFieldEmpty, setUserIdFieldEmpty] = useState<boolean>(false);
   const [userIdFieldWrong, setUserIdFieldWrong] = useState<boolean>(false);
-  const [accessToken, setAccessToken] = useState("");
-
+  
   const onSubmitHandler = (event) => {
     event.preventDefault();
     setUserIdFieldEmpty(false);
@@ -125,9 +116,16 @@ export default function SignInDialog() {
             ] = `Bearer ${accessToken}`;
             
             console.log(response.data);
-            console.log(response.data);
+            console.log(accessToken);
 
-            dispatch(setSignIn(false));
+            // dispatch(setSignIn(false));
+
+            const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
+      bootstrap.network
+        .joinOrCreatePublic()
+        .then(() => bootstrap.launchGame())
+        .catch((error) => console.error(error));
+
           } else {
             console.log("11111");
           }
