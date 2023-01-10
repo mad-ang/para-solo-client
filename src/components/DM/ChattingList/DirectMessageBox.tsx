@@ -129,12 +129,12 @@ export default function DMboxButton() {
 
   return (
     <Wrapper>
-      <img src={DMboxSVG} onClick = {handleClick} width="100" />
-      {showMessage &&(
-          <div className = "DMpopup">
-                <DMbox setShowMessage={setShowMessage} /> 
-                {!listORroom ? <InsideChattingRoom/>: null}
-          </div>
+      <img src={DMboxSVG} onClick={handleClick} width="100" />
+      {showMessage && (
+        <div className="'DMpopup">
+          <DMbox setShowMessage={setShowMessage} />
+          {!listORroom ? <InsideChattingRoom /> : null}
+        </div>
       )}
     </Wrapper>
   );
