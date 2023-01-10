@@ -12,6 +12,11 @@ const SexyChar = styled.span`
   background-color: #FFFFFF;
 `;
 
+const Wrapper = styled.div`
+  padding: 8px;
+`
+
+
 function ProjectNameChar(char: string) {
   return(
     <SexyChar>
@@ -22,12 +27,12 @@ function ProjectNameChar(char: string) {
 
 export default function HuntingPochaPocha() {
   return (
-    <div>
+    <Wrapper>
       {ProjectNameChar('삼')}
       {ProjectNameChar('거')}
       {ProjectNameChar('리')}
       {ProjectNameChar('포')}
       {ProjectNameChar('차')}
-    </div>
+    </Wrapper>
   );
 }

@@ -16,10 +16,11 @@ const Backdrop = styled.div`
 
 const RedContainer = styled.div`
   display: flex;
+  justify-content: space-around;
   gap: 10px;
   width: 100vw;
   height: 60px;
-  background-color:  #C4564C;
+  background-color: #C4564C;
 `;
 
 

@@ -19,12 +19,12 @@ import { useAppSelector, useAppDispatch } from "../../../hooks";
 import { getAvatarString, getColorByString } from "../../../util";
 
 const Backdrop = styled.div`
-  position: fixed;
   display: flex;
   gap: 10px;
   bottom: 16px;
   right: 16px;
   align-items: flex-end;
+  padding: 9px;
 
   .wrapper-group {
     display: flex;

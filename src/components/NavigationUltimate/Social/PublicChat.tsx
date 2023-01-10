@@ -1,15 +1,5 @@
 import react from 'react';
 import styled from 'styled-components';
-
-export default function PublicChat() {
-  return (
-    <div>
-      <button>공공채팅</button>
-      <Chat/>
-    </div>
-  );
-}
-
 import React, { useRef, useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
@@ -20,6 +10,7 @@ import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import 'emoji-mart/css/emoji-mart.css';
+import ChatIcon from '@mui/icons-material/Chat';
 import { Picker } from 'emoji-mart';
 
 import phaserGame from '../../../PhaserGame';
@@ -32,8 +23,8 @@ import { roomSlice } from '../../../stores/RoomStore';
 
 const Backdrop = styled.div`
   position: fixed;
-  bottom: 0;
-  left: 400px;
+  bottom: 65px;
+  left: 0px;
   height: 30vh;
   width: 30vw;
   max-height: 50%;
@@ -130,6 +121,18 @@ const EmojiPickerWrapper = styled.div`
   bottom: 54px;
   right: 16px;
 `;
+
+const StyledRedBox = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 60px;
+  height: 44px;
+  background-color: #C4564C;
+  box-shadow: 0 0 10px 0 #000000;
+  font-size: 1rem;
+  font-weight: 900;
+`;
+
 
 const dateFormatter = new Intl.DateTimeFormat('en', {
   timeStyle: 'short',
@@ -306,19 +309,28 @@ function Chat() {
           </>
         ) : (
           <FabWrapper>
-            <Fab
-              color="secondary"
-              aria-label="showChat"
-              onClick={() => {
-                dispatch(setShowChat(true));
-                dispatch(setFocused(true));
-              }}
-            >
-              <ChatBubbleOutlineIcon />
-            </Fab>
           </FabWrapper>
         )}
       </Wrapper>
     </Backdrop>
+  );
+}
+
+
+export default function PublicChat() {
+  const showChat = useAppSelector((state) => state.chat.showChat);
+  const dispatch = useAppDispatch();
+
+  return (
+    <div>
+      <StyledRedBox onClick={() => {
+        console.log('공공채팅');
+        dispatch(setShowChat(true));
+        dispatch(setFocused(true));
+      }}>
+        <ChatIcon fontSize="large"/>
+      </StyledRedBox>
+      <Chat/>
+    </div>
   );
 }

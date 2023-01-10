@@ -10,14 +10,26 @@ import {ConversationList} from './DirectMessageBox_ConversationList';
 import {DMboxHeader} from './DirectMessageBox_Header';
 import {DMSearchConversation} from './DirectMessageBox_SearchConversation';
 
+
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+
+const StyledRedBox = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 60px;
+  height: 44px;
+  background-color: #C4564C;
+  box-shadow: 0 0 10px 0 #000000;
+  font-size: 1rem;
+  font-weight: 900;
+`;
+
+
 const Wrapper = styled.div`
     position: relative;
     top: 0;
     left: 0;
 `
-// const Wrapper = styled.div`
-//     background-color: white;
-// `
 
 const DMwrapper = styled.div`
     position: fixed;
@@ -132,7 +144,9 @@ export default function DMboxButton() {
 
   return (
     <Wrapper>
-      <button onClick={handleClick}>이거누르면 DMbox가뜸 </button>
+      <StyledRedBox onClick={handleClick}>
+          <VolunteerActivismIcon fontSize='large'/>
+      </StyledRedBox>
       {showMessage && (
         <div className="'DMpopup">
           <DMbox setShowMessage={setShowMessage} />
