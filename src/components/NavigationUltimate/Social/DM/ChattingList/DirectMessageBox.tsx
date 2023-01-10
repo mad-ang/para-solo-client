@@ -33,9 +33,8 @@ const Wrapper = styled.div`
 
 const DMwrapper = styled.div`
     position: fixed;
-    top: 70%;
-    left: 30%;
-    transform: translate(-50%, -50%);
+    bottom: 100px;
+    left: 0px;
     background : none;
     gap: 10px;
     bottom: 60px;

@@ -1,4 +1,4 @@
-import react from 'react';
+import react,{ useState } from 'react';
 import styled from 'styled-components';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -19,8 +19,45 @@ const UserNameDiv = styled.div`
     font-size: 1rem;
 `
 
+const ProfileSettingEditor = styled.div`
+position: fixed;
+bottom: 100px;
+left: 0px;
+background-color: #FFFFFF;
+gap: 10px;
+bottom: 60px;
+height: 400px;
+width: 370px;
+border-radius: 25px;
+box-shadow: 20px 0px 10px 0px rgba(0,0,0,0.75);
+-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+`
+
+
+function ProfileEditModal(props){
+
+    function handleClick() {
+        props.setShowProfileEditModal(false);
+      }
+
+    return(
+        <ProfileSettingEditor>
+            <button  onClick={()=>{handleClick()}}  > X </button>
+            <h1>프로필 수정</h1>
+        </ProfileSettingEditor>
+    )
+}
+
+
 
 export default function ConnectionStatus() {
+    const [profileEditModal, setShowProfileEditModal] = useState(false);
+
+    function handleClick() {
+        setShowProfileEditModal(true);
+      }
+
     return (
         <div>
             <StyledRedBox>
@@ -28,7 +65,14 @@ export default function ConnectionStatus() {
                     <UserNameDiv>
                         왕십리꿀벅지
                     </UserNameDiv>
-                <EditIcon sx={{ fontSize: 30 }}/>
+                <EditIcon sx={{ fontSize: 30 }}  onClick={()=>{
+                    handleClick();
+                    console.log("click");
+                    }}>
+                </EditIcon>
+                {profileEditModal ? (
+                        <ProfileEditModal setShowProfileEditModal={setShowProfileEditModal}/>
+                    ): null}
             </StyledRedBox>
         </div>
     );

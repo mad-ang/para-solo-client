@@ -8,10 +8,9 @@ import ChattingRoomContents from './ChattingRoom_Contents';
 import ChattingRoomBottom from './ChattingRoom_Bottom';
 
 const Wrapper = styled.div`
-position: absolute;
-top: -200%;
-left: -100%;
-transform: translate(-50%, -50%);
+position: fixed;
+bottom: 100px;
+left: 0px;
 background : white;
 gap: 10px;
 bottom: 60px;
