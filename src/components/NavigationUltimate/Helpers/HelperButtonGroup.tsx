@@ -13,10 +13,10 @@ import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
-import { BackgroundMode } from "../types/BackgroundMode";
-import { toggleBackgroundMode } from "../stores/UserStore";
-import { useAppSelector, useAppDispatch } from "../hooks";
-import { getAvatarString, getColorByString } from "../util";
+import { BackgroundMode } from "../../../types/BackgroundMode";
+import { toggleBackgroundMode } from "../../../stores/UserStore";
+import { useAppSelector, useAppDispatch } from "../../../hooks";
+import { getAvatarString, getColorByString } from "../../../util";
 
 const Backdrop = styled.div`
   position: fixed;

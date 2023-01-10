@@ -15,20 +15,21 @@ import RoomSelectionDialog from "./components/RoomSelectionDialog";
 import LoginDialog from "./components/LoginDialog";
 import VideoConnectionDialog from "./components/VideoConnectionDialog";
 import TableDialog from "./components/TableDialog";
-import Chat from "./components/Chat";
-import HelperButtonGroup from "./components/HelperButtonGroup";
 import WelcomeToast from "./components/ToastNotification";
 import SignUpDialog from "./components/SignUpDialog";
 import SignInDialog from "./components/SignInDialog";
 import axios from 'axios';
+import DMbutton from "./components/DM/ChattingList/DirectMessageBox";
+import NavigationContainer from './components/NavigationUltimate/NavigationContainer';
+
 
 axios.defaults.baseURL = 'http://localhost:2567';
-import DMbutton from "./components/DM/ChattingList/DirectMessageBox";
+
 
 const Backdrop = styled.div`
     position: absolute;
     z-index: 10;
-    height: 100%;
+    height: 90%;
     width: 100%;
 `;
 
@@ -50,7 +51,6 @@ function App() {
             ui = (
                 /* Render Chat or VideoConnectionDialog if no dialogs are opened. */
                 <>
-                    <Chat />
                     {/* Render VideoConnectionDialog if user is not connected to a webcam. */}
                     {!videoConnected && <VideoConnectionDialog />}
                     <WelcomeToast />
@@ -71,9 +71,10 @@ function App() {
     }
 
     return (
-        <Backdrop>
+        <Backdrop className='Backdrop'>
             {ui}
-            {!tableDialogOpen && <HelperButtonGroup />}
+            {!tableDialogOpen &&  <NavigationContainer />}
+            
         </Backdrop>
     );
 }
