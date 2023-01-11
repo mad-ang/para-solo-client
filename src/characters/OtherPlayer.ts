@@ -214,11 +214,11 @@ Phaser.GameObjects.GameObjectFactory.register(
     y: number,
     texture: string,
     id: string,
-    name: string,
     userId: string,
+    name: string,
     frame?: string | number
   ) {
-    const sprite = new OtherPlayer(this.scene, x, y, texture, id, name, userId, frame);
+    const sprite = new OtherPlayer(this.scene, x, y, texture, id, userId, name, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
