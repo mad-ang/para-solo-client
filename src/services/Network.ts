@@ -25,7 +25,7 @@ export default class Network {
   private room?: Room<ITownState>;
   private lobby!: Room;
   webRTC?: WebRTC;
-
+  userId!: string;
   mySessionId!: string;
 
   constructor() {
@@ -87,6 +87,7 @@ export default class Network {
 
     this.lobby.leave();
     this.mySessionId = this.room.sessionId;
+    this.userId = '초기 유저 아이디';
     store.dispatch(setSessionId(this.room.sessionId));
     this.webRTC = new WebRTC(this.mySessionId, this);
     console.log('onAdd 시에 this.room.sessionId', this.room.sessionId);
@@ -98,6 +99,7 @@ export default class Network {
 
       // track changes on every child object inside the players MapSchema
       player.onChange = (changes) => {
+        console.log('changes', changes);
         changes.forEach((change) => {
           const { field, value } = change;
           phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
@@ -217,11 +219,12 @@ export default class Network {
   }
 
   // method to send player updates to Colyseus server
-  updatePlayer(currentX: number, currentY: number, currentAnim: string) {
+  updatePlayer(currentX: number, currentY: number, currentAnim: string, currentUserId: string) {
     this.room?.send(Message.UPDATE_PLAYER, {
       x: currentX,
       y: currentY,
       anim: currentAnim,
+      userId: currentUserId,
     });
   }
 

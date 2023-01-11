@@ -22,23 +22,31 @@ export default class MyPlayer extends Player {
     y: number,
     texture: string,
     id: string,
+    userId: string,
     frame?: string | number
   ) {
-    super(scene, x, y, texture, id, frame);
+    super(scene, x, y, texture, id, userId, frame);
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
   }
 
   setPlayerName(name: string) {
     this.playerName.setText(name);
-    const userId = store.getState().user?.userId || '';
-    phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name);
+    const userId = store.getState().user?.userId || '최초 이름';
+    phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId);
     store.dispatch(pushPlayerJoinedMessage(name));
   }
 
   setPlayerTexture(texture: string) {
     this.playerTexture = texture;
     this.anims.play(`${this.playerTexture}_idle_down`, true);
-    phaserEvents.emit(Event.MY_PLAYER_TEXTURE_CHANGE, this.x, this.y, this.anims.currentAnim.key);
+    const userId = store.getState().user?.userId || '최초 이름';
+    phaserEvents.emit(
+      Event.MY_PLAYER_TEXTURE_CHANGE,
+      this.x,
+      this.y,
+      this.anims.currentAnim.key,
+      userId
+    );
   }
 
   update(
@@ -123,7 +131,7 @@ export default class MyPlayer extends Player {
                 playerSelector.setPosition(0, 0);
               }
               // send new location and anim to server
-              network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
+              network.updatePlayer(this.x, this.y, this.anims.currentAnim.key, this.userId);
               network.updateChairStatus(chairItem.tableId, chairItem.chairId, true);
             },
             loop: false,
@@ -159,7 +167,7 @@ export default class MyPlayer extends Player {
 
           // update animation according to velocity and send new location and anim to server
           if (vx !== 0 || vy !== 0)
-            network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
+            network.updatePlayer(this.x, this.y, this.anims.currentAnim.key, this.userId);
           if (vx > 0) {
             this.play(`${this.playerTexture}_run_right`, true);
           } else if (vx < 0) {
@@ -176,7 +184,7 @@ export default class MyPlayer extends Player {
             if (this.anims.currentAnim.key !== newAnim) {
               this.play(parts.join('_'), true);
               // send new location and anim to server
-              network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
+              network.updatePlayer(this.x, this.y, this.anims.currentAnim.key, this.userId);
             }
           }
           break;
@@ -191,7 +199,7 @@ export default class MyPlayer extends Player {
           playerSelector.setPosition(this.x, this.y);
           playerSelector.update(this, cursors);
           network.updateChairStatus(this.chairOnSit?.tableId, this.chairOnSit?.chairId, false);
-          network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
+          network.updatePlayer(this.x, this.y, this.anims.currentAnim.key, this.userId);
         }
         // this.chairOnSit?.clearDialogBox();
         // this.chairOnSit?.setDialogBox("E키를 눌러서 일어나기");
@@ -214,6 +222,7 @@ declare global {
         y: number,
         texture: string,
         id: string,
+        userId: string,
         frame?: string | number
       ): MyPlayer;
     }
@@ -228,9 +237,10 @@ Phaser.GameObjects.GameObjectFactory.register(
     y: number,
     texture: string,
     id: string,
+    userId: string,
     frame?: string | number
   ) {
-    const sprite = new MyPlayer(this.scene, x, y, texture, id, frame);
+    const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
