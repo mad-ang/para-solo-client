@@ -139,12 +139,13 @@ export default class Game extends Phaser.Scene {
     cafeLayer.setCollisionByProperty({ collisions: true });
     cafe_fenceLayer.setCollisionByProperty({ collisions: true });
 
+    const userId = store.getState().user?.userId || this.network.userId;
     this.myPlayer = this.add.myPlayer(
       Phaser.Math.RND.between(200, 700),
       Phaser.Math.RND.between(200, 300),
       'adam',
       this.network.mySessionId,
-      this.network.userId
+      userId
     );
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16);
 
