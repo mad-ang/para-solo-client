@@ -71,7 +71,7 @@ const ProgressBar = styled(LinearProgress)`
   width: 360px;
 `;
 
-export default function RoomSelectionDialog() {
+export default function EntryDialog() {
   // const [showCustomRoom, setShowCustomRoom] = useState(false)
   // const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
   const [showSnackbar, setShowSnackbar] = useState(false);

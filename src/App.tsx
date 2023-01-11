@@ -11,7 +11,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { HashRouter } from 'react-router-dom';
 import { useAppSelector } from './hooks';
-import RoomSelectionDialog from './components/RoomSelectionDialog';
+import EntryDialog from './components/EntryDialog';
 import CharacterSelectionDialog from './components/CharacterSelectionDialog';
 import VideoConnectionDialog from './components/VideoConnectionDialog';
 import TableDialog from './components/TableDialog';
@@ -53,7 +53,7 @@ function App() {
       );
     }
   } else if (enteringProcess === ENTERING_PROCESS.ENTRY) {
-    ui = <RoomSelectionDialog />;
+    ui = <EntryDialog />;
   } else if (enteringProcess === ENTERING_PROCESS.SIGNUP) {
     ui = <SignUpDialog />;
   } else if (enteringProcess === ENTERING_PROCESS.LOGIN) {
