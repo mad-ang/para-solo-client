@@ -1,8 +1,8 @@
 // import { HashRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { PropaneSharp } from '@mui/icons-material';
-import { useAppDispatch, useAppSelector } from '../../../../../hooks';
-import { SetFalselistORroom, SetTruelistORroom, Setkey} from '../../../../../stores/DMbox';
+import {useAppDispatch, useAppSelector } from '../../../../../hooks';
+import { Setkey} from '../../../../../stores/DMboxStore';
 import ChattingRoomHeader from './ChattingRoom_Header';
 import ChattingRoomContents from './ChattingRoom_Contents';
 import ChattingRoomBottom from './ChattingRoom_Bottom';
@@ -37,11 +37,9 @@ box-shadow: 20px 0px 10px 0px rgba(0,0,0,0.75);
 
 
 export function InsideChattingRoom() {
-  
-  const listORroom = useAppSelector((state) => state.dm.listORroom);
-  const withWho = useAppSelector((state) => state.dm.withWho);
   const dispatch = useAppDispatch();
-
+  const withWho = useAppSelector((state) => state.dm.withWho);
+  
   return (
     <Wrapper>
         <ChattingRoomHeader />

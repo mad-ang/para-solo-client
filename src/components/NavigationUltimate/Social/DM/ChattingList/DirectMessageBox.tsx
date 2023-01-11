@@ -3,14 +3,14 @@ import styled, {keyframes} from "styled-components";
 import DMboxSVG from '../../../assets/directmessage/DM.svg';
 import channelTalkPNG from '../../../assets/directmessage/channeltalk.png';
 import {InsideChattingRoom} from '../ChattingRoom/ChattingRoom';
-import { DMSlice, SetTruelistORroom, SetFalselistORroom,Setkey} from '../../../../../stores/DMbox';
+import { DMSlice, Setkey} from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 
 import {ConversationList} from './DirectMessageBox_ConversationList';
 import {DMboxHeader} from './DirectMessageBox_Header';
 import {DMSearchConversation} from './DirectMessageBox_SearchConversation';
 
-
+import {SetChattingListActivated, SetChattingListActivateOnly} from '../../../../../stores/NavbarStore';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 const StyledRedBox = styled.div`
@@ -23,14 +23,11 @@ const StyledRedBox = styled.div`
   font-size: 1rem;
   font-weight: 900;
 `;
-
-
 const Wrapper = styled.div`
     position: relative;
     top: 0;
     left: 0;
-`
-
+`;
 const DMwrapper = styled.div`
     position: fixed;
     bottom: 100px;
@@ -44,23 +41,21 @@ const DMwrapper = styled.div`
     box-shadow: 20px 0px 10px 0px rgba(0,0,0,0.75);
     -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-`
+`;
 const DM = styled.div`
     padding: 15px 35px 15px 15px;
     font-size: 28px;
     font-weight: bold;
-    `
+    `;
 
 const DMmessage = styled.div`
     background : #FFFFFF;
     height: 100px;
     font-size: 28px;
-`
-
-
+`;
 
 /* DMbox */
-function DMbox(props) {
+function DMbox() {
     //대화목록 여기서 받아서 conversations에 집어넣어야 함
     //서버 열리면 <<여기>>에 작성 예정
 
@@ -123,7 +118,7 @@ function DMbox(props) {
 
     return (
         <DMwrapper>
-          <DMboxHeader setShowMessage={props.setShowMessage}/>
+          <DMboxHeader/>
           <DMSearchConversation/>
           <ConversationList conversations= {conversations}/>
         </DMwrapper>
@@ -131,25 +126,32 @@ function DMbox(props) {
   }
 
 
-
 /* DMboxButton, something pop-up when clicks it */
 export default function DMboxButton() {
-  const [showMessage, setShowMessage] = useState(false);
-  const listORroom = useAppSelector((state) => state.dm.listORroom);
+  
+  const NavControllerChattingListActivated = useAppSelector(
+    (state) => state.nav.NavControllerChattingListActivated
+  );
+  const NavControllerChattingRoomActivated = useAppSelector(
+    (state) => state.nav.NavControllerChattingRoomActivated
+  );
+  const dispatch = useAppDispatch();
+
 
   function handleClick() {
-    setShowMessage(true);
+    dispatch(SetChattingListActivateOnly());
   }
+
 
   return (
     <Wrapper>
       <StyledRedBox onClick={handleClick}>
           <VolunteerActivismIcon fontSize='large'/>
       </StyledRedBox>
-      {showMessage && (
+      {NavControllerChattingListActivated && (
         <div className="'DMpopup">
-          <DMbox setShowMessage={setShowMessage} />
-          {!listORroom ? <InsideChattingRoom /> : null}
+          <DMbox />
+          {NavControllerChattingRoomActivated ? <InsideChattingRoom /> : null}
         </div>
       )}
     </Wrapper>

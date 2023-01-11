@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
-import { SetFalselistORroom, SetTruelistORroom, Setkey} from '../../../../../stores/DMbox';
-
+import { Setkey} from '../../../../../stores/DMboxStore';
+import {SetChattingRoomActivated, SetChattingRoomActivateOnly} from '../../../../../stores/NavbarStore';
 
 const BackToChatlistbutton = styled.button`
 background : white;
@@ -26,15 +26,17 @@ padding: 20px;
 // border-radius: 25px;
 
 export default function ChattingRoomHeader() {
-    const listORroom = useAppSelector((state) => state.dm.listORroom);
     const withWho = useAppSelector((state) => state.dm.withWho);
     const dispatch = useAppDispatch();
 
+    function handleClick() {
+        dispatch(SetChattingRoomActivated(false));
+    }
+
+
     return (
         <Header>
-            <BackToChatlistbutton onClick={()=>{
-                dispatch(SetTruelistORroom());
-            }}>
+            <BackToChatlistbutton onClick={handleClick}>
                 ⬅️
             </BackToChatlistbutton>
             <h3>

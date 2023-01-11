@@ -9,7 +9,7 @@ const StyledRedBox = styled.div`
   justify-content: center;
   width: 60px;
   height: 44px;
-  background-color: #C4564C;
+  background-color: #c4564c;
   box-shadow: 0 0 10px 0 #000000;
   font-size: 2rem;
   font-weight: 900;
@@ -18,18 +18,17 @@ const StyledRedBox = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-`
-
+`;
 
 export default function ConnectionStatus() {
-    return (
-        <Wrapper>
-            <StyledRedBox>
-              <MicIcon fontSize='large'/>
-            </StyledRedBox>
-            <StyledRedBox>
-              <VideoCameraFrontIcon fontSize='large'/>
-            </StyledRedBox>
-        </Wrapper>
-    );
+  return (
+    <Wrapper>
+      <StyledRedBox>
+        <MicIcon fontSize="large" />
+      </StyledRedBox>
+      <StyledRedBox>
+        <VideoCameraFrontIcon fontSize="large" />
+      </StyledRedBox>
+    </Wrapper>
+  );
 }

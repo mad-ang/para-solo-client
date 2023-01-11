@@ -4,16 +4,13 @@ import DMboxSVG from "../../../assets/directmessage/DM.svg";
 import channelTalkPNG from "../../../assets/directmessage/channeltalk.png";
 import { useNavigate } from "react-router-dom";
 import { blue } from "@mui/material/colors";
-import {
-  DMSlice,
-  SetTruelistORroom,
-  SetFalselistORroom,
-  Setkey,
-} from "../../../../../stores/DMbox";
+import { DMSlice, Setkey} from "../../../../../stores/DMboxStore";
 import { useAppDispatch, useAppSelector } from "../../../../../hooks";
 import io from "socket.io-client";
 const socketHost = "http://localhost";
 const socketPort = "5002";
+import {SetChattingRoomActivated, SetChattingRoomActivateOnly} from '../../../../../stores/NavbarStore';
+
 
 const UnorderedList = styled.ul`
   list-style: none;
@@ -84,7 +81,7 @@ export const ConversationList: React.FC<Props> = ({ conversations }) => {
           <ListTag
             key={conversation.name}
             onClick={() => {
-              dispatch(SetFalselistORroom());
+              dispatch(SetChattingRoomActivated(true));
               dispatch(Setkey(conversation.name));
               const socketClient = io(`${socketHost}:${socketPort}/chat-id`);
 

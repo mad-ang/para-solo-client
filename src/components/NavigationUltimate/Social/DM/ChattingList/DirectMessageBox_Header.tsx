@@ -4,6 +4,8 @@ import DMboxSVG from '../../../assets/directmessage/DM.svg';
 import channelTalkPNG from '../../../../../assets/directmessage/channelTalk.png';
 import { useNavigate } from 'react-router-dom';
 import {InsideChattingRoom} from '../ChattingRoom/ChattingRoom';
+import { useAppSelector, useAppDispatch } from '../../../../../hooks';
+import {SetChattingListActivated, SetChattingListActivateOnly} from '../../../../../stores/NavbarStore';
 
 const TopController = styled.div`
     background : #FFFFFF;
@@ -14,13 +16,12 @@ const TopController = styled.div`
     justify-content: space-between;
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
-`
+`;
 const DirtyTalk = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-`
-
+`;
 const DMtop = styled.div`
     background : #FFFFFF; 
     padding: 0px 35px 0px 25px;
@@ -28,12 +29,15 @@ const DMtop = styled.div`
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
     font-weight: bold;
-`
+`;
 
-export function DMboxHeader(props){
+export function DMboxHeader(){
+    const dispatch = useAppDispatch();
     function handleClick() {
-        props.setShowMessage(false);
-      }
+        console.log("clicked!!!! I want back to the chatting list")
+        dispatch(SetChattingListActivated(false));
+    }
+
     return(
         <DMtop>
         <TopController>
