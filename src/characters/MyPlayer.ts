@@ -39,14 +39,7 @@ export default class MyPlayer extends Player {
   setPlayerTexture(texture: string) {
     this.playerTexture = texture;
     this.anims.play(`${this.playerTexture}_idle_down`, true);
-    const userId = store.getState().user?.userId || '최초 이름';
-    phaserEvents.emit(
-      Event.MY_PLAYER_TEXTURE_CHANGE,
-      this.x,
-      this.y,
-      this.anims.currentAnim.key,
-      userId
-    );
+    phaserEvents.emit(Event.MY_PLAYER_TEXTURE_CHANGE, this.x, this.y, this.anims.currentAnim.key);
   }
 
   update(
@@ -131,7 +124,7 @@ export default class MyPlayer extends Player {
                 playerSelector.setPosition(0, 0);
               }
               // send new location and anim to server
-              network.updatePlayer(this.x, this.y, this.anims.currentAnim.key, this.userId);
+              network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
               network.updateChairStatus(chairItem.tableId, chairItem.chairId, true);
             },
             loop: false,
@@ -167,7 +160,7 @@ export default class MyPlayer extends Player {
 
           // update animation according to velocity and send new location and anim to server
           if (vx !== 0 || vy !== 0)
-            network.updatePlayer(this.x, this.y, this.anims.currentAnim.key, this.userId);
+            network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
           if (vx > 0) {
             this.play(`${this.playerTexture}_run_right`, true);
           } else if (vx < 0) {
@@ -184,7 +177,7 @@ export default class MyPlayer extends Player {
             if (this.anims.currentAnim.key !== newAnim) {
               this.play(parts.join('_'), true);
               // send new location and anim to server
-              network.updatePlayer(this.x, this.y, this.anims.currentAnim.key, this.userId);
+              network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
             }
           }
           break;
@@ -199,7 +192,7 @@ export default class MyPlayer extends Player {
           playerSelector.setPosition(this.x, this.y);
           playerSelector.update(this, cursors);
           network.updateChairStatus(this.chairOnSit?.tableId, this.chairOnSit?.chairId, false);
-          network.updatePlayer(this.x, this.y, this.anims.currentAnim.key, this.userId);
+          network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
         }
         // this.chairOnSit?.clearDialogBox();
         // this.chairOnSit?.setDialogBox("E키를 눌러서 일어나기");

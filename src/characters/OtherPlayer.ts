@@ -49,6 +49,7 @@ export default class OtherPlayer extends Player {
       webRTC.connectToNewUser(this.playerId);
       this.connected = true;
       this.connectionBufferTime = 0;
+      console.log(myPlayer.userId, this.userId);
     }
   }
 

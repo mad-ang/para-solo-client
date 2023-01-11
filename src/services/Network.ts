@@ -99,7 +99,6 @@ export default class Network {
 
       // track changes on every child object inside the players MapSchema
       player.onChange = (changes) => {
-        console.log('changes', changes);
         changes.forEach((change) => {
           const { field, value } = change;
           phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
@@ -219,7 +218,7 @@ export default class Network {
   }
 
   // method to send player updates to Colyseus server
-  updatePlayer(currentX: number, currentY: number, currentAnim: string, currentUserId: string) {
+  updatePlayer(currentX: number, currentY: number, currentAnim: string) {
     this.room?.send(Message.UPDATE_PLAYER, {
       x: currentX,
       y: currentY,
