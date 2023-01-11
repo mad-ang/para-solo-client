@@ -11,11 +11,11 @@ export function getInitialBackgroundMode() {
   return currentHour > 6 && currentHour <= 18 ? BackgroundMode.DAY : BackgroundMode.NIGHT;
 }
 
-enum ENTERING_PROCESS {
+export enum ENTERING_PROCESS {
   ENTRY = 'entry',
   SIGNUP = 'signup',
   LOGIN = 'login',
-  CHARACTER_SELECTION = 'characterSelection'
+  CHARACTER_SELECTION = 'characterSelection',
 }
 
 export const userSlice = createSlice({
@@ -26,9 +26,6 @@ export const userSlice = createSlice({
     videoConnected: false,
     playerNameMap: new Map<string, string>(),
     enteringProcess: ENTERING_PROCESS.ENTRY,
-    signUp: false,
-    signIn: false,
-    signedUp: false,
     loggedIn: false,
     accessToken: null,
   },
@@ -56,14 +53,8 @@ export const userSlice = createSlice({
     removePlayerNameMap: (state, action: PayloadAction<string>) => {
       state.playerNameMap.delete(sanitizeId(action.payload));
     },
-    setSignUp: (state, action: PayloadAction<boolean>) => {
-      state.signUp = action.payload;
-    },
-    setSignIn: (state, action: PayloadAction<boolean>) => {
-      state.signIn = action.payload;
-    },
-    setSignedUp: (state, action: PayloadAction<boolean>) => {
-      state.signedUp = action.payload;
+    setEnteringProcess: (state, action: PayloadAction<ENTERING_PROCESS>) => {
+      state.enteringProcess = action.payload;
     },
   },
 });
@@ -75,9 +66,7 @@ export const {
   setLoggedIn,
   setPlayerNameMap,
   removePlayerNameMap,
-  setSignUp,
-  setSignIn,
-  setSignedUp,
+  setEnteringProcess,
 } = userSlice.actions;
 
 export default userSlice.reducer;
