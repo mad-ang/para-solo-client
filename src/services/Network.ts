@@ -226,8 +226,8 @@ export default class Network {
   }
 
   // method to send player name to Colyseus server
-  updatePlayerName(currentName: string) {
-    this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName });
+  updatePlayerName(currentName: string, currentUserId) {
+    this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName, userId: currentUserId });
   }
 
   // method to send ready-to-connect signal to Colyseus server
