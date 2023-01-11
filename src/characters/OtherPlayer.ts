@@ -198,7 +198,7 @@ declare global {
         y: number,
         texture: string,
         id: string,
-        userId: string,
+        userId:string, 
         name: string,
         frame?: string | number
       ): OtherPlayer;
@@ -219,9 +219,6 @@ Phaser.GameObjects.GameObjectFactory.register(
     frame?: string | number
   ) {
     const sprite = new OtherPlayer(this.scene, x, y, texture, id, userId, name, frame);
-
-    this.displayList.add(sprite);
-    this.updateList.add(sprite);
 
     this.scene.physics.world.enableBody(sprite, Phaser.Physics.Arcade.DYNAMIC_BODY);
 

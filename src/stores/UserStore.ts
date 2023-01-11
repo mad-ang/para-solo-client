@@ -22,8 +22,8 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {
     backgroundMode: getInitialBackgroundMode(),
-    sessionId: '',
-    userId: '',
+    sessionId: "",
+    userId: "",
     videoConnected: false,
     playerNameMap: new Map<string, string>(),
     enteringProcess: ENTERING_PROCESS.ENTRY,
