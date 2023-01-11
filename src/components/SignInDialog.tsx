@@ -69,6 +69,7 @@ export const login = (body, next): boolean => {
         if (accessToken) {
           next(data.payload.accessToken);
         }
+        // TODO accessToken을 계속 갱신해야 함 (setTimeout)
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
         console.log(response.data);
