@@ -27,7 +27,7 @@ export const userSlice = createSlice({
     playerNameMap: new Map<string, string>(),
     enteringProcess: ENTERING_PROCESS.ENTRY,
     loggedIn: false,
-    accessToken: null,
+    accessToken: '',
   },
   reducers: {
     toggleBackgroundMode: (state) => {
@@ -56,6 +56,9 @@ export const userSlice = createSlice({
     setEnteringProcess: (state, action: PayloadAction<ENTERING_PROCESS>) => {
       state.enteringProcess = action.payload;
     },
+    setAccessToken: (state, action: PayloadAction<string>) => {
+      state.accessToken = action.payload;
+    },
   },
 });
 
@@ -67,6 +70,7 @@ export const {
   setPlayerNameMap,
   removePlayerNameMap,
   setEnteringProcess,
+  setAccessToken,
 } = userSlice.actions;
 
 export default userSlice.reducer;
