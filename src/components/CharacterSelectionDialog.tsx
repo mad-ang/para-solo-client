@@ -140,7 +140,7 @@ for (let i = avatars.length - 1; i > 0; i--) {
   [avatars[i], avatars[j]] = [avatars[j], avatars[i]];
 }
 
-export default function LoginDialog() {
+export default function CharacterSelectionDialog() {
   const [name, setName] = useState<string>('');
   const [avatarIndex, setAvatarIndex] = useState<number>(0);
   const [nameFieldEmpty, setNameFieldEmpty] = useState<boolean>(false);

@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import { HashRouter } from 'react-router-dom';
 import { useAppSelector } from './hooks';
 import RoomSelectionDialog from './components/RoomSelectionDialog';
-import LoginDialog from './components/LoginDialog';
+import CharacterSelectionDialog from './components/CharacterSelectionDialog';
 import VideoConnectionDialog from './components/VideoConnectionDialog';
 import TableDialog from './components/TableDialog';
 import WelcomeToast from './components/ToastNotification';
@@ -53,15 +53,13 @@ function App() {
       );
     }
   } else if (enteringProcess === ENTERING_PROCESS.ENTRY) {
-    /* Render LoginDialog if not logged in but selected a room. */
     ui = <RoomSelectionDialog />;
   } else if (enteringProcess === ENTERING_PROCESS.SIGNUP) {
     ui = <SignUpDialog />;
   } else if (enteringProcess === ENTERING_PROCESS.LOGIN) {
     ui = <SignInDialog />;
   } else {
-    /* Render RoomSelectionDialog if yet selected a room. */
-    ui = <LoginDialog />;
+    ui = <CharacterSelectionDialog />;
   }
 
   return (
