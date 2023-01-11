@@ -11,8 +11,8 @@ import { ItemType } from '../types/Items';
 import { NavKeys } from '../types/KeyboardState';
 import Chair from '../items/Chair';
 import OtherPlayer from './OtherPlayer';
-import phaserGame from '../PhaserGame';
-import Game from '../scenes/Game';
+import phaserGame from 'src/PhaserGame';
+import Game from 'scenes/Game';
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
   private chairOnSit?: Chair;
