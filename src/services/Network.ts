@@ -155,6 +155,9 @@ export default class Network {
       const tableState = store.getState().table;
       tableState.tableTalkManager?.onUserLeft(clientId);
     });
+    this.room.onMessage(Message.CHECK_PRIVATE_MESSAGE, (content) => {
+      console.log(content);
+    });
     this.room.onStateChange((state) => {
       const playerSize = this.room?.state.players.size;
       if (playerSize === undefined) return;
@@ -270,5 +273,13 @@ export default class Network {
 
   addChatMessage(content: string) {
     this.room?.send(Message.ADD_CHAT_MESSAGE, { content: content });
+  }
+
+  sendPrivateMessage(sender: string, receiver: string, content: string) {
+    this.room?.send(Message.SEND_PRIVATE_MESSAGE, { sender: sender, receiver: receiver, content: content });
+    this.checkPrivateMessage(receiver);
+  }
+  checkPrivateMessage(sender: string) {
+    this.room?.send(Message.CHECK_PRIVATE_MESSAGE, { sender: sender });
   }
 }

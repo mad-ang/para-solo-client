@@ -10,7 +10,7 @@ import { pushPlayerJoinedMessage } from '../stores/ChatStore';
 import { ItemType } from '../types/Items';
 import { NavKeys } from '../types/KeyboardState';
 import Chair from '../items/Chair';
-
+import OtherPlayer from './OtherPlayer';
 import phaserGame from '../PhaserGame';
 import Game from '../scenes/Game';
 export default class MyPlayer extends Player {
@@ -53,6 +53,7 @@ export default class MyPlayer extends Player {
     if (!cursors) return;
 
     const item = playerSelector.selectedItem;
+    const closePlayer = playerSelector.closePlayer;
     const game = phaserGame.scene.keys.game as Game;
     //  쓰일수 있어서 주석처리.
     // if (Phaser.Input.Keyboard.JustDown(keyE)) {
@@ -135,6 +136,12 @@ export default class MyPlayer extends Player {
           this.chairOnSit = chairItem;
           this.playerBehavior = PlayerBehavior.SITTING;
 
+          return;
+        } else if (Phaser.Input.Keyboard.JustDown(keyR) && closePlayer) {
+          // if press R in front of another player
+          console.log(closePlayer);
+
+          network.sendPrivateMessage(this.userId, closePlayer.playerId, '안녕하세요');
           return;
         } else {
           const speed = cursors.shift?.isDown ? 240 : 120;

@@ -198,7 +198,7 @@ declare global {
         y: number,
         texture: string,
         id: string,
-        userId: string,
+        userId:string, 
         name: string,
         frame?: string | number
       ): OtherPlayer;
@@ -222,7 +222,6 @@ Phaser.GameObjects.GameObjectFactory.register(
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
-
     this.scene.physics.world.enableBody(sprite, Phaser.Physics.Arcade.DYNAMIC_BODY);
 
     const collisionScale = [6, 4];
