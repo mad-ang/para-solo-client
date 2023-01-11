@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import logo from "../images/logo.png";
-import styled from "styled-components";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import LinearProgress from "@mui/material/LinearProgress";
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import React, { useState } from 'react';
+import logo from '../images/logo.png';
+import styled from 'styled-components';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import LinearProgress from '@mui/material/LinearProgress';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 // import { CustomRoomTable } from './CustomRoomTable'
 // import { CreateRoomForm } from './CreateRoomForm'
-import { useAppSelector, useAppDispatch } from "../hooks";
+import { useAppSelector, useAppDispatch } from '../hooks';
 
-import phaserGame from "../PhaserGame";
-import Bootstrap from "../scenes/Bootstrap";
-import { setSignUp, setSignIn } from '../stores/UserStore'
-import { EnergySavingsLeaf } from "@mui/icons-material";
+import phaserGame from '../PhaserGame';
+import Bootstrap from '../scenes/Bootstrap';
+import { ENTERING_PROCESS, setEnteringProcess } from '../stores/UserStore';
+import { EnergySavingsLeaf } from '@mui/icons-material';
 
 const Backdrop = styled.div`
   position: absolute;
@@ -90,23 +90,23 @@ export default function RoomSelectionDialog() {
         .then(() => bootstrap.launchGame())
         .catch((error) => console.error(error));
     } else {
-      setDisabled(false)
+      setDisabled(false);
       setShowSnackbar(true);
     }
   };
 
   const signUpConnect = () => {
-    dispatch(setSignUp(true));
+    dispatch(setEnteringProcess(ENTERING_PROCESS.SIGNUP));
   };
 
   const signInConnect = () => {
-    dispatch(setSignIn(true));
+    dispatch(setEnteringProcess(ENTERING_PROCESS.LOGIN));
   };
- 
+
   return (
     <>
       <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={showSnackbar}
         autoHideDuration={3000}
         onClose={() => {
@@ -117,7 +117,7 @@ export default function RoomSelectionDialog() {
           severity="error"
           variant="outlined"
           // overwrites the dark theme on render
-          style={{ background: "#fdeded", color: "#7d4747" }}
+          style={{ background: '#fdeded', color: '#7d4747' }}
         >
           Trying to connect to server, please try again!
         </Alert>
@@ -148,25 +148,16 @@ export default function RoomSelectionDialog() {
                 >
                   Create/find custom rooms
                 </Button> */}
-                {(
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={signUpConnect}
-                >
+              {
+                <Button variant="contained" color="secondary" onClick={signUpConnect}>
                   회원가입
                 </Button>
-                )}
-                 {(
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={signInConnect}
-                >
+              }
+              {
+                <Button variant="contained" color="secondary" onClick={signInConnect}>
                   로그인
                 </Button>
-                
-              )}
+              }
             </Content>
           </>
         </Wrapper>

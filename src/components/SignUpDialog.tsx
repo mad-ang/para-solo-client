@@ -1,14 +1,16 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import axios from "axios";
-import { useAppSelector, useAppDispatch } from "../hooks";
-import { setSignUp, setSignIn, setSignedUp } from "../stores/UserStore";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import axios from 'axios';
+import { useAppSelector, useAppDispatch } from '../hooks';
+import { ENTERING_PROCESS, setEnteringProcess } from '../stores/UserStore';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import phaserGame from '../PhaserGame';
+import Bootstrap from '../scenes/Bootstrap';
 
 const Wrapper = styled.form`
   position: fixed;
@@ -35,8 +37,6 @@ const Content = styled.div`
   margin: 20px 0;
   align-items: center;
   justify-content: center;
-
-
 `;
 
 export default function SignUpDialog() {
@@ -46,14 +46,12 @@ export default function SignUpDialog() {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
 
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
+  const [userId, setUserId] = useState('');
+  const [password, setPassword] = useState('');
   const [pwFieldEmpty, setPwFieldEmpty] = useState<boolean>(false);
 
   const [userIdFieldEmpty, setUserIdFieldEmpty] = useState<boolean>(false);
@@ -67,15 +65,12 @@ export default function SignUpDialog() {
   //       setPassword(event.currentTarget.value);
   // }
 
-    const goToEntry = (event) => {
-      event.preventDefault();
+  const goToEntry = (event) => {
+    event.preventDefault();
+    dispatch(setEnteringProcess(ENTERING_PROCESS.ENTRY));
+  };
 
-      dispatch(setSignUp(false));
-      dispatch(setSignedUp(false));
-      dispatch(setSignIn(false));
-  }
-
-  const onSubmitHandler = (event) => {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
     setUserIdFieldEmpty(false);
     setUserIdFieldWrong(false);
@@ -83,10 +78,10 @@ export default function SignUpDialog() {
 
     console.log(userId);
     console.log(userIdFieldEmpty);
-    if (userId === "") {
+    if (userId === '') {
       setUserIdFieldEmpty(true);
     }
-    if (password === "") {
+    if (password === '') {
       setPwFieldEmpty(true);
     } else {
       let body = {
@@ -97,32 +92,25 @@ export default function SignUpDialog() {
       console.log({ userId });
       console.log({ password });
 
-      axios
-        .post("/auth/signup", body)
-        .then(function (response) {
-          // response
-          if (response.data.status == 200) {
-            dispatch(setSignUp(false));
-            dispatch(setSignedUp(true));
-            dispatch(setSignIn(true));
-          } else {
-            console.log("11111");
+      try {
+        const signUpResponse = await axios.post('/auth/signup', body);
+        if (signUpResponse.data.status === 200) {
+          const { payload } = signUpResponse.data;
+          const loginResponse = await axios.post('/auth/login', body);
+          if (loginResponse.data.status === 200) {
+            const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
+            bootstrap.network
+              .joinOrCreatePublic()
+              .then(() => bootstrap.launchGame())
+              .catch((error) => console.error(error));
           }
-        })
-        .catch(function (error) {
-          // 오류발생시 실행
-          setUserIdFieldWrong(true);
-          console.log("hi", error.message);
-          if (error.message == "Request failed with status code 409") {
-            console.log("22222");
-          } else {
-            console.log("444444");
-          }
-        })
-        .then(function () {
-          // 항상 실행
-          console.log("333333");
-        });
+        }
+      } catch (error) {
+        setUserIdFieldWrong(true);
+        console.log('error', error);
+      }
+
+      // //  TODO: 자동로그인 POST 요청 추가. then()
     }
   };
 
@@ -139,8 +127,8 @@ export default function SignUpDialog() {
           margin="normal"
           error={userIdFieldEmpty || userIdFieldWrong}
           helperText={
-            (userIdFieldEmpty && "이름이 필요해요") ||
-            (userIdFieldWrong && "이미 존재하는 아이디입니다.")
+            (userIdFieldEmpty && '이름이 필요해요') ||
+            (userIdFieldWrong && '이미 존재하는 아이디입니다.')
           }
           onInput={(e) => {
             setUserId((e.target as HTMLInputElement).value);
@@ -154,11 +142,11 @@ export default function SignUpDialog() {
           color="secondary"
           margin="normal"
           error={pwFieldEmpty}
-          helperText={pwFieldEmpty && "비밀번호가 필요해요"}
+          helperText={pwFieldEmpty && '비밀번호가 필요해요'}
           onInput={(e) => {
             setPassword((e.target as HTMLInputElement).value);
           }}
-          type={showPassword ? "text" : "password"}
+          type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -174,14 +162,14 @@ export default function SignUpDialog() {
             ),
           }}
         />
-  <Content>
-        <Button variant="contained" color="secondary" onClick={onSubmitHandler} sx={{mx: 2}}>
-          회원가입 완료
-        </Button>
-        <Button variant="contained" color="secondary" onClick={goToEntry} sx={{mx: 2}}>
-          뒤로 가기
-        </Button>
-  </Content>
+        <Content>
+          <Button variant="contained" color="secondary" onClick={onSubmitHandler} sx={{ mx: 2 }}>
+            회원가입 완료
+          </Button>
+          <Button variant="contained" color="secondary" onClick={goToEntry} sx={{ mx: 2 }}>
+            뒤로 가기
+          </Button>
+        </Content>
       </Wrapper>
     </>
   );
