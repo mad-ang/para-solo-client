@@ -220,6 +220,8 @@ Phaser.GameObjects.GameObjectFactory.register(
   ) {
     const sprite = new OtherPlayer(this.scene, x, y, texture, id, userId, name, frame);
 
+    this.displayList.add(sprite);
+    this.updateList.add(sprite);
     this.scene.physics.world.enableBody(sprite, Phaser.Physics.Arcade.DYNAMIC_BODY);
 
     const collisionScale = [6, 4];
