@@ -150,7 +150,7 @@ export default function CharacterSelectionDialog() {
   const roomName = useAppSelector((state) => state.room.roomName);
   const roomDescription = useAppSelector((state) => state.room.roomDescription);
   const game = phaserGame.scene.keys.game as Game;
-
+  
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (name === '') {

@@ -81,7 +81,7 @@ export default class MyPlayer extends Player {
 
           const chairItem = item as Chair;
           const chair = network.getChairState()?.get(String(chairItem.chairId));
-          const isExisted = network.getPlayersIds()?.has(String(chair?.clientId));
+          const isExisted = network.getPlayers()?.has(String(chair?.clientId));
           if (chair?.occupied && isExisted) {
             chairItem.clearDialogBox();
             chairItem.setDialogBox('이미 사람이 앉아있습니다.');
@@ -141,7 +141,7 @@ export default class MyPlayer extends Player {
           // if press R in front of another player
           console.log(closePlayer);
 
-          network.sendPrivateMessage(this.userId, closePlayer.playerId, '안녕하세요');
+          network.sendPrivateMessage(this.userId, closePlayer.userId, '안녕하세요');
           return;
         } else {
           const speed = cursors.shift?.isDown ? 240 : 120;

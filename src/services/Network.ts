@@ -91,12 +91,11 @@ export default class Network {
     store.dispatch(setSessionId(this.room.sessionId));
     this.webRTC = new WebRTC(this.mySessionId, this);
     console.log('onAdd 시에 this.room.sessionId', this.room.sessionId);
-    console.log('onAdd 시에 userId', store.getState().user);
+    console.log('onAdd 시에 userId', store.getState().user)
 
     // new instance added to the players MapSchema
     this.room.state.players.onAdd = (player: IPlayer, key: string) => {
       if (key === this.mySessionId) return;
-
       // track changes on every child object inside the players MapSchema
       player.onChange = (changes) => {
         changes.forEach((change) => {
@@ -168,7 +167,7 @@ export default class Network {
   getChairState() {
     return this.room?.state.chairs;
   }
-  getPlayersIds() {
+  getPlayers() {
     return this.room?.state.players;
   }
   // method to register event listener and call back function when a item user added
@@ -275,11 +274,11 @@ export default class Network {
     this.room?.send(Message.ADD_CHAT_MESSAGE, { content: content });
   }
 
-  sendPrivateMessage(sender: string, receiver: string, content: string) {
-    this.room?.send(Message.SEND_PRIVATE_MESSAGE, { sender: sender, receiver: receiver, content: content });
-    this.checkPrivateMessage(receiver);
+  sendPrivateMessage(senderId: string, receiverId: string, content: string) {
+    this.room?.send(Message.SEND_PRIVATE_MESSAGE, { senderId: senderId, receiverId: receiverId, content: content });
+    this.checkPrivateMessage(senderId, receiverId);
   }
-  checkPrivateMessage(sender: string) {
-    this.room?.send(Message.CHECK_PRIVATE_MESSAGE, { sender: sender });
+  checkPrivateMessage(requestId: string, targetId: string) {
+    this.room?.send(Message.CHECK_PRIVATE_MESSAGE, { requestId: requestId, targetId: targetId });
   }
 }
