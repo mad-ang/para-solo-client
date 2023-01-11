@@ -224,7 +224,6 @@ export default class Network {
       x: currentX,
       y: currentY,
       anim: currentAnim,
-      userId: currentUserId,
     });
   }
 
