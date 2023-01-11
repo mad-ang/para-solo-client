@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '@mui/material/Button';
 import axios from 'axios';
-import { setSignUp, setSignIn, setSignedUp } from '../stores/UserStore';
+import { ENTERING_PROCESS, setEnteringProcess } from '../stores/UserStore';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
@@ -57,13 +57,11 @@ function SignedUpToast() {
 }
 
 export default function SignInDialog() {
-  const signedUp = useAppSelector((state) => state.user.signedUp);
+  const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
 
-  useEffect(() => {
-    dispatch(setSignedUp(false));
-  }, []);
-
-  console.log(signedUp);
+  // useEffect(() => {
+  //   dispatch(setSignedUp(false));
+  // }, []);
 
   const dispatch = useAppDispatch();
 
@@ -83,10 +81,7 @@ export default function SignInDialog() {
 
   const goToEntry = (event) => {
     event.preventDefault();
-
-    dispatch(setSignUp(false));
-    dispatch(setSignedUp(false));
-    dispatch(setSignIn(false));
+    dispatch(setEnteringProcess(ENTERING_PROCESS.ENTRY));
   };
   const onSubmitHandler = (event) => {
     event.preventDefault();
@@ -152,7 +147,7 @@ export default function SignInDialog() {
   };
   return (
     <>
-      {signedUp === true
+      {/* {signedUp === true
         ? toast('회원가입이 완료되었어요! 로그인해주세요', {
             position: 'top-center',
             autoClose: 3000,
@@ -163,10 +158,9 @@ export default function SignInDialog() {
             progress: undefined,
             theme: 'light',
           })
-        : null}
+        : null} */}
 
-      {/* {dispatch(setSignedUp(false))} */}
-      <ToastContainer />
+      {/* <ToastContainer /> */}
 
       <Wrapper>
         <Title>로그인</Title>

@@ -14,7 +14,7 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
 import { BackgroundMode } from "../../../types/BackgroundMode";
-import { toggleBackgroundMode } from "../../../stores/UserStore";
+import { ENTERING_PROCESS, toggleBackgroundMode } from "../../../stores/UserStore";
 import { useAppSelector, useAppDispatch } from "../../../hooks";
 import { getAvatarString, getColorByString } from "../../../util";
 
@@ -106,7 +106,7 @@ export default function HelperButtonGroup() {
   const [showControlGuide, setShowControlGuide] = useState(false);
   const [showRoomInfo, setShowRoomInfo] = useState(false);
   const backgroundMode = useAppSelector((state) => state.user.backgroundMode);
-  const roomJoined = useAppSelector((state) => state.room.roomJoined);
+  const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
   const roomId = useAppSelector((state) => state.room.roomId);
   const roomName = useAppSelector((state) => state.room.roomName);
   const roomDescription = useAppSelector((state) => state.room.roomDescription);
@@ -180,7 +180,7 @@ export default function HelperButtonGroup() {
         )}
       </div>
       <ButtonGroup>
-        {roomJoined && (
+        {enteringProcess === ENTERING_PROCESS.CHARACTER_SELECTION && (
           <>
             <Tooltip title="마을 정보">
               <StyledFab
