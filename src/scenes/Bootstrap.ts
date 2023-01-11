@@ -2,7 +2,6 @@ import Phaser from 'phaser';
 import Network from '../services/Network';
 import { BackgroundMode } from '../types/BackgroundMode';
 import store from '../stores';
-import { setRoomJoined } from '../stores/RoomStore';
 import { ENTERING_PROCESS, setEnteringProcess } from '../stores/UserStore';
 
 export default class Bootstrap extends Phaser.Scene {

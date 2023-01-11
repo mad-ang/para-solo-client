@@ -35,7 +35,6 @@ function App() {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const tableDialogOpen = useAppSelector((state) => state.table.tableDialogOpen);
   const videoConnected = useAppSelector((state) => state.user.videoConnected);
-  const roomJoined = useAppSelector((state) => state.room.roomJoined);
   const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
 
   let ui: JSX.Element;
@@ -53,16 +52,16 @@ function App() {
         </>
       );
     }
-  } else if (roomJoined) {
+  } else if (enteringProcess === ENTERING_PROCESS.ENTRY) {
     /* Render LoginDialog if not logged in but selected a room. */
-    ui = <LoginDialog />;
+    ui = <RoomSelectionDialog />;
   } else if (enteringProcess === ENTERING_PROCESS.SIGNUP) {
     ui = <SignUpDialog />;
   } else if (enteringProcess === ENTERING_PROCESS.LOGIN) {
     ui = <SignInDialog />;
   } else {
     /* Render RoomSelectionDialog if yet selected a room. */
-    ui = <RoomSelectionDialog />;
+    ui = <LoginDialog />;
   }
 
   return (

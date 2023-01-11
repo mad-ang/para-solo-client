@@ -1,27 +1,27 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import Avatar from '@mui/material/Avatar'
-import Alert from '@mui/material/Alert'
-import AlertTitle from '@mui/material/AlertTitle'
-import ArrowRightIcon from '@mui/icons-material/ArrowRight'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper'
-import 'swiper/css'
-import 'swiper/css/navigation'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
-import Adam from '../images/login/Adam_login.png'
-import Ash from '../images/login/Ash_login.png'
-import Lucy from '../images/login/Lucy_login.png'
-import Nancy from '../images/login/Nancy_login.png'
-import { useAppSelector, useAppDispatch } from '../hooks'
-import { setLoggedIn } from '../stores/UserStore'
-import { getAvatarString, getColorByString } from '../util'
+import Adam from '../images/login/Adam_login.png';
+import Ash from '../images/login/Ash_login.png';
+import Lucy from '../images/login/Lucy_login.png';
+import Nancy from '../images/login/Nancy_login.png';
+import { useAppSelector, useAppDispatch } from '../hooks';
+import { ENTERING_PROCESS, setLoggedIn } from '../stores/UserStore';
+import { getAvatarString, getColorByString } from '../util';
 
-import phaserGame from '../PhaserGame'
-import Game from '../scenes/Game'
+import phaserGame from '../PhaserGame';
+import Game from '../scenes/Game';
 
 const Wrapper = styled.form`
   position: fixed;
@@ -32,14 +32,14 @@ const Wrapper = styled.form`
   border-radius: 16px;
   padding: 36px 60px;
   box-shadow: 0px 0px 5px #0000006f;
-`
+`;
 
 const Title = styled.p`
   margin: 5px;
   font-size: 20px;
   color: #c2c2c2;
   text-align: center;
-`
+`;
 
 const RoomName = styled.div`
   max-width: 500px;
@@ -55,7 +55,7 @@ const RoomName = styled.div`
     font-size: 24px;
     color: #eee;
   }
-`
+`;
 
 const RoomDescription = styled.div`
   max-width: 500px;
@@ -66,19 +66,19 @@ const RoomDescription = styled.div`
   color: #c2c2c2;
   display: flex;
   justify-content: center;
-`
+`;
 
 const SubTitle = styled.h3`
   width: 160px;
   font-size: 16px;
   color: #eee;
   text-align: center;
-`
+`;
 
 const Content = styled.div`
   display: flex;
   margin: 36px 0;
-`
+`;
 
 const Left = styled.div`
   margin-right: 48px;
@@ -107,17 +107,17 @@ const Left = styled.div`
     height: 136px;
     object-fit: contain;
   }
-`
+`;
 
 const Right = styled.div`
   width: 300px;
-`
+`;
 
 const Bottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const Warning = styled.div`
   margin-top: 30px;
@@ -125,46 +125,46 @@ const Warning = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3px;
-`
+`;
 
 const avatars = [
   { name: 'adam', img: Adam },
   { name: 'ash', img: Ash },
   { name: 'lucy', img: Lucy },
   { name: 'nancy', img: Nancy },
-]
+];
 
 // shuffle the avatars array
 for (let i = avatars.length - 1; i > 0; i--) {
-  const j = Math.floor(Math.random() * (i + 1))
-  ;[avatars[i], avatars[j]] = [avatars[j], avatars[i]]
+  const j = Math.floor(Math.random() * (i + 1));
+  [avatars[i], avatars[j]] = [avatars[j], avatars[i]];
 }
 
 export default function LoginDialog() {
-  const [name, setName] = useState<string>('')
-  const [avatarIndex, setAvatarIndex] = useState<number>(0)
-  const [nameFieldEmpty, setNameFieldEmpty] = useState<boolean>(false)
-  const dispatch = useAppDispatch()
-  const videoConnected = useAppSelector((state) => state.user.videoConnected)
-  const roomJoined = useAppSelector((state) => state.room.roomJoined)
-  const roomName = useAppSelector((state) => state.room.roomName)
-  const roomDescription = useAppSelector((state) => state.room.roomDescription)
-  const game = phaserGame.scene.keys.game as Game
+  const [name, setName] = useState<string>('');
+  const [avatarIndex, setAvatarIndex] = useState<number>(0);
+  const [nameFieldEmpty, setNameFieldEmpty] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const videoConnected = useAppSelector((state) => state.user.videoConnected);
+  const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
+  const roomName = useAppSelector((state) => state.room.roomName);
+  const roomDescription = useAppSelector((state) => state.room.roomDescription);
+  const game = phaserGame.scene.keys.game as Game;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
     if (name === '') {
-      setNameFieldEmpty(true)
-    } else if (roomJoined) {
-      console.log('Join! Name:', name, 'Avatar:', avatars[avatarIndex].name)
-      
-      game.registerKeys()
-      game.myPlayer.setPlayerName(name)
-      game.myPlayer.setPlayerTexture(avatars[avatarIndex].name)
-      game.network.readyToConnect()
-      dispatch(setLoggedIn(true))
+      setNameFieldEmpty(true);
+    } else if (enteringProcess === ENTERING_PROCESS.CHARACTER_SELECTION) {
+      console.log('Join! Name:', name, 'Avatar:', avatars[avatarIndex].name);
+
+      game.registerKeys();
+      game.myPlayer.setPlayerName(name);
+      game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
+      game.network.readyToConnect();
+      dispatch(setLoggedIn(true));
     }
-  }
+  };
 
   return (
     <Wrapper onSubmit={handleSubmit}>
@@ -187,7 +187,7 @@ export default function LoginDialog() {
             spaceBetween={0}
             slidesPerView={1}
             onSlideChange={(swiper) => {
-              setAvatarIndex(swiper.activeIndex)
+              setAvatarIndex(swiper.activeIndex);
             }}
           >
             {avatars.map((avatar) => (
@@ -207,20 +207,21 @@ export default function LoginDialog() {
             error={nameFieldEmpty}
             helperText={nameFieldEmpty && '이름이 필요해요'}
             onInput={(e) => {
-              setName((e.target as HTMLInputElement).value)
+              setName((e.target as HTMLInputElement).value);
             }}
           />
           {!videoConnected && (
             <Warning>
               <Alert variant="outlined" severity="warning">
                 <AlertTitle> 🤣아차! </AlertTitle>
-                마이크가 연결되지 않았어요 <strong>마이크를 연결하면</strong> 친구들과 대화할 수 있어요
+                마이크가 연결되지 않았어요 <strong>마이크를 연결하면</strong> 친구들과 대화할 수
+                있어요
               </Alert>
               <Button
                 variant="outlined"
                 color="secondary"
                 onClick={() => {
-                  game.network.webRTC?.getUserMedia()
+                  game.network.webRTC?.getUserMedia();
                 }}
               >
                 마이크 연결하기
@@ -241,5 +242,5 @@ export default function LoginDialog() {
         </Button>
       </Bottom>
     </Wrapper>
-  )
+  );
 }
