@@ -4,13 +4,14 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import { useAppSelector, useAppDispatch } from '../hooks';
-import { ENTERING_PROCESS, setEnteringProcess } from '../stores/UserStore';
+import { ENTERING_PROCESS, setEnteringProcess, setAccessToken } from '../stores/UserStore';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
+import { login } from './SignInDialog';
 
 const Wrapper = styled.form`
   position: fixed;
@@ -95,14 +96,13 @@ export default function SignUpDialog() {
       try {
         const signUpResponse = await axios.post('/auth/signup', body);
         if (signUpResponse.data.status === 200) {
-          const { payload } = signUpResponse.data;
-          const loginResponse = await axios.post('/auth/login', body);
-          if (loginResponse.data.status === 200) {
-            const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
-            bootstrap.network
-              .joinOrCreatePublic()
-              .then(() => bootstrap.launchGame())
-              .catch((error) => console.error(error));
+          if (
+            login(body, (accessToken) => {
+              dispatch(setAccessToken(accessToken));
+            })
+          ) {
+          } else {
+            throw 'login error';
           }
         }
       } catch (error) {
