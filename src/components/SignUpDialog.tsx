@@ -4,7 +4,12 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import { useAppSelector, useAppDispatch } from '../hooks';
-import { ENTERING_PROCESS, setEnteringProcess, setAccessToken } from '../stores/UserStore';
+import {
+  ENTERING_PROCESS,
+  setEnteringProcess,
+  setAccessToken,
+  setUserId as setStoreUserId,
+} from '../stores/UserStore';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
@@ -99,6 +104,7 @@ export default function SignUpDialog() {
           if (
             login(body, (accessToken) => {
               dispatch(setAccessToken(accessToken));
+              dispatch(setStoreUserId(userId));
             })
           ) {
           } else {

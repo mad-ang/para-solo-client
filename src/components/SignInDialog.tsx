@@ -6,7 +6,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '@mui/material/Button';
 import axios from 'axios';
-import { ENTERING_PROCESS, setEnteringProcess, setAccessToken } from '../stores/UserStore';
+import {
+  ENTERING_PROCESS,
+  setEnteringProcess,
+  setAccessToken,
+  setUserId as setStoreUserId,
+} from '../stores/UserStore';
+
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
@@ -69,6 +75,7 @@ export const login = (body, next): boolean => {
         if (accessToken) {
           next(data.payload.accessToken);
         }
+        // TODO accessToken을 계속 갱신해야 함 (setTimeout)
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
         console.log(response.data);
@@ -147,6 +154,7 @@ export default function SignInDialog() {
       if (
         login(body, (accessToken) => {
           dispatch(setAccessToken(accessToken));
+          dispatch(setStoreUserId(userId));
         })
       ) {
         setUserIdFieldWrong(true);

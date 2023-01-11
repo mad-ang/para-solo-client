@@ -32,13 +32,13 @@ const Backdrop = styled.div`
 `;
 
 function App() {
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const tableDialogOpen = useAppSelector((state) => state.table.tableDialogOpen);
   const videoConnected = useAppSelector((state) => state.user.videoConnected);
   const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
+  const characterSelected = useAppSelector((state) => state.user.characterSelected);
 
   let ui: JSX.Element;
-  if (loggedIn) {
+  if (characterSelected) {
     if (tableDialogOpen) {
       ui = <TableDialog />;
     } else {

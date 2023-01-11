@@ -23,10 +23,11 @@ export const userSlice = createSlice({
   initialState: {
     backgroundMode: getInitialBackgroundMode(),
     sessionId: '',
+    userId: '',
     videoConnected: false,
     playerNameMap: new Map<string, string>(),
     enteringProcess: ENTERING_PROCESS.ENTRY,
-    loggedIn: false,
+    characterSelected: false,
     accessToken: '',
   },
   reducers: {
@@ -41,11 +42,14 @@ export const userSlice = createSlice({
     setSessionId: (state, action: PayloadAction<string>) => {
       state.sessionId = action.payload;
     },
+    setUserId: (state, action: PayloadAction<string>) => {
+      state.userId = action.payload;
+    },
     setVideoConnected: (state, action: PayloadAction<boolean>) => {
       state.videoConnected = action.payload;
     },
-    setLoggedIn: (state, action: PayloadAction<boolean>) => {
-      state.loggedIn = action.payload;
+    setCharacterSelected: (state, action: PayloadAction<boolean>) => {
+      state.characterSelected = action.payload;
     },
     setPlayerNameMap: (state, action: PayloadAction<{ id: string; name: string }>) => {
       state.playerNameMap.set(sanitizeId(action.payload.id), action.payload.name);
@@ -65,11 +69,12 @@ export const userSlice = createSlice({
 export const {
   toggleBackgroundMode,
   setSessionId,
+  setUserId,
   setVideoConnected,
-  setLoggedIn,
   setPlayerNameMap,
   removePlayerNameMap,
   setEnteringProcess,
+  setCharacterSelected,
   setAccessToken,
 } = userSlice.actions;
 
