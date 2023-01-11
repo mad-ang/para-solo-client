@@ -122,7 +122,7 @@ export default function SignInDialog() {
 
             const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
       bootstrap.network
-        .joinOrCreatePublic()
+        .joinOrCreatePublic(userId)
         .then(() => bootstrap.launchGame())
         .catch((error) => console.error(error));
 

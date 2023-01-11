@@ -128,7 +128,7 @@ export default function RoomSelectionDialog() {
             <Title>o(*°▽°)ﾉ 맘스타운에 오신 것을 환영합니다</Title>
             <Content>
               <img src={logo} alt="logo" />
-              {lobbyJoined && (
+              {/* {lobbyJoined && (
                 <Button
                   disabled={enabled}
                   variant="contained"
@@ -139,7 +139,7 @@ export default function RoomSelectionDialog() {
                 >
                   맘스타운 입장할래요
                 </Button>
-              )}
+              )} */}
 
               {/* <Button
                   variant="outlineds"

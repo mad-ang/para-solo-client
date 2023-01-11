@@ -35,19 +35,21 @@ export default class Network {
     webRTC?: WebRTC;
 
     mySessionId!: string;
+    myUserId!: string;
 
     constructor() {
         /*로컬 서버 접속*/
-        // const protocol = window.location.protocol.replace("http", "ws");
-        // const endpoint =
-        //     process.env.NODE_ENV === "production"
-        //         ? import.meta.env.VITE_SERVER_URL
-        //         : `${protocol}//${window.location.hostname}:2567`;
+        const protocol = window.location.protocol.replace("http", "ws");
+        const endpoint =
+            process.env.NODE_ENV === "production"
+                ? import.meta.env.VITE_SERVER_URL
+                : `${protocol}//${window.location.hostname}:2567`;
 
         /*배포 서버 접속*/
-        const endpoint = "wss://momstown.herokuapp.com/";
+        // const endpoint = "wss://momstown.herokuapp.com/";
 
         this.client = new Client(endpoint);
+    
         this.joinLobbyRoom().then(() => {
             store.dispatch(setLobbyJoined(true));
         });
@@ -77,9 +79,11 @@ export default class Network {
         this.lobby = await this.client.joinOrCreate(RoomType.LOBBY);
     }
 
+
     // method to join the public lobby
-    async joinOrCreatePublic() {
+    async joinOrCreatePublic(userId: string) {
         this.room = await this.client.joinOrCreate(RoomType.PUBLIC);
+        this.myUserId = userId;
         this.initialize();
     }
 
@@ -107,6 +111,8 @@ export default class Network {
 
         this.lobby.leave();
         this.mySessionId = this.room.sessionId;
+        console.log("mySessionId", this.mySessionId);
+        console.log("myUserId", this.myUserId);
         store.dispatch(setSessionId(this.room.sessionId));
         this.webRTC = new WebRTC(this.mySessionId, this);
 
@@ -124,7 +130,8 @@ export default class Network {
                     if (field === "name" && value !== "") {
                         phaserEvents.emit(Event.PLAYER_JOINED, player, key);
                         store.dispatch(
-                            setPlayerNameMap({ id: key, name: value })
+                            // 테스트 myUserId 와 sessionId 매핑
+                            setPlayerNameMap({ id: key, name: value, userId: this.myUserId })
                         );
                         store.dispatch(pushPlayerJoinedMessage(value));
                     }
@@ -191,6 +198,9 @@ export default class Network {
             const tableState = store.getState().table;
             tableState.tableTalkManager?.onUserLeft(clientId);
         });
+        this.room.onMessage(Message.RECEIVE_DM, (content) => {
+            console.log(content);
+        })
         this.room.onStateChange((state) => {
             const playerSize = this.room?.state.players.size;
             if (playerSize === undefined) return;
@@ -270,8 +280,12 @@ export default class Network {
 
     
     // method to send player name to Colyseus server
-    updatePlayerName(currentName: string) {
-        this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName });
+    updatePlayerName(message) {
+        const {currentName, userId} = message;
+        console.log("updatePlayerName", message);
+        
+        console.log(userId);
+        this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName , userId: userId});
     }
     
     // method to send ready-to-connect signal to Colyseus server
@@ -313,5 +327,13 @@ export default class Network {
     
     addChatMessage(content: string) {
         this.room?.send(Message.ADD_CHAT_MESSAGE, { content: content });
+    }
+
+    sendPrivateMessage(sender: string, receiver: string, content: string ) {
+        this.room?.send(Message.SEND_DM, {  sender: sender, receiver: receiver, content: content  });
+        this.checkPrivateMessage(receiver);
+    }
+    checkPrivateMessage(sender: string) {
+        this.room?.send(Message.RECEIVE_DM, {  sender: sender });
     }
 }

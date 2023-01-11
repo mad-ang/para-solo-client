@@ -10,4 +10,6 @@ export enum Message {
   ADD_CHAT_MESSAGE,
   SEND_ROOM_DATA,
   UPDATE_CHAIR_STATUS,
+  SEND_DM,
+  RECEIVE_DM,
 }

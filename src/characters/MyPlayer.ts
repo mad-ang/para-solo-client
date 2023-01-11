@@ -10,9 +10,9 @@ import { pushPlayerJoinedMessage } from "../stores/ChatStore";
 import { ItemType } from "../types/Items";
 import { NavKeys } from "../types/KeyboardState";
 import Chair from "../items/Chair";
-
-import phaserGame from '../PhaserGame'
-import Game from '../scenes/Game'
+import OtherPlayer from "./OtherPlayer";
+import phaserGame from "../PhaserGame";
+import Game from "../scenes/Game";
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
   private chairOnSit?: Chair;
@@ -22,16 +22,18 @@ export default class MyPlayer extends Player {
     y: number,
     texture: string,
     id: string,
+    userId: string,
+    name : string,
     frame?: string | number
   ) {
-    super(scene, x, y, texture, id, frame);
+    super(scene, x, y, texture, id, userId, name, frame);
     this.playContainerBody = this.playerContainer
       .body as Phaser.Physics.Arcade.Body;
   }
 
   setPlayerName(name: string) {
     this.playerName.setText(name);
-    phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name);
+    phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, { name : name, userId: this.userId });
     store.dispatch(pushPlayerJoinedMessage(name));
   }
 
@@ -57,7 +59,8 @@ export default class MyPlayer extends Player {
     if (!cursors) return;
 
     const item = playerSelector.selectedItem;
-    const game = phaserGame.scene.keys.game as Game
+    const closePlayer = playerSelector.closePlayer;
+    const game = phaserGame.scene.keys.game as Game;
     //  쓰일수 있어서 주석처리.
     // if (Phaser.Input.Keyboard.JustDown(keyE)) {
     //   switch (item?.itemType) {
@@ -102,11 +105,11 @@ export default class MyPlayer extends Player {
            * as the player tends to move one more frame before sitting down causing player
            * not sitting at the center of the chair
            */
-          
+
           chairItem.openDialog(this.playerId, network);
           game.allOtherPlayers().forEach((otherPlayer) => {
             otherPlayer.pauseConnect();
-          })
+          });
           this.scene.time.addEvent({
             delay: 10,
             callback: () => {
@@ -154,7 +157,13 @@ export default class MyPlayer extends Player {
           chairItem.setDialogBox("E키를 눌러 일어나기");
           this.chairOnSit = chairItem;
           this.playerBehavior = PlayerBehavior.SITTING;
+
+          return;
+        } else if (Phaser.Input.Keyboard.JustDown(keyR) && closePlayer) {
+          // if press R in front of another player
+          console.log(closePlayer);
           
+          network.sendPrivateMessage(this.userId, closePlayer.playerId, "안녕하세요");
           return;
         } else {
           const speed = cursors.shift?.isDown ? 240 : 120;
@@ -205,7 +214,6 @@ export default class MyPlayer extends Player {
       case PlayerBehavior.SITTING:
         // back to idle if player press E while sitting
         if (Phaser.Input.Keyboard.JustDown(keyE)) {
-
           const parts = this.anims.currentAnim.key.split("_");
           parts[1] = "idle";
           this.play(parts.join("_"), true);
@@ -240,6 +248,7 @@ declare global {
         y: number,
         texture: string,
         id: string,
+        userId: string,
         frame?: string | number
       ): MyPlayer;
     }
@@ -254,9 +263,10 @@ Phaser.GameObjects.GameObjectFactory.register(
     y: number,
     texture: string,
     id: string,
+    userId: string,
     frame?: string | number
   ) {
-    const sprite = new MyPlayer(this.scene, x, y, texture, id, frame);
+    const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);

@@ -18,6 +18,7 @@ export const userSlice = createSlice({
   initialState: {
     backgroundMode: getInitialBackgroundMode(),
     sessionId: "",
+    userId: "",
     videoConnected: false,
     loggedIn: false,
     playerNameMap: new Map<string, string>(),
@@ -47,11 +48,11 @@ export const userSlice = createSlice({
     },
     setPlayerNameMap: (
       state,
-      action: PayloadAction<{ id: string; name: string }>
+      action: PayloadAction<{ id: string; name: string; userId: string }>
     ) => {
       state.playerNameMap.set(
         sanitizeId(action.payload.id),
-        action.payload.name
+        action.payload.userId
       );
     },
     removePlayerNameMap: (state, action: PayloadAction<string>) => {

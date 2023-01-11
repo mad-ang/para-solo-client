@@ -154,7 +154,8 @@ export default class Game extends Phaser.Scene {
       Phaser.Math.RND.between(200, 700),
       Phaser.Math.RND.between(200, 300),
       "adam",
-      this.network.mySessionId
+      this.network.mySessionId,
+      this.network.myUserId
     );
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16);
 
@@ -192,6 +193,13 @@ export default class Game extends Phaser.Scene {
       undefined,
       this
     );
+
+    this. physics.add.overlap(
+      this.playerSelector,
+      this.otherPlayers,
+      this.handleClosePlayerOverlap,
+      undefined,
+      this);
 
     this.physics.add.overlap(
       this.myPlayer,
@@ -325,7 +333,29 @@ export default class Game extends Phaser.Scene {
     if (myPlayer.playerBehavior === PlayerBehavior.SITTING) {
         return;
     }
+    
     otherPlayer.makeCall(myPlayer, this.network?.webRTC);
+  }
+  private handleClosePlayerOverlap(playerSelector, otherPlayer) {
+    if (this.myPlayer.playerBehavior === PlayerBehavior.SITTING) {
+        return;
+    }
+    const currentClosePlayer = playerSelector.closePlayer as OtherPlayer;
+    // currentItem is undefined if nothing was perviously selected
+    if (currentClosePlayer) {
+      // if the selection has not changed, do nothing
+      if (
+        currentClosePlayer === otherPlayer
+      ) {
+        return;
+      }
+      // if (this.myPlayer.playerBehavior !== PlayerBehavior.SITTING)
+      //   currentClosePlayer.clearDialogBox();
+    }
+    // set selected item and set up new dialog
+    playerSelector.closePlayer = otherPlayer;
+    // .onOverlapDialog()
+
   }
 
   private handleItemUserAdded(

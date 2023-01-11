@@ -23,10 +23,11 @@ export default class OtherPlayer extends Player {
     y: number,
     texture: string,
     id: string,
+    userId: string,
     name: string,
     frame?: string | number
   ) {
-    super(scene, x, y, texture, id, frame);
+    super(scene, x, y, texture, id, userId, name, frame);
     this.targetPosition = [x, y];
 
     this.playerName.setText(name);
@@ -196,6 +197,7 @@ declare global {
         y: number,
         texture: string,
         id: string,
+        userId:string, 
         name: string,
         frame?: string | number
       ): OtherPlayer;
@@ -211,10 +213,11 @@ Phaser.GameObjects.GameObjectFactory.register(
     y: number,
     texture: string,
     id: string,
+    userId: string,
     name: string,
     frame?: string | number
   ) {
-    const sprite = new OtherPlayer(this.scene, x, y, texture, id, name, frame);
+    const sprite = new OtherPlayer(this.scene, x, y, texture, id, name, userId, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
