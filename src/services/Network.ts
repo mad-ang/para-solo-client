@@ -32,7 +32,7 @@ export default class Network {
     
     const endpoint =
       process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
-        ? `wss://${import.meta.env.VITE_SERVER_URL}`
+        ? `ws://${import.meta.env.VITE_SERVER_URL}:2567`
         : `ws://${window.location.hostname}:2567`;
  
 
