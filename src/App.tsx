@@ -26,6 +26,7 @@ axios.defaults.baseURL =
   process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
     ? `https://${import.meta.env.VITE_SERVER_URL}`
     : `http://${window.location.hostname}:2567`;
+axios.defaults.withCredentials = true;
 
 const Backdrop = styled.div`
   position: absolute;
