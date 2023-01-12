@@ -38,7 +38,7 @@ const DMwrapper = styled.div`
   background: none;
   gap: 10px;
   bottom: 60px;
-  height: 680px;
+  height: 580px;
   width: 370px;
   border-radius: 25px;
   box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);

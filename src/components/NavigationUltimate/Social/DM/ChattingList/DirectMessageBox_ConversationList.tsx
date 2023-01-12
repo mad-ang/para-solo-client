@@ -44,7 +44,7 @@ const UserID = styled.div`
 `;
 const DMmessageList = styled.div`
   background: #ffffff;
-  height: 560px;
+  height: 460px;
   overflow: auto;
   display: flex;
   flex-direction: column;
