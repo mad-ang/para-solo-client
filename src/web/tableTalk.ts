@@ -57,6 +57,7 @@ export default class TableTalkManager {
         const track = stream.getVideoTracks()[0]
         if (track) {
           track.onended = () => {
+            console.log(track);
             this.stopTableTalk()
           }
         }
@@ -85,7 +86,7 @@ export default class TableTalkManager {
       store.dispatch(setMyStream(null))
       // Manually let all other existing users know screen sharing is stopped
       const game = phaserGame.scene.keys.game as Game
-      game.network.stopTableTalk(store.getState().table.tableId!)
+      game.network.onStopTableTalk(store.getState().table.tableId!)
     }
   }
 

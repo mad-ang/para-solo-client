@@ -12,20 +12,19 @@ import CloseIcon from "@mui/icons-material/Close";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import TwitterIcon from "@mui/icons-material/Twitter";
 
-import { BackgroundMode } from "../types/BackgroundMode";
-import { toggleBackgroundMode } from "../stores/UserStore";
-import { useAppSelector, useAppDispatch } from "../hooks";
-import { getAvatarString, getColorByString } from "../util";
+import { BackgroundMode } from "../../../types/BackgroundMode";
+import { toggleBackgroundMode } from "../../../stores/UserStore";
+import { useAppSelector, useAppDispatch } from "../../../hooks";
+import { getAvatarString, getColorByString } from "../../../util";
 
 const Backdrop = styled.div`
-  position: fixed;
   display: flex;
   gap: 10px;
   bottom: 16px;
   right: 16px;
   align-items: flex-end;
+  padding: 9px;
 
   .wrapper-group {
     display: flex;
@@ -132,10 +131,10 @@ export default function HelperButtonGroup() {
               <h3>{roomName}</h3>
             </RoomName>
             <RoomDescription>
-              <ArrowRightIcon /> ID: {roomId}
+              <ArrowRightIcon /> 마을ID {roomId}
             </RoomDescription>
             <RoomDescription>
-              <ArrowRightIcon /> Description: {roomDescription}
+              <ArrowRightIcon /> {roomDescription}
             </RoomDescription>
             <p className="tip">
               <LightbulbIcon />
@@ -145,7 +144,7 @@ export default function HelperButtonGroup() {
         )}
         {showControlGuide && (
           <Wrapper>
-            <Title>Controls</Title>
+            <Title>도움말</Title>
             <IconButton
               className="close"
               onClick={() => setShowControlGuide(false)}
@@ -155,25 +154,27 @@ export default function HelperButtonGroup() {
             </IconButton>
             <ul>
               <li>
-                <strong>W, A, S, D or arrow keys</strong> to move
+                <strong>W, A, S, D나 방향키로</strong> 움직이세요.
               </li>
               <li>
-                <strong>E</strong> to sit down (when facing a chair)
+                <strong>SHIFT키와 방향키를 함께 누르면</strong> 달릴수 있어요.
               </li>
               <li>
-                <strong>R</strong> to use computer to screen share (when facing
-                a computer)
+                <strong>E</strong> 키를 눌러 의자에 앉을 수 있습니다.
               </li>
               <li>
-                <strong>Enter</strong> to open chat
+                테이블 근처에서는 <strong>R</strong> 키를 눌러 대화에 참여해 보세요.
               </li>
               <li>
-                <strong>ESC</strong> to close chat
+                <strong>Enter</strong> 키를 누르면 마을내에 전체 채팅이 가능합니다.
+              </li>
+              <li>
+                <strong>ESC</strong> 키를 눌러 채팅창을 닫을 수도 있어요.
               </li>
             </ul>
             <p className="tip">
               <LightbulbIcon />
-              Video connection will start if you are close to someone else
+              다른 유저와 접촉하면 화상채팅이 가능합니다!
             </p>
           </Wrapper>
         )}
@@ -181,7 +182,7 @@ export default function HelperButtonGroup() {
       <ButtonGroup>
         {roomJoined && (
           <>
-            <Tooltip title="Room Info">
+            <Tooltip title="마을 정보">
               <StyledFab
                 size="small"
                 onClick={() => {
@@ -192,7 +193,7 @@ export default function HelperButtonGroup() {
                 <ShareIcon />
               </StyledFab>
             </Tooltip>
-            <Tooltip title="Control Guide">
+            <Tooltip title="도움말">
               <StyledFab
                 size="small"
                 onClick={() => {
@@ -205,25 +206,16 @@ export default function HelperButtonGroup() {
             </Tooltip>
           </>
         )}
-        <Tooltip title="Visit Our GitHub">
+        <Tooltip title="우리 깃헙에 놀러오세요!">
           <StyledFab
             size="small"
-            href="https://github.com/kevinshen56714/SkyOffice"
+            href="https://github.com/mad-ang"
             target="_blank"
           >
             <GitHubIcon />
           </StyledFab>
         </Tooltip>
-        <Tooltip title="Follow Us on Twitter">
-          <StyledFab
-            size="small"
-            href="https://twitter.com/SkyOfficeApp"
-            target="_blank"
-          >
-            <TwitterIcon />
-          </StyledFab>
-        </Tooltip>
-        <Tooltip title="Switch Background Theme">
+        <Tooltip title="낮밤을 바꿔봐요!">
           <StyledFab
             size="small"
             onClick={() => dispatch(toggleBackgroundMode())}

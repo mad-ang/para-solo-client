@@ -73,10 +73,13 @@ const VideoGrid = styled.div`
   }
 `
 
-function VideoContainer({ playerName, stream }) {
+function VideoContainer({ playerName, stream, muted}) {
+  let is_me = false
+  if (muted === "true")
+    is_me = true
   return (
     <div className="video-container">
-      <Video srcObject={stream} autoPlay></Video>
+      <Video srcObject={stream} autoPlay muted={is_me}></Video>
       {playerName && <div className="player-name">{playerName}</div>}
     </div>
   )
@@ -88,7 +91,7 @@ export default function TableDialog() {
   const tableTalkManager = useAppSelector((state) => state.table.tableTalkManager)
   const myStream = useAppSelector((state) => state.table.myStream)
   const peerStreams = useAppSelector((state) => state.table.peerStreams)
-
+  console.log(peerStreams.entries());
   return (
     <Backdrop>
       <Wrapper>
@@ -117,11 +120,11 @@ export default function TableDialog() {
         </div>
 
         <VideoGrid>
-          {myStream && <VideoContainer stream={myStream} playerName="You" />}
+          {myStream && <VideoContainer stream={myStream} playerName="You" muted="true"/>}
 
           {[...peerStreams.entries()].map(([id, { stream }]) => {
             const playerName = playerNameMap.get(id)
-            return <VideoContainer key={id} playerName={playerName} stream={stream} />
+            return <VideoContainer key={id} playerName={playerName} stream={stream} muted="false" />
           })}
         </VideoGrid>
       </Wrapper>

@@ -12,6 +12,7 @@ export const sittingShiftData = {
 };
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
+  playerUserId : string;
   playerId: string;
   playerTexture: string;
   playerBehavior = PlayerBehavior.IDLE;
@@ -27,11 +28,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     x: number,
     y: number,
     texture: string,
+    userId: string,
     id: string,
     frame?: string | number
   ) {
     super(scene, x, y, texture, frame);
 
+    this.playerUserId = userId;
     this.playerId = id;
     this.playerTexture = texture;
     this.setDepth(this.y);

@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RoomAvailable } from "colyseus.js";
-import { RoomType } from "../types/Rooms";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RoomAvailable } from 'colyseus.js';
+import { RoomType } from '../types/Rooms';
 
 interface RoomInterface extends RoomAvailable {
   name?: string;
@@ -10,15 +10,16 @@ interface RoomInterface extends RoomAvailable {
  * Colyseus' real time room list always includes the public lobby so we have to remove it manually.
  */
 export const roomSlice = createSlice({
-  name: "room",
+  name: 'room',
   initialState: {
+    allUserList: new Array<string>(),
     lobbyJoined: false,
     roomJoined: false,
-    roomId: "",
-    roomName: "",
-    roomDescription: "",
+    roomId: '',
+    roomName: '',
+    roomDescription: '',
     availableRooms: new Array<RoomAvailable>(),
-    userCnt : 0,
+    userCnt: 0,
   },
   reducers: {
     setLobbyJoined: (state, action: PayloadAction<boolean>) => {
@@ -29,24 +30,19 @@ export const roomSlice = createSlice({
     },
     setJoinedRoomData: (
       state,
-      action: PayloadAction<{ id: string; name: string; description: string, userCnt:number }>
+      action: PayloadAction<{ id: string; name: string; description: string; userCnt: number }>
     ) => {
       state.roomId = action.payload.id;
       state.roomName = action.payload.name;
       state.roomDescription = action.payload.description;
       state.userCnt = action.payload.userCnt;
     },
-    setNumPlayer : (state,action: PayloadAction<number> )=> {
+    setNumPlayer: (state, action: PayloadAction<number>) => {
       state.userCnt = action.payload;
     },
-  }
+  },
 });
 
-export const {
-  setLobbyJoined,
-  setRoomJoined,
-  setJoinedRoomData,
-  setNumPlayer,
-} = roomSlice.actions;
+export const { setLobbyJoined, setRoomJoined, setJoinedRoomData, setNumPlayer } = roomSlice.actions;
 
 export default roomSlice.reducer;

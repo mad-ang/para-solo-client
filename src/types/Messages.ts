@@ -9,4 +9,5 @@ export enum Message {
   STOP_TABLE_TALK,
   ADD_CHAT_MESSAGE,
   SEND_ROOM_DATA,
+  UPDATE_CHAIR_STATUS,
 }
