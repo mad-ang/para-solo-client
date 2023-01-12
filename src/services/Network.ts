@@ -91,7 +91,7 @@ export default class Network {
     store.dispatch(setSessionId(this.room.sessionId));
     this.webRTC = new WebRTC(this.mySessionId, this);
     console.log('onAdd 시에 this.room.sessionId', this.room.sessionId);
-    console.log('onAdd 시에 userId', store.getState().user)
+    console.log('onAdd 시에 userId', store.getState().user);
 
     // new instance added to the players MapSchema
     this.room.state.players.onAdd = (player: IPlayer, key: string) => {
@@ -275,7 +275,11 @@ export default class Network {
   }
 
   sendPrivateMessage(senderId: string, receiverId: string, content: string) {
-    this.room?.send(Message.SEND_PRIVATE_MESSAGE, { senderId: senderId, receiverId: receiverId, content: content });
+    this.room?.send(Message.SEND_PRIVATE_MESSAGE, {
+      senderId: senderId,
+      receiverId: receiverId,
+      content: content,
+    });
     this.checkPrivateMessage(senderId, receiverId);
   }
   checkPrivateMessage(requestId: string, targetId: string) {
