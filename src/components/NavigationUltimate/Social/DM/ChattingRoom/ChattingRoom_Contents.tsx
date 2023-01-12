@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { ChatFeed, Message, ChatInput } from 'react-chat-ui';
+// import ChatFeed from 'react-chat-ui';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import styled from 'styled-components';
 
@@ -25,22 +26,12 @@ export default function ChatBubbles(props) {
     }), // Gray bubble
   ]);
 
-  const [inputValue, setInputValue] = useState('');
-  const [readyToSubmit, setReadyToSubmit] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
   const directMessages = useAppSelector((state) => state.dm.directMessages);
   const showDM = useAppSelector((state) => state.dm.showDM);
-  const dispatch = useAppDispatch();
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  // 채팅 보여줄 시(useEffect), scrollToBottom()
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [directMessages, showDM]);
-
+  // 저장 되어 있던 메세지 보여줌
   useEffect(() => {
     console.log('props.newMessage', props.newMessage);
     setMessageList((messageList) => [...messageList, props.newMessage]);

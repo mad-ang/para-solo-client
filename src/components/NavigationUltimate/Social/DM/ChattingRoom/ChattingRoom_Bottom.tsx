@@ -84,6 +84,11 @@ export default function BottomAppBar(props) {
     });
     setNewMessage(newMessage);
   };
+  const handleOnKeyDown = (e) => {
+    if (e.keyCode == 13) {
+      handleSubmit();
+    }
+  };
 
   return (
     <AppBar position="relative" color="primary" sx={{ bottom: 0 }}>
@@ -100,6 +105,7 @@ export default function BottomAppBar(props) {
         onChange={(event) => {
           setInputValue(event.target.value);
         }}
+        onKeyDown={handleOnKeyDown}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
