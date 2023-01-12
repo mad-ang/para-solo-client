@@ -1,30 +1,30 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Fab from "@mui/material/Fab";
-import IconButton from "@mui/material/IconButton";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import ShareIcon from "@mui/icons-material/Share";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import CloseIcon from "@mui/icons-material/Close";
-import LightbulbIcon from "@mui/icons-material/Lightbulb";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import GitHubIcon from "@mui/icons-material/GitHub";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Fab from '@mui/material/Fab';
+import IconButton from '@mui/material/IconButton';
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import ShareIcon from '@mui/icons-material/Share';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import CloseIcon from '@mui/icons-material/Close';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
-import { BackgroundMode } from "../types/BackgroundMode";
-import { toggleBackgroundMode } from "../stores/UserStore";
-import { useAppSelector, useAppDispatch } from "../hooks";
-import { getAvatarString, getColorByString } from "../util";
+import { BackgroundMode } from '../../../types/BackgroundMode';
+import { ENTERING_PROCESS, toggleBackgroundMode } from '../../../stores/UserStore';
+import { useAppSelector, useAppDispatch } from '../../../hooks';
+import { getAvatarString, getColorByString } from '../../../util';
 
 const Backdrop = styled.div`
-  position: fixed;
   display: flex;
   gap: 10px;
   bottom: 16px;
   right: 16px;
   align-items: flex-end;
+  padding: 9px;
 
   .wrapper-group {
     display: flex;
@@ -106,7 +106,7 @@ export default function HelperButtonGroup() {
   const [showControlGuide, setShowControlGuide] = useState(false);
   const [showRoomInfo, setShowRoomInfo] = useState(false);
   const backgroundMode = useAppSelector((state) => state.user.backgroundMode);
-  const roomJoined = useAppSelector((state) => state.room.roomJoined);
+  const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
   const roomId = useAppSelector((state) => state.room.roomId);
   const roomName = useAppSelector((state) => state.room.roomName);
   const roomDescription = useAppSelector((state) => state.room.roomDescription);
@@ -117,11 +117,7 @@ export default function HelperButtonGroup() {
       <div className="wrapper-group">
         {showRoomInfo && (
           <Wrapper>
-            <IconButton
-              className="close"
-              onClick={() => setShowRoomInfo(false)}
-              size="small"
-            >
+            <IconButton className="close" onClick={() => setShowRoomInfo(false)} size="small">
               <CloseIcon />
             </IconButton>
             <RoomName>
@@ -145,11 +141,7 @@ export default function HelperButtonGroup() {
         {showControlGuide && (
           <Wrapper>
             <Title>도움말</Title>
-            <IconButton
-              className="close"
-              onClick={() => setShowControlGuide(false)}
-              size="small"
-            >
+            <IconButton className="close" onClick={() => setShowControlGuide(false)} size="small">
               <CloseIcon />
             </IconButton>
             <ul>
@@ -180,7 +172,7 @@ export default function HelperButtonGroup() {
         )}
       </div>
       <ButtonGroup>
-        {roomJoined && (
+        {enteringProcess === ENTERING_PROCESS.CHARACTER_SELECTION && (
           <>
             <Tooltip title="마을 정보">
               <StyledFab
@@ -207,24 +199,13 @@ export default function HelperButtonGroup() {
           </>
         )}
         <Tooltip title="우리 깃헙에 놀러오세요!">
-          <StyledFab
-            size="small"
-            href="https://github.com/mad-ang"
-            target="_blank"
-          >
+          <StyledFab size="small" href="https://github.com/mad-ang" target="_blank">
             <GitHubIcon />
           </StyledFab>
         </Tooltip>
         <Tooltip title="낮밤을 바꿔봐요!">
-          <StyledFab
-            size="small"
-            onClick={() => dispatch(toggleBackgroundMode())}
-          >
-            {backgroundMode === BackgroundMode.DAY ? (
-              <DarkModeIcon />
-            ) : (
-              <LightModeIcon />
-            )}
+          <StyledFab size="small" onClick={() => dispatch(toggleBackgroundMode())}>
+            {backgroundMode === BackgroundMode.DAY ? <DarkModeIcon /> : <LightModeIcon />}
           </StyledFab>
         </Tooltip>
       </ButtonGroup>
