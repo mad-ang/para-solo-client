@@ -74,19 +74,28 @@ export default function BottomAppBar(props) {
   const directMessages = useAppSelector((state) => state.dm.directMessages);
   const showDM = useAppSelector((state) => state.dm.showDM);
   const dispatch = useAppDispatch();
-
+  const defaultInput = useRef<HTMLInputElement>(null);
   const { setNewMessage } = props;
-  const handleSubmit = () => {
+
+  const [value, setValue] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     console.log('보냄');
+    if (value === '') return;
+
     const newMessage = new Message({
       id: 0,
-      message: inputValue,
+      message: value,
     });
     setNewMessage(newMessage);
+
+    setValue('');
   };
+
   const handleOnKeyDown = (e) => {
     if (e.keyCode == 13) {
-      handleSubmit();
+      handleSubmit(e);
     }
   };
 
@@ -94,16 +103,17 @@ export default function BottomAppBar(props) {
     <AppBar position="relative" color="primary" sx={{ bottom: 0 }}>
       {/* <button onClick={handleSubmit}> 보내기</button> */}
       <TextField
+        defaultValue={value}
+        value={value}
         fullWidth
         margin="dense"
         // id="fullWidth"
         id="outlined-multiline-static"
         label="메세지 보내기"
-        placeholder="메세지 보내기"
         multiline
-        rows={1}
+        maxRows={2}
         onChange={(event) => {
-          setInputValue(event.target.value);
+          setValue(event.target.value);
         }}
         onKeyDown={handleOnKeyDown}
         InputProps={{

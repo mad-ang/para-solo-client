@@ -45,7 +45,7 @@ export default function ChatBubbles(props) {
           messages={messageList} // Array: list of message objects
           // isTyping={messages.is_typing} // Boolean: is the recipient typing
           hasInputField={false} // Boolean: use our input, or use your own
-          showSenderName // show the name of the user who sent the message
+          showSenderName={false} // show the name of the user who sent the message
           bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
           // JSON: Custom bubble styles
           bubbleStyles={{
