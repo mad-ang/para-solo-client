@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, {keyframes} from "styled-components";
 import DMboxSVG from '../../../assets/directmessage/DM.svg';
-import channelTalkPNG from '../../../../../assets/directmessage/channelTalk.png';
+// import channelTalkPNG from '';
 import { useNavigate } from 'react-router-dom';
 import {InsideChattingRoom} from '../ChattingRoom/ChattingRoom';
 import { useAppSelector, useAppDispatch } from '../../../../../hooks';
@@ -42,7 +42,7 @@ export function DMboxHeader(){
         <DMtop>
         <TopController>
             <DirtyTalk>
-                <img src={channelTalkPNG} width="30" />
+                <img src={'assets/directmessage/channelTalk.png'} width="30" />
                 최널톡
             </DirtyTalk>                
             <div>
