@@ -1,9 +1,9 @@
-import Peer from "peerjs";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import TableTalkManager from "../web/tableTalk";
-import phaserGame from "../PhaserGame";
-import Game from "../scenes/Game";
-import { sanitizeId } from "../util";
+import Peer from 'peerjs';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import TableTalkManager from '../web/tableTalk';
+import phaserGame from '../PhaserGame';
+import Game from '../scenes/Game';
+import { sanitizeId } from '../util';
 
 interface tableState {
   tableDialogOpen: boolean;
@@ -32,13 +32,10 @@ const initialState: tableState = {
 };
 
 export const tableSlice = createSlice({
-  name: "table",
+  name: 'table',
   initialState,
   reducers: {
-    openTableDialog: (
-      state,
-      action: PayloadAction<{ tableId: string; myUserId: string }>
-    ) => {
+    openTableDialog: (state, action: PayloadAction<{ tableId: string; myUserId: string }>) => {
       if (!state.tableTalkManager) {
         state.tableTalkManager = new TableTalkManager(action.payload.myUserId);
       }

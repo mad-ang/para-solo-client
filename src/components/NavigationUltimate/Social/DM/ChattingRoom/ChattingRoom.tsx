@@ -32,6 +32,7 @@ const Wrapper = styled.div`
 
 export function InsideChattingRoom() {
   const [inputValue, setInputValue] = useState('');
+  const focused = useAppSelector((state) => state.chat.focused);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);

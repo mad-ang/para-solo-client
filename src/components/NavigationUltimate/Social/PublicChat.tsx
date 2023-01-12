@@ -19,8 +19,7 @@ import { getColorByString } from '../../../util';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { MessageType, setFocused, setShowChat, chatSlice } from '../../../stores/ChatStore';
 import { roomSlice } from '../../../stores/RoomStore';
-import {SetPublicChatActivated, SetPublicChatActivateOnly} from '../../../stores/NavbarStore';
-
+import { SetPublicChatActivated, SetPublicChatActivateOnly } from '../../../stores/NavbarStore';
 
 const Backdrop = styled.div`
   position: fixed;
@@ -119,7 +118,7 @@ const StyledRedBox = styled.div`
   justify-content: center;
   width: 60px;
   height: 44px;
-  background-color: #C4564C;
+  background-color: #c4564c;
   box-shadow: 0 0 10px 0 #000000;
   font-size: 1rem;
   font-weight: 900;
@@ -197,7 +196,7 @@ function Chat() {
       // move focus back to the game
       inputRef.current?.blur();
       dispatch(setShowChat(false));
-      dispatch(SetPublicChatActivated(false))
+      dispatch(SetPublicChatActivated(false));
     }
   };
 
@@ -236,90 +235,94 @@ function Chat() {
   useEffect(() => {
     scrollToBottom();
   }, [chatMessages, showChat]);
-  
+
   return (
     <Backdrop>
       <Wrapper>
-          <div className="wrapper777">
-            <ChatHeader>
-              <Showusercnt />
-              <IconButton
-                aria-label="close dialog"
-                className="close"
-                onClick={() =>   {
-                  dispatch(SetPublicChatActivated(false))
-                  dispatch(setShowChat(false))}}
-                size="small"
-              >
-                <CloseIcon />
-              </IconButton>
-            </ChatHeader>
-            <ChatBox>
-              {chatMessages.map(({ messageType, chatMessage }, index) => (
-                <Message chatMessage={chatMessage} messageType={messageType} key={index} />
-              ))}
-              <div ref={messagesEndRef} />
-              {showEmojiPicker && (
-                <EmojiPickerWrapper>
-                  <Picker
-                    theme="dark"
-                    showSkinTones={false}
-                    showPreview={false}
-                    onSelect={(emoji) => {
-                      setInputValue(inputValue + emoji.native);
-                      setShowEmojiPicker(!showEmojiPicker);
-                      dispatch(setFocused(true));
-                    }}
-                    exclude={['recent', 'flags']}
-                  />
-                </EmojiPickerWrapper>
-              )}
-            </ChatBox>
-            <InputWrapper onSubmit={handleSubmit}>
-              <InputTextField
-                inputRef={inputRef}
-                autoFocus={focused}
-                fullWidth
-                placeholder="대화를 입력해주세요"
-                value={inputValue}
-                onKeyDown={handleKeyDown}
-                onChange={handleChange}
-                onFocus={() => {
-                  if (!focused) {
+        <div className="wrapper777">
+          <ChatHeader>
+            <Showusercnt />
+            <IconButton
+              aria-label="close dialog"
+              className="close"
+              onClick={() => {
+                dispatch(SetPublicChatActivated(false));
+                dispatch(setShowChat(false));
+              }}
+              size="small"
+            >
+              <CloseIcon />
+            </IconButton>
+          </ChatHeader>
+          <ChatBox>
+            {chatMessages.map(({ messageType, chatMessage }, index) => (
+              <Message chatMessage={chatMessage} messageType={messageType} key={index} />
+            ))}
+            <div ref={messagesEndRef} />
+            {showEmojiPicker && (
+              <EmojiPickerWrapper>
+                <Picker
+                  theme="dark"
+                  showSkinTones={false}
+                  showPreview={false}
+                  onSelect={(emoji) => {
+                    setInputValue(inputValue + emoji.native);
+                    setShowEmojiPicker(!showEmojiPicker);
                     dispatch(setFocused(true));
-                    setReadyToSubmit(true);
-                  }
-                }}
-                onBlur={() => {
-                  dispatch(setFocused(false));
-                  setReadyToSubmit(false);
-                }}
-              />
-              <IconButton aria-label="emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                <InsertEmoticonIcon />
-              </IconButton>
-            </InputWrapper>
-          </div>
+                  }}
+                  exclude={['recent', 'flags']}
+                />
+              </EmojiPickerWrapper>
+            )}
+          </ChatBox>
+          <InputWrapper onSubmit={handleSubmit}>
+            <InputTextField
+              inputRef={inputRef}
+              autoFocus={focused}
+              fullWidth
+              placeholder="대화를 입력해주세요"
+              value={inputValue}
+              onKeyDown={handleKeyDown}
+              onChange={handleChange}
+              onFocus={() => {
+                if (!focused) {
+                  dispatch(setFocused(true));
+                  setReadyToSubmit(true);
+                }
+              }}
+              onBlur={() => {
+                dispatch(setFocused(false));
+                setReadyToSubmit(false);
+              }}
+            />
+            <IconButton aria-label="emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+              <InsertEmoticonIcon />
+            </IconButton>
+          </InputWrapper>
+        </div>
       </Wrapper>
     </Backdrop>
   );
 }
 
-
 export default function PublicChat() {
   const dispatch = useAppDispatch();
-  const NavControllerPublicChatActivated = useAppSelector((state) => state.nav.NavControllerPublicChatActivated);
+  const NavControllerPublicChatActivated = useAppSelector(
+    (state) => state.nav.NavControllerPublicChatActivated
+  );
 
   return (
     <div>
-      <StyledRedBox onClick={() => {
-        console.log('공공채팅');
+      <StyledRedBox
+        onClick={() => {
+          console.log('공공채팅');
 
-        dispatch(SetPublicChatActivateOnly());
-      }}>
-        <ChatIcon fontSize="large"/>
+          dispatch(SetPublicChatActivateOnly());
+        }}
+      >
+        <ChatIcon fontSize="large" />
       </StyledRedBox>
-      {NavControllerPublicChatActivated ? (<Chat/>): null}
+      {NavControllerPublicChatActivated ? <Chat /> : null}
     </div>
   );
 }

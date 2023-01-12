@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { MessageType, setFocused, setShowChat, chatSlice } from 'src/stores/ChatStore';
 
 import styled from 'styled-components';
 import { Message } from 'react-chat-ui';
@@ -76,6 +77,7 @@ export default function BottomAppBar(props) {
   const dispatch = useAppDispatch();
   const defaultInput = useRef<HTMLInputElement>(null);
   const { setNewMessage } = props;
+  const focused = useAppSelector((state) => state.chat.focused);
 
   const [value, setValue] = useState('');
 
@@ -103,6 +105,16 @@ export default function BottomAppBar(props) {
     <AppBar position="relative" color="primary" sx={{ bottom: 0 }}>
       {/* <button onClick={handleSubmit}> 보내기</button> */}
       <TextField
+        onFocus={() => {
+          if (!focused) {
+            dispatch(setFocused(true));
+            setReadyToSubmit(true);
+          }
+        }}
+        onBlur={() => {
+          dispatch(setFocused(false));
+          setReadyToSubmit(false);
+        }}
         defaultValue={value}
         value={value}
         fullWidth
