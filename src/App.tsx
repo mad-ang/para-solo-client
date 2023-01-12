@@ -22,7 +22,10 @@ import axios from 'axios';
 import NavigationContainer from './components/NavigationUltimate/NavigationContainer';
 import { ENTERING_PROCESS } from './stores/UserStore';
 
-axios.defaults.baseURL = 'http://localhost:2567';
+axios.defaults.baseURL =
+  process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
+    ? `https://${import.meta.env.VITE_SERVER_URL}`
+    : `http://${window.location.hostname}:2567`;
 
 const Backdrop = styled.div`
   position: absolute;
@@ -32,6 +35,7 @@ const Backdrop = styled.div`
 `;
 
 function App() {
+  console.log(88888, import.meta.env.VITE_ENDPOINT);
   const tableDialogOpen = useAppSelector((state) => state.table.tableDialogOpen);
   const videoConnected = useAppSelector((state) => state.user.videoConnected);
   const enteringProcess = useAppSelector((state) => state.user.enteringProcess);

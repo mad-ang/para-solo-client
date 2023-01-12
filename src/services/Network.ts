@@ -29,16 +29,14 @@ export default class Network {
   mySessionId!: string;
 
   constructor() {
-    /*로컬 서버 접속*/
-    // const protocol = window.location.protocol.replace('http', 'ws');
-    // const endpoint =
-    //   process.env.NODE_ENV === 'production'
-    //     ? import.meta.env.VITE_SERVER_URL
-    //     : `${protocol}//${window.location.hostname}:2567`;
+    
+    const endpoint =
+      process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
+        ? `wss://${import.meta.env.VITE_SERVER_URL}`
+        : `ws://${window.location.hostname}:2567`;
+ 
 
-    /*배포 서버 접속*/
-    const endpoint = 'wss://momstown.herokuapp.com/';
-
+    console.log(process.env.NODE_ENV);
     this.client = new Client(endpoint);
     this.joinLobbyRoom().then(() => {
       store.dispatch(setLobbyJoined(true));
