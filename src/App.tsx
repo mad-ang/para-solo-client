@@ -25,7 +25,7 @@ import { ENTERING_PROCESS } from './stores/UserStore';
 axios.defaults.baseURL =
   process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
     ? `https://${import.meta.env.VITE_SERVER_URL}`
-    : `http://${window.location.hostname}:2567`;
+    : `http://${window.location.hostname}:8080`;
 axios.defaults.withCredentials = true;
 
 console.log('axios.defaults.baseURL ', axios.defaults.baseURL )
