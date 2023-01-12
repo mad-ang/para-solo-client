@@ -1,61 +1,81 @@
-import styled from 'styled-components';
+import React, { useRef, useState, useEffect } from 'react';
+import { ChatFeed, Message, ChatInput } from 'react-chat-ui';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
-import ChattingBlock from './ChattingBlock';
+import styled from 'styled-components';
 
-const Contents = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-background: #CEFEDE;
-top: 0px;
-left: 0px;
-height: 550px;
-width: 360px;
-padding: 20px;
-border-radius: 25px;
-`;
+export default function ChatBubbles(props) {
+  const [messageList, setMessageList] = useState([
+    new Message({
+      id: 1,
+      message: "I'm the recipient! (The person you're talking to)",
+    }), // Gray bubble
+    new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
+    new Message({
+      id: 1,
+      message: "I'm the recipient! (The person you're talking to)",
+    }), // Gray bubble
+    new Message({
+      id: 1,
+      message: "I'm the recipient! (The person you're talking to)",
+    }), // Gray bubble
+  ]);
 
-//styled.div MyChat shows chatting Block from me
-const MyChat = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: flex-end;
-background: #BDDDFC;
-top: 0px;
-left: 0px;
-height: 60px;
-width: 200px;
-padding: 20px;
-margin: 5px;
-border-radius: 25px;
-`;
+  const [inputValue, setInputValue] = useState('');
+  const [readyToSubmit, setReadyToSubmit] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const directMessages = useAppSelector((state) => state.dm.directMessages);
+  const showDM = useAppSelector((state) => state.dm.showDM);
+  const dispatch = useAppDispatch();
 
-//styled.div FriendChat shows chatting Block from friend
-const FriendChat = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: flex-start;
-background: #FDFFB1;
-top: 0px;
-left: 0px;
-height: 60px;
-width: 200px;
-padding: 20px;
-margin: 5px;
-border-radius: 25px;
-`;
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-export default function ChattingRoomContents() {
+  useEffect(() => {
+    scrollToBottom();
+  }, [directMessages, showDM]);
 
-    return (
-        <Contents>
-            {ChattingBlock("안녕하세요", "2021-10-10", "박건율", "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg", false)}
-            {ChattingBlock("안녕안해요", "2021-10-10", "윤중선", "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg", true)}
-            {ChattingBlock("안녕하세요", "2021-10-10", "박건율", "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg", false)}
-            {ChattingBlock("안녕하세요", "2021-10-10", "박건율", "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg", false)}
-            {ChattingBlock("안녕하세요", "2021-10-10", "박건율", "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg", false)}
-            {ChattingBlock("안녕안해요", "2021-10-10", "윤중선", "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg", true)}
-            {ChattingBlock("안녕안해요", "2021-10-10", "윤중선", "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg", true)}
-        </Contents>
-);
+  useEffect(() => {
+    console.log('props.newMessage', props.newMessage);
+    // messages.messages.push(props.newMessage);
+    // messages = {
+    //   messages: [...messages.messages, props.newMessage]
+    // }
+    setMessageList((messageList) => [...messageList, props.newMessage]);
+  }, [props.newMessage]);
+
+  return (
+    <>
+      <ChatFeed
+        chat={{
+          scrollHeight: 1000,
+          clientHeight: 500,
+          scrollTop: 100,
+        }}
+        messages={messageList} // Array: list of message objects
+        // isTyping={messages.is_typing} // Boolean: is the recipient typing
+        hasInputField={false} // Boolean: use our input, or use your own
+        showSenderName // show the name of the user who sent the message
+        bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
+        // JSON: Custom bubble styles
+        bubbleStyles={{
+          text: {
+            fontSize: 20,
+          },
+          chatbubble: {
+            borderRadius: 25,
+            padding: 15,
+            maxWidth: 250,
+            width: '75%',
+            marginTop: 1,
+            marginRight: 'auto',
+            marginBottom: 1,
+            marginLeft: 'auto',
+          },
+          userBubble: {},
+        }}
+      />
+    </>
+  );
 }
