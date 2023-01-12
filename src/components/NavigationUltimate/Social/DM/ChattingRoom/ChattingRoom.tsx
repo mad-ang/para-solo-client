@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 // import BasicStack from './CRStack';
-import ButtonAppBar from './ChattingRoom_Header';
+import HeadAppBar from './ChattingRoom_Header';
 import BottomAppBar from './ChattingRoom_Bottom';
 // import ChattingRoomContents from './CRContents';
 import ChatBubbles from './ChattingRoom_Contents';
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   background: white;
   gap: 10px;
   bottom: 60px;
-  height: 680px;
+  height: 580px;
   width: 370px;
   border-radius: 25px;
   box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
@@ -60,7 +60,7 @@ export function InsideChattingRoom() {
 
   return (
     <Wrapper>
-      <ButtonAppBar />
+      <HeadAppBar />
       {/* <BasicStack /> */}
       {/* <ChattingRoomContents /> */}
       <ChatBubbles newMessage={newMessage} />

@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { setShowDM } from 'src/stores/DMboxStore';
 import { NavControllerSlice, SetChattingRoomActivated } from 'src/stores/NavbarStore';
 
-export default function ButtonAppBar() {
+export default function HeadAppBar() {
   const dispatch = useAppDispatch();
   const withWho = useAppSelector((state) => state.dm.withWho);
 

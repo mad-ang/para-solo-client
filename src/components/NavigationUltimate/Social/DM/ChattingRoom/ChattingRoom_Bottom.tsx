@@ -86,7 +86,7 @@ export default function BottomAppBar(props) {
   };
 
   return (
-    <AppBar position="relative" color="primary" sx={{ top: 'auto', bottom: 0 }}>
+    <AppBar position="relative" color="primary" sx={{ bottom: 0 }}>
       {/* <button onClick={handleSubmit}> 보내기</button> */}
       <TextField
         fullWidth
@@ -103,13 +103,7 @@ export default function BottomAppBar(props) {
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton
-                color="primary"
-                sx={{ p: '10px' }}
-                //                 // aria-label="toggle password visibility"
-                onClick={handleSubmit}
-                edge="end"
-              >
+              <IconButton color="primary" sx={{ p: '10px' }} onClick={handleSubmit} edge="end">
                 <SendIcon />
               </IconButton>
             </InputAdornment>
