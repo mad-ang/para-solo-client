@@ -62,6 +62,6 @@ export default class Chair extends Item {
   openDialog(playerId: string, network: Network) {
     if (!this.tableId) return;
     store.dispatch(openTableDialog({ tableId: this.tableId, myUserId: playerId }));
-    network.connectToTable(this.tableId);
+    // network.connectToTable(this.tableId);
   }
 }
