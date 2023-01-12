@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IChatMessage } from "../types/ITownState";
-import phaserGame from "../PhaserGame";
-import Game from "../scenes/Game";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IChatMessage } from '../types/ITownState';
+import phaserGame from '../PhaserGame';
+import Game from 'scenes/Game';
 
 export enum MessageType {
   PLAYER_JOINED,
@@ -10,7 +10,7 @@ export enum MessageType {
 }
 
 export const chatSlice = createSlice({
-  name: "chat",
+  name: 'chat',
   initialState: {
     chatMessages: new Array<{
       messageType: MessageType;
@@ -33,7 +33,7 @@ export const chatSlice = createSlice({
         chatMessage: {
           createdAt: new Date().getTime(),
           author: action.payload,
-          content: "님이 맘스타운에 입장했어요",
+          content: '님이 맘스타운에 입장했어요',
         } as IChatMessage,
       });
     },
@@ -43,7 +43,7 @@ export const chatSlice = createSlice({
         chatMessage: {
           createdAt: new Date().getTime(),
           author: action.payload,
-          content: "님이 맘스타운에서 나갔어요",
+          content: '님이 맘스타운에서 나갔어요',
         } as IChatMessage,
       });
     },
