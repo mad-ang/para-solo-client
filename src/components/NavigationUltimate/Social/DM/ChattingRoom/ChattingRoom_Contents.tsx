@@ -62,6 +62,7 @@ export default function ChatBubbles(props) {
               marginRight: 'auto',
               marginBottom: 1,
               marginLeft: 'auto',
+              wordBreak: 'break-all',
             },
             userBubble: {},
           }}
