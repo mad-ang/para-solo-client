@@ -100,6 +100,8 @@ function ProfileEditModal(props) {
                       : () => {};
                   }}
                   options={item.options}
+                  styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+                  menuPortalTarget={document.body}
                 />
               </InfoSelectionArea>
             </InfoItem>
