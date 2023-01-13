@@ -212,6 +212,9 @@ export default function HelperButtonGroup() {
           onClick={() => {
             const cookies = new Cookies();
             cookies.remove('refreshToken', { path: '/' });
+            cookies.remove('accessToken', { path: '/' });
+            cookies.remove('playerName', { path: '/' });
+            cookies.remove('playerTexture', { path: '/' });
             window.location.href = '/';
           }}
         >

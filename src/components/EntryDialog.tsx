@@ -20,6 +20,10 @@ import { ENTERING_PROCESS, setEnteringProcess } from '../stores/UserStore';
 import { EnergySavingsLeaf } from '@mui/icons-material';
 import store from 'src/stores';
 import { setLobbyJoined } from 'src/stores/RoomStore';
+import { login } from 'src/api/auth';
+import Cookies from 'universal-cookie';
+import axios from 'axios';
+const cookies = new Cookies();
 
 const Backdrop = styled.div`
   position: absolute;
@@ -107,6 +111,8 @@ export default function EntryDialog(props) {
 
   useEffect(() => {
     if (props.hasToken) {
+      const accessToken = cookies.get('accessToken');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       handleConnect();
     }
   });

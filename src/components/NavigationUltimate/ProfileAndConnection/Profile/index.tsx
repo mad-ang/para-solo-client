@@ -1,4 +1,4 @@
-import react, { useRef, useState } from 'react';
+import react, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import EditIcon from '@mui/icons-material/Edit';
 import { SetProfileActivated, SetProfileActivateOnly } from '../../../../stores/NavbarStore';
@@ -8,6 +8,7 @@ import Colors from 'src/utils/Colors';
 import InputBase from '@mui/material/InputBase';
 import Select from 'react-select';
 import { infoItemList, Option } from './data';
+import { getUserInfo } from 'src/api/auth';
 
 function ProfileEditModal(props) {
   const [editable, setEditable] = useState(false);
@@ -42,6 +43,10 @@ function ProfileEditModal(props) {
       usernameInputRef.current.focus();
     }
   };
+
+  useEffect(() => {
+    getUserInfo(() => {});
+  }, []);
 
   return (
     <ProfileSettingEditor>
