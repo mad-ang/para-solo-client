@@ -105,16 +105,16 @@ export default function BottomAppBar(props) {
     <AppBar position="relative" color="primary" sx={{ bottom: 0 }}>
       {/* <button onClick={handleSubmit}> 보내기</button> */}
       <TextField
-        onFocus={() => {
-          if (!focused) {
-            dispatch(setFocused(true));
-            setReadyToSubmit(true);
-          }
-        }}
-        onBlur={() => {
-          dispatch(setFocused(false));
-          setReadyToSubmit(false);
-        }}
+        // onFocus={() => {
+        //   if (!focused) {
+        //     dispatch(setFocused(true));
+        //     setReadyToSubmit(true);
+        //   }
+        // }}
+        // onBlur={() => {
+        //   dispatch(setFocused(false));
+        //   setReadyToSubmit(false);
+        // }}
         defaultValue={value}
         value={value}
         fullWidth
