@@ -12,8 +12,8 @@ const socketPort = "5002";
 import {SetChattingRoomActivated, SetChattingRoomActivateOnly} from '../../../../../stores/NavbarStore';
 
 import { useQuery } from 'react-query';
-// import { ApiResponse, RoomListResponse, fetchRoomList } from 'src/api/chat';
-import { ApiResponse} from 'src/api/chat';
+import { ApiResponse, fetchRoomList, RoomListResponse } from 'src/api/chat';
+// import { ApiResponse} from 'src/api/chat';
 import axios from 'axios';
 // import { Body } from 'matter';
 
@@ -75,66 +75,31 @@ interface Props {
   userId: number;
 }
 
-
-// export function ConversationList(Props) {
-//   axios
-//   .get('/chat/roomList/3')
-//   .then(function(response) {
-//     console.log(response);
-//   })
-//     }
-
-
-export const fetchRoomList =  (userId: number) => {
-  // return await axios.get(`/chat/roomList/${userId}`)
-  return  axios.get(`/chat/roomList/3`)
-  .then(response => {
-    return (response.data.data);
-  })
-  .catch(error => {
-    console.log(error);
-  });
-};
-
-
-
-interface RoomListResponse {
-  id: string;
-  name: string;
-  picture: string;
-  lastMessage: string;
-}
-
 export  function ConversationList(Props)  {
   // const dispatch = useAppDispatch();
   // const {data, status} = useQuery('roomList', () => fetchRoomList(Props.userId));
 
   // if (status === 'loading') return <div>Loading...</div>
   // console.log("hohohohohoho")
-  const [users, setUsers] = useState<RoomListResponse[]>([]);
+  const [rooms, setRooms] = useState<RoomListResponse[]>([]);
   const dispatch = useAppDispatch();
   
   useEffect(() => {
-    axios
-    .get('/chat/roomList/3')
-    .then(response => {
-      setUsers(response.data.data);
+    fetchRoomList('3', (data: RoomListResponse[])=>{
+      setRooms(data);
     })
-    .catch(error => {
-      console.log(error);
-    });
   }, []);
 
 
   return(
   <DMmessageList>
         <UnorderedList>
-          {users.map((user) => (
+          {rooms.map((room, index) => (
             <ListTag
-              key={user.name}
+              key={index}
               onClick={() => {
                 dispatch(SetChattingRoomActivated(true));
-                dispatch(Setkey(user.name));
+                dispatch(Setkey(room.friend.username));
                 const socketClient = io(`${socketHost}:${socketPort}/chat-id`);
 
                 socketClient.on("connect", () => {
@@ -146,13 +111,13 @@ export  function ConversationList(Props)  {
               }}
             >
               <img
-                src={user.picture}
-                alt={user.name}
+                src={room.friend.profileImgurl}
+                alt={room.friend.username}
                 width="60"
               />
               <IDwithLastmessage>
-                <UserID>{user.name}</UserID>
-                <div>{user.lastMessage}</div>
+                <UserID>{room.friend.username}</UserID>
+                <div>{room.lastChat}</div>
               </IDwithLastmessage>
             </ListTag>
           ))}
