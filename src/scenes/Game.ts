@@ -1,23 +1,23 @@
 // import Phaser from "phaser";
 
 // import { debugDraw } from '../utils/debug'
-import { createCharacterAnims } from "../anims/CharacterAnims";
+import { createCharacterAnims } from '../anims/CharacterAnims';
 
-import Item from "../items/Item";
-import Chair from "../items/Chair";
-import "../characters/MyPlayer";
-import "../characters/OtherPlayer";
-import MyPlayer from "../characters/MyPlayer";
-import OtherPlayer from "../characters/OtherPlayer";
-import PlayerSelector from "../characters/PlayerSelector";
-import Network from "../services/Network";
-import { IPlayer } from "../types/ITownState";
-import { PlayerBehavior } from "../types/PlayerBehavior";
-import { ItemType } from "../types/Items";
+import Item from '../items/Item';
+import Chair from '../items/Chair';
+import '../characters/MyPlayer';
+import '../characters/OtherPlayer';
+import MyPlayer from '../characters/MyPlayer';
+import OtherPlayer from '../characters/OtherPlayer';
+import PlayerSelector from '../characters/PlayerSelector';
+import Network from '../services/Network';
+import { IPlayer } from '../types/ITownState';
+import { PlayerBehavior } from '../types/PlayerBehavior';
+import { ItemType } from '../types/Items';
 
-import store from "../stores";
-import { setFocused, setShowChat } from "../stores/ChatStore";
-import { NavKeys, Keyboard } from "../types/KeyboardState";
+import store from '../stores';
+import { setFocused, setShowChat } from '../stores/ChatStore';
+import { NavKeys, Keyboard } from '../types/KeyboardState';
 
 export default class Game extends Phaser.Scene {
   network!: Network;
@@ -34,25 +34,25 @@ export default class Game extends Phaser.Scene {
   chairMap = new Map<string, Chair>();
 
   constructor() {
-    super("game");
+    super('game');
   }
 
   registerKeys() {
     this.cursors = {
       ...this.input.keyboard.createCursorKeys(),
-      ...(this.input.keyboard.addKeys("W,S,A,D,Space") as Keyboard),
+      ...(this.input.keyboard.addKeys('W,S,A,D,Space') as Keyboard),
     };
 
     // maybe we can have a dedicated method for adding keys if more keys are needed in the future
-    this.keyE = this.input.keyboard.addKey("E");
-    this.keyR = this.input.keyboard.addKey("R");
-    this.keySpace = this.input.keyboard.addKey("Space");
+    this.keyE = this.input.keyboard.addKey('E');
+    this.keyR = this.input.keyboard.addKey('R');
+    this.keySpace = this.input.keyboard.addKey('Space');
     this.input.keyboard.disableGlobalCapture();
-    this.input.keyboard.on("keydown-ENTER", (event) => {
+    this.input.keyboard.on('keydown-ENTER', (event) => {
       store.dispatch(setShowChat(true));
       store.dispatch(setFocused(true));
     });
-    this.input.keyboard.on("keydown-ESC", (event) => {
+    this.input.keyboard.on('keydown-ESC', (event) => {
       store.dispatch(setShowChat(false));
     });
   }
@@ -69,57 +69,46 @@ export default class Game extends Phaser.Scene {
   }
   create(data: { network: Network }) {
     if (!data.network) {
-      throw new Error("server instance missing");
+      throw new Error('server instance missing');
     } else {
       this.network = data.network;
     }
 
     createCharacterAnims(this.anims);
 
-    this.map = this.make.tilemap({ key: "tilemap" });
+    this.map = this.make.tilemap({ key: 'tilemap' });
 
-    const TileImage = this.map.addTilesetImage("tiles", "tiles");
+    const TileImage = this.map.addTilesetImage('tiles', 'tiles');
 
-    const BuildingImage = this.map.addTilesetImage("buildings", "buildings");
+    const BuildingImage = this.map.addTilesetImage('buildings', 'buildings');
 
-    const InteriorImage = this.map.addTilesetImage("interior", "interior");
+    const InteriorImage = this.map.addTilesetImage('interior', 'interior');
 
     // debugDraw(groundLayer, this)
-    const GrassLayer = this.map.createLayer("grass", [
-      TileImage,
-      InteriorImage,
-    ]);
+    const GrassLayer = this.map.createLayer('grass', [TileImage, InteriorImage]);
 
-    const BuildingLayer = this.map.createLayer("buildings", BuildingImage);
+    const BuildingLayer = this.map.createLayer('buildings', BuildingImage);
 
-    const SwingLayer = this.map.createLayer("swing", TileImage);
+    const SwingLayer = this.map.createLayer('swing', TileImage);
 
-    const ForeGround = this.map.createLayer("foreground", [
+    const ForeGround = this.map.createLayer('foreground', [
       TileImage,
       BuildingImage,
       InteriorImage,
     ]);
-    const cafeLayer = this.map.createLayer("cafe", InteriorImage);
+    const cafeLayer = this.map.createLayer('cafe', InteriorImage);
 
-    const cafe_fenceLayer = this.map.createLayer("cafe_fence", [
-      TileImage,
-      InteriorImage,
-    ]);
+    const cafe_fenceLayer = this.map.createLayer('cafe_fence', [TileImage, InteriorImage]);
     const chairs = this.physics.add.staticGroup({ classType: Chair });
-    const chairLayer = this.map.getObjectLayer("Objects");
+    const chairLayer = this.map.getObjectLayer('Objects');
     chairLayer.objects.forEach((obj, i) => {
-      const item = this.addObjectFromTiled(
-        chairs,
-        obj,
-        "interior",
-        "interior"
-      ) as Chair;
-    //   item.setDepth(item.y + item.height * 0.27);
+      const item = this.addObjectFromTiled(chairs, obj, 'interior', 'interior') as Chair;
+      //   item.setDepth(item.y + item.height * 0.27);
       const tableId = `${Math.floor(i / 4)}`;
       const chairId = `${i}`;
       // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
       //   item.itemDirection = chairObj.properties[0].value
-      item.itemDirection = "down"; 
+      item.itemDirection = 'down';
       item.tableId = tableId;
       item.chairId = chairId;
       this.tableMap.set(tableId, item);
@@ -150,11 +139,13 @@ export default class Game extends Phaser.Scene {
     cafeLayer.setCollisionByProperty({ collisions: true });
     cafe_fenceLayer.setCollisionByProperty({ collisions: true });
 
+    const userId = store.getState().user?.userId || this.network.userId;
     this.myPlayer = this.add.myPlayer(
       Phaser.Math.RND.between(200, 700),
       Phaser.Math.RND.between(200, 300),
-      "adam",
-      this.network.mySessionId
+      'adam',
+      this.network.mySessionId,
+      userId
     );
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16);
 
@@ -162,28 +153,13 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.zoom = 2;
     this.cameras.main.startFollow(this.myPlayer, true);
 
-    this.physics.add.collider(
-      [this.myPlayer, this.myPlayer.playerContainer],
-      GrassLayer
-    );
+    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], GrassLayer);
 
-    this.physics.add.collider(
-      [this.myPlayer, this.myPlayer.playerContainer],
-      BuildingLayer
-    );
+    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], BuildingLayer);
 
-    this.physics.add.collider(
-      [this.myPlayer, this.myPlayer.playerContainer],
-      SwingLayer
-    );
-    this.physics.add.collider(
-      [this.myPlayer, this.myPlayer.playerContainer],
-      cafeLayer
-    );
-    this.physics.add.collider(
-      [this.myPlayer, this.myPlayer.playerContainer],
-      cafe_fenceLayer
-    );
+    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], SwingLayer);
+    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], cafeLayer);
+    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], cafe_fenceLayer);
 
     this.physics.add.overlap(
       this.playerSelector,
@@ -192,6 +168,13 @@ export default class Game extends Phaser.Scene {
       undefined,
       this
     );
+
+    this. physics.add.overlap(
+      this.playerSelector,
+      this.otherPlayers,
+      this.handleClosePlayerOverlap,
+      undefined,
+      this);
 
     this.physics.add.overlap(
       this.myPlayer,
@@ -217,21 +200,16 @@ export default class Game extends Phaser.Scene {
     // currentItem is undefined if nothing was perviously selected
     if (currentItem) {
       // if the selection has not changed, do nothing
-      if (
-        currentItem === selectionItem ||
-        currentItem.depth >= selectionItem.depth
-      ) {
+      if (currentItem === selectionItem || currentItem.depth >= selectionItem.depth) {
         return;
       }
       // if selection changes, clear pervious dialog
-      if (this.myPlayer.playerBehavior !== PlayerBehavior.SITTING)
-        currentItem.clearDialogBox();
+      if (this.myPlayer.playerBehavior !== PlayerBehavior.SITTING) currentItem.clearDialogBox();
     }
 
     // set selected item and set up new dialog
     playerSelector.selectedItem = selectionItem;
-    selectionItem.onOverlapDialog()
-        
+    selectionItem.onOverlapDialog();
   }
 
   private addObjectFromTiled(
@@ -243,12 +221,7 @@ export default class Game extends Phaser.Scene {
     const actualX = object.x! + object.width! * 0.5;
     const actualY = object.y! - object.height! * 0.5;
     const obj = group
-      .get(
-        actualX,
-        actualY,
-        key,
-        object.gid! - this.map.getTileset(tilesetName).firstgid
-      )
+      .get(actualX, actualY, key, object.gid! - this.map.getTileset(tilesetName).firstgid)
       .setDepth(actualY);
     return obj;
   }
@@ -265,19 +238,11 @@ export default class Game extends Phaser.Scene {
       const actualX = object.x! + object.width! * 0.5;
       const actualY = object.y! - object.height! * 0.5;
       group
-        .get(
-          actualX,
-          actualY,
-          key,
-          object.gid! - this.map.getTileset(tilesetName).firstgid
-        )
+        .get(actualX, actualY, key, object.gid! - this.map.getTileset(tilesetName).firstgid)
         .setDepth(actualY);
     });
     if (this.myPlayer && collidable)
-      this.physics.add.collider(
-        [this.myPlayer, this.myPlayer.playerContainer],
-        group
-      );
+      this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], group);
   }
 
   // function to add new player to the otherPlayer group
@@ -285,8 +250,9 @@ export default class Game extends Phaser.Scene {
     const otherPlayer = this.add.otherPlayer(
       newPlayer.x,
       newPlayer.y,
-      "adam",
+      'adam',
       id,
+      newPlayer.userId,
       newPlayer.name
     );
     this.otherPlayers.add(otherPlayer);
@@ -312,20 +278,38 @@ export default class Game extends Phaser.Scene {
   }
 
   // function to update target position upon receiving player updates
-  private handlePlayerUpdated(
-    field: string,
-    value: number | string,
-    id: string
-  ) {
+  private handlePlayerUpdated(field: string, value: number | string, id: string) {
     const otherPlayer = this.otherPlayerMap.get(id);
     otherPlayer?.updateOtherPlayer(field, value);
   }
 
   private handlePlayersOverlap(myPlayer, otherPlayer) {
     if (myPlayer.playerBehavior === PlayerBehavior.SITTING) {
+      return;
+    }
+    
+    otherPlayer.makeCall(myPlayer, this.network?.webRTC);
+  }
+  private handleClosePlayerOverlap(playerSelector, otherPlayer) {
+    if (this.myPlayer.playerBehavior === PlayerBehavior.SITTING) {
         return;
     }
-    otherPlayer.makeCall(myPlayer, this.network?.webRTC);
+    const currentClosePlayer = playerSelector.closePlayer as OtherPlayer;
+    // currentItem is undefined if nothing was perviously selected
+    if (currentClosePlayer) {
+      // if the selection has not changed, do nothing
+      if (
+        currentClosePlayer === otherPlayer
+      ) {
+        return;
+      }
+      // if (this.myPlayer.playerBehavior !== PlayerBehavior.SITTING)
+      //   currentClosePlayer.clearDialogBox();
+    }
+    // set selected item and set up new dialog
+    playerSelector.closePlayer = otherPlayer;
+    // .onOverlapDialog()
+
   }
 
   private handleItemUserAdded(
@@ -341,11 +325,7 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  private handleItemUserRemoved(
-    playerId: string,
-    itemId: string,
-    itemType: ItemType
-  ) {
+  private handleItemUserRemoved(playerId: string, itemId: string, itemType: ItemType) {
     if (itemType === ItemType.CHAIR) {
       const table = this.tableMap.get(itemId);
       table?.removeCurrentUser(playerId);

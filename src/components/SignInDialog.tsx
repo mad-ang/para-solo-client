@@ -6,13 +6,20 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '@mui/material/Button';
 import axios from 'axios';
-import { setSignUp, setSignIn, setSignedUp } from '../stores/UserStore';
+import {
+  ENTERING_PROCESS,
+  setEnteringProcess,
+  setAccessToken,
+  setUserId as setStoreUserId,
+} from '../stores/UserStore';
+
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
+import { constants } from 'buffer';
 
 const Wrapper = styled.form`
   position: fixed;
@@ -56,14 +63,55 @@ function SignedUpToast() {
   );
 }
 
+export const login = (body, next): boolean => {
+  axios
+    .post('/auth/login', body)
+    .then(function (response) {
+      // response
+
+      const { data } = response;
+      if (data.status == 200) {
+        const accessToken = response.data.payload.accessToken;
+        if (accessToken) {
+          next(data.payload.accessToken);
+        }
+        // TODO accessToken을 계속 갱신해야 함 (setTimeout)
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
+        console.log(response.data);
+        console.log(accessToken);
+
+        // dispatch(setSignIn(false));
+
+        const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
+        bootstrap.network
+          .joinOrCreatePublic()
+          .then(() => bootstrap.launchGame())
+          .catch((error) => console.error(error));
+        return true;
+      } else {
+        console.log('11111');
+        return false;
+      }
+    })
+    .catch(function (error) {
+      // 오류발생시 실행
+      return false;
+    })
+    .then(function () {
+      // 항상 실행
+      console.log('333333');
+      return true;
+    });
+  return true;
+};
+
 export default function SignInDialog() {
-  const signedUp = useAppSelector((state) => state.user.signedUp);
+  const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
 
-  useEffect(() => {
-    dispatch(setSignedUp(false));
-  }, []);
-
-  console.log(signedUp);
+  // useEffect(() => {
+  //   dispatch(setSignedUp(false));
+  // }, []);
 
   const dispatch = useAppDispatch();
 
@@ -83,10 +131,7 @@ export default function SignInDialog() {
 
   const goToEntry = (event) => {
     event.preventDefault();
-
-    dispatch(setSignUp(false));
-    dispatch(setSignedUp(false));
-    dispatch(setSignIn(false));
+    dispatch(setEnteringProcess(ENTERING_PROCESS.ENTRY));
   };
   const onSubmitHandler = (event) => {
     event.preventDefault();
@@ -102,57 +147,26 @@ export default function SignInDialog() {
     if (password === '') {
       setPwFieldEmpty(true);
     } else {
-      let body = {
+      const body = {
         userId: userId,
         password: password,
       };
+      if (
+        login(body, (accessToken) => {
+          dispatch(setAccessToken(accessToken));
+          dispatch(setStoreUserId(userId));
+        })
+      ) {
+        setUserIdFieldWrong(true);
+      }
 
       console.log({ userId });
       console.log({ password });
-
-      axios
-        .post('/auth/login', body)
-        .then(function (response) {
-          // response
-
-          if (response.data.status == 200) {
-            const accessToken = response.data.payload.accessToken;
-
-            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-
-            console.log(response.data);
-            console.log(accessToken);
-
-            // dispatch(setSignIn(false));
-
-            const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
-            bootstrap.network
-              .joinOrCreatePublic()
-              .then(() => bootstrap.launchGame())
-              .catch((error) => console.error(error));
-          } else {
-            console.log('11111');
-          }
-        })
-        .catch(function (error) {
-          // 오류발생시 실행
-          setUserIdFieldWrong(true);
-          console.log('hi', error.message);
-          if (error.message == 'Request failed with status code 409') {
-            console.log('22222');
-          } else {
-            console.log('444444');
-          }
-        })
-        .then(function () {
-          // 항상 실행
-          console.log('333333');
-        });
     }
   };
   return (
     <>
-      {signedUp === true
+      {/* {signedUp === true
         ? toast('회원가입이 완료되었어요! 로그인해주세요', {
             position: 'top-center',
             autoClose: 3000,
@@ -163,10 +177,9 @@ export default function SignInDialog() {
             progress: undefined,
             theme: 'light',
           })
-        : null}
+        : null} */}
 
-      {/* {dispatch(setSignedUp(false))} */}
-      <ToastContainer />
+      {/* <ToastContainer /> */}
 
       <Wrapper>
         <Title>로그인</Title>

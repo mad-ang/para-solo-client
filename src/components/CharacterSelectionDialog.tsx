@@ -17,12 +17,11 @@ import Ash from '../images/login/Ash_login.png';
 import Lucy from '../images/login/Lucy_login.png';
 import Nancy from '../images/login/Nancy_login.png';
 import { useAppSelector, useAppDispatch } from '../hooks';
-import { setLoggedIn } from '../stores/UserStore';
+import { ENTERING_PROCESS, setCharacterSelected, setUserId } from '../stores/UserStore';
 import { getAvatarString, getColorByString } from '../util';
 
 import phaserGame from '../PhaserGame';
 import Game from '../scenes/Game';
-import MyPlayer from '../characters/MyPlayer';
 
 const Wrapper = styled.form`
   position: fixed;
@@ -141,31 +140,29 @@ for (let i = avatars.length - 1; i > 0; i--) {
   [avatars[i], avatars[j]] = [avatars[j], avatars[i]];
 }
 
-export default function LoginDialog() {
+export default function CharacterSelectionDialog() {
   const [name, setName] = useState<string>('');
-  const [userId, setUserId] = useState<string>('');
   const [avatarIndex, setAvatarIndex] = useState<number>(0);
   const [nameFieldEmpty, setNameFieldEmpty] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const videoConnected = useAppSelector((state) => state.user.videoConnected);
-  const roomJoined = useAppSelector((state) => state.room.roomJoined);
+  const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
   const roomName = useAppSelector((state) => state.room.roomName);
   const roomDescription = useAppSelector((state) => state.room.roomDescription);
   const game = phaserGame.scene.keys.game as Game;
-
+  
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (name === '') {
       setNameFieldEmpty(true);
-    } else if (roomJoined) {
+    } else if (enteringProcess === ENTERING_PROCESS.CHARACTER_SELECTION) {
       console.log('Join! Name:', name, 'Avatar:', avatars[avatarIndex].name);
-      console.log(userId);
+
       game.registerKeys();
       game.myPlayer.setPlayerName(name);
-      game.myPlayer.setPlayerUserId(userId)
       game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
       game.network.readyToConnect();
-      dispatch(setLoggedIn(true));
+      dispatch(setCharacterSelected(true));
     }
   };
 

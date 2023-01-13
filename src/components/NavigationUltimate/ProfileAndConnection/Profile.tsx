@@ -1,6 +1,8 @@
 import react,{ useState } from 'react';
 import styled from 'styled-components';
 import EditIcon from '@mui/icons-material/Edit';
+import {SetProfileActivated, SetProfileActivateOnly} from '../../../stores/NavbarStore';
+import { useAppSelector, useAppDispatch } from '../../../hooks';
 
 const StyledRedBox = styled.div`
   display: flex;
@@ -12,33 +14,30 @@ const StyledRedBox = styled.div`
   font-size: 1rem;
   font-weight: 900;
   padding: 4x;
-`;
-
+`
 const UserNameDiv = styled.div`
     padding: 4px 0px;
     font-size: 1rem;
 `
-
 const ProfileSettingEditor = styled.div`
-position: fixed;
-bottom: 100px;
-left: 0px;
-background-color: #FFFFFF;
-gap: 10px;
-bottom: 60px;
-height: 400px;
-width: 370px;
-border-radius: 25px;
-box-shadow: 20px 0px 10px 0px rgba(0,0,0,0.75);
--webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    position: fixed;
+    bottom: 100px;
+    left: 0px;
+    background-color: #FFFFFF;
+    gap: 10px;
+    bottom: 60px;
+    height: 400px;
+    width: 370px;
+    border-radius: 25px;
+    box-shadow: 20px 0px 10px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 `
-
-
 function ProfileEditModal(props){
+    const dispatch = useAppDispatch();
 
     function handleClick() {
-        props.setShowProfileEditModal(false);
+        dispatch(SetProfileActivated(false));
       }
 
     return(
@@ -49,14 +48,13 @@ function ProfileEditModal(props){
     )
 }
 
-
-
 export default function ConnectionStatus() {
-    const [profileEditModal, setShowProfileEditModal] = useState(false);
+    const NavControllerProfileActivated = useAppSelector((state) => state.nav.NavControllerProfileActivated);
+    const dispatch = useAppDispatch();
 
     function handleClick() {
-        setShowProfileEditModal(true);
-      }
+        dispatch(SetProfileActivateOnly());
+}
 
     return (
         <div>
@@ -70,8 +68,8 @@ export default function ConnectionStatus() {
                     console.log("click");
                     }}>
                 </EditIcon>
-                {profileEditModal ? (
-                        <ProfileEditModal setShowProfileEditModal={setShowProfileEditModal}/>
+                {NavControllerProfileActivated ? (
+                        <ProfileEditModal />
                     ): null}
             </StyledRedBox>
         </div>

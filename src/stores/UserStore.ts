@@ -11,18 +11,24 @@ export function getInitialBackgroundMode() {
   return currentHour > 6 && currentHour <= 18 ? BackgroundMode.DAY : BackgroundMode.NIGHT;
 }
 
+export enum ENTERING_PROCESS {
+  ENTRY = 'entry',
+  SIGNUP = 'signup',
+  LOGIN = 'login',
+  CHARACTER_SELECTION = 'characterSelection',
+}
+
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
     backgroundMode: getInitialBackgroundMode(),
-    sessionId: '',
-    userId: '',
+    sessionId: "",
+    userId: "",
     videoConnected: false,
-    loggedIn: false,
     playerNameMap: new Map<string, string>(),
-    signUp: false,
-    signIn: false,
-    signedUp: false,
+    enteringProcess: ENTERING_PROCESS.ENTRY,
+    characterSelected: false,
+    accessToken: '',
   },
   reducers: {
     toggleBackgroundMode: (state) => {
@@ -39,12 +45,11 @@ export const userSlice = createSlice({
     setUserId: (state, action: PayloadAction<string>) => {
       state.userId = action.payload;
     },
-
     setVideoConnected: (state, action: PayloadAction<boolean>) => {
       state.videoConnected = action.payload;
     },
-    setLoggedIn: (state, action: PayloadAction<boolean>) => {
-      state.loggedIn = action.payload;
+    setCharacterSelected: (state, action: PayloadAction<boolean>) => {
+      state.characterSelected = action.payload;
     },
     setPlayerNameMap: (state, action: PayloadAction<{ id: string; name: string }>) => {
       state.playerNameMap.set(sanitizeId(action.payload.id), action.payload.name);
@@ -56,14 +61,11 @@ export const userSlice = createSlice({
     removePlayerNameMap: (state, action: PayloadAction<string>) => {
       state.playerNameMap.delete(sanitizeId(action.payload));
     },
-    setSignUp: (state, action: PayloadAction<boolean>) => {
-      state.signUp = action.payload;
+    setEnteringProcess: (state, action: PayloadAction<ENTERING_PROCESS>) => {
+      state.enteringProcess = action.payload;
     },
-    setSignIn: (state, action: PayloadAction<boolean>) => {
-      state.signIn = action.payload;
-    },
-    setSignedUp: (state, action: PayloadAction<boolean>) => {
-      state.signedUp = action.payload;
+    setAccessToken: (state, action: PayloadAction<string>) => {
+      state.accessToken = action.payload;
     },
   },
 });
@@ -73,13 +75,12 @@ export const {
   setSessionId,
   setUserId,
   setVideoConnected,
-  setLoggedIn,
   setPlayerNameMap,
   setPlayerUserIdMap,
   removePlayerNameMap,
-  setSignUp,
-  setSignIn,
-  setSignedUp,
+  setEnteringProcess,
+  setCharacterSelected,
+  setAccessToken,
 } = userSlice.actions;
 
 export default userSlice.reducer;

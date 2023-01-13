@@ -8,21 +8,16 @@ const SexyChar = styled.span`
   font-size: 2rem;
   font-weight: 900;
   margin: 0 0.5rem;
-  color: #CE0000;
-  background-color: #FFFFFF;
+  color: #ce0000;
+  background-color: #ffffff;
 `;
 
 const Wrapper = styled.div`
   padding: 8px;
-`
-
+`;
 
 function ProjectNameChar(char: string) {
-  return(
-    <SexyChar>
-      {char}
-    </SexyChar>    
-  );
+  return <SexyChar>{char}</SexyChar>;
 }
 
 export default function HuntingPochaPocha() {

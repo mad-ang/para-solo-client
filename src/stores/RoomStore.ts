@@ -14,7 +14,6 @@ export const roomSlice = createSlice({
   initialState: {
     allUserList: new Array<string>(),
     lobbyJoined: false,
-    roomJoined: false,
     roomId: '',
     roomName: '',
     roomDescription: '',
@@ -24,9 +23,6 @@ export const roomSlice = createSlice({
   reducers: {
     setLobbyJoined: (state, action: PayloadAction<boolean>) => {
       state.lobbyJoined = action.payload;
-    },
-    setRoomJoined: (state, action: PayloadAction<boolean>) => {
-      state.roomJoined = action.payload;
     },
     setJoinedRoomData: (
       state,
@@ -43,6 +39,6 @@ export const roomSlice = createSlice({
   },
 });
 
-export const { setLobbyJoined, setRoomJoined, setJoinedRoomData, setNumPlayer } = roomSlice.actions;
+export const { setLobbyJoined, setJoinedRoomData, setNumPlayer } = roomSlice.actions;
 
 export default roomSlice.reducer;

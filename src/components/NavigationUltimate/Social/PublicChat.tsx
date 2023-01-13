@@ -12,7 +12,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import 'emoji-mart/css/emoji-mart.css';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Picker } from 'emoji-mart';
-
 import phaserGame from '../../../PhaserGame';
 import Game from '../../../scenes/Game';
 
@@ -20,6 +19,7 @@ import { getColorByString } from '../../../util';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { MessageType, setFocused, setShowChat, chatSlice } from '../../../stores/ChatStore';
 import { roomSlice } from '../../../stores/RoomStore';
+import { SetPublicChatActivated, SetPublicChatActivateOnly } from '../../../stores/NavbarStore';
 
 const Backdrop = styled.div`
   position: fixed;
@@ -30,7 +30,6 @@ const Backdrop = styled.div`
   max-height: 50%;
   max-width: 50%;
 `;
-
 const Wrapper = styled.div`
   position: relative;
   height: 100%;
@@ -38,11 +37,9 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 const FabWrapper = styled.div`
   margin-top: auto;
 `;
-
 const ChatHeader = styled.div`
   position: relative;
   height: 35px;
@@ -62,7 +59,6 @@ const ChatHeader = styled.div`
     right: 0;
   }
 `;
-
 const ChatBox = styled(Box)`
   height: 100%;
   width: 100%;
@@ -70,7 +66,6 @@ const ChatBox = styled(Box)`
   background: #2c2c2c;
   border: 1px solid #00000029;
 `;
-
 const MessageWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -99,7 +94,6 @@ const MessageWrapper = styled.div`
     background: #3a3a3a;
   }
 `;
-
 const InputWrapper = styled.form`
   box-shadow: 10px 10px 10px #00000018;
   border: 1px solid #42eacb;
@@ -108,31 +102,27 @@ const InputWrapper = styled.form`
   flex-direction: row;
   background: linear-gradient(180deg, #000000c1, #242424c0);
 `;
-
 const InputTextField = styled(InputBase)`
   border-radius: 0px 0px 10px 10px;
   input {
     padding: 5px;
   }
 `;
-
 const EmojiPickerWrapper = styled.div`
   position: absolute;
   bottom: 54px;
   right: 16px;
 `;
-
 const StyledRedBox = styled.div`
   display: flex;
   justify-content: center;
   width: 60px;
   height: 44px;
-  background-color: #C4564C;
+  background-color: #c4564c;
   box-shadow: 0 0 10px 0 #000000;
   font-size: 1rem;
   font-weight: 900;
 `;
-
 
 const dateFormatter = new Intl.DateTimeFormat('en', {
   timeStyle: 'short',
@@ -206,6 +196,7 @@ function Chat() {
       // move focus back to the game
       inputRef.current?.blur();
       dispatch(setShowChat(false));
+      dispatch(SetPublicChatActivated(false));
     }
   };
 
@@ -248,89 +239,90 @@ function Chat() {
   return (
     <Backdrop>
       <Wrapper>
-        {showChat ? (
-          <>
-            <ChatHeader>
-              <Showusercnt />
-              <IconButton
-                aria-label="close dialog"
-                className="close"
-                onClick={() => dispatch(setShowChat(false))}
-                size="small"
-              >
-                <CloseIcon />
-              </IconButton>
-            </ChatHeader>
-            <ChatBox>
-              {chatMessages.map(({ messageType, chatMessage }, index) => (
-                <Message chatMessage={chatMessage} messageType={messageType} key={index} />
-              ))}
-              <div ref={messagesEndRef} />
-              {showEmojiPicker && (
-                <EmojiPickerWrapper>
-                  <Picker
-                    theme="dark"
-                    showSkinTones={false}
-                    showPreview={false}
-                    onSelect={(emoji) => {
-                      setInputValue(inputValue + emoji.native);
-                      setShowEmojiPicker(!showEmojiPicker);
-                      dispatch(setFocused(true));
-                    }}
-                    exclude={['recent', 'flags']}
-                  />
-                </EmojiPickerWrapper>
-              )}
-            </ChatBox>
-            <InputWrapper onSubmit={handleSubmit}>
-              <InputTextField
-                inputRef={inputRef}
-                autoFocus={focused}
-                fullWidth
-                placeholder="대화를 입력해주세요"
-                value={inputValue}
-                onKeyDown={handleKeyDown}
-                onChange={handleChange}
-                onFocus={() => {
-                  if (!focused) {
+        <div className="wrapper777">
+          <ChatHeader>
+            <Showusercnt />
+            <IconButton
+              aria-label="close dialog"
+              className="close"
+              onClick={() => {
+                dispatch(SetPublicChatActivated(false));
+                dispatch(setShowChat(false));
+              }}
+              size="small"
+            >
+              <CloseIcon />
+            </IconButton>
+          </ChatHeader>
+          <ChatBox>
+            {chatMessages.map(({ messageType, chatMessage }, index) => (
+              <Message chatMessage={chatMessage} messageType={messageType} key={index} />
+            ))}
+            <div ref={messagesEndRef} />
+            {showEmojiPicker && (
+              <EmojiPickerWrapper>
+                <Picker
+                  theme="dark"
+                  showSkinTones={false}
+                  showPreview={false}
+                  onSelect={(emoji) => {
+                    setInputValue(inputValue + emoji.native);
+                    setShowEmojiPicker(!showEmojiPicker);
                     dispatch(setFocused(true));
-                    setReadyToSubmit(true);
-                  }
-                }}
-                onBlur={() => {
-                  dispatch(setFocused(false));
-                  setReadyToSubmit(false);
-                }}
-              />
-              <IconButton aria-label="emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                <InsertEmoticonIcon />
-              </IconButton>
-            </InputWrapper>
-          </>
-        ) : (
-          <FabWrapper>
-          </FabWrapper>
-        )}
+                  }}
+                  exclude={['recent', 'flags']}
+                />
+              </EmojiPickerWrapper>
+            )}
+          </ChatBox>
+          <InputWrapper onSubmit={handleSubmit}>
+            <InputTextField
+              inputRef={inputRef}
+              autoFocus={focused}
+              fullWidth
+              placeholder="대화를 입력해주세요"
+              value={inputValue}
+              onKeyDown={handleKeyDown}
+              onChange={handleChange}
+              onFocus={() => {
+                if (!focused) {
+                  dispatch(setFocused(true));
+                  setReadyToSubmit(true);
+                }
+              }}
+              onBlur={() => {
+                dispatch(setFocused(false));
+                setReadyToSubmit(false);
+              }}
+            />
+            <IconButton aria-label="emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+              <InsertEmoticonIcon />
+            </IconButton>
+          </InputWrapper>
+        </div>
       </Wrapper>
     </Backdrop>
   );
 }
 
-
 export default function PublicChat() {
-  const showChat = useAppSelector((state) => state.chat.showChat);
   const dispatch = useAppDispatch();
+  const NavControllerPublicChatActivated = useAppSelector(
+    (state) => state.nav.NavControllerPublicChatActivated
+  );
 
   return (
     <div>
-      <StyledRedBox onClick={() => {
-        console.log('공공채팅');
-        dispatch(setShowChat(true));
-        dispatch(setFocused(true));
-      }}>
-        <ChatIcon fontSize="large"/>
+      <StyledRedBox
+        onClick={() => {
+          console.log('공공채팅');
+
+          dispatch(SetPublicChatActivateOnly());
+        }}
+      >
+        <ChatIcon fontSize="large" />
       </StyledRedBox>
-      <Chat/>
+      {NavControllerPublicChatActivated ? <Chat /> : null}
     </div>
   );
 }

@@ -10,9 +10,9 @@ import { pushPlayerJoinedMessage } from '../stores/ChatStore';
 import { ItemType } from '../types/Items';
 import { NavKeys } from '../types/KeyboardState';
 import Chair from '../items/Chair';
-
-import phaserGame from '../PhaserGame';
-import Game from '../scenes/Game';
+import OtherPlayer from './OtherPlayer';
+import phaserGame from 'src/PhaserGame';
+import Game from 'scenes/Game';
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
   private chairOnSit?: Chair;
@@ -23,15 +23,17 @@ export default class MyPlayer extends Player {
     texture: string,
     userId: string,
     id: string,
+    userId: string,
     frame?: string | number
   ) {
-    super(scene, x, y, texture, userId, id, frame);
+    super(scene, x, y, texture, id, userId, frame);
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
   }
 
   setPlayerName(name: string) {
     this.playerName.setText(name);
-    phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name);
+    const userId = store.getState().user?.userId || '최초 이름';
+    phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId);
     store.dispatch(pushPlayerJoinedMessage(name));
   }
   setPlayerUserId(userId: string) {
@@ -56,6 +58,7 @@ export default class MyPlayer extends Player {
     if (!cursors) return;
 
     const item = playerSelector.selectedItem;
+    const closePlayer = playerSelector.closePlayer;
     const game = phaserGame.scene.keys.game as Game;
     //  쓰일수 있어서 주석처리.
     // if (Phaser.Input.Keyboard.JustDown(keyE)) {
@@ -139,6 +142,12 @@ export default class MyPlayer extends Player {
           this.playerBehavior = PlayerBehavior.SITTING;
 
           return;
+        } else if (Phaser.Input.Keyboard.JustDown(keyR) && closePlayer) {
+          // if press R in front of another player
+          console.log(closePlayer);
+
+          network.sendPrivateMessage(this.userId, closePlayer.userId, '안녕하세요');
+          return;
         } else {
           const speed = cursors.shift?.isDown ? 240 : 120;
           let vx = 0;
@@ -219,6 +228,7 @@ declare global {
         texture: string,
         userId : string,
         id: string,
+        userId: string,
         frame?: string | number
       ): MyPlayer;
     }
@@ -234,9 +244,10 @@ Phaser.GameObjects.GameObjectFactory.register(
     texture: string,
     userId: string,
     id: string,
+    userId: string,
     frame?: string | number
   ) {
-    const sprite = new MyPlayer(this.scene, x, y, texture, userId, id, frame);
+    const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);

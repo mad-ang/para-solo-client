@@ -4,7 +4,8 @@ import tableReducer from './tableStore'
 import userReducer from './UserStore'
 import chatReducer from './ChatStore'
 import roomReducer from './RoomStore'
-import dm from './DMbox'
+import dmReducer from './DMboxStore'
+import NavbarReducer from './NavbarStore'
 
 enableMapSet()
 
@@ -14,7 +15,8 @@ const store = configureStore({
     table: tableReducer,
     chat: chatReducer,
     room: roomReducer,
-    dm: dm,
+    dm: dmReducer,
+    nav: NavbarReducer,
   },
   // Temporary disable serialize check for redux as we store MediaStream in ComputerStore.
   // https://stackoverflow.com/a/63244831

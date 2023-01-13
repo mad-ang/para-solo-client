@@ -1,13 +1,13 @@
-import Phaser from "phaser";
-import Player from "./Player";
-import MyPlayer from "./MyPlayer";
-import { sittingShiftData } from "./Player";
-import WebRTC from "../web/WebRTC";
-import { Event, phaserEvents } from "../events/EventCenter";
-import { PlayerBehavior } from "../types/PlayerBehavior";
-import PlayerSelector from "./PlayerSelector";
-import store from "../stores";
-import Item from "../items/Item";
+import Phaser from 'phaser';
+import Player from './Player';
+import MyPlayer from './MyPlayer';
+import { sittingShiftData } from './Player';
+import WebRTC from '../web/WebRTC';
+import { Event, phaserEvents } from '../events/EventCenter';
+import { PlayerBehavior } from '../types/PlayerBehavior';
+import PlayerSelector from './PlayerSelector';
+import store from '../stores';
+import Item from '../items/Item';
 
 export default class OtherPlayer extends Player {
   private targetPosition: [number, number];
@@ -23,15 +23,16 @@ export default class OtherPlayer extends Player {
     y: number,
     texture: string,
     id: string,
+    userId: string,
     name: string,
     frame?: string | number
   ) {
-    super(scene, x, y, texture, id, frame);
+    super(scene, x, y, texture, id, userId, frame);
     this.targetPosition = [x, y];
 
     this.playerName.setText(name);
-    this.playContainerBody = this.playerContainer
-      .body as Phaser.Physics.Arcade.Body;
+    this.userId = userId;
+    this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
   }
 
   makeCall(myPlayer: MyPlayer, webRTC: WebRTC) {
@@ -48,44 +49,51 @@ export default class OtherPlayer extends Player {
       webRTC.connectToNewUser(this.playerId);
       this.connected = true;
       this.connectionBufferTime = 0;
+      console.log(myPlayer.userId, this.userId);
     }
   }
 
   updateOtherPlayer(field: string, value: number | string | boolean) {
     switch (field) {
-      case "name":
-        if (typeof value === "string") {
+      case 'name':
+        if (typeof value === 'string') {
           this.playerName.setText(value);
         }
         break;
 
-      case "x":
-        if (typeof value === "number") {
+      case 'x':
+        if (typeof value === 'number') {
           this.targetPosition[0] = value;
         }
         break;
 
-      case "y":
-        if (typeof value === "number") {
+      case 'y':
+        if (typeof value === 'number') {
           this.targetPosition[1] = value;
         }
         break;
 
-      case "anim":
-        if (typeof value === "string") {
+      case 'anim':
+        if (typeof value === 'string') {
           this.anims.play(value, true);
         }
         break;
 
-      case "readyToConnect":
-        if (typeof value === "boolean") {
+      case 'readyToConnect':
+        if (typeof value === 'boolean') {
           this.readyToConnect = value;
         }
         break;
 
-      case "videoConnected":
-        if (typeof value === "boolean") {
+      case 'videoConnected':
+        if (typeof value === 'boolean') {
           this.videoConnected = value;
+        }
+        break;
+
+      case 'userId':
+        if (typeof value === 'string') {
+          this.userId = value;
         }
         break;
     }
@@ -120,9 +128,9 @@ export default class OtherPlayer extends Player {
 
     this.lastUpdateTimestamp = t;
     this.setDepth(this.y); // change player.depth based on player.y
-    const animParts = this.anims.currentAnim.key.split("_");
+    const animParts = this.anims.currentAnim.key.split('_');
     const animState = animParts[1];
-    if (animState === "sit") {
+    if (animState === 'sit') {
       const animDir = animParts[2];
       const sittingShift = sittingShiftData[animDir];
       if (sittingShift) {
@@ -172,15 +180,9 @@ export default class OtherPlayer extends Player {
       this.body.touching.none &&
       this.connectionBufferTime >= 750
     ) {
-      if (
-        this.x < 610 &&
-        this.y > 515 &&
-        this.myPlayer!.x < 610 &&
-        this.myPlayer!.y > 515
-      )
-        return;
-      console.log("disconnecting from", this.playerId);
-      
+      if (this.x < 610 && this.y > 515 && this.myPlayer!.x < 610 && this.myPlayer!.y > 515) return;
+      console.log('disconnecting from', this.playerId);
+
       phaserEvents.emit(Event.PLAYER_DISCONNECTED, this.playerId);
       this.connectionBufferTime = 0;
       this.connected = false;
@@ -196,6 +198,7 @@ declare global {
         y: number,
         texture: string,
         id: string,
+        userId:string, 
         name: string,
         frame?: string | number
       ): OtherPlayer;
@@ -204,32 +207,26 @@ declare global {
 }
 
 Phaser.GameObjects.GameObjectFactory.register(
-  "otherPlayer",
+  'otherPlayer',
   function (
     this: Phaser.GameObjects.GameObjectFactory,
     x: number,
     y: number,
     texture: string,
     id: string,
+    userId: string,
     name: string,
     frame?: string | number
   ) {
-    const sprite = new OtherPlayer(this.scene, x, y, texture, id, name, frame);
+    const sprite = new OtherPlayer(this.scene, x, y, texture, id, userId, name, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
-
-    this.scene.physics.world.enableBody(
-      sprite,
-      Phaser.Physics.Arcade.DYNAMIC_BODY
-    );
+    this.scene.physics.world.enableBody(sprite, Phaser.Physics.Arcade.DYNAMIC_BODY);
 
     const collisionScale = [6, 4];
     sprite.body
-      .setSize(
-        sprite.width * collisionScale[0],
-        sprite.height * collisionScale[1]
-      )
+      .setSize(sprite.width * collisionScale[0], sprite.height * collisionScale[1])
       .setOffset(
         sprite.width * (1 - collisionScale[0]) * 0.5,
         sprite.height * (1 - collisionScale[1]) * 0.5 + 17

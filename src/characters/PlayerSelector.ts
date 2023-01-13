@@ -2,9 +2,11 @@ import Phaser from "phaser";
 import MyPlayer from "./MyPlayer";
 import { PlayerBehavior } from "../types/PlayerBehavior";
 import Item from "../items/Item";
+import OtherPlayer from "./OtherPlayer";
 import { NavKeys } from "../types/KeyboardState";
 export default class PlayerSelector extends Phaser.GameObjects.Zone {
   selectedItem?: Item;
+  closePlayer?: OtherPlayer;
 
   constructor(
     scene: Phaser.Scene,
@@ -46,6 +48,11 @@ export default class PlayerSelector extends Phaser.GameObjects.Zone {
       if (!this.scene.physics.overlap(this, this.selectedItem)) {
         this.selectedItem.clearDialogBox();
         this.selectedItem = undefined;
+      }
+    }
+    if (this.closePlayer) {
+      if (!this.scene.physics.overlap(this, this.closePlayer)) {
+        this.closePlayer = undefined;
       }
     }
   }
