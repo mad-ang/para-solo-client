@@ -76,20 +76,15 @@ interface Props {
 }
 
 export  function ConversationList(Props)  {
-  // const dispatch = useAppDispatch();
-  // const {data, status} = useQuery('roomList', () => fetchRoomList(Props.userId));
-
-  // if (status === 'loading') return <div>Loading...</div>
-  // console.log("hohohohohoho")
   const [rooms, setRooms] = useState<RoomListResponse[]>([]);
   const dispatch = useAppDispatch();
-  
+  const userID = useAppSelector((state) => state.user.userId);
+
   useEffect(() => {
-    fetchRoomList('3', (data: RoomListResponse[])=>{
+    fetchRoomList(userID, (data: RoomListResponse[])=>{
       setRooms(data);
     })
   }, []);
-
 
   return(
   <DMmessageList>

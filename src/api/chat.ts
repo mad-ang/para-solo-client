@@ -16,7 +16,7 @@ export const createRoom =  (param: CreateRoomRequest) => {
 // 현재 채팅방 목록을 가져옴
 export const fetchRoomList =  (userId: string, next: any) => {
   // return await axios.get(`/chat/roomList/${userId}`)
-  return  axios.get(`/chat/roomList/${userId}`)
+  return  axios.post(`/chat/roomList/`,userId)
     .then(response => {
         console.log("hihihi")
         const { data } = response.data;
@@ -50,10 +50,8 @@ export type ApiResponse<T> = AxiosResponse<Response<T>>;
 
 // 서버에서 가져온 유저 정보
 export interface UserResponseDto {
-  id: number;
   userId: string;
-  name: string;
-  statusMsg: string;
+  username: string;
   profileImgurl: string;
 }
 
@@ -77,8 +75,7 @@ export interface CreateRoomResponse {
 
 // 서버에서 채팅방 리스트에 대한 정보를 받아올 때
 export interface RoomListResponse {
-  identifier: string;
-  Friend: UserResponseDto;
+  friend: UserResponseDto;
   lastChat: string;
   // updatedAt: Date;
   // lastReadChatId: number;
