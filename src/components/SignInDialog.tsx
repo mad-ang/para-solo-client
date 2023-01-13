@@ -20,6 +20,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
 import { constants } from 'buffer';
+import Cookies from 'universal-cookie';
 
 const Wrapper = styled.form`
   position: fixed;
@@ -65,7 +66,12 @@ function SignedUpToast() {
 
 export const login = (body, next): boolean => {
   axios
-    .post('/auth/login', body)
+    .post('/auth/login', body, {
+      withCredentials: true,
+      headers: {
+        'Content-type': 'application/json',
+      },
+    })
     .then(function (response) {
       // response
 
@@ -77,7 +83,7 @@ export const login = (body, next): boolean => {
         }
         // TODO accessToken을 계속 갱신해야 함 (setTimeout)
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-
+        const cookies = new Cookies();
         console.log(response.data);
         console.log(accessToken);
 

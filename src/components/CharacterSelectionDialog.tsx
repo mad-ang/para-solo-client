@@ -19,7 +19,7 @@ import Nancy from '../images/login/Nancy_login.png';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import { ENTERING_PROCESS, setCharacterSelected, setUserId } from '../stores/UserStore';
 import { getAvatarString, getColorByString } from '../util';
-
+import Cookies from 'universal-cookie';
 import phaserGame from '../PhaserGame';
 import Game from '../scenes/Game';
 
@@ -150,18 +150,20 @@ export default function CharacterSelectionDialog() {
   const roomName = useAppSelector((state) => state.room.roomName);
   const roomDescription = useAppSelector((state) => state.room.roomDescription);
   const game = phaserGame.scene.keys.game as Game;
-  
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (name === '') {
       setNameFieldEmpty(true);
     } else if (enteringProcess === ENTERING_PROCESS.CHARACTER_SELECTION) {
       console.log('Join! Name:', name, 'Avatar:', avatars[avatarIndex].name);
-
+      const cookies = new Cookies();
       game.registerKeys();
       game.myPlayer.setPlayerName(name);
       game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
       game.network.readyToConnect();
+      cookies.set('playerName', name);
+      cookies.set('PlayerTexture', avatars[avatarIndex].name);
       dispatch(setCharacterSelected(true));
     }
   };
