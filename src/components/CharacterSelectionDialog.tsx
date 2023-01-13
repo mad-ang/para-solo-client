@@ -168,6 +168,20 @@ export default function CharacterSelectionDialog(props) {
     }
   };
 
+  useEffect(() => {
+    if (props.playerName && props.playerTexture) {
+      game.registerKeys();
+      game.myPlayer.setPlayerName(name);
+      game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
+      game.network.readyToConnect();
+      dispatch(setCharacterSelected(true));
+    }
+  });
+
+  if (props.playerName && props.playerTexture) {
+    return <></>;
+  }
+
   return (
     <Wrapper onSubmit={handleSubmit}>
       <Title>입장하기</Title>
