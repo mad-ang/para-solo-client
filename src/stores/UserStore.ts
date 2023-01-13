@@ -54,6 +54,10 @@ export const userSlice = createSlice({
     setPlayerNameMap: (state, action: PayloadAction<{ id: string; name: string }>) => {
       state.playerNameMap.set(sanitizeId(action.payload.id), action.payload.name);
     },
+    setPlayerUserIdMap: (state, action: PayloadAction<{ id: string; userId: string }>) => {
+      state.playerNameMap.set(sanitizeId(action.payload.id), action.payload.userId);
+    },
+
     removePlayerNameMap: (state, action: PayloadAction<string>) => {
       state.playerNameMap.delete(sanitizeId(action.payload));
     },
@@ -72,6 +76,7 @@ export const {
   setUserId,
   setVideoConnected,
   setPlayerNameMap,
+  setPlayerUserIdMap,
   removePlayerNameMap,
   setEnteringProcess,
   setCharacterSelected,

@@ -83,6 +83,7 @@ export default function EntryDialog(props) {
   const [showSnackbar, setShowSnackbar] = useState(false);
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
   // 입장하기 버튼시 발동.
+  
   const dispatch = useAppDispatch();
   const [enabled, setDisabled] = React.useState(false);
 

@@ -7,6 +7,7 @@ export enum RoomType {
 
 export interface IRoomData {
   name: string
+  userId: string
   description: string
   password: string | null
   autoDispose: boolean

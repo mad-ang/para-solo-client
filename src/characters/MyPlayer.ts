@@ -21,19 +21,23 @@ export default class MyPlayer extends Player {
     x: number,
     y: number,
     texture: string,
-    id: string,
     userId: string,
+    id: string,
     frame?: string | number
   ) {
-    super(scene, x, y, texture, id, userId, frame);
+    super(scene, x, y, texture, userId, id, frame);
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
   }
 
   setPlayerName(name: string) {
     this.playerName.setText(name);
-    const userId = store.getState().user?.userId || '최초 이름';
+    const userId = store.getState().user.userId || '최초 이름';
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId);
     store.dispatch(pushPlayerJoinedMessage(name));
+  }
+  setPlayerUserId(userId: string) {
+    this.playerUserId = userId;
+    phaserEvents.emit(Event.MY_PLAYER_USERID_CHANGE, userId);
   }
 
   setPlayerTexture(texture: string) {
@@ -221,8 +225,8 @@ declare global {
         x: number,
         y: number,
         texture: string,
-        id: string,
         userId: string,
+        id: string,
         frame?: string | number
       ): MyPlayer;
     }
@@ -236,8 +240,8 @@ Phaser.GameObjects.GameObjectFactory.register(
     x: number,
     y: number,
     texture: string,
-    id: string,
     userId: string,
+    id: string,
     frame?: string | number
   ) {
     const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, frame);

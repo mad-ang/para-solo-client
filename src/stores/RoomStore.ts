@@ -12,6 +12,7 @@ interface RoomInterface extends RoomAvailable {
 export const roomSlice = createSlice({
   name: 'room',
   initialState: {
+    allUserList: new Array<string>(),
     lobbyJoined: false,
     roomId: '',
     roomName: '',

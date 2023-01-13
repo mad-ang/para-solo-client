@@ -29,3 +29,4 @@ export interface ITownState extends Schema {
   tables: MapSchema<ITable>;
   chairs: MapSchema<IChair>;
 }
+
