@@ -6,10 +6,17 @@ import { useAppSelector, useAppDispatch } from '../../../hooks';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import Colors from 'src/utils/Colors';
 import InputBase from '@mui/material/InputBase';
+import Select from 'react-select';
+
+const genderOption: { value: string; label: string }[] = [
+  { value: 'male', label: '남' },
+  { value: 'female', label: '여' },
+];
 
 function ProfileEditModal(props) {
   const [editable, setEditable] = useState(false);
   const [username, setUsername] = useState('ㅇㅇㅇ');
+  const [gender, setGender] = useState<string>('male');
   const dispatch = useAppDispatch();
   const usernameInputRef = useRef<HTMLInputElement>(null);
   function handleClick() {
@@ -68,7 +75,16 @@ function ProfileEditModal(props) {
           </InputWrapper>
         </ProfileUserName>
         <InfoContainer editable={editable}>
-          <InfoItem>성별: 남</InfoItem>
+          <InfoItem>
+            성별:{' '}
+            <Select
+              value={gender}
+              onChange={(choice) => {
+                setGender(choice || 'male');
+              }}
+              options={genderOption}
+            />
+          </InfoItem>
           <InfoItem>나이: 27</InfoItem>
           <InfoItem>키: 167</InfoItem>
         </InfoContainer>
@@ -206,6 +222,9 @@ const InfoContainer = styled.div<EditableProps>`
 `;
 
 const InfoItem = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   margin-top: 3px;
   font-size: 24px;
 `;
