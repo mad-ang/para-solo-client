@@ -76,11 +76,14 @@ export const login = (body, next): boolean => {
       // response
 
       const { data } = response;
+
       if (data.status == 200) {
         const accessToken = response.data.payload.accessToken;
+
         if (accessToken) {
           next(data.payload.accessToken);
         }
+
         // TODO accessToken을 계속 갱신해야 함 (setTimeout)
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         const cookies = new Cookies();
@@ -94,22 +97,25 @@ export const login = (body, next): boolean => {
           .joinOrCreatePublic()
           .then(() => bootstrap.launchGame())
           .catch((error) => console.error(error));
+
+        console.log('200 로그인 성공인딩');
         return true;
       } else {
-        console.log('11111');
-        return false;
+        console.log('data.status가 200이 아닐 때', data.status);
       }
     })
     .catch(function (error) {
       // 오류발생시 실행
+
+      console.log('error.response.data.message', error.response.data.message);
+
       return false;
-    })
-    .then(function () {
-      // 항상 실행
-      console.log('333333');
-      return true;
     });
-  return true;
+  // .then(function () {
+  //   // 항상 실행
+  //   console.log('then 로그인 실행');
+  //   return true;
+  // });
 };
 
 export default function SignInDialog() {
@@ -134,6 +140,8 @@ export default function SignInDialog() {
   const [pwFieldEmpty, setPwFieldEmpty] = useState<boolean>(false);
   const [userIdFieldEmpty, setUserIdFieldEmpty] = useState<boolean>(false);
   const [userIdFieldWrong, setUserIdFieldWrong] = useState<boolean>(false);
+  const [pwFieldWrong, setPwFieldWrong] = useState<boolean>(false);
+  const [failLogin, setFailLogin] = useState<boolean>(false);
 
   const goToEntry = (event) => {
     event.preventDefault();
@@ -141,33 +149,45 @@ export default function SignInDialog() {
   };
   const onSubmitHandler = (event) => {
     event.preventDefault();
+
     setUserIdFieldEmpty(false);
     setUserIdFieldWrong(false);
     setPwFieldEmpty(false);
+    setPwFieldWrong(false);
 
     console.log(userId);
-    console.log(userIdFieldEmpty);
-    if (userId === '') {
-      setUserIdFieldEmpty(true);
-    }
-    if (password === '') {
-      setPwFieldEmpty(true);
+
+    if (userId === '' || password === '') {
+      if (userId === '') setUserIdFieldEmpty(true);
+      if (password === '') setPwFieldEmpty(true);
     } else {
       const body = {
         userId: userId,
         password: password,
       };
-      if (
-        login(body, (accessToken) => {
+
+      login(body, (accessToken) => {
+        dispatch(setAccessToken(accessToken));
+        dispatch(setStoreUserId(userId));
+      });
+
+      setFailLogin(
+        !login(body, (accessToken) => {
           dispatch(setAccessToken(accessToken));
           dispatch(setStoreUserId(userId));
         })
-      ) {
-        setUserIdFieldWrong(true);
-      }
+      );
 
-      console.log({ userId });
-      console.log({ password });
+      // console.log('temp', temp);
+      // if (
+      //   !login(body, (accessToken) => {
+      //     dispatch(setAccessToken(accessToken));
+      //     dispatch(setStoreUserId(userId));
+      //   })
+      // ) {
+      //   console.log('로그인 실패');
+
+      // }
     }
   };
   return (
@@ -196,10 +216,9 @@ export default function SignInDialog() {
           variant="outlined"
           color="secondary"
           margin="normal"
-          error={userIdFieldEmpty || userIdFieldWrong}
+          error={userIdFieldEmpty || userIdFieldWrong || failLogin}
           helperText={
-            (userIdFieldEmpty && '이름이 필요해요') ||
-            (userIdFieldWrong && '회원정보가 잘못되었습니다')
+            (userIdFieldEmpty && '이름이 필요해요') || (failLogin && '회원정보가 잘못되었습니다')
           }
           onInput={(e) => {
             setUserId((e.target as HTMLInputElement).value);
@@ -212,10 +231,9 @@ export default function SignInDialog() {
           variant="outlined"
           color="secondary"
           margin="normal"
-          error={pwFieldEmpty || userIdFieldWrong}
+          error={pwFieldEmpty || failLogin}
           helperText={
-            (pwFieldEmpty && '비밀번호가 필요해요') ||
-            (userIdFieldWrong && '회원정보가 잘못되었습니다')
+            (pwFieldEmpty && '비밀번호가 필요해요') || (failLogin && '회원정보가 잘못되었습니다')
           }
           onInput={(e) => {
             setPassword((e.target as HTMLInputElement).value);
