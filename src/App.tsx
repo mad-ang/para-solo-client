@@ -52,9 +52,6 @@ function App() {
   const characterSelected = useAppSelector((state) => state.user.characterSelected);
 
   let ui: JSX.Element;
-  // if (cookies.get('refreshToken')) {
-
-  // }
   if (characterSelected) {
     if (tableDialogOpen) {
       ui = <TableDialog />;
@@ -70,13 +67,13 @@ function App() {
       );
     }
   } else if (enteringProcess === ENTERING_PROCESS.ENTRY) {
-    ui = <EntryDialog />;
+    ui = <EntryDialog hasToken={cookies.get('refreshToken') ? true : false} />;
   } else if (enteringProcess === ENTERING_PROCESS.SIGNUP) {
     ui = <SignUpDialog />;
   } else if (enteringProcess === ENTERING_PROCESS.LOGIN) {
     ui = <SignInDialog />;
   } else {
-    ui = <CharacterSelectionDialog />;
+    ui = <CharacterSelectionDialog playerName={cookies.get('playerName') || ''}  playerTexture={cookies.get('playerTexture') || ''}/>;
   }
 
   return (
