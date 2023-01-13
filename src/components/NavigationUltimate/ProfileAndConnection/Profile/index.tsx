@@ -1,22 +1,20 @@
 import react, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import EditIcon from '@mui/icons-material/Edit';
-import { SetProfileActivated, SetProfileActivateOnly } from '../../../stores/NavbarStore';
-import { useAppSelector, useAppDispatch } from '../../../hooks';
+import { SetProfileActivated, SetProfileActivateOnly } from '../../../../stores/NavbarStore';
+import { useAppSelector, useAppDispatch } from '../../../../hooks';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import Colors from 'src/utils/Colors';
 import InputBase from '@mui/material/InputBase';
 import Select from 'react-select';
-
-const genderOption: { value: string; label: string }[] = [
-  { value: 'male', label: '남' },
-  { value: 'female', label: '여' },
-];
+import { infoItemList, Option } from './data';
 
 function ProfileEditModal(props) {
   const [editable, setEditable] = useState(false);
   const [username, setUsername] = useState('ㅇㅇㅇ');
-  const [gender, setGender] = useState<string>('male');
+  const [gender, setGender] = useState<Option | null>(null);
+  const [age, setAge] = useState<Option | null>(null);
+  const [height, setHeight] = useState<Option | null>(null);
   const dispatch = useAppDispatch();
   const usernameInputRef = useRef<HTMLInputElement>(null);
   function handleClick() {
@@ -75,18 +73,37 @@ function ProfileEditModal(props) {
           </InputWrapper>
         </ProfileUserName>
         <InfoContainer editable={editable}>
-          <InfoItem>
-            성별:{' '}
-            <Select
-              value={gender}
-              onChange={(choice) => {
-                setGender(choice || 'male');
-              }}
-              options={genderOption}
-            />
-          </InfoItem>
-          <InfoItem>나이: 27</InfoItem>
-          <InfoItem>키: 167</InfoItem>
+          {infoItemList?.map((item) => (
+            <InfoItem key={item.id}>
+              <InfoLabelArea>{item.label}</InfoLabelArea>
+              <InfoSelectionArea>
+                <InfoSelection
+                  value={
+                    item.id === 1
+                      ? gender
+                      : item.id === 2
+                      ? age
+                      : item.id === 3
+                      ? height
+                      : item.id === 4
+                      ? '요소4'
+                      : '요소5'
+                  }
+                  placeholder={item.label}
+                  onChange={(choice: any) => {
+                    item.id === 1
+                      ? setGender(choice)
+                      : item.id === 2
+                      ? setAge(choice)
+                      : item.id === 3
+                      ? setHeight(choice)
+                      : () => {};
+                  }}
+                  options={item.options}
+                />
+              </InfoSelectionArea>
+            </InfoItem>
+          ))}
         </InfoContainer>
       </ProfileBody>
       <ProfileBottom>
@@ -186,10 +203,12 @@ const ProfileHeader = styled.div`
 `;
 
 const ProfileBody = styled.div`
-  padding: 0 10px 0 10px;
+  padding: 0 10px 15px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
+  height: 75%;
 `;
 
 const ImageWrapper = styled.div<EditableProps>`
@@ -215,18 +234,29 @@ const ProfileUserName = styled.div<EditableProps>`
 
 const InfoContainer = styled.div<EditableProps>`
   padding: 5px;
-  margin-top: 6px;
+  margin-top: 14px;
   width: 100%;
   border: ${(props) => (props.editable ? '1px solid #c4564c' : '1px solid transparent')};
   cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
 `;
 
 const InfoItem = styled.div`
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 20% 80%;
   align-items: center;
-  margin-top: 3px;
-  font-size: 24px;
+  margin-top: 8px;
+  font-size: 18px;
+`;
+
+const InfoLabelArea = styled.div``;
+
+const InfoSelectionArea = styled.div`
+  width: 150px;
+  outline: none;
+`;
+
+const InfoSelection = styled(Select)`
+  outline: none;
 `;
 
 const ProfileBottom = styled.div`
