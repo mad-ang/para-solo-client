@@ -1,18 +1,42 @@
-import react, { useState } from 'react';
+import react, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import EditIcon from '@mui/icons-material/Edit';
 import { SetProfileActivated, SetProfileActivateOnly } from '../../../stores/NavbarStore';
 import { useAppSelector, useAppDispatch } from '../../../hooks';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import Colors from 'src/utils/Colors';
+import InputBase from '@mui/material/InputBase';
 
 function ProfileEditModal(props) {
   const [editable, setEditable] = useState(false);
+  const [username, setUsername] = useState('ㅇㅇㅇ');
   const dispatch = useAppDispatch();
-
+  const usernameInputRef = useRef<HTMLInputElement>(null);
   function handleClick() {
     dispatch(SetProfileActivated(false));
   }
+
+  const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Escape') {
+      // move focus back to the game
+      dispatch(SetProfileActivated(false));
+    }
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      setEditable(!editable);
+    }
+  };
+
+  const edit = () => {
+    setEditable(!editable);
+    if (usernameInputRef?.current) {
+      usernameInputRef.current.focus();
+    }
+  };
 
   return (
     <ProfileSettingEditor>
@@ -30,7 +54,19 @@ function ProfileEditModal(props) {
         <ImageWrapper editable={editable}>
           <ProfileAvatarImage src={DefaultAvatar} />
         </ImageWrapper>
-        <ProfileUserName editable={editable}>왕십리꿀벅지</ProfileUserName>
+        <ProfileUserName editable={editable}>
+          <InputWrapper>
+            <InputTextField
+              inputRef={usernameInputRef}
+              readOnly={!editable}
+              value={username}
+              placeholder={'사용자 이름'}
+              autoFocus={editable}
+              onKeyDown={handleKeyDown}
+              onChange={handleChangeUsername}
+            />
+          </InputWrapper>
+        </ProfileUserName>
         <InfoContainer editable={editable}>
           <InfoItem>성별: 남</InfoItem>
           <InfoItem>나이: 27</InfoItem>
@@ -38,13 +74,7 @@ function ProfileEditModal(props) {
         </InfoContainer>
       </ProfileBody>
       <ProfileBottom>
-        <ProfileEditButton
-          onClick={() => {
-            setEditable(!editable);
-          }}
-        >
-          {editable ? '저장' : '프로필 편집'}
-        </ProfileEditButton>
+        <ProfileEditButton onClick={edit}>{editable ? '저장' : '프로필 편집'}</ProfileEditButton>
       </ProfileBottom>
     </ProfileSettingEditor>
   );
@@ -68,12 +98,7 @@ export default function ConnectionStatus() {
           height={35}
         />
         <UserNameDiv>왕십리꿀벅지</UserNameDiv>
-        <EditButton
-          onClick={() => {
-            handleClick();
-            console.log('click');
-          }}
-        >
+        <EditButton onClick={handleClick}>
           <EditIcon sx={{ fontSize: 30 }}></EditIcon>
         </EditButton>
         {NavControllerProfileActivated ? <ProfileEditModal /> : null}
@@ -205,4 +230,16 @@ const ProfileEditButton = styled.button`
   font-weight: 600;
   font-size: 20px;
   background: none;
+`;
+
+const InputWrapper = styled.form`
+  display: flex;
+  flex-direction: row;
+`;
+const InputTextField = styled(InputBase)`
+  border-radius: 0px 0px 10px 10px;
+  input {
+    padding: 5px;
+    color: #000;
+  }
 `;
