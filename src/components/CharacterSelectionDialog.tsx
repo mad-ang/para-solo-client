@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -140,8 +140,8 @@ for (let i = avatars.length - 1; i > 0; i--) {
   [avatars[i], avatars[j]] = [avatars[j], avatars[i]];
 }
 
-export default function CharacterSelectionDialog() {
-  const [name, setName] = useState<string>('');
+export default function CharacterSelectionDialog(props) {
+  const [name, setName] = useState<string>(props.playerName);
   const [avatarIndex, setAvatarIndex] = useState<number>(0);
   const [nameFieldEmpty, setNameFieldEmpty] = useState<boolean>(false);
   const dispatch = useAppDispatch();
@@ -163,7 +163,7 @@ export default function CharacterSelectionDialog() {
       game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
       game.network.readyToConnect();
       cookies.set('playerName', name);
-      cookies.set('PlayerTexture', avatars[avatarIndex].name);
+      cookies.set('playerTexture', avatars[avatarIndex].name);
       dispatch(setCharacterSelected(true));
     }
   };
@@ -208,6 +208,7 @@ export default function CharacterSelectionDialog() {
             color="secondary"
             error={nameFieldEmpty}
             helperText={nameFieldEmpty && '이름이 필요해요'}
+            value={name}
             onInput={(e) => {
               setName((e.target as HTMLInputElement).value);
             }}
