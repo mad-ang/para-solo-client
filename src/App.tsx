@@ -7,7 +7,7 @@
 //                 김기운 <https://github.com/KiwoonKim> (BE)
 // Thanks to SWJungle & KAIST where we made this project.
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { HashRouter } from 'react-router-dom';
 import { useAppSelector } from './hooks';
@@ -20,14 +20,20 @@ import SignUpDialog from './components/SignUpDialog';
 import SignInDialog from './components/SignInDialog';
 import axios from 'axios';
 import NavigationContainer from './components/NavigationUltimate/NavigationContainer';
-import { ENTERING_PROCESS } from './stores/UserStore';
+import { ENTERING_PROCESS, setCharacterSelected, setEnteringProcess } from './stores/UserStore';
+import phaserGame from './PhaserGame';
+import Game from './scenes/Game';
+import Bootstrap from 'scenes/Bootstrap';
+import Cookies from 'universal-cookie';
+import store from './stores';
+import { setLobbyJoined } from './stores/RoomStore';
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
     ? `https://${import.meta.env.VITE_SERVER_URL}`
     : `http://${window.location.hostname}:8080`;
 
-console.log('axios.defaults.baseURL ', axios.defaults.baseURL )
+console.log('axios.defaults.baseURL ', axios.defaults.baseURL);
 
 const Backdrop = styled.div`
   position: absolute;
@@ -38,12 +44,17 @@ const Backdrop = styled.div`
 
 function App() {
   console.log(88888, import.meta.env.VITE_ENDPOINT);
+  const cookies = new Cookies();
+
   const tableDialogOpen = useAppSelector((state) => state.table.tableDialogOpen);
   const videoConnected = useAppSelector((state) => state.user.videoConnected);
   const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
   const characterSelected = useAppSelector((state) => state.user.characterSelected);
 
   let ui: JSX.Element;
+  // if (cookies.get('refreshToken')) {
+
+  // }
   if (characterSelected) {
     if (tableDialogOpen) {
       ui = <TableDialog />;
