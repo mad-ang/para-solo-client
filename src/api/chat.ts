@@ -14,11 +14,14 @@ export const createRoom =  (param: CreateRoomRequest) => {
 };
 
 // 현재 채팅방 목록을 가져옴
-export const fetchRoomList = (userId: number) => {
-  return axios.get(`/chat/roomList/${userId}`)
+export const fetchRoomList =  (userId: string, next: any) => {
+  // return await axios.get(`/chat/roomList/${userId}`)
+  return  axios.get(`/chat/roomList/${userId}`)
     .then(response => {
+        console.log("hihihi")
         const { data } = response.data;
-        return data as ApiResponse<Array<RoomListResponse>>;
+        next(data);
+        // return data as ApiResponse<Array<RoomListResponse>>;
     })
     .catch(error => {
       console.log(error);

@@ -132,7 +132,7 @@ function DMbox() {
     <DMwrapper>
       <DMboxHeader />
       <DMSearchConversation />
-      <ConversationList conversations={conversations} />
+      <ConversationList userId={77800029} />
     </DMwrapper>
   );
 }
