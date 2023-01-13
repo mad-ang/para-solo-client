@@ -95,14 +95,6 @@ export  function ConversationList(Props)  {
               onClick={() => {
                 dispatch(SetChattingRoomActivated(true));
                 dispatch(Setkey(room.friend.username));
-                const socketClient = io(`${socketHost}:${socketPort}/chat-id`);
-
-                socketClient.on("connect", () => {
-                  console.log("connected to socket server");
-                });
-
-                socketClient.emit("chatId", "senderId");
-                socketClient.emit("message", "this is message!");
               }}
             >
               <img

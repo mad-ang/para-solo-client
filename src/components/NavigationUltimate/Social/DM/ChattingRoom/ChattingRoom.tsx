@@ -15,6 +15,10 @@ import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 import { setShowDM } from 'src/stores/DMboxStore';
 
+import io from "socket.io-client";
+const socketHost = "http://localhost";
+const socketPort = "5002";
+
 const Wrapper = styled.div`
   position: fixed;
   bottom: 100px;
@@ -55,11 +59,35 @@ export function InsideChattingRoom() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const userID = useAppSelector((state) => state.user.userId);
+  const friendID = useAppSelector((state) => state.dm.withWho);
+
+
   useEffect(() => {
     scrollToBottom();
   }, [directMessages, showDM]);
 
+
+  const socketClient = io(`${socketHost}:${socketPort}/chat-id`);
+  socketClient.on("connect", () => {
+  console.log("connected to socket server");
+  //1. 일단 보낸다
+  socketClient.emit("create-room")
+  //2. roomID를 서버에서 준다.
+  socketClient.emit("join-room", userID, friendID)
+  });
+  
+
+  //3. 메시지를 보내본다(테스트)
+  socketClient.emit("chatId", "senderId");
+  socketClient.emit("message", "this is message!");
+  //4. 메시지를 받아본다(테스트)
+  socketClient.on("message", (data) => {
+  console.log(data);
+  });
+  
   return (
+
     <Wrapper>
       <HeadAppBar />
       {/* <BasicStack /> */}

@@ -16,7 +16,7 @@ export const createRoom =  (param: CreateRoomRequest) => {
 // 현재 채팅방 목록을 가져옴
 export const fetchRoomList =  (userId: string, next: any) => {
   // return await axios.get(`/chat/roomList/${userId}`)
-  return  axios.post(`/chat/roomList/`,userId)
+  return  axios.post(`/chat/roomList/`,{"userId":userId})
     .then(response => {
         console.log("hihihi")
         const { data } = response.data;
