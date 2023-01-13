@@ -115,7 +115,7 @@ export default function BottomAppBar(props) {
           dispatch(setFocused(false));
           setReadyToSubmit(false);
         }}
-        defaultValue={value}
+        // defaultValue={value}
         value={value}
         fullWidth
         margin="dense"

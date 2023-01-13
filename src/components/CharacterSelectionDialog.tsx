@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -19,7 +19,7 @@ import Nancy from '../images/login/Nancy_login.png';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import { ENTERING_PROCESS, setCharacterSelected, setUserId } from '../stores/UserStore';
 import { getAvatarString, getColorByString } from '../util';
-
+import Cookies from 'universal-cookie';
 import phaserGame from '../PhaserGame';
 import Game from '../scenes/Game';
 
@@ -140,8 +140,8 @@ for (let i = avatars.length - 1; i > 0; i--) {
   [avatars[i], avatars[j]] = [avatars[j], avatars[i]];
 }
 
-export default function CharacterSelectionDialog() {
-  const [name, setName] = useState<string>('');
+export default function CharacterSelectionDialog(props) {
+  const [name, setName] = useState<string>(props.playerName);
   const [avatarIndex, setAvatarIndex] = useState<number>(0);
   const [nameFieldEmpty, setNameFieldEmpty] = useState<boolean>(false);
   const dispatch = useAppDispatch();
@@ -150,18 +150,20 @@ export default function CharacterSelectionDialog() {
   const roomName = useAppSelector((state) => state.room.roomName);
   const roomDescription = useAppSelector((state) => state.room.roomDescription);
   const game = phaserGame.scene.keys.game as Game;
-  
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (name === '') {
       setNameFieldEmpty(true);
     } else if (enteringProcess === ENTERING_PROCESS.CHARACTER_SELECTION) {
       console.log('Join! Name:', name, 'Avatar:', avatars[avatarIndex].name);
-
+      const cookies = new Cookies();
       game.registerKeys();
       game.myPlayer.setPlayerName(name);
       game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
       game.network.readyToConnect();
+      cookies.set('playerName', name);
+      cookies.set('playerTexture', avatars[avatarIndex].name);
       dispatch(setCharacterSelected(true));
     }
   };
@@ -206,6 +208,7 @@ export default function CharacterSelectionDialog() {
             color="secondary"
             error={nameFieldEmpty}
             helperText={nameFieldEmpty && '이름이 필요해요'}
+            value={name}
             onInput={(e) => {
               setName((e.target as HTMLInputElement).value);
             }}

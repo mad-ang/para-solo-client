@@ -19,7 +19,6 @@ import {
   pushPlayerLeftMessage,
 } from '../stores/ChatStore';
 import { useAppSelector } from '../hooks';
-
 export default class Network {
   private client: Client;
   private room?: Room<ITownState>;
@@ -104,6 +103,7 @@ export default class Network {
           if (field === 'name' && value !== '') {
             phaserEvents.emit(Event.PLAYER_JOINED, player, key);
             store.dispatch(setPlayerNameMap({ id: key, name: value }));
+
             store.dispatch(pushPlayerJoinedMessage(value));
           }
         });
