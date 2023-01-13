@@ -9,14 +9,17 @@ import './PhaserGame'
 import muiTheme from './MuiTheme'
 import App from './App'
 import store from './stores'
-
+import { QueryClient, QueryClientProvider } from 'react-query';
 const container = document.getElementById('root')
 const root = createRoot(container!)
+const queryClient = new QueryClient();
 root.render(
   // <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={muiTheme}>
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <App />
+      </QueryClientProvider>
       </ThemeProvider>
     </Provider>
   // </React.StrictMode>

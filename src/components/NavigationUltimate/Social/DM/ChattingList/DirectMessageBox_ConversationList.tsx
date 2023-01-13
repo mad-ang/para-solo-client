@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import DMboxSVG from "../../../assets/directmessage/DM.svg";
 import channelTalkPNG from "../../../assets/directmessage/channeltalk.png";
@@ -11,6 +11,11 @@ const socketHost = "http://localhost";
 const socketPort = "5002";
 import {SetChattingRoomActivated, SetChattingRoomActivateOnly} from '../../../../../stores/NavbarStore';
 
+import { useQuery } from 'react-query';
+// import { ApiResponse, RoomListResponse, fetchRoomList } from 'src/api/chat';
+import { ApiResponse} from 'src/api/chat';
+import axios from 'axios';
+// import { Body } from 'matter';
 
 const UnorderedList = styled.ul`
   list-style: none;
@@ -66,47 +71,92 @@ interface Props {
   conversations: Conversation[];
 }
 
-export const ConversationList: React.FC<Props> = ({ conversations }) => {
-  /* 서버 열리면 이 코드 사용*/
-  // const navigate = useNavigate();
-  // function handleDirectMessage(conversation: string) {
-  //   navigate(`/conversation/${conversation}`);
-  // }
-  const dispatch = useAppDispatch();
+interface Props {
+  userId: number;
+}
 
-  return (
-    <DMmessageList>
-      <UnorderedList>
-        {conversations.map((conversation) => (
-          <ListTag
-            key={conversation.name}
-            onClick={() => {
-              dispatch(SetChattingRoomActivated(true));
-              dispatch(Setkey(conversation.name));
-              const socketClient = io(`${socketHost}:${socketPort}/chat-id`);
 
-              socketClient.on("connect", () => {
-                console.log("connected to socket server");
-              });
+// export function ConversationList(Props) {
+//   axios
+//   .get('/chat/roomList/3')
+//   .then(function(response) {
+//     console.log(response);
+//   })
+//     }
 
-              socketClient.emit("chatId", "senderId");
-              socketClient.emit("message", "this is message!");
-            }}
-          >
-            {/* handleDirectMessage(conversation.name) //서버 열리면 이코드 사용(삭제 no) */}
-            {/* <ConversationView/>  //서버열리면 이코드 사용(삭제 no)*/}
-            <img
-              src={conversation.picture}
-              alt={conversation.name}
-              width="60"
-            />
-            <IDwithLastmessage>
-              <UserID>{conversation.name}</UserID>
-              <div>{conversation.lastMessage}</div>
-            </IDwithLastmessage>
-          </ListTag>
-        ))}
-      </UnorderedList>
-    </DMmessageList>
-  );
+
+export const fetchRoomList =  (userId: number) => {
+  // return await axios.get(`/chat/roomList/${userId}`)
+  return  axios.get(`/chat/roomList/3`)
+  .then(response => {
+    return (response.data.data);
+  })
+  .catch(error => {
+    console.log(error);
+  });
 };
+
+
+
+interface RoomListResponse {
+  id: string;
+  name: string;
+  picture: string;
+  lastMessage: string;
+}
+
+export  function ConversationList(Props)  {
+  // const dispatch = useAppDispatch();
+  // const {data, status} = useQuery('roomList', () => fetchRoomList(Props.userId));
+
+  // if (status === 'loading') return <div>Loading...</div>
+  // console.log("hohohohohoho")
+  const [users, setUsers] = useState<RoomListResponse[]>([]);
+  const dispatch = useAppDispatch();
+  
+  useEffect(() => {
+    axios
+    .get('/chat/roomList/3')
+    .then(response => {
+      setUsers(response.data.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }, []);
+
+
+  return(
+  <DMmessageList>
+        <UnorderedList>
+          {users.map((user) => (
+            <ListTag
+              key={user.name}
+              onClick={() => {
+                dispatch(SetChattingRoomActivated(true));
+                dispatch(Setkey(user.name));
+                const socketClient = io(`${socketHost}:${socketPort}/chat-id`);
+
+                socketClient.on("connect", () => {
+                  console.log("connected to socket server");
+                });
+
+                socketClient.emit("chatId", "senderId");
+                socketClient.emit("message", "this is message!");
+              }}
+            >
+              <img
+                src={user.picture}
+                alt={user.name}
+                width="60"
+              />
+              <IDwithLastmessage>
+                <UserID>{user.name}</UserID>
+                <div>{user.lastMessage}</div>
+              </IDwithLastmessage>
+            </ListTag>
+          ))}
+        </UnorderedList>
+      </DMmessageList>
+  );
+}
