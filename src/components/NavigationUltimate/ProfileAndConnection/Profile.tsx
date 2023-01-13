@@ -5,7 +5,9 @@ import { SetProfileActivated, SetProfileActivateOnly } from '../../../stores/Nav
 import { useAppSelector, useAppDispatch } from '../../../hooks';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import Colors from 'src/utils/Colors';
+
 function ProfileEditModal(props) {
+  const [editable, setEditable] = useState(false);
   const dispatch = useAppDispatch();
 
   function handleClick() {
@@ -25,18 +27,24 @@ function ProfileEditModal(props) {
         </CloseButton>
       </ProfileHeader>
       <ProfileBody>
-        <ImageWrapper>
+        <ImageWrapper editable={editable}>
           <ProfileAvatarImage src={DefaultAvatar} />
         </ImageWrapper>
-        <ProfileUserName>왕십리꿀벅지</ProfileUserName>
-        <InfoContainer>
+        <ProfileUserName editable={editable}>왕십리꿀벅지</ProfileUserName>
+        <InfoContainer editable={editable}>
           <InfoItem>성별: 남</InfoItem>
           <InfoItem>나이: 27</InfoItem>
           <InfoItem>키: 167</InfoItem>
         </InfoContainer>
       </ProfileBody>
       <ProfileBottom>
-        <ProfileEditButton>프로필 편집</ProfileEditButton>
+        <ProfileEditButton
+          onClick={() => {
+            setEditable(!editable);
+          }}
+        >
+          {editable ? '저장' : '프로필 편집'}
+        </ProfileEditButton>
       </ProfileBottom>
     </ProfileSettingEditor>
   );
@@ -74,6 +82,10 @@ export default function ConnectionStatus() {
   );
 }
 
+interface EditableProps {
+  editable: boolean;
+}
+
 const StyledRedBox = styled.div`
   display: flex;
   justify-content: center;
@@ -108,7 +120,7 @@ const ProfileSettingEditor = styled.div`
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
 `;
 
 const TitleText = styled.div`
@@ -139,24 +151,33 @@ const ProfileBody = styled.div`
   align-items: center;
 `;
 
-const ImageWrapper = styled.div`
+const ImageWrapper = styled.div<EditableProps>`
   margin-top: 32px;
   width: 98px;
   height: 98px;
+  border-radius: 50%;
+  border: ${(props) => (props.editable ? '1px solid #c4564c' : '1px solid transparent')};
+  cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
 `;
 
 const ProfileAvatarImage = styled.img`
   width: 100%;
 `;
 
-const ProfileUserName = styled.div`
+const ProfileUserName = styled.div<EditableProps>`
   margin-top: 14px;
   font-size: 20px;
+  font-weight: 600;
+  border: ${(props) => (props.editable ? '1px solid #c4564c' : '1px solid transparent')};
+  cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
 `;
 
-const InfoContainer = styled.div`
+const InfoContainer = styled.div<EditableProps>`
+  padding: 5px;
   margin-top: 6px;
   width: 100%;
+  border: ${(props) => (props.editable ? '1px solid #c4564c' : '1px solid transparent')};
+  cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
 `;
 
 const InfoItem = styled.div`
