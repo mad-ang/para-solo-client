@@ -16,7 +16,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
-import { login } from './SignInDialog';
+import { login } from 'src/api/auth';
 
 const Wrapper = styled.form`
   position: fixed;

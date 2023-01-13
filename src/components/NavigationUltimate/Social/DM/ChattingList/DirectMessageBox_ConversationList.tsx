@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import DMboxSVG from "../../../assets/directmessage/DM.svg";
 import channelTalkPNG from "../../../assets/directmessage/channeltalk.png";
@@ -6,11 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { blue } from "@mui/material/colors";
 import { DMSlice, Setkey} from "../../../../../stores/DMboxStore";
 import { useAppDispatch, useAppSelector } from "../../../../../hooks";
-import io from "socket.io-client";
-const socketHost = "http://localhost";
-const socketPort = "5002";
 import {SetChattingRoomActivated, SetChattingRoomActivateOnly} from '../../../../../stores/NavbarStore';
-
+import { useQuery } from 'react-query';
+import { ApiResponse, fetchRoomList, RoomListResponse } from 'src/api/chat';
 
 const UnorderedList = styled.ul`
   list-style: none;
@@ -54,59 +52,41 @@ const DMmessageList = styled.div`
   border-bottom-right-radius: 25px;
 `;
 
-/* Conversation */
-interface Conversation {
-  id: string;
-  name: string;
-  picture: string;
-  lastMessage: string;
-}
-
-interface Props {
-  conversations: Conversation[];
-}
-
-export const ConversationList: React.FC<Props> = ({ conversations }) => {
-  /* 서버 열리면 이 코드 사용*/
-  // const navigate = useNavigate();
-  // function handleDirectMessage(conversation: string) {
-  //   navigate(`/conversation/${conversation}`);
-  // }
+/* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.withwho)에 친구의 userId를 넣어준다  */
+export  function ConversationList()  {
+  const [rooms, setRooms] = useState<RoomListResponse[]>([]);
   const dispatch = useAppDispatch();
+  const userID = useAppSelector((state) => state.user.userId);
 
-  return (
-    <DMmessageList>
-      <UnorderedList>
-        {conversations.map((conversation) => (
-          <ListTag
-            key={conversation.name}
-            onClick={() => {
-              dispatch(SetChattingRoomActivated(true));
-              dispatch(Setkey(conversation.name));
-              const socketClient = io(`${socketHost}:${socketPort}/chat-id`);
+  useEffect(() => {
+    fetchRoomList(userID, (data: RoomListResponse[])=>{
+      setRooms(data);
+    })
+  }, []);
 
-              socketClient.on("connect", () => {
-                console.log("connected to socket server");
-              });
-
-              socketClient.emit("chatId", "senderId");
-              socketClient.emit("message", "this is message!");
-            }}
-          >
-            {/* handleDirectMessage(conversation.name) //서버 열리면 이코드 사용(삭제 no) */}
-            {/* <ConversationView/>  //서버열리면 이코드 사용(삭제 no)*/}
-            <img
-              src={conversation.picture}
-              alt={conversation.name}
-              width="60"
-            />
-            <IDwithLastmessage>
-              <UserID>{conversation.name}</UserID>
-              <div>{conversation.lastMessage}</div>
-            </IDwithLastmessage>
-          </ListTag>
-        ))}
-      </UnorderedList>
-    </DMmessageList>
+  return(
+  <DMmessageList>
+        <UnorderedList>
+          {rooms.map((room, index) => (
+            <ListTag
+              key={index}
+              onClick={() => {
+                dispatch(SetChattingRoomActivated(true));
+                dispatch(Setkey(room.friend.userId));
+              }}
+            >
+              <img
+                src={room.friend.profileImgurl}
+                alt={room.friend.username}
+                width="60"
+              />
+              <IDwithLastmessage>
+                <UserID>{room.friend.username}</UserID>
+                <div>{room.lastChat}</div>
+              </IDwithLastmessage>
+            </ListTag>
+          ))}
+        </UnorderedList>
+      </DMmessageList>
   );
-};
+}

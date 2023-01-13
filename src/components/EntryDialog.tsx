@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../images/logo.png';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
@@ -18,6 +18,12 @@ import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
 import { ENTERING_PROCESS, setEnteringProcess } from '../stores/UserStore';
 import { EnergySavingsLeaf } from '@mui/icons-material';
+import store from 'src/stores';
+import { setLobbyJoined } from 'src/stores/RoomStore';
+import { login } from 'src/api/auth';
+import Cookies from 'universal-cookie';
+import axios from 'axios';
+const cookies = new Cookies();
 
 const Backdrop = styled.div`
   position: absolute;
@@ -71,7 +77,7 @@ const ProgressBar = styled(LinearProgress)`
   width: 360px;
 `;
 
-export default function EntryDialog() {
+export default function EntryDialog(props) {
   // const [showCustomRoom, setShowCustomRoom] = useState(false)
   // const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
   const [showSnackbar, setShowSnackbar] = useState(false);
@@ -104,64 +110,77 @@ export default function EntryDialog() {
     dispatch(setEnteringProcess(ENTERING_PROCESS.LOGIN));
   };
 
+  useEffect(() => {
+    if (props.hasToken) {
+      const accessToken = cookies.get('accessToken');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      handleConnect();
+    }
+  });
+
   return (
     <>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={showSnackbar}
-        autoHideDuration={3000}
-        onClose={() => {
-          setShowSnackbar(false);
-        }}
-      >
-        <Alert
-          severity="error"
-          variant="outlined"
-          // overwrites the dark theme on render
-          style={{ background: '#fdeded', color: '#7d4747' }}
+      {!props.hasToken && (
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          open={showSnackbar}
+          autoHideDuration={3000}
+          onClose={() => {
+            setShowSnackbar(false);
+          }}
         >
-          Trying to connect to server, please try again!
-        </Alert>
-      </Snackbar>
-      <Backdrop>
-        <Wrapper>
-          <>
-            <Title>o(*°▽°)ﾉ 맘스타운에 오신 것을 환영합니다</Title>
-            <Content>
-              <img src={logo} alt="logo" />
-              {lobbyJoined && (
-                <Button
-                  disabled={enabled}
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => {
-                    handleConnect();
-                  }}
-                >
-                  맘스타운 입장할래요
-                </Button>
-              )}
+          <Alert
+            severity="error"
+            variant="outlined"
+            // overwrites the dark theme on render
+            style={{ background: '#fdeded', color: '#7d4747' }}
+          >
+            Trying to connect to server, please try again!
+          </Alert>
+        </Snackbar>
+      )}
 
-              {/* <Button
+      <Backdrop>
+        {!props.hasToken && (
+          <Wrapper>
+            <>
+              <Title>o(*°▽°)ﾉ 맘스타운에 오신 것을 환영합니다</Title>
+              <Content>
+                <img src={logo} alt="logo" />
+                {lobbyJoined && (
+                  <Button
+                    disabled={enabled}
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => {
+                      handleConnect();
+                    }}
+                  >
+                    맘스타운 입장할래요
+                  </Button>
+                )}
+
+                {/* <Button
                   variant="outlineds"
                   color="secondary"
                   onClick={() => (lobbyJoined ? setShowCustomRoom(true) : setShowSnackbar(true))}
                 >
                   Create/find custom rooms
                 </Button> */}
-              {
-                <Button variant="contained" color="secondary" onClick={signUpConnect}>
-                  회원가입
-                </Button>
-              }
-              {
-                <Button variant="contained" color="secondary" onClick={signInConnect}>
-                  로그인
-                </Button>
-              }
-            </Content>
-          </>
-        </Wrapper>
+                {
+                  <Button variant="contained" color="secondary" onClick={signUpConnect}>
+                    회원가입
+                  </Button>
+                }
+                {
+                  <Button variant="contained" color="secondary" onClick={signInConnect}>
+                    로그인
+                  </Button>
+                }
+              </Content>
+            </>
+          </Wrapper>
+        )}
         {!lobbyJoined && (
           <ProgressBarWrapper>
             <h3> Connecting to server...</h3>

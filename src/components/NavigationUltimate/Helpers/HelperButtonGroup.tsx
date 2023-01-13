@@ -17,7 +17,7 @@ import { BackgroundMode } from '../../../types/BackgroundMode';
 import { ENTERING_PROCESS, toggleBackgroundMode } from '../../../stores/UserStore';
 import { useAppSelector, useAppDispatch } from '../../../hooks';
 import { getAvatarString, getColorByString } from '../../../util';
-
+import Cookies from 'universal-cookie';
 const Backdrop = styled.div`
   display: flex;
   gap: 10px;
@@ -208,6 +208,18 @@ export default function HelperButtonGroup() {
             {backgroundMode === BackgroundMode.DAY ? <DarkModeIcon /> : <LightModeIcon />}
           </StyledFab>
         </Tooltip>
+        <button
+          onClick={() => {
+            const cookies = new Cookies();
+            cookies.remove('refreshToken', { path: '/' });
+            cookies.remove('accessToken', { path: '/' });
+            cookies.remove('playerName', { path: '/' });
+            cookies.remove('playerTexture', { path: '/' });
+            window.location.href = '/';
+          }}
+        >
+          로그아웃
+        </button>
       </ButtonGroup>
     </Backdrop>
   );

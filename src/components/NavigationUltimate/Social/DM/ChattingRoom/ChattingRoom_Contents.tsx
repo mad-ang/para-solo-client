@@ -43,9 +43,9 @@ export default function ChatBubbles(props) {
         <ChatFeed
           maxHeight={460}
           messages={messageList} // Array: list of message objects
-          // isTyping={messages.is_typing} // Boolean: is the recipient typing
-          hasInputField={false} // Boolean: use our input, or use your own
-          showSenderName={false} // show the name of the user who sent the message
+          // isTyping={false} // Boolean: is the recipient typing
+          // hasInputField={false} // Boolean: use our input, or use your own
+          // showSenderName={'who'} // show the name of the user who sent the message
           bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
           // JSON: Custom bubble styles
           bubbleStyles={{
@@ -55,12 +55,14 @@ export default function ChatBubbles(props) {
             chatbubble: {
               borderRadius: 25,
               padding: 15,
-              maxWidth: 250,
-              width: '75%',
+              maxWidth: 200,
+              width: 'fit-content',
+              // width: '-webkit-fit-content',
               marginTop: 1,
               marginRight: 'auto',
               marginBottom: 1,
               marginLeft: 'auto',
+              wordBreak: 'break-all',
             },
             userBubble: {},
           }}
