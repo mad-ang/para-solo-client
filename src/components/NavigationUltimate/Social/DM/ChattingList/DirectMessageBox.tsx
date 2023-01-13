@@ -5,7 +5,6 @@ import channelTalkPNG from '../../../assets/directmessage/channeltalk.png';
 import { InsideChattingRoom } from '../ChattingRoom/ChattingRoom';
 import { DMSlice, Setkey } from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
-
 import { ConversationList } from './DirectMessageBox_ConversationList';
 import { DMboxHeader } from './DirectMessageBox_Header';
 import { DMSearchConversation } from './DirectMessageBox_SearchConversation';
@@ -50,7 +49,6 @@ const DM = styled.div`
   font-size: 28px;
   font-weight: bold;
 `;
-
 const DMmessage = styled.div`
   background: #ffffff;
   height: 100px;
@@ -132,7 +130,7 @@ function DMbox() {
     <DMwrapper>
       <DMboxHeader />
       <DMSearchConversation />
-      <ConversationList userId={77800029} />
+      <ConversationList/>
     </DMwrapper>
   );
 }

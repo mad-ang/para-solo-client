@@ -6,16 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { blue } from "@mui/material/colors";
 import { DMSlice, Setkey} from "../../../../../stores/DMboxStore";
 import { useAppDispatch, useAppSelector } from "../../../../../hooks";
-import io from "socket.io-client";
-const socketHost = "http://localhost";
-const socketPort = "5002";
 import {SetChattingRoomActivated, SetChattingRoomActivateOnly} from '../../../../../stores/NavbarStore';
-
 import { useQuery } from 'react-query';
 import { ApiResponse, fetchRoomList, RoomListResponse } from 'src/api/chat';
-// import { ApiResponse} from 'src/api/chat';
-import axios from 'axios';
-// import { Body } from 'matter';
 
 const UnorderedList = styled.ul`
   list-style: none;
@@ -59,23 +52,8 @@ const DMmessageList = styled.div`
   border-bottom-right-radius: 25px;
 `;
 
-/* Conversation */
-interface Conversation {
-  id: string;
-  name: string;
-  picture: string;
-  lastMessage: string;
-}
-
-interface Props {
-  conversations: Conversation[];
-}
-
-interface Props {
-  userId: number;
-}
-
-export  function ConversationList(Props)  {
+/* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.withwho)에 친구의 userId를 넣어준다  */
+export  function ConversationList()  {
   const [rooms, setRooms] = useState<RoomListResponse[]>([]);
   const dispatch = useAppDispatch();
   const userID = useAppSelector((state) => state.user.userId);
@@ -94,7 +72,7 @@ export  function ConversationList(Props)  {
               key={index}
               onClick={() => {
                 dispatch(SetChattingRoomActivated(true));
-                dispatch(Setkey(room.friend.username));
+                dispatch(Setkey(room.friend.userId));
               }}
             >
               <img

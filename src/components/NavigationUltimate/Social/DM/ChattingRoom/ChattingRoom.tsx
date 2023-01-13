@@ -1,10 +1,8 @@
 // import { HashRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
-// import BasicStack from './CRStack';
 import HeadAppBar from './ChattingRoom_Header';
 import BottomAppBar from './ChattingRoom_Bottom';
-// import ChattingRoomContents from './CRContents';
 import ChatBubbles from './ChattingRoom_Contents';
 import React, { useRef, useState, useEffect } from 'react';
 import Tooltip from '@mui/material/Tooltip';
@@ -76,7 +74,7 @@ export function InsideChattingRoom() {
   //2. roomID를 서버에서 준다.
   socketClient.emit("join-room", userID, friendID)
   });
-  
+
 
   //3. 메시지를 보내본다(테스트)
   socketClient.emit("chatId", "senderId");
@@ -85,7 +83,7 @@ export function InsideChattingRoom() {
   socketClient.on("message", (data) => {
   console.log(data);
   });
-  
+
   return (
 
     <Wrapper>
