@@ -2,21 +2,30 @@ import axios from 'axios';
 import { AxiosResponse } from 'axios';
 
 // 친구 추가 요청
-export const addFriendRequest = async (request: AddFriendRequestDto) => {
-  const addedFriend: ApiResponse<boolean> = await axios.post(
-    `/friend/add`,
-    request
-  );
-  return addedFriend.data.data;
+export const addFriendReq = (request: AddFriendRequestDto) => {
+  return axios.post(`/friend/add`, request)
+    .then(response => {
+        const { data } = response.data;
+        return data as ApiResponse<boolean>;
+    })
+    .catch(error => {
+        console.log(error);
+    });
 };
 
-// 친구 목록 가져옴
-export const fecthFriendsRequest = async (id: number) => {
-  const friends: ApiResponse<Array<UserResponseDto>> = await axios.get(
-    `/friend/${id}`
-  );
-  return friends.data.data;
+// 현재서버에 있는 유저들의 리스트를 가져옴
+export const fetchFriendsReq = (id: number) => {
+  return axios
+    .get(`/friend/${id}`)
+    .then(response => {
+      const { data } = response.data;
+      return data as ApiResponse<Array<UserResponseDto>>;
+    })
+    .catch(error => {
+      console.log(error);
+    });
 };
+
 
 interface Response<T> {
   data: T;
@@ -35,6 +44,7 @@ interface AddFriendRequestDto {
 interface ProfileChangeRequestDto {
   id: number;
   name?: string;
+  height?: number;
   status_msg?: string;
   profile_img_url?: string;
 }
@@ -61,10 +71,9 @@ export interface UserResponseDto {
 
 // 서버에서 채팅방 리스트에 대한 정보를 받아올 때
 export interface RoomListResponse {
-  room_id: number;
+  // room_id: number;
   identifier: string;
-  room_name: string;
-  participant: Array<number>;
+  FriendName: string;
   last_chat: string;
   not_read_chat: number;
   last_read_chat_id: number;
