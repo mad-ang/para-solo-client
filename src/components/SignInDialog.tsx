@@ -166,10 +166,10 @@ export default function SignInDialog() {
         password: password,
       };
 
-      login(body, (accessToken) => {
-        dispatch(setAccessToken(accessToken));
-        dispatch(setStoreUserId(userId));
-      });
+      // login(body, (accessToken) => {
+      //   dispatch(setAccessToken(accessToken));
+      //   dispatch(setStoreUserId(userId));
+      // });
 
       setFailLogin(
         !login(body, (accessToken) => {
@@ -177,6 +177,8 @@ export default function SignInDialog() {
           dispatch(setStoreUserId(userId));
         })
       );
+
+      console.log('failLogin', failLogin);
 
       // console.log('temp', temp);
       // if (
@@ -216,9 +218,10 @@ export default function SignInDialog() {
           variant="outlined"
           color="secondary"
           margin="normal"
-          error={userIdFieldEmpty || userIdFieldWrong || failLogin}
+          error={userIdFieldEmpty}
           helperText={
-            (userIdFieldEmpty && '이름이 필요해요') || (failLogin && '회원정보가 잘못되었습니다')
+            userIdFieldEmpty && '이름이 필요해요'
+            // || (failLogin && '회원정보가 잘못되었습니다')
           }
           onInput={(e) => {
             setUserId((e.target as HTMLInputElement).value);
@@ -231,9 +234,10 @@ export default function SignInDialog() {
           variant="outlined"
           color="secondary"
           margin="normal"
-          error={pwFieldEmpty || failLogin}
+          error={pwFieldEmpty}
           helperText={
-            (pwFieldEmpty && '비밀번호가 필요해요') || (failLogin && '회원정보가 잘못되었습니다')
+            pwFieldEmpty && '비밀번호가 필요해요'
+            // || (failLogin && '회원정보가 잘못되었습니다')
           }
           onInput={(e) => {
             setPassword((e.target as HTMLInputElement).value);
