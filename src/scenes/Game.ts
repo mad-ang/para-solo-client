@@ -96,11 +96,12 @@ export default class Game extends Phaser.Scene {
       BuildingImage,
       InteriorImage,
     ]);
+    
     const cafeLayer = this.map.createLayer('cafe', InteriorImage);
-
     const cafe_fenceLayer = this.map.createLayer('cafe_fence', [TileImage, InteriorImage]);
     const chairs = this.physics.add.staticGroup({ classType: Chair });
     const chairLayer = this.map.getObjectLayer('Objects');
+
     chairLayer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(chairs, obj, 'interior', 'interior') as Chair;
       //   item.setDepth(item.y + item.height * 0.27);
@@ -154,9 +155,7 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.startFollow(this.myPlayer, true);
 
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], GrassLayer);
-
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], BuildingLayer);
-
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], SwingLayer);
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], cafeLayer);
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], cafe_fenceLayer);

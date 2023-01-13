@@ -31,7 +31,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     texture: string,
     userId: string,
     id: string,
-    userId: string,
     frame?: string | number
   ) {
     super(scene, x, y, texture, frame);
