@@ -62,7 +62,7 @@ function App() {
           <NavigationContainer />
           {/* Render VideoConnectionDialog if user is not connected to a webcam. */}
           {!videoConnected && <VideoConnectionDialog />}
-          {!cookies.get('refreshToken') && <WelcomeToast />}
+          <WelcomeToast />
         </>
       );
     }
@@ -73,12 +73,7 @@ function App() {
   } else if (enteringProcess === ENTERING_PROCESS.LOGIN) {
     ui = <SignInDialog />;
   } else {
-    ui = (
-      <CharacterSelectionDialog
-        playerName={cookies.get('playerName') || ''}
-        playerTexture={cookies.get('playerTexture') || ''}
-      />
-    );
+    ui = <CharacterSelectionDialog playerName={cookies.get('playerName') || ''}  playerTexture={cookies.get('playerTexture') || ''}/>;
   }
 
   return (
