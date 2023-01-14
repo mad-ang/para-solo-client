@@ -4,12 +4,12 @@ import styled from 'styled-components';
 const SexyChar = styled.span`
   width: 50px;
   height: 50px;
-  color: #ff0000;
   font-size: 2rem;
   font-weight: 900;
   margin: 0 0.5rem;
-  color: #ce0000;
-  background-color: #ffffff;
+  font-family: 'Nanum Gothic', sans-serif;
+  color: #C1FFD7;
+  background-color: #CAB8FF;
 `;
 
 const Wrapper = styled.div`
@@ -23,11 +23,12 @@ function ProjectNameChar(char: string) {
 export default function HuntingPochaPocha() {
   return (
     <Wrapper>
-      {ProjectNameChar('삼')}
-      {ProjectNameChar('거')}
-      {ProjectNameChar('리')}
-      {ProjectNameChar('포')}
-      {ProjectNameChar('차')}
+          <img
+          src="/src/assets/navbar/Beach.png"
+          height={35}
+        />
+      {ProjectNameChar('Solo')}
+      {ProjectNameChar('Beach')}
     </Wrapper>
   );
 }

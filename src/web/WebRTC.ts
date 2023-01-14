@@ -11,7 +11,7 @@ export default class WebRTC {
     { call: Peer.MediaConnection; video: HTMLVideoElement }
   >();
   private videoGrid = document.querySelector('.video-grid');
-  private buttonGrid = document.querySelector('.button-grid');
+  // private buttonGrid = document.querySelector('.myNavbar');
   private myVideo = document.createElement('video');
   private myStream?: MediaStream;
   private network: Network;
@@ -70,7 +70,7 @@ export default class WebRTC {
       .then((stream) => {
         this.myStream = stream;
         this.addVideoStream(this.myVideo, this.myStream);
-        this.setUpButtons();
+        // this.setUpButtons();
         store.dispatch(setVideoConnected(true));
         this.network.videoConnected();
       })
@@ -138,37 +138,59 @@ export default class WebRTC {
   }
 
   // method to set up mute/unmute and video on/off buttons
-  setUpButtons() {
-    const audioButton = document.createElement('button');
-    audioButton.innerText = '쉿!';
-    audioButton.addEventListener('click', () => {
-      if (this.myStream) {
-        const audioTrack = this.myStream.getAudioTracks()[0];
-        if (audioTrack.enabled) {
-          audioTrack.enabled = false;
-          audioButton.innerText = '얘기할래요';
-        } else {
-          audioTrack.enabled = true;
-          audioButton.innerText = '쉿!';
-        }
+  // setUpButtons() {
+  //   const audioButton = document.createElement('button');
+  //   audioButton.innerText = '쉿!';
+  //   audioButton.addEventListener('click', () => {
+  //     if (this.myStream) {
+  //       const audioTrack = this.myStream.getAudioTracks()[0];
+  //       if (audioTrack.enabled) {
+  //         audioTrack.enabled = false;
+  //         audioButton.innerText = '얘기할래요';
+  //       } else {
+  //         audioTrack.enabled = true;
+  //         audioButton.innerText = '쉿!';
+  //       }
+  //     }
+  //   });
+  //   const videoButton = document.createElement('button');
+  //   videoButton.innerText = '얼굴 안보기';
+  //   videoButton.addEventListener('click', () => {
+  //     console.log(3333);
+  //     if (this.myStream) {
+  //       const videoTrack = this.myStream.getVideoTracks()[0];
+  //       if (videoTrack.enabled) {
+  //         videoTrack.enabled = false;
+  //         videoButton.innerText = '얼굴 보기';
+  //       } else {
+  //         videoTrack.enabled = true;
+  //         videoButton.innerText = '얼굴 안보기';
+  //       }
+  //     }
+  //   });
+  //   this.buttonGrid?.append(audioButton);
+  //   this.buttonGrid?.append(videoButton);
+  // }
+
+  toggleVideo() {
+    if (this.myStream) {
+      const videoTrack = this.myStream.getVideoTracks()[0];
+      if (videoTrack.enabled) {
+        videoTrack.enabled = false;
+      } else {
+        videoTrack.enabled = true;
       }
-    });
-    const videoButton = document.createElement('button');
-    videoButton.innerText = '얼굴 안보기';
-    videoButton.addEventListener('click', () => {
-      console.log(3333);
-      if (this.myStream) {
-        const audioTrack = this.myStream.getVideoTracks()[0];
-        if (audioTrack.enabled) {
-          audioTrack.enabled = false;
-          videoButton.innerText = '얼굴 보기';
-        } else {
-          audioTrack.enabled = true;
-          videoButton.innerText = '얼굴 안보기';
-        }
-      }
-    });
-    this.buttonGrid?.append(audioButton);
-    this.buttonGrid?.append(videoButton);
+    }
   }
+  toggleAudio() {
+    if (this.myStream) {
+      const audioTrack = this.myStream.getAudioTracks()[0];
+      if (audioTrack.enabled) {
+        audioTrack.enabled = false;
+      } else {
+        audioTrack.enabled = true;
+      }
+    }
+  }
+
 }

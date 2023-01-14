@@ -143,7 +143,7 @@ export default function EntryDialog(props) {
         {!props.hasToken && (
           <Wrapper>
             <>
-              <Title>o(*°▽°)ﾉ 맘스타운에 오신 것을 환영합니다</Title>
+              <Title>👩‍❤️‍👨 해운대에 방문하신걸 환영합니다 👩‍❤️‍👨</Title>
               <Content>
                 <img src={logo} alt="logo" />
                 {lobbyJoined && (
@@ -155,7 +155,7 @@ export default function EntryDialog(props) {
                       handleConnect();
                     }}
                   >
-                    맘스타운 입장할래요
+                    헌팅을 시작할래요
                   </Button>
                 )}
 

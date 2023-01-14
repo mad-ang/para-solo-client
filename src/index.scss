@@ -49,14 +49,14 @@ button {
   border: 1px groove rgb(229, 251, 255);
 }
 
-.button-grid {
-  width: 160px;
-  display: flex;
-  justify-content: space-evenly;
-  position: absolute;
-  top: 5px;
-  right: 10px;
-}
+// .button-grid {
+//   width: 160px;
+//   display: flex;
+//   justify-content: space-evenly;
+//   position: absolute;
+//   top: 5px;
+//   right: 10px;
+// }
 
 * {
   &:hover {

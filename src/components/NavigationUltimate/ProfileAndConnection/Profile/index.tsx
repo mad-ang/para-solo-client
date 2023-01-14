@@ -258,7 +258,7 @@ const StyledRedBox = styled.div`
   justify-content: center;
   width: 185px;
   height: 44px;
-  background-color: #c4564c;
+  background-color: #CAB8FF;
   box-shadow: 0 0 10px 0 #000000;
   font-size: 1rem;
   font-weight: 900;
@@ -266,11 +266,11 @@ const StyledRedBox = styled.div`
 `;
 
 const EditButton = styled.button`
-  background-color: #c4564c;
+  background-color: #CAB8FF;
 `;
 
 const UserNameDiv = styled.div`
-  padding: 4px 0px;
+  padding: 8px 2px;
   font-size: 1rem;
 `;
 const ProfileSettingEditor = styled.div`

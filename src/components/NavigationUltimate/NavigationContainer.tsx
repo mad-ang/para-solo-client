@@ -20,14 +20,14 @@ const RedContainer = styled.div`
   gap: 10px;
   width: 100vw;
   height: 60px;
-  background-color: #C4564C;
+  background-color: #CAB8FF;
 `;
 
 
 export default function NavigationContainer() {
   
   return (
-    <Backdrop>
+    <Backdrop className='myNavbar'>
       <RedContainer>
             <ProfileAndConnection/>
             <SocialFunctions/>

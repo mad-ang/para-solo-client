@@ -63,7 +63,7 @@ export default function WelcomeToast() {
         <Wrapper>
             <ToastBox>
                 <WelcomeMsg>
-                    <p>맘스타운에 오신 것을 환영합니다</p>
+                    <p>Welcome to Solo Beach!</p>
                 </WelcomeMsg>
             </ToastBox>
         </Wrapper>

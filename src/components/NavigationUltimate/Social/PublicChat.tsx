@@ -118,7 +118,7 @@ const StyledRedBox = styled.div`
   justify-content: center;
   width: 60px;
   height: 44px;
-  background-color: #c4564c;
+  background-color: #CAB8FF;
   box-shadow: 0 0 10px 0 #000000;
   font-size: 1rem;
   font-weight: 900;
