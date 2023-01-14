@@ -54,7 +54,7 @@ export const NavControllerSlice = createSlice({
     },
     SetChattingListActivateOnly: (state) => {
       state.NavControllerProfileActivated = false;
-      // state.NavControllerChattingRoomActivated = false;
+      state.NavControllerChattingRoomActivated = true;
       state.NavControllerChattingListActivated = true;
       state.NavControllerAddFriendsActivated = false;
       state.NavControllerPublicChatActivated = false;
@@ -96,7 +96,7 @@ export const NavControllerSlice = createSlice({
       state.NavControllerPublicChatActivated = false;
       // state.NavControllerDirectMessageActivated = false;
       state.NavControllerButtonsActivated = true;
-    }
+    },
   },
 });
 
@@ -113,7 +113,7 @@ export const {
   SetChattingListActivateOnly,
   SetAddFriendsActivateOnly,
   SetPublicChatActivateOnly,
-  SetButtonsActivateOnly
+  SetButtonsActivateOnly,
 } = NavControllerSlice.actions;
 
 export default NavControllerSlice.reducer;

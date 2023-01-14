@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from "react";
-import styled, { keyframes } from "styled-components";
-import DMboxSVG from "../../../assets/directmessage/DM.svg";
-import channelTalkPNG from "../../../assets/directmessage/channeltalk.png";
-import { useNavigate } from "react-router-dom";
-import { blue } from "@mui/material/colors";
-import { DMSlice, Setkey} from "../../../../../stores/DMboxStore";
-import { useAppDispatch, useAppSelector } from "../../../../../hooks";
-import {SetChattingRoomActivated, SetChattingRoomActivateOnly} from '../../../../../stores/NavbarStore';
+import React, { useEffect, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
+import DMboxSVG from '../../../assets/directmessage/DM.svg';
+import channelTalkPNG from '../../../assets/directmessage/channeltalk.png';
+import { useNavigate } from 'react-router-dom';
+import { blue } from '@mui/material/colors';
+import { DMSlice, Setkey } from '../../../../../stores/DMboxStore';
+import { useAppDispatch, useAppSelector } from '../../../../../hooks';
+import {
+  SetChattingRoomActivated,
+  SetChattingListActivateOnly,
+} from '../../../../../stores/NavbarStore';
 import { useQuery } from 'react-query';
 import { ApiResponse, fetchRoomList, RoomListResponse } from 'src/api/chat';
+import axios from 'axios';
 
 const UnorderedList = styled.ul`
   list-style: none;
@@ -53,40 +57,58 @@ const DMmessageList = styled.div`
 `;
 
 /* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.withwho)에 친구의 userId를 넣어준다  */
-export  function ConversationList()  {
+export function ConversationList() {
   const [rooms, setRooms] = useState<RoomListResponse[]>([]);
   const dispatch = useAppDispatch();
   const userID = useAppSelector((state) => state.user.userId);
-
+  let roomId = '';
   useEffect(() => {
-    fetchRoomList(userID, (data: RoomListResponse[])=>{
+    fetchRoomList(userID, (data: RoomListResponse[]) => {
       setRooms(data);
-    })
+    });
   }, []);
 
-  return(
-  <DMmessageList>
-        <UnorderedList>
-          {rooms.map((room, index) => (
-            <ListTag
-              key={index}
-              onClick={() => {
-                dispatch(SetChattingRoomActivated(true));
-                dispatch(Setkey(room.friend.userId));
-              }}
-            >
-              <img
-                src={room.friend.profileImgurl}
-                alt={room.friend.username}
-                width="60"
-              />
-              <IDwithLastmessage>
-                <UserID>{room.friend.username}</UserID>
-                <div>{room.lastChat}</div>
-              </IDwithLastmessage>
-            </ListTag>
-          ))}
-        </UnorderedList>
-      </DMmessageList>
+  const userId = useAppSelector((state) => state.user.userId);
+  const friendId = useAppSelector((state) => state.dm.withWho);
+
+  let body = {
+    userId: userId,
+    friendId: friendId,
+    roomId: roomId,
+  };
+
+  const handleClick = async (room) => {
+    dispatch(SetChattingListActivateOnly());
+    try {
+      const response = await axios.post('/joinRoom', body);
+      if (response.data.status === 200) {
+        dispatch(SetChattingRoomActivated(true));
+        dispatch(Setkey(room.friend.userId));
+        dispatch(Setkey(response.data.payload.roomId));
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
+  return (
+    <DMmessageList>
+      <UnorderedList>
+        {rooms && rooms.map((room, index) => (
+          <ListTag
+            key={index}
+            onClick={(room) => {
+              handleClick(room);
+            }}
+          >
+            <img src={room.friend.profileImgurl} alt={room.friend.username} width="60" />
+            <IDwithLastmessage>
+              <UserID>{room.friend.username}</UserID>
+              <div>{room.lastChat}</div>
+            </IDwithLastmessage>
+          </ListTag>
+        ))}
+      </UnorderedList>
+    </DMmessageList>
   );
 }
