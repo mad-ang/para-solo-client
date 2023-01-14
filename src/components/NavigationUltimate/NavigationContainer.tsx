@@ -4,6 +4,7 @@ import ProfileAndConnection from './ProfileAndConnection/ProfileAndConnectionCon
 import SocialFunctions from './Social/SocialFunctionsContainer';
 import ProjectHuntingPochaPocha from './ShowProjectName/HuntingPochaPocha';
 import HelperButtonGroup from './Helpers/HelperButtonGroup';
+import Colors from 'src/utils/Colors';
 
 const Backdrop = styled.div`
   position: fixed;
@@ -20,19 +21,17 @@ const RedContainer = styled.div`
   gap: 10px;
   width: 100vw;
   height: 60px;
-  background-color: #CAB8FF;
+  background-color: ${Colors.indigo};
 `;
 
-
 export default function NavigationContainer() {
-  
   return (
-    <Backdrop className='myNavbar'>
+    <Backdrop className="myNavbar">
       <RedContainer>
-            <ProfileAndConnection/>
-            <SocialFunctions/>
-            <ProjectHuntingPochaPocha/>
-            <HelperButtonGroup/>
+        <ProfileAndConnection />
+        <SocialFunctions />
+        <ProjectHuntingPochaPocha />
+        <HelperButtonGroup />
       </RedContainer>
     </Backdrop>
   );

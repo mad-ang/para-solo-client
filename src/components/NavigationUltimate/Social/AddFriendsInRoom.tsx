@@ -5,17 +5,25 @@ import { SetAddFriendsActivated, SetAddFriendsActivateOnly } from '../../../stor
 import { useAppSelector, useAppDispatch } from '../../../hooks';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
+import Colors from 'src/utils/Colors';
 
-const StyledRedBox = styled.div`
+const StyledRedBox = styled.button`
   display: flex;
   justify-content: center;
-  width: 60px;
+  align-items: center;
+  width: 44px;
   height: 44px;
-  background-color: #CAB8FF;
-  box-shadow: 0 0 10px 0 #000000;
+  border: none;
+  border-radius: 30%;
+  background-color: ${Colors.indigo};
   font-size: 1rem;
   font-weight: 900;
+
+  &:hover {
+    background-color: ${Colors.violet};
+  }
 `;
+
 const ShowUsersInRoom = styled.div`
   position: fixed;
   bottom: 100px;
@@ -26,9 +34,6 @@ const ShowUsersInRoom = styled.div`
   height: 400px;
   width: 370px;
   border-radius: 25px;
-  box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 `;
 
 function ShowUsersInRoomModal(props) {
@@ -76,6 +81,7 @@ export default function AddFriendsInRoom() {
   return (
     <StyledRedBox>
       <GroupAddIcon
+        sx={{ color: '#fff' }}
         fontSize="large"
         onClick={() => {
           handleClick();

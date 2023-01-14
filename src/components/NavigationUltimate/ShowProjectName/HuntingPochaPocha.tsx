@@ -1,4 +1,5 @@
 import react from 'react';
+import Colors from 'src/utils/Colors';
 import styled from 'styled-components';
 
 const SexyChar = styled.span`
@@ -8,8 +9,8 @@ const SexyChar = styled.span`
   font-weight: 900;
   margin: 0 0.5rem;
   font-family: 'Nanum Gothic', sans-serif;
-  color: #C1FFD7;
-  background-color: #CAB8FF;
+  color: #c1ffd7;
+  background-color: ${Colors.indigo};
 `;
 
 const Wrapper = styled.div`
@@ -23,10 +24,7 @@ function ProjectNameChar(char: string) {
 export default function HuntingPochaPocha() {
   return (
     <Wrapper>
-          <img
-          src="/src/assets/navbar/Beach.png"
-          height={35}
-        />
+      <img src="/src/assets/navbar/Beach.png" height={35} />
       {ProjectNameChar('Solo')}
       {ProjectNameChar('Beach')}
     </Wrapper>

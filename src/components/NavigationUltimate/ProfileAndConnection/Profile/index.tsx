@@ -114,13 +114,7 @@ function ProfileEditModal(props) {
     <ProfileSettingEditor>
       <ProfileHeader>
         <TitleText>프로필 수정</TitleText>
-        <CloseButton
-          onClick={() => {
-            handleClick();
-          }}
-        >
-          X
-        </CloseButton>
+        <CloseButton onClick={handleClick}>X</CloseButton>
       </ProfileHeader>
       <ProfileBody>
         <ImageWrapper editable={editable}>
@@ -237,23 +231,22 @@ export default function ConnectionStatus() {
   );
   const dispatch = useAppDispatch();
 
-  function handleClick() {
+  function openProfile() {
     dispatch(SetProfileActivateOnly());
   }
 
   return (
     <div>
-      <StyledRedBox>
+      <StyledRedBox onClick={openProfile}>
         <img
           src="https://user-images.githubusercontent.com/63194662/211139459-96aa37f8-fcd9-4126-9a6b-52296fc3236c.png"
           height={35}
         />
         <UserNameDiv>왕십리꿀벅지</UserNameDiv>
-        <EditButton onClick={handleClick} className='profile-edit-button'>
-          <EditIcon sx={{ fontSize: 30 }}></EditIcon>
-        </EditButton>
-        {NavControllerProfileActivated ? <ProfileEditModal /> : null}
+
+        <EditIcon sx={{ fontSize: 30, color: '#fff' }}></EditIcon>
       </StyledRedBox>
+      {NavControllerProfileActivated ? <ProfileEditModal /> : null}
     </div>
   );
 }
@@ -262,30 +255,29 @@ interface EditableProps {
   editable: boolean;
 }
 
-const StyledRedBox = styled.div`
+const StyledRedBox = styled.button`
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 185px;
   height: 44px;
-  background-color: #CAB8FF;
-  box-shadow: 0 0 10px 0 #000000;
+  border: none;
+  border-radius: 12px;
+  background-color: ${Colors.indigo};
   font-size: 1rem;
   font-weight: 900;
   padding: 4x;
-`;
 
-const EditButton = styled.button`
-  background-color: #CAB8FF;
-  border: none;
-  &:hover{  
-    background-color : #D2CBFF;
-    color : red;
+  &:hover {
+    background-color: ${Colors.violet};
   }
 `;
 
 const UserNameDiv = styled.div`
   padding: 8px 2px;
   font-size: 1rem;
+  color: ${Colors.white};
+  margin-right: 5px;
 `;
 const ProfileSettingEditor = styled.div`
   position: fixed;
@@ -443,9 +435,9 @@ const ProfileBottom = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${Colors.red[2]};
+  background-color: ${Colors.violet};
   &:hover {
-    background-color: ${Colors.red[1]};
+    background-color: #7954a1;
   }
 `;
 
