@@ -5,6 +5,8 @@ import { BackgroundMode } from '../types/BackgroundMode';
 import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
 import { StreamTwoTone } from '@mui/icons-material';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 export function getInitialBackgroundMode() {
   const currentHour = new Date().getHours();
@@ -46,6 +48,7 @@ export const userSlice = createSlice({
       state.sessionId = action.payload;
     },
     setUserId: (state, action: PayloadAction<string>) => {
+      cookies.set('userId', action.payload, { path: '/' });
       state.userId = action.payload;
     },
     setVideoConnected: (state, action: PayloadAction<boolean>) => {
