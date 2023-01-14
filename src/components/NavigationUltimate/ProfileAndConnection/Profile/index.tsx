@@ -170,6 +170,7 @@ function ProfileEditModal(props) {
               <InfoLabelArea>{item.label}</InfoLabelArea>
               <InfoSelectionArea>
                 <InfoSelection
+                  menuPlacement={'top'}
                   isSearchable={editable}
                   menuIsOpen={!editable ? false : undefined}
                   value={
@@ -275,7 +276,6 @@ const UserNameDiv = styled.div`
 `;
 const ProfileSettingEditor = styled.div`
   position: fixed;
-  bottom: 100px;
   left: 0px;
   background-color: #ffffff;
   gap: 10px;
