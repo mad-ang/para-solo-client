@@ -2,6 +2,7 @@ import react, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import EditIcon from '@mui/icons-material/Edit';
 import { SetProfileActivated, SetProfileActivateOnly } from '../../../../stores/NavbarStore';
+import { setFocused } from 'src/stores/ChatStore';
 import { useAppSelector, useAppDispatch } from '../../../../hooks';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import Colors from 'src/utils/Colors';
@@ -23,27 +24,21 @@ import {
 function ProfileEditModal(props) {
   const [originalInfo, setOriginalInfo] = useState<any>(null);
   const [editable, setEditable] = useState(false);
-  const [username, setUsername] = useState(cookies.get('username'));
+  const [username, setUsername] = useState(cookies.get('playerName'));
   const [gender, setGender] = useState<Option | null>(null);
   const [age, setAge] = useState<Option | null>(null);
   const [height, setHeight] = useState<Option | null>(null);
   const dispatch = useAppDispatch();
+  const focused = useAppSelector((state) => state.chat.focused);
 
-  // const gender = useAppSelector((state) => state.user.gender);
-  // const genderOption = genderOptions.find((item) => item.value === gender);
-  // const age = useAppSelector((state) => state.user.age);
-  // const ageOption = ageOptions.find((item) => item.value === age);
-  // const height = useAppSelector((state) => state.user.height);
-  // const heightOption = heightOptions.find((item) => item.value === height);
   const usernameInputRef = useRef<HTMLInputElement>(null);
   function handleClick() {
     dispatch(SetProfileActivated(false));
   }
 
   const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newName = event.target.value;
-    cookies.set('username', newName, { path: '/' });
-    game.myPlayer.setPlayerName(newName);
+    if (!editable) return;
+    setUsername(event.target.value);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -52,6 +47,7 @@ function ProfileEditModal(props) {
       dispatch(SetProfileActivated(false));
     }
     if (event.key === 'Enter') {
+      if (editable) save();
       event.preventDefault();
       setEditable(!editable);
     }
@@ -83,6 +79,8 @@ function ProfileEditModal(props) {
         delete newUserInfo[keys[i]];
       }
     }
+    cookies.set('playerName', username, { path: '/' });
+    game.myPlayer.setPlayerName(username);
 
     (async () => {
       const userData = await updateUserInfo(newUserInfo);
@@ -153,6 +151,15 @@ function ProfileEditModal(props) {
               autoFocus={editable}
               onKeyDown={handleKeyDown}
               onChange={handleChangeUsername}
+              onFocus={() => {
+                if (!focused) {
+                  dispatch(setFocused(true));
+                }
+              }}
+              onBlur={() => {
+                dispatch(setFocused(false));
+              }}
+              inputProps={{ maxLength: 10 }}
             />
           </InputWrapper>
         </ProfileUserName>
@@ -432,6 +439,11 @@ const ProfileEditButton = styled.button`
   font-weight: 600;
   font-size: 20px;
   background: none;
+
+  outline: none;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const InputWrapper = styled.form`
