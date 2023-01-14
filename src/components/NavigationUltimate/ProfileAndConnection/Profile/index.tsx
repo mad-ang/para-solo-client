@@ -439,6 +439,7 @@ const ProfileBottom = styled.div`
 const ProfileEditButton = styled.button`
   border: none;
   width: 100%;
+  height: 100%;
   font-weight: 600;
   font-size: 20px;
   background: none;
