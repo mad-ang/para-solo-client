@@ -80,7 +80,6 @@ export default class Game extends Phaser.Scene {
 
     const interiorImage = this.map.addTilesetImage('interior', 'interior');
 
-
     const basementImage = this.map.addTilesetImage('basement', 'basement');
     const bigTreeImage = this.map.addTilesetImage('bigTree', 'bigTree');
 
@@ -122,8 +121,6 @@ export default class Game extends Phaser.Scene {
 
     const billboardImage = this.map.addTilesetImage('billboard', 'billboard');
 
-
-
     const GroundLayer = this.map.createLayer('ground', [
       floorTilesImage,
       modernExteriorsImage,
@@ -139,7 +136,6 @@ export default class Game extends Phaser.Scene {
       billboardImage,
       camping3Image,
     ]);
-
 
     // const chairs = this.physics.add.staticGroup({ classType: Chair });
     // const chairLayer = this.map.getObjectLayer('Objects');
