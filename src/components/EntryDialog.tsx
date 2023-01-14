@@ -110,7 +110,7 @@ export default function EntryDialog(props) {
   };
 
   useEffect(() => {
-    if (props.hasToken) {
+    if (props.hasToken && lobbyJoined) {
       const accessToken = cookies.get('accessToken');
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       handleConnect();

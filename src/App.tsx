@@ -26,7 +26,8 @@ import Game from './scenes/Game';
 import Bootstrap from 'scenes/Bootstrap';
 import Cookies from 'universal-cookie';
 import store from './stores';
-import { setLobbyJoined } from './stores/RoomStore';
+
+const cookies = new Cookies();
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
@@ -44,7 +45,6 @@ const Backdrop = styled.div`
 
 function App() {
   console.log(88888, import.meta.env.VITE_ENDPOINT);
-  const cookies = new Cookies();
 
   const tableDialogOpen = useAppSelector((state) => state.table.tableDialogOpen);
   const videoConnected = useAppSelector((state) => state.user.videoConnected);
@@ -75,8 +75,9 @@ function App() {
   } else {
     ui = (
       <CharacterSelectionDialog
-        playerName={cookies.get('playerName') || ''}
-        playerTexture={cookies.get('playerTexture') || ''}
+        hasToken={cookies.get('refreshToken') ? true : false}
+        playerName={cookies.get('playerName') || null}
+        playerTexture={cookies.get('playerTexture') || null}
       />
     );
   }
