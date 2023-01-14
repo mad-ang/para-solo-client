@@ -389,6 +389,7 @@ const ProfileUserName = styled.div<EditableProps>`
   margin-top: 14px;
   font-size: 20px;
   font-weight: 600;
+  border-radius: 6px;
   border: ${(props) => (props.editable ? '1px solid #c4564c' : '1px solid transparent')};
   cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
 `;
@@ -397,6 +398,7 @@ const InfoContainer = styled.div<EditableProps>`
   padding: 5px;
   margin-top: 14px;
   width: 100%;
+  border-radius: 6px;
   border: ${(props) => (props.editable ? '1px solid #c4564c' : '1px solid transparent')};
   cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
 `;
