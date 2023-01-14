@@ -22,6 +22,7 @@ import { getAvatarString, getColorByString } from '../util';
 import Cookies from 'universal-cookie';
 import phaserGame from '../PhaserGame';
 import Game from '../scenes/Game';
+const cookies = new Cookies();
 
 const Wrapper = styled.form`
   position: fixed;
@@ -141,6 +142,7 @@ for (let i = avatars.length - 1; i > 0; i--) {
 }
 
 export default function CharacterSelectionDialog(props) {
+  console.log('CharacterSelectionDialog props', props);
   const [name, setName] = useState<string>(props.playerName);
   const [avatarIndex, setAvatarIndex] = useState<number>(0);
   const [nameFieldEmpty, setNameFieldEmpty] = useState<boolean>(false);
@@ -157,7 +159,6 @@ export default function CharacterSelectionDialog(props) {
       setNameFieldEmpty(true);
     } else if (enteringProcess === ENTERING_PROCESS.CHARACTER_SELECTION) {
       console.log('Join! Name:', name, 'Avatar:', avatars[avatarIndex].name);
-      const cookies = new Cookies();
       game.registerKeys();
       game.myPlayer.setPlayerName(name);
       game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
@@ -168,6 +169,20 @@ export default function CharacterSelectionDialog(props) {
     }
   };
 
+  useEffect(() => {
+    if (props.hasToken && props.playerName && props.playerTexture) {
+      console.log('Join! Name:', name, 'Avatar:', avatars[avatarIndex].name);
+      game.registerKeys();
+      game.myPlayer.setPlayerName(name);
+      game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
+      game.network.readyToConnect();
+      cookies.set('playerName', name);
+      cookies.set('playerTexture', avatars[avatarIndex].name);
+      dispatch(setCharacterSelected(true));
+    }
+  }, []);
+
+  if (props.hasToken && props.playerName && props.playerTexture) return <></>;
   return (
     <Wrapper onSubmit={handleSubmit}>
       <Title>입장하기</Title>

@@ -137,7 +137,7 @@ export default function SignUpDialog() {
             (userIdFieldWrong && '이미 존재하는 아이디입니다.')
           }
           onInput={(e) => {
-            setUserId((e.target as HTMLInputElement).value);
+            setUserId((e.target as HTMLInputElement).value?.trim());
           }}
         />
         <TextField
