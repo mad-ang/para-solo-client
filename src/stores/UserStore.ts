@@ -27,6 +27,8 @@ export const userSlice = createSlice({
     sessionId: '',
     userId: '',
     videoConnected: false,
+    webcamAudioStatus: false,
+    webcamVideoStatus: false,
     playerNameMap: new Map<string, string>(),
     enteringProcess: ENTERING_PROCESS.ENTRY,
     characterSelected: false,
@@ -53,6 +55,12 @@ export const userSlice = createSlice({
     },
     setVideoConnected: (state, action: PayloadAction<boolean>) => {
       state.videoConnected = action.payload;
+    },
+    setwebcamAudioStatus: (state, action: PayloadAction<boolean>) => {
+      state.webcamAudioStatus = action.payload;
+    },
+    setwebcamVideoStatus: (state, action: PayloadAction<boolean>) => {
+      state.webcamVideoStatus = action.payload;
     },
     setCharacterSelected: (state, action: PayloadAction<boolean>) => {
       state.characterSelected = action.payload;
@@ -86,6 +94,8 @@ export const {
   setSessionId,
   setUserId,
   setVideoConnected,
+  setwebcamAudioStatus,
+  setwebcamVideoStatus,
   setPlayerNameMap,
   removePlayerNameMap,
   setEnteringProcess,

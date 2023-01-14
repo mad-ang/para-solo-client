@@ -249,7 +249,7 @@ export default function ConnectionStatus() {
           height={35}
         />
         <UserNameDiv>왕십리꿀벅지</UserNameDiv>
-        <EditButton onClick={handleClick}>
+        <EditButton onClick={handleClick} className='profile-edit-button'>
           <EditIcon sx={{ fontSize: 30 }}></EditIcon>
         </EditButton>
         {NavControllerProfileActivated ? <ProfileEditModal /> : null}
@@ -276,6 +276,11 @@ const StyledRedBox = styled.div`
 
 const EditButton = styled.button`
   background-color: #CAB8FF;
+  border: none;
+  &:hover{  
+    background-color : #D2CBFF;
+    color : red;
+  }
 `;
 
 const UserNameDiv = styled.div`

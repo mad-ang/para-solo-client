@@ -1,7 +1,7 @@
 import Peer from 'peerjs';
 import Network from '../services/Network';
 import store from '../stores';
-import { setVideoConnected } from '../stores/UserStore';
+import { setVideoConnected, setwebcamAudioStatus, setwebcamVideoStatus } from '../stores/UserStore';
 
 export default class WebRTC {
   private myPeer: Peer;
@@ -72,6 +72,8 @@ export default class WebRTC {
         this.addVideoStream(this.myVideo, this.myStream);
         // this.setUpButtons();
         store.dispatch(setVideoConnected(true));
+        store.dispatch(setwebcamAudioStatus(true));
+        store.dispatch(setwebcamVideoStatus(true));
         this.network.videoConnected();
       })
       .catch((error) => {
@@ -177,8 +179,10 @@ export default class WebRTC {
       const videoTrack = this.myStream.getVideoTracks()[0];
       if (videoTrack.enabled) {
         videoTrack.enabled = false;
+        store.dispatch(setwebcamVideoStatus(false));
       } else {
         videoTrack.enabled = true;
+        store.dispatch(setwebcamVideoStatus(true));
       }
     }
   }
@@ -187,8 +191,10 @@ export default class WebRTC {
       const audioTrack = this.myStream.getAudioTracks()[0];
       if (audioTrack.enabled) {
         audioTrack.enabled = false;
+        store.dispatch(setwebcamAudioStatus(false));
       } else {
         audioTrack.enabled = true;
+        store.dispatch(setwebcamAudioStatus(true));
       }
     }
   }
