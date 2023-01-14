@@ -152,6 +152,7 @@ export default function CharacterSelectionDialog(props) {
   const roomName = useAppSelector((state) => state.room.roomName);
   const roomDescription = useAppSelector((state) => state.room.roomDescription);
   const game = phaserGame.scene.keys.game as Game;
+  const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -170,14 +171,14 @@ export default function CharacterSelectionDialog(props) {
   };
 
   useEffect(() => {
-    if (props.hasToken && props.playerName && props.playerTexture) {
+    if (game && game.myPlayer && props.hasToken && props.playerName && props.playerTexture) {
       game.registerKeys();
       game.myPlayer.setPlayerName(props.playerName || name);
       game.myPlayer.setPlayerTexture(props.playerTexture || avatars[avatarIndex].name);
       game.network.readyToConnect();
       dispatch(setCharacterSelected(true));
     }
-  });
+  }, [game, game?.myPlayer]);
 
   if (props.hasToken && props.playerName && props.playerTexture) return <></>;
   return (
