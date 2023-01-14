@@ -62,7 +62,28 @@ function ProfileEditModal(props) {
       </ProfileHeader>
       <ProfileBody>
         <ImageWrapper editable={editable}>
-          <ProfileAvatarImage src={DefaultAvatar} />
+          {editable ? (
+            <div className="personal-image">
+              <label className="label">
+                <input type="file" />
+                <figure className="personal-figure">
+                  <ProfileAvatarImage
+                    src={DefaultAvatar}
+                    className="personal-avatar"
+                    alt="avatar"
+                    style={{ marginTop: -17 }}
+                  />
+                  <figcaption className="personal-figcaption">
+                    <ProfileAvatarImage src="https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png" />
+                  </figcaption>
+                </figure>
+              </label>
+            </div>
+          ) : (
+            <div className="personal-image">
+              <ProfileAvatarImage src={DefaultAvatar} className="personal-avatar" alt="avatar" />
+            </div>
+          )}
         </ImageWrapper>
         <ProfileUserName editable={editable}>
           <InputWrapper>
@@ -219,16 +240,68 @@ const ProfileBody = styled.div`
 `;
 
 const ImageWrapper = styled.div<EditableProps>`
-  margin-top: 32px;
+  margin-top: 20px;
   width: 98px;
   height: 98px;
-  border-radius: 50%;
+  border-radius: 100%;
   border: ${(props) => (props.editable ? '1px solid #c4564c' : '1px solid transparent')};
   cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .personal-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .personal-image input[type='file'] {
+    display: none;
+  }
+  .personal-figure {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .personal-avatar {
+    box-sizing: border-box;
+    border-radius: 100%;
+    border: 2px solid transparent;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+    transition: all ease-in-out 0.3s;
+  }
+  .personal-avatar:hover {
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
+  }
+  .personal-figcaption {
+    cursor: pointer;
+    position: absolute;
+    top: 0px;
+    width: 98px;
+    height: 98px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0);
+    transition: all ease-in-out 0.3s;
+  }
+  .personal-figcaption:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .personal-figcaption > img {
+    width: 50px;
+    height: 50px;
+  }
 `;
 
 const ProfileAvatarImage = styled.img`
-  width: 100%;
+  width: 98px;
+  height: 98px;
 `;
 
 const ProfileUserName = styled.div<EditableProps>`
