@@ -115,7 +115,7 @@ export default function EntryDialog(props) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       handleConnect();
     }
-  });
+  }, [lobbyJoined]);
 
   return (
     <>
