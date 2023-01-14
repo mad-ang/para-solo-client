@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import DMboxSVG from '../../../assets/directmessage/DM.svg';
 import channelTalkPNG from '../../../assets/directmessage/channeltalk.png';
 import { InsideChattingRoom } from '../ChattingRoom/ChattingRoom';
-import { DMSlice, Setkey } from '../../../../../stores/DMboxStore';
+import { DMSlice, setkey } from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import { ConversationList } from './DirectMessageBox_ConversationList';
 import { DMboxHeader } from './DirectMessageBox_Header';
@@ -20,7 +20,7 @@ const StyledRedBox = styled.div`
   justify-content: center;
   width: 60px;
   height: 44px;
-  background-color: #CAB8FF;
+  background-color: #cab8ff;
   box-shadow: 0 0 10px 0 #000000;
   font-size: 1rem;
   font-weight: 900;
@@ -130,7 +130,7 @@ function DMbox() {
     <DMwrapper>
       <DMboxHeader />
       <DMSearchConversation />
-      <ConversationList/>
+      <ConversationList />
     </DMwrapper>
   );
 }

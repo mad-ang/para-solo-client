@@ -4,7 +4,7 @@ import DMboxSVG from '../../../assets/directmessage/DM.svg';
 import channelTalkPNG from '../../../assets/directmessage/channeltalk.png';
 import { useNavigate } from 'react-router-dom';
 import { blue } from '@mui/material/colors';
-import { DMSlice, Setkey } from '../../../../../stores/DMboxStore';
+import { DMSlice, setkey, setRoomId } from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import {
   SetChattingRoomActivated,
@@ -83,8 +83,8 @@ export function ConversationList() {
       const response = await axios.post('/joinRoom', body);
       if (response.data.status === 200) {
         dispatch(SetChattingRoomActivated(true));
-        dispatch(Setkey(room.friend.userId));
-        dispatch(Setkey(response.data.payload.roomId));
+        dispatch(setkey(room.friend.userId));
+        dispatch(setRoomId(response.data.payload.roomId));
       }
     } catch (error) {
       console.log('error', error);
@@ -94,20 +94,21 @@ export function ConversationList() {
   return (
     <DMmessageList>
       <UnorderedList>
-        {rooms && rooms.map((room, index) => (
-          <ListTag
-            key={index}
-            onClick={(room) => {
-              handleClick(room);
-            }}
-          >
-            <img src={room.friend.profileImgurl} alt={room.friend.username} width="60" />
-            <IDwithLastmessage>
-              <UserID>{room.friend.username}</UserID>
-              <div>{room.lastChat}</div>
-            </IDwithLastmessage>
-          </ListTag>
-        ))}
+        {rooms &&
+          rooms.map((room, index) => (
+            <ListTag
+              key={index}
+              onClick={(room) => {
+                handleClick(room);
+              }}
+            >
+              <img src={room.friend.profileImgurl} alt={room.friend.username} width="60" />
+              <IDwithLastmessage>
+                <UserID>{room.friend.username}</UserID>
+                <div>{room.lastChat}</div>
+              </IDwithLastmessage>
+            </ListTag>
+          ))}
       </UnorderedList>
     </DMmessageList>
   );

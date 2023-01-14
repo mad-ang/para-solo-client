@@ -13,6 +13,7 @@ export const DMSlice = createSlice({
     dmProcess: DMProcess,
     directMessages: Message,
     showDM: true,
+    roomId: '',
     // listORroom: true, // true: list, false: room
 
     withWho: '',
@@ -27,12 +28,15 @@ export const DMSlice = createSlice({
     // SetFalselistORroom: (state) => {
     //   state.listORroom = false;
     // },
-    Setkey: (state, action: PayloadAction<string>) => {
+    setkey: (state, action: PayloadAction<string>) => {
       state.withWho = action.payload;
+    },
+    setRoomId: (state, action: PayloadAction<string>) => {
+      state.roomId = action.payload;
     },
   },
 });
 
-export const { Setkey, setShowDM } = DMSlice.actions;
+export const { setkey, setShowDM, setRoomId } = DMSlice.actions;
 
 export default DMSlice.reducer;
