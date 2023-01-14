@@ -50,12 +50,10 @@ export default function BottomAppBar(props) {
         onFocus={() => {
           if (!focused) {
             dispatch(setFocused(true));
-            // setReadyToSubmit(true);
           }
         }}
         onBlur={() => {
           dispatch(setFocused(false));
-          // setReadyToSubmit(false);
         }}
         value={value}
         fullWidth

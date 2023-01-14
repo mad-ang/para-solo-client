@@ -80,6 +80,7 @@ export interface CreateRoomResponse {
 export interface RoomListResponse {
   friend: UserResponseDto;
   lastChat: string;
+  roomId: number;
   // updatedAt: Date;
   // lastReadChatId: number;
 }
@@ -110,4 +111,5 @@ export interface ServerToClientEvents {
 export interface ClientToServerEvents {
   hello: () => void;
   chatting: (chat: ChatDto) => void;
+  test: (chat: string) => void;
 }
