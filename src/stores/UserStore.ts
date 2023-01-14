@@ -22,13 +22,16 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {
     backgroundMode: getInitialBackgroundMode(),
-    sessionId: "",
-    userId: "",
+    sessionId: '',
+    userId: '',
     videoConnected: false,
     playerNameMap: new Map<string, string>(),
     enteringProcess: ENTERING_PROCESS.ENTRY,
     characterSelected: false,
     accessToken: '',
+    gender: '',
+    age: '',
+    height: '',
   },
   reducers: {
     toggleBackgroundMode: (state) => {
@@ -63,6 +66,15 @@ export const userSlice = createSlice({
     setAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload;
     },
+    setGender: (state, action: PayloadAction<string>) => {
+      state.gender = action.payload;
+    },
+    setAge: (state, action: PayloadAction<string>) => {
+      state.age = action.payload;
+    },
+    setHeight: (state, action: PayloadAction<string>) => {
+      state.height = action.payload;
+    },
   },
 });
 
@@ -76,6 +88,9 @@ export const {
   setEnteringProcess,
   setCharacterSelected,
   setAccessToken,
+  setGender,
+  setAge,
+  setHeight,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -7,23 +7,38 @@ import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import Colors from 'src/utils/Colors';
 import InputBase from '@mui/material/InputBase';
 import Select from 'react-select';
-import { infoItemList, Option } from './data';
-import { getUserInfo } from 'src/api/auth';
+import { infoItemList, Option, genderOptions, ageOptions, heightOptions } from './data';
+import { getUserInfo, updateUserInfo } from 'src/api/auth';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+import Game from 'src/scenes/Game';
+import phaserGame from 'src/PhaserGame';
+const game = phaserGame.scene.keys.game as Game;
 
 function ProfileEditModal(props) {
+  const [originalInfo, setOriginalInfo] = useState<any>(null);
   const [editable, setEditable] = useState(false);
-  const [username, setUsername] = useState('ㅇㅇㅇ');
+  const [username, setUsername] = useState(cookies.get('username'));
   const [gender, setGender] = useState<Option | null>(null);
   const [age, setAge] = useState<Option | null>(null);
   const [height, setHeight] = useState<Option | null>(null);
   const dispatch = useAppDispatch();
+
+  // const gender = useAppSelector((state) => state.user.gender);
+  // const genderOption = genderOptions.find((item) => item.value === gender);
+  // const age = useAppSelector((state) => state.user.age);
+  // const ageOption = ageOptions.find((item) => item.value === age);
+  // const height = useAppSelector((state) => state.user.height);
+  // const heightOption = heightOptions.find((item) => item.value === height);
   const usernameInputRef = useRef<HTMLInputElement>(null);
   function handleClick() {
     dispatch(SetProfileActivated(false));
   }
 
   const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
+    const newName = event.target.value;
+    cookies.set('username', newName, { path: '/' });
+    game.myPlayer.setPlayerName(newName);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -44,8 +59,37 @@ function ProfileEditModal(props) {
     }
   };
 
+  const save = () => {
+    setEditable(!editable);
+    if (usernameInputRef?.current) {
+      usernameInputRef.current.blur();
+    }
+
+    const newUserInfo = {
+      username: username,
+      gender: gender,
+      age: age,
+      height: height,
+    };
+
+    const keys = Object.keys(originalInfo);
+    for (let i = 0; i < keys.length; i++) {
+      if (originalInfo[keys[i]] == newUserInfo[keys[i]]) {
+        delete newUserInfo[keys[i]];
+      }
+    }
+
+    const result = updateUserInfo(newUserInfo);
+    console.log(result);
+  };
+
   useEffect(() => {
-    getUserInfo(() => {});
+    const userData = getUserInfo();
+    setOriginalInfo(userData);
+    setUsername(userData.username);
+    setGender(userData.username);
+    setAge(userData.age);
+    setHeight(userData.height);
   }, []);
 
   return (
@@ -104,6 +148,8 @@ function ProfileEditModal(props) {
               <InfoLabelArea>{item.label}</InfoLabelArea>
               <InfoSelectionArea>
                 <InfoSelection
+                  isSearchable={editable}
+                  menuIsOpen={!editable ? false : undefined}
                   value={
                     item.id === 1
                       ? gender
@@ -126,7 +172,18 @@ function ProfileEditModal(props) {
                       : () => {};
                   }}
                   options={item.options}
-                  styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+                  styles={{
+                    menuPortal: (base) => ({
+                      ...base,
+                      zIndex: 9999,
+                    }),
+                    control: (base, state) => ({
+                      ...base,
+                      '&:hover': { borderColor: 'lightgray' },
+                      border: '1px solid lightgray',
+                      boxShadow: 'none',
+                    }),
+                  }}
                   menuPortalTarget={document.body}
                 />
               </InfoSelectionArea>
@@ -135,7 +192,9 @@ function ProfileEditModal(props) {
         </InfoContainer>
       </ProfileBody>
       <ProfileBottom>
-        <ProfileEditButton onClick={edit}>{editable ? '저장' : '프로필 편집'}</ProfileEditButton>
+        <ProfileEditButton onClick={editable ? save : edit}>
+          {editable ? '저장' : '프로필 편집'}
+        </ProfileEditButton>
       </ProfileBottom>
     </ProfileSettingEditor>
   );
