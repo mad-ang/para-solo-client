@@ -78,42 +78,85 @@ export default class Game extends Phaser.Scene {
 
     this.map = this.make.tilemap({ key: 'tilemap' });
 
-    const TileImage = this.map.addTilesetImage('tiles', 'tiles');
+    const interiorImage = this.map.addTilesetImage('interior', 'interior');
 
-    const BuildingImage = this.map.addTilesetImage('buildings', 'buildings');
 
-    const InteriorImage = this.map.addTilesetImage('interior', 'interior');
+    const basementImage = this.map.addTilesetImage('basement', 'basement');
+    const bigTreeImage = this.map.addTilesetImage('bigTree', 'bigTree');
 
-    // debugDraw(groundLayer, this)
-    const GrassLayer = this.map.createLayer('grass', [TileImage, InteriorImage]);
+    // 얘는 스프라이트 이미지로 움직이게 해야 함
+    const boatImage = this.map.addTilesetImage('boat', 'boat');
 
-    const BuildingLayer = this.map.createLayer('buildings', BuildingImage);
+    const campingImage = this.map.addTilesetImage('camping', 'camping');
+    const campingZoneImage = this.map.addTilesetImage('campingZone', 'campingZone');
 
-    const SwingLayer = this.map.createLayer('swing', TileImage);
+    const camping3Image = this.map.addTilesetImage('camping3', 'camping3');
 
-    const ForeGround = this.map.createLayer('foreground', [
-      TileImage,
-      BuildingImage,
-      InteriorImage,
+    const genericImage = this.map.addTilesetImage('generic', 'generic');
+    const genericBuildingsImgae = this.map.addTilesetImage('genericBuildings', 'genericBuildings');
+
+    const picnicImage = this.map.addTilesetImage('picnic', 'picnic');
+    const playgroundImage = this.map.addTilesetImage('playground', 'playground');
+    const tentImage = this.map.addTilesetImage('tent', 'tent');
+
+    const modernExteriorsImage = this.map.addTilesetImage('modernExteriors', 'modernExteriors');
+
+    const floorTilesImage = this.map.addTilesetImage('floorTiles', 'floorTiles');
+
+    const fencesImage = this.map.addTilesetImage('fences', 'fences');
+
+    // 빌라에 돗자리,나무,꽃,벤치,의자 이쁜거 다 있음
+    const villasImage = this.map.addTilesetImage('villas', 'villas');
+
+    // vehicles 에 푸드트럭, 보트 이미지 있음
+    const vehiclesImage = this.map.addTilesetImage('vehicles', 'vehicles');
+
+    const waterToyImage = this.map.addTilesetImage('waterToy', 'waterToy');
+
+    const tileImage = this.map.addTilesetImage('tiles', 'tiles');
+    const waterBridgeImage = this.map.addTilesetImage('waterBridge', 'waterBridge');
+    const buildingsImage = this.map.addTilesetImage('buildings', 'buildings');
+
+    // 이하 animated tileset
+    const boat1Image = this.map.addTilesetImage('boat1', 'boat1');
+
+    const billboardImage = this.map.addTilesetImage('billboard', 'billboard');
+
+
+
+    const GroundLayer = this.map.createLayer('ground', [
+      floorTilesImage,
+      modernExteriorsImage,
+      fencesImage,
+      waterToyImage,
+      tileImage,
+      waterBridgeImage,
     ]);
-    const cafeLayer = this.map.createLayer('cafe', InteriorImage);
+    const fencesLayer = this.map.createLayer('fences', interiorImage);
 
-    const cafe_fenceLayer = this.map.createLayer('cafe_fence', [TileImage, InteriorImage]);
-    const chairs = this.physics.add.staticGroup({ classType: Chair });
-    const chairLayer = this.map.getObjectLayer('Objects');
-    chairLayer.objects.forEach((obj, i) => {
-      const item = this.addObjectFromTiled(chairs, obj, 'interior', 'interior') as Chair;
-      //   item.setDepth(item.y + item.height * 0.27);
-      const tableId = `${Math.floor(i / 4)}`;
-      const chairId = `${i}`;
-      // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
-      //   item.itemDirection = chairObj.properties[0].value
-      item.itemDirection = 'down';
-      item.tableId = tableId;
-      item.chairId = chairId;
-      this.tableMap.set(tableId, item);
-      this.chairMap.set(chairId, item);
-    });
+    const buildingsLayer = this.map.createLayer('buildings', [
+      boat1Image,
+      billboardImage,
+      camping3Image,
+    ]);
+
+
+    // const chairs = this.physics.add.staticGroup({ classType: Chair });
+    // const chairLayer = this.map.getObjectLayer('Objects');
+
+    // chairLayer.objects.forEach((obj, i) => {
+    //   const item = this.addObjectFromTiled(chairs, obj, 'interior', 'interior') as Chair;
+    //   //   item.setDepth(item.y + item.height * 0.27);
+    //   const tableId = `${Math.floor(i / 4)}`;
+    //   const chairId = `${i}`;
+    //   // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
+    //   //   item.itemDirection = chairObj.properties[0].value
+    //   item.itemDirection = 'down';
+    //   item.tableId = tableId;
+    //   item.chairId = chairId;
+    //   this.tableMap.set(tableId, item);
+    //   this.chairMap.set(chairId, item);
+    // });
 
     // const chairs = this.physics.add.staticGroup({ classType: Chair });
     // const chairLayer = this.map.getObjectLayer("Objects");
@@ -131,13 +174,13 @@ export default class Game extends Phaser.Scene {
     //   //   item.itemDirection = chairObj.properties[0].value
     // });
 
-    ForeGround.setDepth(6000);
+    // ForeGround.setDepth(6000);
 
-    GrassLayer.setCollisionByProperty({ collisions: true });
-    BuildingLayer.setCollisionByProperty({ collisions: true });
-    SwingLayer.setCollisionByProperty({ collisions: true });
-    cafeLayer.setCollisionByProperty({ collisions: true });
-    cafe_fenceLayer.setCollisionByProperty({ collisions: true });
+    // GrassLayer.setCollisionByProperty({ collisions: true });
+    // BuildingLayer.setCollisionByProperty({ collisions: true });
+    // SwingLayer.setCollisionByProperty({ collisions: true });
+    // cafeLayer.setCollisionByProperty({ collisions: true });
+    // cafe_fenceLayer.setCollisionByProperty({ collisions: true });
 
     const userId = store.getState().user?.userId || this.network.userId;
     this.myPlayer = this.add.myPlayer(
@@ -153,28 +196,30 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.zoom = 2;
     this.cameras.main.startFollow(this.myPlayer, true);
 
-    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], GrassLayer);
+    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], GroundLayer);
+    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], ForegroundLayer);
 
-    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], BuildingLayer);
+    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], GrassLayer);
+    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], BuildingLayer);
+    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], SwingLayer);
+    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], cafeLayer);
+    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], fencesLayer);
 
-    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], SwingLayer);
-    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], cafeLayer);
-    this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], cafe_fenceLayer);
+    // this.physics.add.overlap(
+    //   this.playerSelector,
+    //   [chairs],
+    //   this.handleItemSelectorOverlap,
+    //   undefined,
+    //   this
+    // );
 
     this.physics.add.overlap(
-      this.playerSelector,
-      [chairs],
-      this.handleItemSelectorOverlap,
-      undefined,
-      this
-    );
-
-    this. physics.add.overlap(
       this.playerSelector,
       this.otherPlayers,
       this.handleClosePlayerOverlap,
       undefined,
-      this);
+      this
+    );
 
     this.physics.add.overlap(
       this.myPlayer,
@@ -287,20 +332,18 @@ export default class Game extends Phaser.Scene {
     if (myPlayer.playerBehavior === PlayerBehavior.SITTING) {
       return;
     }
-    
+
     otherPlayer.makeCall(myPlayer, this.network?.webRTC);
   }
   private handleClosePlayerOverlap(playerSelector, otherPlayer) {
     if (this.myPlayer.playerBehavior === PlayerBehavior.SITTING) {
-        return;
+      return;
     }
     const currentClosePlayer = playerSelector.closePlayer as OtherPlayer;
     // currentItem is undefined if nothing was perviously selected
     if (currentClosePlayer) {
       // if the selection has not changed, do nothing
-      if (
-        currentClosePlayer === otherPlayer
-      ) {
+      if (currentClosePlayer === otherPlayer) {
         return;
       }
       // if (this.myPlayer.playerBehavior !== PlayerBehavior.SITTING)
@@ -309,15 +352,10 @@ export default class Game extends Phaser.Scene {
     // set selected item and set up new dialog
     playerSelector.closePlayer = otherPlayer;
     // .onOverlapDialog()
-
   }
 
-  private handleItemUserAdded(
-    playerId: string,
-    itemId: string,
-    itemType: ItemType
-  ) {
-    console.log("handleItemUserAdded");
+  private handleItemUserAdded(playerId: string, itemId: string, itemType: ItemType) {
+    console.log('handleItemUserAdded');
 
     if (itemType === ItemType.CHAIR) {
       const table = this.tableMap.get(itemId);
