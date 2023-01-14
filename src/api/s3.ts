@@ -15,4 +15,12 @@ const s3 = new AWS.S3({
   params: { Bucket: bucketName },
 });
 
-const addImage = (e) => {};
+const addImage = (albumName, files) => {
+  if (!files || files.length === 0) {
+    return alert('이미지를 선택해주세요.');
+  }
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+  }
+};
