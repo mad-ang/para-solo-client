@@ -21,7 +21,9 @@ import {
   setHeight as setStoreHeight,
 } from 'src/stores/UserStore';
 
+
 function ProfileEditModal(props) {
+  const [userProfile, setUserProfile] = useState<any>(null);
   const [originalInfo, setOriginalInfo] = useState<any>(null);
   const [editable, setEditable] = useState(false);
   const [username, setUsername] = useState(cookies.get('playerName'));
@@ -37,6 +39,13 @@ function ProfileEditModal(props) {
   function handleClick() {
     dispatch(SetProfileActivated(false));
   }
+
+  const handleChangeUserProfile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event?.target?.files;
+    if (!files) return;
+
+    // setUserProfile()
+  };
 
   const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!editable) return;
@@ -121,7 +130,7 @@ function ProfileEditModal(props) {
           {editable ? (
             <div className="personal-image">
               <label className="label">
-                <input type="file" />
+                <input type="file" onChange={handleChangeUserProfile} />
                 <figure className="personal-figure">
                   <ProfileAvatarImage
                     src={DefaultAvatar}
