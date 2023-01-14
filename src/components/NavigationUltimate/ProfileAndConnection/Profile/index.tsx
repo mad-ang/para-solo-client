@@ -170,6 +170,7 @@ function ProfileEditModal(props) {
               <InfoLabelArea>{item.label}</InfoLabelArea>
               <InfoSelectionArea>
                 <InfoSelection
+                  components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
                   menuPlacement={'top'}
                   isSearchable={editable}
                   menuIsOpen={!editable ? false : undefined}
