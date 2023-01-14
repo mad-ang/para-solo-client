@@ -29,9 +29,11 @@ function ProfileEditModal(props) {
   const [age, setAge] = useState<Option | null>(null);
   const [height, setHeight] = useState<Option | null>(null);
   const dispatch = useAppDispatch();
+  let refIndex = 0;
   const focused = useAppSelector((state) => state.chat.focused);
 
-  const usernameInputRef = useRef<HTMLInputElement>(null);
+  const inputRefs = useRef<any>([]);
+
   function handleClick() {
     dispatch(SetProfileActivated(false));
   }
@@ -44,27 +46,30 @@ function ProfileEditModal(props) {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Escape') {
       // move focus back to the game
-      dispatch(SetProfileActivated(false));
-      dispatch(setFocused(false));
+      setEditable(false);
     }
     if (event.key === 'Enter') {
-      if (editable) save();
-      event.preventDefault();
-      setEditable(!editable);
+      try {
+        event.preventDefault();
+        inputRefs.current[++refIndex].focus();
+      } catch (error) {
+        // setEditable(false);
+        // if (editable) save();
+      }
     }
   };
 
   const edit = () => {
     setEditable(!editable);
-    if (usernameInputRef?.current) {
-      usernameInputRef.current.focus();
+    if (inputRefs?.current) {
+      inputRefs.current[0].focus();
     }
   };
 
   const save = () => {
     setEditable(!editable);
-    if (usernameInputRef?.current) {
-      usernameInputRef.current.blur();
+    if (inputRefs?.current) {
+      inputRefs.current.blur();
     }
 
     const newUserInfo = {
@@ -145,7 +150,7 @@ function ProfileEditModal(props) {
         <ProfileUserName editable={editable}>
           <InputWrapper>
             <InputTextField
-              inputRef={usernameInputRef}
+              inputRef={(el) => (inputRefs.current[0] = el)}
               readOnly={!editable}
               value={username}
               placeholder={'사용자 이름'}
@@ -165,11 +170,15 @@ function ProfileEditModal(props) {
           </InputWrapper>
         </ProfileUserName>
         <InfoContainer editable={editable}>
-          {infoItemList?.map((item) => (
+          {infoItemList?.map((item, index) => (
             <InfoItem key={item.id}>
               <InfoLabelArea>{item.label}</InfoLabelArea>
               <InfoSelectionArea>
                 <InfoSelection
+                  ref={(el) => (inputRefs.current[index + 1] = el)}
+                  onKeyDown={handleKeyDown}
+                  components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
+                  menuPlacement={'top'}
                   isSearchable={editable}
                   menuIsOpen={!editable ? false : undefined}
                   value={
@@ -275,7 +284,6 @@ const UserNameDiv = styled.div`
 `;
 const ProfileSettingEditor = styled.div`
   position: fixed;
-  bottom: 100px;
   left: 0px;
   background-color: #ffffff;
   gap: 10px;
@@ -389,6 +397,7 @@ const ProfileUserName = styled.div<EditableProps>`
   margin-top: 14px;
   font-size: 20px;
   font-weight: 600;
+  border-radius: 6px;
   border: ${(props) => (props.editable ? '1px solid #c4564c' : '1px solid transparent')};
   cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
 `;
@@ -397,6 +406,7 @@ const InfoContainer = styled.div<EditableProps>`
   padding: 5px;
   margin-top: 14px;
   width: 100%;
+  border-radius: 6px;
   border: ${(props) => (props.editable ? '1px solid #c4564c' : '1px solid transparent')};
   cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
 `;
@@ -437,6 +447,7 @@ const ProfileBottom = styled.div`
 const ProfileEditButton = styled.button`
   border: none;
   width: 100%;
+  height: 100%;
   font-weight: 600;
   font-size: 20px;
   background: none;

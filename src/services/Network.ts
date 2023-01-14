@@ -19,6 +19,8 @@ import {
   pushPlayerLeftMessage,
 } from '../stores/ChatStore';
 import { useAppSelector } from '../hooks';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 export default class Network {
   private client: Client;
   private room?: Room<ITownState>;
@@ -28,12 +30,10 @@ export default class Network {
   mySessionId!: string;
 
   constructor() {
-    
     const endpoint =
       process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
         ? `wss://${import.meta.env.VITE_SERVER_URL}`
         : `ws://${window.location.hostname}:8080`;
- 
 
     console.log(process.env.NODE_ENV);
     this.client = new Client(endpoint);
@@ -84,11 +84,9 @@ export default class Network {
 
     this.lobby.leave();
     this.mySessionId = this.room.sessionId;
-    this.userId = '초기 유저 아이디';
+    this.userId = cookies.get('userId');
     store.dispatch(setSessionId(this.room.sessionId));
     this.webRTC = new WebRTC(this.mySessionId, this);
-    console.log('onAdd 시에 this.room.sessionId', this.room.sessionId);
-    console.log('onAdd 시에 userId', store.getState().user);
 
     // new instance added to the players MapSchema
     this.room.state.players.onAdd = (player: IPlayer, key: string) => {
@@ -103,7 +101,6 @@ export default class Network {
           if (field === 'name' && value !== '') {
             phaserEvents.emit(Event.PLAYER_JOINED, player, key);
             store.dispatch(setPlayerNameMap({ id: key, name: value }));
-
             store.dispatch(pushPlayerJoinedMessage(value));
           }
         });

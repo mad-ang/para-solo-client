@@ -170,7 +170,7 @@ export default function SignInDialog() {
             // || (failLogin && '회원정보가 잘못되었습니다')
           }
           onInput={(e) => {
-            setUserId((e.target as HTMLInputElement).value);
+            setUserId((e.target as HTMLInputElement).value?.trim());
           }}
         />
         <TextField

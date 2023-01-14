@@ -14,6 +14,7 @@ import OtherPlayer from './OtherPlayer';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
   private chairOnSit?: Chair;
@@ -32,8 +33,7 @@ export default class MyPlayer extends Player {
 
   setPlayerName(name: string) {
     this.playerName.setText(name);
-    const cookies = new Cookies();
-    const userId = store.getState().user?.userId || cookies.get('playerName') || '최초 이름';
+    const userId = store.getState().user?.userId || cookies.get('userId');
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId);
     store.dispatch(pushPlayerJoinedMessage(name));
   }
