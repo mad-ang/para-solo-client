@@ -94,7 +94,7 @@ export function ConversationList() {
   return (
     <DMmessageList>
       <UnorderedList>
-        {rooms.map((room, index) => (
+        {rooms && rooms.map((room, index) => (
           <ListTag
             key={index}
             onClick={(room) => {

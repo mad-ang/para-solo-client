@@ -33,36 +33,42 @@ export default function ChatBubbles(props) {
     }), // Gray bubble
   ]);
 
-  const socketClient = io(`${socketHost}:${socketPort}`);
-
-  socketClient.on('connect', () => {
-    console.log('connected to socket server');
-  });
+  // socketClient.on('connect', () => {
+  //   console.log('connected to socket server');
+  // });
 
   // socketClient.emit('test', '안녕하세요');
 
   // 채팅 시작 시 저장되어 있던 채팅 리스트 보여줌
-  socketClient.emit('join-room', { roomId: '123456', hostId: '123456', guestId: '654321' });
+  const socketClient = io(`${socketHost}:${socketPort}`);
+  useEffect(() => {
+    console.log('방 입장');
+    console.log('소켓', socketClient);
 
-  socketClient.on('show-messages', (data) => {
-    console.log(data);
-    setMessageList((messageList) => [...messageList, ...data]);
-  });
+    socketClient.on('connect', () => {
+      console.log('connected to socket server');
+      socketClient.emit('join-room', { roomId: 'test', userId: '123456', friendId: '654321' });
+      socketClient.on('show-messages', (data) => {
+        console.log(data);
+        setMessageList((messageList) => [...messageList, ...data]);
+      });
+    });
+  }, []);
 
-  // 실시간 메세지 받으면 채팅 리스트에 추가
   socketClient.on('message', (data) => {
-    console.log(data);
+    console.log('받음', data);
     data.id = 1;
     setMessageList((messageList) => [...messageList, data]);
   });
 
-  socketClient.emit('message', props.newMessage);
+  // 실시간 메세지 받으면 채팅 리스트에 추가
 
   // 내가 쓴 메세지 채팅 리스트에 추가
-  // useEffect(() => {
-  //   console.log('props.newMessage', props.newMessage);
-  //   setMessageList((messageList) => [...messageList, props.newMessage]);
-  // }, [props.newMessage]);
+  useEffect(() => {
+    console.log('props.newMessage', props.newMessage);
+    setMessageList((messageList) => [...messageList, props.newMessage]);
+    socketClient.emit('message', props.newMessage);
+  }, [props.newMessage]);
 
   // 내가 쓴 메세지 서버에 전송
 
