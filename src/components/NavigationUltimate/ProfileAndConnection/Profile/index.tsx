@@ -45,6 +45,7 @@ function ProfileEditModal(props) {
     if (event.key === 'Escape') {
       // move focus back to the game
       dispatch(SetProfileActivated(false));
+      dispatch(setFocused(false));
     }
     if (event.key === 'Enter') {
       if (editable) save();
