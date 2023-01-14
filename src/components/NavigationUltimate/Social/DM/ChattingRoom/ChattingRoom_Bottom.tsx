@@ -35,8 +35,6 @@ export default function BottomAppBar(props) {
     });
     setNewMessage(newMessage);
 
-    socket.emit('send_message', newMessage);
-
     setValue('');
   };
 

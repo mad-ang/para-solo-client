@@ -1,44 +1,47 @@
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
-
+import { Message, ChatInput } from 'react-chat-ui';
 // 채팅방 입장 시, 채팅방 정보를 얻음
-export const createRoom =  (param: CreateRoomRequest) => {
-  return axios.post(`/chat/room/create`, param)
-    .then(response => {
-        const { data } = response.data;
-        return data as ApiResponse<CreateRoomResponse>;
+export const createRoom = (param: CreateRoomRequest) => {
+  return axios
+    .post(`/chat/room/create`, param)
+    .then((response) => {
+      const { data } = response.data;
+      return data as ApiResponse<CreateRoomResponse>;
     })
-    .catch(error => {
-        console.log(error);
+    .catch((error) => {
+      console.log(error);
     });
 };
 
 // 현재 채팅방 목록을 가져옴
-export const fetchRoomList =  (userId: string, next: any) => {
+export const fetchRoomList = (userId: string, next: any) => {
   // return await axios.get(`/chat/roomList/${userId}`)
-  return  axios.post(`/chat/roomList/`,{"userId":userId})
-    .then(response => {
-        console.log("hihihi")
-        const { data } = response.data;
-        next(data);
-        // return data as ApiResponse<Array<RoomListResponse>>;
+  return axios
+    .post(`/chat/roomList/`, { userId: userId })
+    .then((response) => {
+      console.log('hihihi');
+      const { data } = response.data;
+      next(data);
+      // return data as ApiResponse<Array<RoomListResponse>>;
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
-  });
+    });
 };
 
 // 스크롤시 채팅방의 채팅 데이터를 가져옴(옛날 채팅 리스트)
 export const fetchChatting = (param: FetchChattingRequest) => {
   const { roomId, cursor } = param;
-  return axios.get(`/chat/room?room_id=${roomId}&cursor=${cursor}`)
-    .then(response => {
-        const { data } = response.data;
-        return data as ApiResponse<Array<ChattingResponseDto>>;
+  return axios
+    .get(`/chat/room?room_id=${roomId}&cursor=${cursor}`)
+    .then((response) => {
+      const { data } = response.data;
+      return data as ApiResponse<Array<ChatDto>>;
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
-  });
+    });
 };
 
 interface Response<T> {
@@ -88,12 +91,23 @@ export interface FetchChattingRequest {
   cursor: number | null;
 }
 
-// 채팅 수신
-export interface ChattingResponseDto {
-  id: number;
-  roomId: number;
-  sendUserId: number;
+// 채팅룸
+export interface ChatDto {
+  id: number | string;
   message: string;
-  notRead: number;
-  createdAt: Date;
+  roomId?: number | string;
+  sendUserId?: number | string;
+  notRead?: number;
+  createdAt?: Date;
+}
+
+export interface ServerToClientEvents {
+  // noArg: () => void;
+  start_chat: (chatList: Array<ChatDto>) => void;
+  chatting: (chat: ChatDto) => void;
+}
+
+export interface ClientToServerEvents {
+  hello: () => void;
+  chatting: (chat: ChatDto) => void;
 }
