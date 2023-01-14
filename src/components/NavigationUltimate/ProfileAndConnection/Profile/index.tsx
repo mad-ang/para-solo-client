@@ -14,6 +14,11 @@ const cookies = new Cookies();
 import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
 const game = phaserGame.scene.keys.game as Game;
+import {
+  setGender as setStoreGender,
+  setAge as setStoreAge,
+  setHeight as setStoreHeight,
+} from 'src/stores/UserStore';
 
 function ProfileEditModal(props) {
   const [originalInfo, setOriginalInfo] = useState<any>(null);
@@ -67,9 +72,9 @@ function ProfileEditModal(props) {
 
     const newUserInfo = {
       username: username,
-      gender: gender,
-      age: age,
-      height: height,
+      gender: gender?.value,
+      age: age?.value,
+      height: height?.value,
     };
 
     const keys = Object.keys(originalInfo);
@@ -79,17 +84,26 @@ function ProfileEditModal(props) {
       }
     }
 
-    const result = updateUserInfo(newUserInfo);
-    console.log(result);
+    (async () => {
+      const userData = await updateUserInfo(newUserInfo);
+      if (!userData) return;
+      setStoreGender(userData.gender);
+      setStoreAge(userData.age);
+      setStoreHeight(userData.height);
+    })();
   };
 
   useEffect(() => {
-    const userData = getUserInfo();
-    setOriginalInfo(userData);
-    setUsername(userData.username);
-    setGender(userData.username);
-    setAge(userData.age);
-    setHeight(userData.height);
+    (async () => {
+      const userData = await getUserInfo();
+      if (!userData) return;
+
+      setOriginalInfo(userData);
+      setUsername(userData.username);
+      setGender(userData.gender);
+      setAge(userData.age);
+      setHeight(userData.height);
+    })();
   }, []);
 
   return (
