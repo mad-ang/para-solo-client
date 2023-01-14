@@ -171,13 +171,10 @@ export default function CharacterSelectionDialog(props) {
 
   useEffect(() => {
     if (props.hasToken && props.playerName && props.playerTexture) {
-      console.log('Join! Name:', name, 'Avatar:', avatars[avatarIndex].name);
       game.registerKeys();
-      game.myPlayer.setPlayerName(name);
-      game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
+      game.myPlayer.setPlayerName(props.playerName);
+      game.myPlayer.setPlayerTexture(props.playerTexture);
       game.network.readyToConnect();
-      cookies.set('playerName', name);
-      cookies.set('playerTexture', avatars[avatarIndex].name);
       dispatch(setCharacterSelected(true));
     }
   }, []);
