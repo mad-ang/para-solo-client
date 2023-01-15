@@ -51,11 +51,13 @@ interface Response<T> {
 }
 export type ApiResponse<T> = AxiosResponse<Response<T>>;
 
-// 서버에서 가져온 유저 정보
+// 플레이어에게 매핑되는 유저 정보 타입
 export interface UserResponseDto {
   userId: string;
-  username: string;
-  profileImgurl: string;
+  username?: string;
+  profileImgUrl?: string;
+  gender?: string;
+  age?: string;
 }
 
 // 채팅방 만들기 요청

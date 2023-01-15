@@ -103,7 +103,7 @@ export function ConversationList() {
                 handleClick(room);
               }}
             >
-              <img src={room.friend.profileImgurl} alt={room.friend.username} width="60" />
+              <img src={room.friend.profileImgUrl} alt={room.friend.username} width="60" />
               <IDwithLastmessage>
                 <UserID>{room.friend.username}</UserID>
                 <div>{room.lastChat}</div>

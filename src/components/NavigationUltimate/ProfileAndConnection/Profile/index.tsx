@@ -16,9 +16,10 @@ import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
 const game = phaserGame.scene.keys.game as Game;
 import {
-  setGender as setStoreGender,
-  setAge as setStoreAge,
-  setHeight as setStoreHeight,
+  // setGender as setStoreGender,
+  // setAge as setStoreAge,
+  // setHeight as setStoreHeight,
+  setUserInfo as setStoreUserInfo,
 } from 'src/stores/UserStore';
 import { addImage } from 'src/api/s3';
 
@@ -102,9 +103,10 @@ function ProfileEditModal(props) {
     (async () => {
       const userData = await updateUserInfo(newUserInfo);
       if (!userData) return;
-      setStoreGender(userData.gender);
-      setStoreAge(userData.age);
-      setStoreHeight(userData.height);
+      
+      // setStoreGender(userData.gender);
+      // setStoreAge(userData.age);
+      // setStoreHeight(userData.height);
     })();
   };
 

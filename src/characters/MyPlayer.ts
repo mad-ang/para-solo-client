@@ -14,6 +14,7 @@ import OtherPlayer from './OtherPlayer';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Cookies from 'universal-cookie';
+import { UserResponseDto } from 'src/api/chat';
 const cookies = new Cookies();
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
@@ -25,9 +26,10 @@ export default class MyPlayer extends Player {
     texture: string,
     id: string,
     userId: string,
+    userInfo: UserResponseDto,
     frame?: string | number
   ) {
-    super(scene, x, y, texture, id, userId, frame);
+    super(scene, x, y, texture, id, userId, userInfo, frame);
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
   }
 
@@ -225,6 +227,7 @@ declare global {
         texture: string,
         id: string,
         userId: string,
+        userInfo: UserResponseDto,
         frame?: string | number
       ): MyPlayer;
     }
@@ -240,9 +243,10 @@ Phaser.GameObjects.GameObjectFactory.register(
     texture: string,
     id: string,
     userId: string,
+    userInfo: UserResponseDto,
     frame?: string | number
   ) {
-    const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, frame);
+    const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, userInfo, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);

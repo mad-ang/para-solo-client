@@ -8,6 +8,7 @@ import { PlayerBehavior } from '../types/PlayerBehavior';
 import PlayerSelector from './PlayerSelector';
 import store from '../stores';
 import Item from '../items/Item';
+import { UserResponseDto } from 'src/api/chat';
 
 export default class OtherPlayer extends Player {
   private targetPosition: [number, number];
@@ -24,10 +25,11 @@ export default class OtherPlayer extends Player {
     texture: string,
     id: string,
     userId: string,
+    userInfo: UserResponseDto,
     name: string,
     frame?: string | number
   ) {
-    super(scene, x, y, texture, id, userId, frame);
+    super(scene, x, y, texture, id, userId, userInfo, frame);
     this.targetPosition = [x, y];
 
     this.playerName.setText(name);
@@ -198,7 +200,8 @@ declare global {
         y: number,
         texture: string,
         id: string,
-        userId:string, 
+        userId: string,
+        userInfo: UserResponseDto,
         name: string,
         frame?: string | number
       ): OtherPlayer;
@@ -215,6 +218,7 @@ Phaser.GameObjects.GameObjectFactory.register(
     texture: string,
     id: string,
     userId: string,
+    userInfo: UserResponseDto,
     name: string,
     frame?: string | number
   ) {
