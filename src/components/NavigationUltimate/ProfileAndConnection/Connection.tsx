@@ -16,7 +16,7 @@ import Bootstrap from 'src/scenes/Bootstrap';
 import Colors from 'src/utils/Colors';
 
 // styled.div with Shadow
-const StyledRedBox = styled.button`
+const StyledAudioBox = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,6 +33,25 @@ const StyledRedBox = styled.button`
   }
 `;
 
+const StyledVideoBox = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 30%;
+  background-color: ${Colors.indigo};
+  font-size: 1rem;
+  font-weight: 900;
+
+  &:hover {
+    background-color: ${Colors.violet};
+  }
+`;
+
+
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -45,20 +64,20 @@ export default function ConnectionStatus() {
 
   return (
     <Wrapper>
-      <StyledRedBox onClick={() => bootstrap.network.webRTC?.toggleAudio()}>
+      <StyledAudioBox onClick={() => bootstrap.network.webRTC?.toggleAudio()} >
         {audioStatus ? (
-          <MicIcon fontSize="large" sx={{ color: '#fff' }} />
+          <MicIcon fontSize="large" sx={{ color: Colors.greenlight }} />
         ) : (
           <MicOffIcon fontSize="large" sx={{ color: '#DD0000' }} />
         )}
-      </StyledRedBox>
-      <StyledRedBox onClick={() => bootstrap.network.webRTC?.toggleVideo()}>
+      </StyledAudioBox>
+      <StyledVideoBox onClick={() => bootstrap.network.webRTC?.toggleVideo()} >
         {videoStatus ? (
-          <VideocamIcon fontSize="large" sx={{ color: '#fff' }} />
+          <VideocamIcon fontSize="large" sx={{ color: Colors.greenlight }} />
         ) : (
           <VideocamOffIcon fontSize="large" sx={{ color: '#DD0000' }} />
         )}
-      </StyledRedBox>
+      </StyledVideoBox>
     </Wrapper>
   );
 }

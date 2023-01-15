@@ -113,7 +113,7 @@ const EmojiPickerWrapper = styled.div`
   bottom: 54px;
   right: 16px;
 `;
-const StyledRedBox = styled.button`
+const StyledRedBox = styled.button<{pressed:boolean}>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,7 +121,7 @@ const StyledRedBox = styled.button`
   height: 44px;
   border: none;
   border-radius: 30%;
-  background-color: ${Colors.indigo};
+  background-color: ${(props) => (props.pressed ? Colors.violet : Colors.indigo)};
   font-size: 1rem;
   font-weight: 900;
 
@@ -316,14 +316,21 @@ export default function PublicChat() {
   const NavControllerPublicChatActivated = useAppSelector(
     (state) => state.nav.NavControllerPublicChatActivated
   );
+  
+  function handleClick() {
+    if (NavControllerPublicChatActivated){
+      dispatch(SetPublicChatActivated(false));
+    }
+    else{
+      dispatch(SetPublicChatActivateOnly());
+    }
+  }
 
   return (
     <div>
-      <StyledRedBox
+      <StyledRedBox pressed={NavControllerPublicChatActivated}
         onClick={() => {
-          console.log('공공채팅');
-
-          dispatch(SetPublicChatActivateOnly());
+          handleClick();
         }}
       >
         <ChatIcon sx={{ color: '#fff' }} fontSize="large" />

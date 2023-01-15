@@ -232,12 +232,16 @@ export default function ConnectionStatus() {
   const dispatch = useAppDispatch();
 
   function openProfile() {
-    dispatch(SetProfileActivateOnly());
+    if (NavControllerProfileActivated) {
+      dispatch(SetProfileActivated(false));
+    } else{
+      dispatch(SetProfileActivateOnly());
+    }
   }
 
   return (
     <div>
-      <StyledRedBox onClick={openProfile}>
+      <StyledRedBox onClick={openProfile} pressed = {NavControllerProfileActivated}>
         <img
           src="https://user-images.githubusercontent.com/63194662/211139459-96aa37f8-fcd9-4126-9a6b-52296fc3236c.png"
           height={35}
@@ -255,7 +259,7 @@ interface EditableProps {
   editable: boolean;
 }
 
-const StyledRedBox = styled.button`
+const StyledRedBox = styled.button<{ pressed: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -263,7 +267,7 @@ const StyledRedBox = styled.button`
   height: 44px;
   border: none;
   border-radius: 12px;
-  background-color: ${Colors.indigo};
+  background-color: ${(props) => (props.pressed ? Colors.violet : Colors.indigo)};
   font-size: 1rem;
   font-weight: 900;
   padding: 4x;
