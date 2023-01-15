@@ -23,7 +23,7 @@ import {
 import { addImage } from 'src/api/s3';
 
 function ProfileEditModal(props) {
-  const [userProfile, setUserProfile] = useState<any>(null);
+  const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
   const [originalInfo, setOriginalInfo] = useState<any>(null);
   const [editable, setEditable] = useState(false);
   const [username, setUsername] = useState(cookies.get('playerName'));
@@ -44,8 +44,7 @@ function ProfileEditModal(props) {
     const files = event?.target?.files;
     if (!files) return;
     console.log('files', files);
-    addImage('profile', files);
-    // setUserProfile()
+    addImage('profile', files, setUserProfile);
   };
 
   const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,11 +77,12 @@ function ProfileEditModal(props) {
 
   const save = () => {
     setEditable(!editable);
-    if (inputRefs?.current) {
-      inputRefs.current.blur();
-    }
+    // if (inputRefs?.current) {
+    //   inputRefs.current.blur();
+    // }
 
     const newUserInfo = {
+      profileImgUrl: userProfile,
       username: username,
       gender: gender?.value,
       age: age?.value,
@@ -95,6 +95,7 @@ function ProfileEditModal(props) {
         delete newUserInfo[keys[i]];
       }
     }
+    console.log('저장할 정보', newUserInfo);
     cookies.set('playerName', username, { path: '/' });
     game.myPlayer.setPlayerName(username);
 
@@ -113,6 +114,7 @@ function ProfileEditModal(props) {
       if (!userData) return;
 
       setOriginalInfo(userData);
+      setUserProfile(userData.profileImgUrl);
       setUsername(userData.username);
       setGender(userData.gender);
       setAge(userData.age);
@@ -134,20 +136,20 @@ function ProfileEditModal(props) {
                 <input type="file" onChange={handleChangeUserProfile} />
                 <figure className="personal-figure">
                   <ProfileAvatarImage
-                    src={DefaultAvatar}
+                    src={userProfile}
                     className="personal-avatar"
                     alt="avatar"
                     style={{ marginTop: -17 }}
                   />
                   <figcaption className="personal-figcaption">
-                    <ProfileAvatarImage src="https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png" />
+                    <CameraImage src="https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png" />
                   </figcaption>
                 </figure>
               </label>
             </div>
           ) : (
             <div className="personal-image">
-              <ProfileAvatarImage src={DefaultAvatar} className="personal-avatar" alt="avatar" />
+              <ProfileAvatarImage src={userProfile} className="personal-avatar" alt="avatar" />
             </div>
           )}
         </ImageWrapper>
@@ -398,6 +400,12 @@ const ImageWrapper = styled.div<EditableProps>`
 const ProfileAvatarImage = styled.img`
   width: 98px;
   height: 98px;
+`;
+
+const CameraImage = styled.img`
+  width: 98px;
+  height: 98px;
+  opacity: 0.33;
 `;
 
 const ProfileUserName = styled.div<EditableProps>`
