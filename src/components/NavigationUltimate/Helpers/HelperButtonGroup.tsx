@@ -4,6 +4,7 @@ import Fab from '@mui/material/Fab';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
+import Colors from 'src/utils/Colors';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ShareIcon from '@mui/icons-material/Share';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -86,20 +87,21 @@ const RoomName = styled.div`
 `;
 
 const StyledRedBox = styled.button`
-  display: flex;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  background-color: #CAB8FF;
-  font-size: 1rem;
-  font-weight: 900;
-  border: none;
-  margine-right: 10px;
-  box-shadow: 3px 3px 3px 3px gray;
-  &:hover{  
-    background-color : #D2CBFF;
-    color : #EE0000;
-  }
+display: flex;
+justify-content: center;
+align-items: center;
+width: 44px;
+height: 44px;
+border: none;
+border-radius: 30%;
+color: ${Colors.white};
+background-color: ${Colors.indigo};
+font-size: 1rem;
+font-weight: 900;
+
+&:hover {
+  background-color: ${Colors.violet};
+}
 `;
 
 const RoomDescription = styled.div`

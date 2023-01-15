@@ -151,7 +151,12 @@ export default function DMboxButton() {
   const dispatch = useAppDispatch();
 
   function handleClick() {
-    dispatch(SetChattingListActivateOnly());
+    if (NavControllerChattingListActivated){
+      dispatch(SetChattingListActivated(false));
+    }
+    else{
+      dispatch(SetChattingListActivateOnly());
+    }
   }
 
   return (
