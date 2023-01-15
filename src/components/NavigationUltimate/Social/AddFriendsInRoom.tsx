@@ -80,16 +80,18 @@ export default function AddFriendsInRoom() {
   }
 
   return (
-    <StyledRedBox>
-      <GroupAddIcon
-        sx={{ color: '#fff' }}
-        fontSize="large"
-        onClick={() => {
-          handleClick();
-        }}
-      />
+    <>
+      <StyledRedBox>
+        <GroupAddIcon
+          sx={{ color: '#fff' }}
+          fontSize="large"
+          onClick={() => {
+            handleClick();
+          }}
+        />
+      </StyledRedBox>
       {/* {NavControllerAddFriendsActivated ? <ShowUsersInRoomModal /> : null} */}
       {NavControllerAddFriendsActivated ? <Swipe /> : null}
-    </StyledRedBox>
+    </>
   );
 }
