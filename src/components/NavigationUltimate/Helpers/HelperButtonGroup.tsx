@@ -21,13 +21,13 @@ import { useAppSelector, useAppDispatch } from '../../../hooks';
 import { getAvatarString, getColorByString } from '../../../util';
 import Cookies from 'universal-cookie';
 const Backdrop = styled.div`
+  display: relative;
   display: flex;
   gap: 10px;
   bottom: 16px;
   right: 16px;
   align-items: flex-end;
   padding: 9px;
-
   .wrapper-group {
     display: flex;
     flex-direction: column;
@@ -36,7 +36,9 @@ const Backdrop = styled.div`
 `;
 
 const Wrapper = styled.div`
-  position: relative;
+  position: absolute;
+  bottom: 60px;
+  right: 0px;
   font-size: 16px;
   color: #eee;
   background: #222639;

@@ -81,10 +81,17 @@ export interface CreateRoomResponse {
 // 서버에서 채팅방 리스트에 대한 정보를 받아올 때
 export interface RoomListResponse {
   friend: UserResponseDto;
-  lastChat: string;
+  message: string;          //친구와 나눈마지막 메세지
   roomId: number;
-  // updatedAt: Date;
-  // lastReadChatId: number;
+  unreadCount?: number;
+  status: IChatRoomStatus;  //0, 1, 2세가지가 들어옴
+  updatedAt: Date;
+}
+
+export enum IChatRoomStatus {
+  FRIEND_REQUEST,
+  SOCKET_ON,
+  SOCKET_OFF,
 }
 
 // 서버에 채팅 가져오기

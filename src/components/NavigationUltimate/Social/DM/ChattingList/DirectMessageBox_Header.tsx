@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled, {keyframes} from "styled-components";
 import DMboxSVG from '../../../assets/directmessage/DM.svg';
-// import channelTalkPNG from '';
+import ClearIcon from '@mui/icons-material/Clear';
 import { useNavigate } from 'react-router-dom';
+import Colors from 'src/utils/Colors';
 import {InsideChattingRoom} from '../ChattingRoom/ChattingRoom';
 import { useAppSelector, useAppDispatch } from '../../../../../hooks';
 import {SetChattingListActivated, SetChattingListActivateOnly} from '../../../../../stores/NavbarStore';
@@ -30,6 +31,9 @@ const DMtop = styled.div`
     border-top-right-radius: 25px;
     font-weight: bold;
 `;
+const ButtonWrapper = styled.div`
+    padding-top: 7px;
+`;
 
 export function DMboxHeader(){
     const dispatch = useAppDispatch();
@@ -44,10 +48,10 @@ export function DMboxHeader(){
             <DirtyTalk>
                 <img src={'assets/directmessage/channelTalk.png'} width="30" />
                 최널톡
-            </DirtyTalk>                
-            <div>
-                <button onClick={handleClick} > X </button>
-            </div>
+            </DirtyTalk>
+            <ButtonWrapper>
+                <ClearIcon fontSize="large" sx={{ color: Colors.violet[1]}} />
+            </ButtonWrapper>
         </TopController>
         </DMtop>
     );

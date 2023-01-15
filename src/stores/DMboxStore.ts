@@ -15,8 +15,8 @@ export const DMSlice = createSlice({
     showDM: true,
     roomId: '',
     // listORroom: true, // true: list, false: room
-
     frinedId: '',
+    // status 추가
   },
   reducers: {
     setShowDM: (state, action: PayloadAction<boolean>) => {

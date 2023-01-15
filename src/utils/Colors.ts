@@ -7,6 +7,8 @@ export const Colors = {
   white: '#FFFFFF',
   black: '#000000',
   greenlight: '#86FF73',
+  // blue: '#70CDF6',
+  blue: '#70CDF6',
   red: {
     1: '#C4564C',
     2: '#ED9090',

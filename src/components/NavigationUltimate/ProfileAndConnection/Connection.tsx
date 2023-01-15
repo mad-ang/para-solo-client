@@ -17,6 +17,7 @@ import Colors from 'src/utils/Colors';
 
 // styled.div with Shadow
 const StyledAudioBox = styled.button`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,13 +28,13 @@ const StyledAudioBox = styled.button`
   background-color: ${Colors.indigo};
   font-size: 1rem;
   font-weight: 900;
-
   &:hover {
     background-color: ${Colors.violet[1]};
   }
 `;
 
 const StyledVideoBox = styled.button`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,7 +54,20 @@ const StyledVideoBox = styled.button`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
+  padding-left: 6px;
 `;
+
+//recording status that small red circle on the right bottom of the mic icon
+const RecordingStatus = styled.div`
+  position: absolute;
+  bottom: 4px;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #DD0000;
+`;
+
 
 export default function ConnectionStatus() {
   const audioStatus = useAppSelector((state) => state.user.webcamAudioStatus);
@@ -64,18 +78,21 @@ export default function ConnectionStatus() {
     <Wrapper>
       <StyledAudioBox onClick={() => bootstrap.network.webRTC?.toggleAudio()}>
         {audioStatus ? (
-          <MicIcon fontSize="large" sx={{ color: Colors.greenlight }} />
+          <MicIcon fontSize="large" sx={{ color: Colors.white }}/>
         ) : (
           <MicOffIcon fontSize="large" sx={{ color: '#DD0000' }} />
         )}
+        {audioStatus ? (<RecordingStatus/>):null}
       </StyledAudioBox>
       <StyledVideoBox onClick={() => bootstrap.network.webRTC?.toggleVideo()}>
         {videoStatus ? (
-          <VideocamIcon fontSize="large" sx={{ color: Colors.greenlight }} />
+          <VideocamIcon fontSize="large" sx={{ color: Colors.white }} />
         ) : (
           <VideocamOffIcon fontSize="large" sx={{ color: '#DD0000' }} />
         )}
+        {videoStatus ? (<RecordingStatus/>):null}
       </StyledVideoBox>
+      
     </Wrapper>
   );
 }

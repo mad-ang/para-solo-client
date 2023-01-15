@@ -6,8 +6,7 @@
 //                 김희산 <https://github.com/heesankim> (BE)
 //                 김기운 <https://github.com/KiwoonKim> (BE)
 // Thanks to SWJungle & KAIST where we made this project.
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { HashRouter } from 'react-router-dom';
 import { useAppSelector } from './hooks';
@@ -26,7 +25,6 @@ import Game from './scenes/Game';
 import Bootstrap from 'scenes/Bootstrap';
 import Cookies from 'universal-cookie';
 import store from './stores';
-
 const cookies = new Cookies();
 
 axios.defaults.baseURL =
