@@ -19,6 +19,7 @@ import store from '../stores';
 import { setFocused, setShowChat } from '../stores/ChatStore';
 import { NavKeys, Keyboard } from '../types/KeyboardState';
 import Cookies from 'universal-cookie';
+import { userInfo } from 'os';
 export default class Game extends Phaser.Scene {
   network!: Network;
   private cursors!: NavKeys;
@@ -179,12 +180,14 @@ export default class Game extends Phaser.Scene {
     // cafe_fenceLayer.setCollisionByProperty({ collisions: true });
     const cookies = new Cookies();
     const userId = store.getState().user?.userId || cookies.get('userId') || this.network.userId;
+    const userInfo = store.getState().user?.userInfo;
     this.myPlayer = this.add.myPlayer(
       Phaser.Math.RND.between(200, 700),
       Phaser.Math.RND.between(200, 300),
       'adam',
       this.network.mySessionId,
-      userId
+      userId,
+      userInfo
     );
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16);
 
@@ -294,6 +297,7 @@ export default class Game extends Phaser.Scene {
       'adam',
       id,
       newPlayer.userId,
+      newPlayer.userInfo,
       newPlayer.name
     );
     this.otherPlayers.add(otherPlayer);

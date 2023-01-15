@@ -237,6 +237,7 @@ export default function HelperButtonGroup() {
             cookies.remove('accessToken', { path: '/' });
             cookies.remove('playerName', { path: '/' });
             cookies.remove('playerTexture', { path: '/' });
+            cookies.remove('userId', { path: '/' });
             window.location.href = '/';
           }}
         >
