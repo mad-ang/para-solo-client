@@ -20,7 +20,7 @@ import {
   setAge as setStoreAge,
   setHeight as setStoreHeight,
 } from 'src/stores/UserStore';
-
+import { addImage } from 'src/api/s3';
 
 function ProfileEditModal(props) {
   const [userProfile, setUserProfile] = useState<any>(null);
@@ -43,7 +43,8 @@ function ProfileEditModal(props) {
   const handleChangeUserProfile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event?.target?.files;
     if (!files) return;
-
+    console.log('files', files);
+    addImage('profile', files);
     // setUserProfile()
   };
 
