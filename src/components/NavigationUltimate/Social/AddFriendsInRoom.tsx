@@ -6,8 +6,8 @@ import { useAppSelector, useAppDispatch } from '../../../hooks';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Colors from 'src/utils/Colors';
-
-const StyledRedBox = styled.button<{pressed:boolean}>`
+import Swipe from 'src/components/NavigationUltimate/Social/AddFriend/Swipe';
+const StyledRedBox = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,7 +15,7 @@ const StyledRedBox = styled.button<{pressed:boolean}>`
   height: 44px;
   border: none;
   border-radius: 30%;
-  background-color: ${(props) => (props.pressed ? Colors.violet[1] : Colors.indigo)};
+  background-color: ${Colors.indigo};
   font-size: 1rem;
   font-weight: 900;
 
@@ -50,6 +50,7 @@ function ShowUsersInRoomModal(props) {
     console.log(players);
   }, []);
 
+  console.log('otherPlayers: ', otherPlayers);
   return (
     <ShowUsersInRoom>
       <button
@@ -75,16 +76,11 @@ export default function AddFriendsInRoom() {
   );
 
   function handleClick() {
-    if (NavControllerAddFriendsActivated) {
-      dispatch(SetAddFriendsActivated(false));
-    }
-    else{
-      dispatch(SetAddFriendsActivateOnly());
-    }
+    dispatch(SetAddFriendsActivateOnly());
   }
 
   return (
-    <StyledRedBox pressed = {NavControllerAddFriendsActivated}>
+    <StyledRedBox>
       <GroupAddIcon
         sx={{ color: '#fff' }}
         fontSize="large"
@@ -92,7 +88,8 @@ export default function AddFriendsInRoom() {
           handleClick();
         }}
       />
-      {NavControllerAddFriendsActivated ? <ShowUsersInRoomModal /> : null}
+      {/* {NavControllerAddFriendsActivated ? <ShowUsersInRoomModal /> : null} */}
+      {NavControllerAddFriendsActivated ? <Swipe /> : null}
     </StyledRedBox>
   );
 }
