@@ -110,15 +110,19 @@ function ProfileEditModal(props) {
 
   useEffect(() => {
     (async () => {
-      const userData = await getUserInfo();
-      if (!userData) return;
+      try {
+        const userData = await getUserInfo();
+        if (!userData) return;
 
-      setOriginalInfo(userData);
-      setUserProfile(userData.profileImgUrl);
-      setUsername(userData.username);
-      setGender(userData.gender);
-      setAge(userData.age);
-      setHeight(userData.height);
+        setOriginalInfo(userData);
+        setUserProfile(userData.profileImgUrl);
+        setUsername(userData.username);
+        setGender(userData.gender);
+        setAge(userData.age);
+        setHeight(userData.height);
+      } catch (error) {
+        setUserProfile(DefaultAvatar);
+      }
     })();
   }, []);
 
@@ -142,7 +146,8 @@ function ProfileEditModal(props) {
                     alt="avatar"
                     style={{ marginTop: -17 }}
                     onError={() => {
-                      return (imgRef.current!.src = DefaultAvatar);
+                      // @ts-ignore
+                      if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
                     }}
                   />
                   <figcaption className="personal-figcaption">
@@ -159,7 +164,8 @@ function ProfileEditModal(props) {
                 className="personal-avatar"
                 alt="avatar"
                 onError={() => {
-                  return (imgRef.current!.src = DefaultAvatar);
+                  // @ts-ignore
+                  if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
                 }}
               />
             </div>
