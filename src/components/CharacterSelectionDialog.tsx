@@ -254,7 +254,7 @@ export default function CharacterSelectionDialog(props) {
       </Content>
       <Bottom>
         <Button variant="contained" color="secondary" size="large" type="submit">
-          친구 만나러 가기
+          헌팅하러 가기
         </Button>
       </Bottom>
     </Wrapper>

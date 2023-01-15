@@ -25,8 +25,8 @@ export default function HuntingPochaPocha() {
   return (
     <Wrapper>
       <img src="/src/assets/navbar/Beach.png" height={35} />
-      {ProjectNameChar('Solo')}
-      {ProjectNameChar('Beach')}
+      {ProjectNameChar('파라솔로')}
+      {/* {ProjectNameChar('Beach')} */}
     </Wrapper>
   );
 }

@@ -106,7 +106,7 @@ export function ConversationList() {
               <img src={room.friend.profileImgurl} alt={room.friend.username} width="60" />
               <IDwithLastmessage>
                 <UserID>{room.friend.username}</UserID>
-                <div>{room.lastChat}</div>
+                <div>{room.message}</div>
               </IDwithLastmessage>
             </ListTag>
           ))}
