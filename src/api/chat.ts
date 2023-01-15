@@ -55,7 +55,7 @@ export type ApiResponse<T> = AxiosResponse<Response<T>>;
 export interface UserResponseDto {
   userId: string;
   username: string;
-  profileImgurl: string;
+  profileImgUrl: string;
 }
 
 // 채팅방 만들기 요청

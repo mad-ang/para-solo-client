@@ -27,7 +27,6 @@ const StyledAudioBox = styled.button`
   background-color: ${Colors.indigo};
   font-size: 1rem;
   font-weight: 900;
-
   &:hover {
     background-color: ${Colors.violet[1]};
   }
@@ -56,6 +55,19 @@ const Wrapper = styled.div`
   padding-left: 6px;
 `;
 
+
+//recording status that small red circle on the right bottom of the mic icon
+const RecordingStatus = styled.div`
+  position: static;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #DD0000;
+`;
+
+
 export default function ConnectionStatus() {
   const audioStatus = useAppSelector((state) => state.user.webcamAudioStatus);
   const videoStatus = useAppSelector((state) => state.user.webcamVideoStatus);
@@ -65,18 +77,20 @@ export default function ConnectionStatus() {
     <Wrapper>
       <StyledAudioBox onClick={() => bootstrap.network.webRTC?.toggleAudio()}>
         {audioStatus ? (
-          <MicIcon fontSize="large" sx={{ color: Colors.greenlight }} />
+          <MicIcon fontSize="large" sx={{ color: Colors.white }} />
         ) : (
           <MicOffIcon fontSize="large" sx={{ color: '#DD0000' }} />
         )}
       </StyledAudioBox>
+      {audioStatus ? (<RecordingStatus/>):null}
       <StyledVideoBox onClick={() => bootstrap.network.webRTC?.toggleVideo()}>
         {videoStatus ? (
-          <VideocamIcon fontSize="large" sx={{ color: Colors.greenlight }} />
+          <VideocamIcon fontSize="large" sx={{ color: Colors.white }} />
         ) : (
           <VideocamOffIcon fontSize="large" sx={{ color: '#DD0000' }} />
         )}
       </StyledVideoBox>
+      {videoStatus ? (<RecordingStatus/>):null}
     </Wrapper>
   );
 }
