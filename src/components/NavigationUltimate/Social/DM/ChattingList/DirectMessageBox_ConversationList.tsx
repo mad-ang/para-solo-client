@@ -60,16 +60,15 @@ const DMmessageList = styled.div`
 export function ConversationList() {
   const [rooms, setRooms] = useState<RoomListResponse[]>([]);
   const dispatch = useAppDispatch();
-  const userID = useAppSelector((state) => state.user.userId);
+  const userId = useAppSelector((state) => state.user.userId);
+  const friendId = useAppSelector((state) => state.dm.frinedId);
+
   let roomId = '';
   useEffect(() => {
-    fetchRoomList(userID, (data: RoomListResponse[]) => {
+    fetchRoomList(userId, (data: RoomListResponse[]) => {
       setRooms(data);
     });
   }, []);
-
-  const userId = useAppSelector((state) => state.user.userId);
-  const friendId = useAppSelector((state) => state.dm.frinedId);
 
   let body = {
     userId: userId,

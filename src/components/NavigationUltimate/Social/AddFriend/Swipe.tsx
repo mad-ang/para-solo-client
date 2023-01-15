@@ -10,6 +10,7 @@ import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
+import axios from 'axios';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -34,6 +35,40 @@ function Swipe(props) {
   const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
+  const userId = useAppSelector((state) => state.user.userId);
+  const friendId = useAppSelector((state) => state.dm.frinedId);
+
+  async function requestFriend(id, name) {
+    console.log('친구요청하자~~~');
+    console.log(id);
+    console.log(name);
+    let body = {
+      myInfo: {
+        userId: userId,
+        username: 'userName',
+        profileImgUrl: 'ImageUrl',
+      },
+      friendInfo: {
+        userId: id,
+        // username: 'friendName',
+        profileImgUrl: 'friendUrl',
+        username: name,
+        // profileImgUrl: props.url,
+      },
+      status: 0,
+      message: '친구 요청',
+    };
+
+    try {
+      const Response = await axios.post('/chat/addFriend', body);
+      console.log(Response);
+      if (Response.status === 200) {
+        console.log('친구 요청 성공');
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
 
   function handleClick() {
     dispatch(SetAddFriendsActivated(false));
@@ -71,7 +106,7 @@ function Swipe(props) {
           // pagination={{ clickable: true }}
           // scrollbar={{ draggable: true }}
           // onSwiper={(swiper) => console.log(swiper)}
-          onSlideChange={() => console.log('slide change')}
+          // onSlideChange={() => console.log('slide change')}
         >
           {otherPlayers?.map((playerArr, i: number) => (
             <SwiperSlide key={i}>
@@ -93,19 +128,26 @@ function Swipe(props) {
                 </ImageWrapper>
                 <Name>{playerArr[1].userId}</Name>
                 <Message>좋은 만남 가져봐요</Message>
+                <Button
+                  // fullWidth={true}
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => requestFriend(playerArr[1].userId, 'name')}
+                  sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
+                >
+                  친구 요청{' '}
+                </Button>
               </SwipeBody>
             </SwiperSlide>
           ))}
         </Swiper>
       )}
-      <SwipeBottom>
+      {/* <SwipeBottom>
         <Button
           // fullWidth={true}
           variant="contained"
           color="secondary"
-          onClick={() => {
-            console.log('친구추가');
-          }}
+          onClick={() => requestFriend(playerArr[1].userId, "name")}
           sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
         >
           친구 요청{' '}
@@ -121,7 +163,7 @@ function Swipe(props) {
         >
           프로필 보기 (유료)
         </Button>
-      </SwipeBottom>
+      </SwipeBottom> */}
       {/* <ImageWrapper>
           <div className="personal-image">
             <ProfileAvatarImage
