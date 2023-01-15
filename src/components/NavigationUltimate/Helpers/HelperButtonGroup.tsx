@@ -87,21 +87,21 @@ const RoomName = styled.div`
 `;
 
 const StyledRedBox = styled.button`
-display: flex;
-justify-content: center;
-align-items: center;
-width: 44px;
-height: 44px;
-border: none;
-border-radius: 30%;
-color: ${Colors.white};
-background-color: ${Colors.indigo};
-font-size: 1rem;
-font-weight: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 30%;
+  color: ${Colors.white};
+  background-color: ${Colors.indigo};
+  font-size: 1rem;
+  font-weight: 900;
 
-&:hover {
-  background-color: ${Colors.violet};
-}
+  &:hover {
+    background-color: ${Colors.violet[1]};
+  }
 `;
 
 const RoomDescription = styled.div`

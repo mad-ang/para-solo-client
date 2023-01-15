@@ -16,7 +16,7 @@ import {
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import Colors from 'src/utils/Colors';
 
-const StyledRedBox = styled.button<{pressed:boolean}>`
+const StyledRedBox = styled.button<{ pressed: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,12 +24,12 @@ const StyledRedBox = styled.button<{pressed:boolean}>`
   height: 44px;
   border: none;
   border-radius: 30%;
-  background-color: ${(props) => (props.pressed ? Colors.violet : Colors.indigo)};
+  background-color: ${(props) => (props.pressed ? Colors.violet[1] : Colors.indigo)};
   font-size: 1rem;
   font-weight: 900;
 
   &:hover {
-    background-color: ${Colors.violet};
+    background-color: ${Colors.violet[1]};
   }
 `;
 
@@ -151,17 +151,16 @@ export default function DMboxButton() {
   const dispatch = useAppDispatch();
 
   function handleClick() {
-    if (NavControllerChattingListActivated){
+    if (NavControllerChattingListActivated) {
       dispatch(SetChattingListActivated(false));
-    }
-    else{
+    } else {
       dispatch(SetChattingListActivateOnly());
     }
   }
 
   return (
     <Wrapper>
-      <StyledRedBox onClick={handleClick} pressed = {NavControllerChattingListActivated}>
+      <StyledRedBox onClick={handleClick} pressed={NavControllerChattingListActivated}>
         <VolunteerActivismIcon fontSize="large" sx={{ color: '#fff' }} />
       </StyledRedBox>
       {NavControllerChattingListActivated && (

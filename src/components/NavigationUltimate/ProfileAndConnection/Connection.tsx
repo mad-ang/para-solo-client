@@ -29,7 +29,7 @@ const StyledAudioBox = styled.button`
   font-weight: 900;
 
   &:hover {
-    background-color: ${Colors.violet};
+    background-color: ${Colors.violet[1]};
   }
 `;
 
@@ -46,11 +46,9 @@ const StyledVideoBox = styled.button`
   font-weight: 900;
 
   &:hover {
-    background-color: ${Colors.violet};
+    background-color: ${Colors.violet[1]};
   }
 `;
-
-
 
 const Wrapper = styled.div`
   display: flex;
@@ -64,14 +62,14 @@ export default function ConnectionStatus() {
 
   return (
     <Wrapper>
-      <StyledAudioBox onClick={() => bootstrap.network.webRTC?.toggleAudio()} >
+      <StyledAudioBox onClick={() => bootstrap.network.webRTC?.toggleAudio()}>
         {audioStatus ? (
           <MicIcon fontSize="large" sx={{ color: Colors.greenlight }} />
         ) : (
           <MicOffIcon fontSize="large" sx={{ color: '#DD0000' }} />
         )}
       </StyledAudioBox>
-      <StyledVideoBox onClick={() => bootstrap.network.webRTC?.toggleVideo()} >
+      <StyledVideoBox onClick={() => bootstrap.network.webRTC?.toggleVideo()}>
         {videoStatus ? (
           <VideocamIcon fontSize="large" sx={{ color: Colors.greenlight }} />
         ) : (

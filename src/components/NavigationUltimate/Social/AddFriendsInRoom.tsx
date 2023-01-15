@@ -15,12 +15,12 @@ const StyledRedBox = styled.button<{pressed:boolean}>`
   height: 44px;
   border: none;
   border-radius: 30%;
-  background-color: ${(props) => (props.pressed ? Colors.violet : Colors.indigo)};
+  background-color: ${(props) => (props.pressed ? Colors.violet[1] : Colors.indigo)};
   font-size: 1rem;
   font-weight: 900;
 
   &:hover {
-    background-color: ${Colors.violet};
+    background-color: ${Colors.violet[1]};
   }
 `;
 
