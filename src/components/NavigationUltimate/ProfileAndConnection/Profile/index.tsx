@@ -35,7 +35,7 @@ function ProfileEditModal(props) {
   const focused = useAppSelector((state) => state.chat.focused);
 
   const inputRefs = useRef<any>([]);
-
+  const imgRef = useRef(null);
   function handleClick() {
     dispatch(SetProfileActivated(false));
   }
@@ -136,10 +136,14 @@ function ProfileEditModal(props) {
                 <input type="file" onChange={handleChangeUserProfile} />
                 <figure className="personal-figure">
                   <ProfileAvatarImage
+                    ref={imgRef}
                     src={userProfile}
                     className="personal-avatar"
                     alt="avatar"
                     style={{ marginTop: -17 }}
+                    onError={() => {
+                      return (imgRef.current!.src = DefaultAvatar);
+                    }}
                   />
                   <figcaption className="personal-figcaption">
                     <CameraImage src="https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png" />
@@ -149,7 +153,15 @@ function ProfileEditModal(props) {
             </div>
           ) : (
             <div className="personal-image">
-              <ProfileAvatarImage src={userProfile} className="personal-avatar" alt="avatar" />
+              <ProfileAvatarImage
+                ref={imgRef}
+                src={userProfile}
+                className="personal-avatar"
+                alt="avatar"
+                onError={() => {
+                  return (imgRef.current!.src = DefaultAvatar);
+                }}
+              />
             </div>
           )}
         </ImageWrapper>
@@ -246,14 +258,14 @@ export default function ConnectionStatus() {
   function openProfile() {
     if (NavControllerProfileActivated) {
       dispatch(SetProfileActivated(false));
-    } else{
+    } else {
       dispatch(SetProfileActivateOnly());
     }
   }
 
   return (
     <div>
-      <StyledRedBox onClick={openProfile} pressed = {NavControllerProfileActivated}>
+      <StyledRedBox onClick={openProfile} pressed={NavControllerProfileActivated}>
         <img
           src="https://user-images.githubusercontent.com/63194662/211139459-96aa37f8-fcd9-4126-9a6b-52296fc3236c.png"
           height={35}
