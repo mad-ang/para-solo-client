@@ -82,7 +82,6 @@ export default class Game extends Phaser.Scene {
     const interiorImage = this.map.addTilesetImage('interior', 'interior');
 
     const basementImage = this.map.addTilesetImage('basement', 'basement');
-    const bigTreeImage = this.map.addTilesetImage('bigTree', 'bigTree');
 
     // 얘는 스프라이트 이미지로 움직이게 해야 함
     const boatImage = this.map.addTilesetImage('boat', 'boat');
@@ -165,12 +164,15 @@ export default class Game extends Phaser.Scene {
 
     const buildingsLayer = this.map.createLayer('buildings', [
       boat1Image,
-      billboardImage,
       camping3Image,
       ModernExteriorsCompleteImage,
+      villasImage,
+      clothesImage,
+      
+
     ]);
 
-    const ForegroundLayer = this.map.createLayer('foreground', [villasImage,camping3Image,interiorImage,ModernExteriorsCompleteImage]);
+    const ForegroundLayer = this.map.createLayer('foreground', [villasImage,camping3Image,interiorImage,billboardImage,ModernExteriorsCompleteImage]);
 
     const secondGroundLayer = this.map.createLayer('secondGround', [ModernExteriorsCompleteImage,interiorImage]);
 
