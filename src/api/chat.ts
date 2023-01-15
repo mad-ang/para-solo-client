@@ -53,7 +53,7 @@ export type ApiResponse<T> = AxiosResponse<Response<T>>;
 
 // 플레이어에게 매핑되는 유저 정보 타입
 export interface UserResponseDto {
-  userId: string;
+  userId?: string;
   username?: string;
   profileImgUrl?: string;
   gender?: string;

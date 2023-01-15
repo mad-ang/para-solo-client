@@ -34,8 +34,6 @@ export const userSlice = createSlice({
     characterSelected: false,
     accessToken: '',
     userInfo: {
-      userId: '',
-      username: '',
       gender: '',
       age: '',
       height: '',

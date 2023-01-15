@@ -98,6 +98,9 @@ export default class OtherPlayer extends Player {
           this.userId = value;
         }
         break;
+      case 'userInfo':
+        this.userInfo = value as UserResponseDto;
+        break;
     }
   }
 
@@ -222,7 +225,7 @@ Phaser.GameObjects.GameObjectFactory.register(
     name: string,
     frame?: string | number
   ) {
-    const sprite = new OtherPlayer(this.scene, x, y, texture, id, userId, name, frame);
+    const sprite = new OtherPlayer(this.scene, x, y, texture, id, userId, userInfo, name, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
