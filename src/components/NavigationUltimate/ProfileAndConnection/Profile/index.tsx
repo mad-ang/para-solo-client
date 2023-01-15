@@ -116,7 +116,7 @@ function ProfileEditModal(props) {
         if (!userData) return;
         console.log('불러온 유저정보', userData);
         setOriginalInfo(userData);
-        setUserProfile(userData.profileImgUrl);
+        setUserProfile(userData.profileImgUrl || DefaultAvatar);
         setUsername(userData.username);
         setGender(userData.gender);
         setAge(userData.age);
