@@ -56,7 +56,7 @@ const DMmessageList = styled.div`
   border-bottom-right-radius: 25px;
 `;
 
-/* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.withwho)에 친구의 userId를 넣어준다  */
+/* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.frinedId)에 친구의 userId를 넣어준다  */
 export function ConversationList() {
   const [rooms, setRooms] = useState<RoomListResponse[]>([]);
   const dispatch = useAppDispatch();
@@ -69,7 +69,7 @@ export function ConversationList() {
   }, []);
 
   const userId = useAppSelector((state) => state.user.userId);
-  const friendId = useAppSelector((state) => state.dm.withWho);
+  const friendId = useAppSelector((state) => state.dm.frinedId);
 
   let body = {
     userId: userId,
@@ -83,6 +83,7 @@ export function ConversationList() {
       const response = await axios.post('/joinRoom', body);
       if (response.data.status === 200) {
         dispatch(SetChattingRoomActivated(true));
+        // Response userId
         dispatch(setkey(room.friend.userId));
         dispatch(setRoomId(response.data.payload.roomId));
       }
