@@ -9,7 +9,7 @@ const SexyChar = styled.span`
   font-weight: 900;
   margin: 0 0.5rem;
   font-family: 'Nanum Gothic', sans-serif;
-  color: #c1ffd7;
+  color: ${Colors.blue};
   background-color: ${Colors.indigo};
 `;
 
