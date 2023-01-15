@@ -5,6 +5,9 @@ import SocialFunctions from './Social/SocialFunctionsContainer';
 import ProjectHuntingPochaPocha from './ShowProjectName/HuntingPochaPocha';
 import HelperButtonGroup from './Helpers/HelperButtonGroup';
 import Colors from 'src/utils/Colors';
+import { useAppSelector, useAppDispatch } from 'src/hooks';
+import React, { useRef, useState, useEffect } from 'react';
+import { SetAllDeactivated } from 'src/stores/NavbarStore';
 
 const Backdrop = styled.div`
   position: fixed;
@@ -24,9 +27,21 @@ const RedContainer = styled.div`
   background-color: ${Colors.indigo};
 `;
 
+
+
 export default function NavigationContainer() {
+
+  const dispatch = useAppDispatch();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Escape') {
+      inputRef.current?.blur();
+      dispatch(SetAllDeactivated());
+    }
+  };
+
   return (
-    <Backdrop className="myNavbar">
+    <Backdrop className="myNavbar" onKeyDown={handleKeyDown}>
       <RedContainer>
         <ProfileAndConnection />
         <SocialFunctions />
