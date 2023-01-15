@@ -109,11 +109,12 @@ function ProfileEditModal(props) {
   };
 
   useEffect(() => {
+    if (editable) return;
     (async () => {
       try {
         const userData = await getUserInfo();
         if (!userData) return;
-
+        console.log('불러온 유저정보', userData);
         setOriginalInfo(userData);
         setUserProfile(userData.profileImgUrl);
         setUsername(userData.username);
@@ -124,7 +125,7 @@ function ProfileEditModal(props) {
         setUserProfile(DefaultAvatar);
       }
     })();
-  }, []);
+  }, [editable]);
 
   return (
     <ProfileSettingEditor>
