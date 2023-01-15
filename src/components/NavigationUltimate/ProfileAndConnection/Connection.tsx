@@ -53,6 +53,7 @@ const StyledVideoBox = styled.button`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
+  padding-left: 6px;
 `;
 
 export default function ConnectionStatus() {
