@@ -74,6 +74,26 @@ export const login = (body, next): boolean | void => {
   // });
 };
 
+export const authenticateUser = (): any => {
+  return axios
+    .get('/auth/isAuth', {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    })
+    .then((response) => {
+      console.log('사용자 정보 인증 성공', response);
+      const { data } = response;
+      if (data.status == 200) {
+        return data.payload;
+      }
+    })
+    .catch((error) => {
+      console.log('사용자 정보 인증 실패', error);
+      return null;
+    });
+};
+
 // 사용자 정보 업데이트
 export const updateUserInfo = (body): any => {
   return axios
