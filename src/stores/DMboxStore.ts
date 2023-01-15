@@ -16,7 +16,7 @@ export const DMSlice = createSlice({
     roomId: '',
     // listORroom: true, // true: list, false: room
 
-    withWho: '',
+    frinedId: '',
   },
   reducers: {
     setShowDM: (state, action: PayloadAction<boolean>) => {
@@ -29,7 +29,7 @@ export const DMSlice = createSlice({
     //   state.listORroom = false;
     // },
     setkey: (state, action: PayloadAction<string>) => {
-      state.withWho = action.payload;
+      state.frinedId = action.payload;
     },
     setRoomId: (state, action: PayloadAction<string>) => {
       state.roomId = action.payload;
