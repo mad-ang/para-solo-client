@@ -6,8 +6,7 @@
 //                 김희산 <https://github.com/heesankim> (BE)
 //                 김기운 <https://github.com/KiwoonKim> (BE)
 // Thanks to SWJungle & KAIST where we made this project.
-
-import React, { useEffect, Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { HashRouter } from 'react-router-dom';
 import { useAppSelector } from './hooks';
