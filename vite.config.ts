@@ -9,13 +9,14 @@ export default defineConfig(({ command, mode }) => {
     // vite config
     plugins: [
       react(),
-      'babel-plugin-styled-components',
-      {
-        displayName: true,
-        fileName: false,
-      },
+      [
+        'babel-plugin-styled-components',
+        {
+          displayName: true,
+          fileName: false,
+        },
+      ],
     ],
-
     define: {
       global: { x: 0 },
       __APP_ENV__: env.APP_ENV,
