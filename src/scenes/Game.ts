@@ -163,7 +163,6 @@ export default class Game extends Phaser.Scene {
       pigeonImage,
       ball1Image,
       ball2Image,
-      // billboardImage, 위치오류 발생
     ]);
 
     const ForegroundLayer = this.map.createLayer('foreground', [
