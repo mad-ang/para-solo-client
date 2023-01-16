@@ -101,14 +101,15 @@ function Swipe(props) {
           {otherPlayers?.map(
             (player, i: number) =>
               i >= 1 && (
-                <SwiperSlide key={player.id}>
-                  {/* <img src={avatar.img} alt={avatar.name} /> */}
+                <SwiperSlide key={i}>
+                  {/* <SwiperSlide key={player.id}> */}
                   <SwipeBody>
                     <ImageWrapper>
                       <div className="personal-image">
                         <ProfileAvatarImage
                           ref={imgRef}
-                          src={player.userInfo.profileImgUrl || DefaultAvatar}
+                          src={DefaultAvatar}
+                          // src={player.userInfo.profileImgUrl || DefaultAvatar}
                           className="personal-avatar"
                           alt="avatar"
                           onError={() => {
