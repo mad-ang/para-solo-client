@@ -30,41 +30,29 @@ const StyledAudioBox = styled.button`
 `;
 
 export default function () {
-
-    const [BGMstate, setBGMstate] = useState(true);
-    const audioRef = useRef(new Audio());
-  //   useEffect(() => {
-  //   audio.src = 'src/assets/music/BGM1.mp3';
-  //   audio.loop = true;
-  //   if (BGMstate) audio.play();
-  // }, []);
-
-  // const audio = new Audio();
-  // const handleBGM = () => {
-  //     setBGMstate(!BGMstate);
-  //     if(!BGMstate) audio.pause();
-  // }
+  const [BGMstate, setBGMstate] = useState(true);
+  const audioRef = useRef(new Audio());
 
   useEffect(() => {
     const audio = audioRef.current;
     audio.src = 'src/assets/music/BGM1.mp3';
     audio.loop = true;
     if (BGMstate) audio.play();
-}, [BGMstate]);
+  }, [BGMstate]);
 
-const handleBGM = () => {
+  const handleBGM = () => {
     setBGMstate(!BGMstate);
-    if(!BGMstate) audioRef.current.pause();
-}
+    if (!BGMstate) audioRef.current.pause();
+  };
 
   return (
     <Wrapper>
       <StyledAudioBox onClick={handleBGM}>
         {BGMstate ? (
-        <MusicNoteIcon fontSize='large' sx={{ color: Colors.white}}/>) : (
-        <MusicOffIcon fontSize='large' sx={{ color: Colors.white}}/>
-        )
-        }
+          <MusicNoteIcon fontSize="large" sx={{ color: Colors.white }} />
+        ) : (
+          <MusicOffIcon fontSize="large" sx={{ color: Colors.white }} />
+        )}
       </StyledAudioBox>
     </Wrapper>
   );
