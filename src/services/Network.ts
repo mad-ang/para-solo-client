@@ -104,7 +104,7 @@ export default class Network {
           const { field, value } = change;
           //  TODO: 다른 사용자 정보 업데이트 감지
           phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
-
+          console.log('다른 플레이어 업데이트', field, value);
           // when a new player finished setting up player name
           if (field === 'name' && value !== '') {
             phaserEvents.emit(Event.PLAYER_JOINED, player, key);

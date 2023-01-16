@@ -40,8 +40,12 @@ export default class MyPlayer extends Player {
     if (!authFlag) return;
     this.playerName.setText(name);
     const userId = store.getState().user?.userId || cookies.get('userId');
-    phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId, authFlag);
+    if (!cookies.get('playerName')) {
+      phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId, authFlag);
+    }
+    cookies.set('playerName', name);
     store.dispatch(pushPlayerJoinedMessage(name));
+
     getUserInfo()
       .then((response) => {
         if (!response) return;
@@ -66,7 +70,10 @@ export default class MyPlayer extends Player {
   setPlayerTexture(texture: string) {
     this.playerTexture = texture;
     this.anims.play(`${this.playerTexture}_idle_down`, true);
-    phaserEvents.emit(Event.MY_PLAYER_TEXTURE_CHANGE, this.x, this.y, this.anims.currentAnim.key);
+    if (!cookies.get('playerTexture')) {
+      phaserEvents.emit(Event.MY_PLAYER_TEXTURE_CHANGE, this.x, this.y, this.anims.currentAnim.key);
+    }
+    cookies.set('playerTexture', texture);
   }
 
   update(

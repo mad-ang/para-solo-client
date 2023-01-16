@@ -102,7 +102,6 @@ function ProfileEditModal(props) {
     const game = phaserGame.scene.keys.game as Game;
     if (game.myPlayer.name !== username) {
       game.myPlayer.setPlayerName(username, authFlag);
-      cookies.set('playerName', username, { path: '/' });
     }
 
     const newUserInfo = {
