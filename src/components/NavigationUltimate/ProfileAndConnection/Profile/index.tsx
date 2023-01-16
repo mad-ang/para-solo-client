@@ -47,7 +47,7 @@ function ProfileEditModal(props) {
   const focused = useAppSelector((state) => state.chat.focused);
 
   const inputRefs = useRef<any>([]);
-  const imgRef = useRef(null);
+  const imgRef = useRef<any>(null);
   function handleClick() {
     dispatch(SetProfileActivated(false));
   }
@@ -157,7 +157,6 @@ function ProfileEditModal(props) {
                     alt="avatar"
                     style={{ marginTop: -17 }}
                     onError={() => {
-                      // @ts-ignore
                       if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
                     }}
                   />
@@ -175,8 +174,7 @@ function ProfileEditModal(props) {
                 className="personal-avatar"
                 alt="avatar"
                 onError={() => {
-                  // @ts-ignore
-                  if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
+                  if (imgRef.current) return (imgRef.current.src! = DefaultAvatar);
                 }}
               />
             </div>

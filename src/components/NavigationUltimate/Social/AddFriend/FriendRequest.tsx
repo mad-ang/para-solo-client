@@ -11,7 +11,7 @@ import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
 import axios from 'axios';
 
-export function friendRequest(props) {
+export default function FriendRequest(props) {
   async function AcceptRequest(id, name) {
     console.log('친구 요청 수락');
     console.log(id);
@@ -78,7 +78,7 @@ export function friendRequest(props) {
 
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
-  const imgRef = useRef(null);
+  const imgRef = useRef<any>(null);
   const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
@@ -107,7 +107,6 @@ export function friendRequest(props) {
               className="personal-avatar"
               alt="avatar"
               onError={() => {
-                // @ts-ignore
                 if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
               }}
             />
@@ -265,4 +264,3 @@ const ZeroMessage = styled.div`
   font-size: 1.5rem;
 `;
 
-export default friendRequest;

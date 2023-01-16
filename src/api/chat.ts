@@ -15,13 +15,14 @@ export const createRoom = (param: CreateRoomRequest) => {
 };
 
 // 현재 채팅방 목록을 가져옴
-export const fetchRoomList = (userId: string, next: any) => {
+export const fetchRoomList = async (userId: string, next: any) => {
   // return await axios.get(`/chat/roomList/${userId}`)
-  return axios
+  return await axios
     .post(`/chat/roomList/`, { userId: userId })
     .then((response) => {
       console.log('hihihi');
-      const { data } = response.data;
+      const { data } = response;
+      console.log("sss", response)
       next(data);
       // return data as ApiResponse<Array<RoomListResponse>>;
     })
@@ -29,6 +30,16 @@ export const fetchRoomList = (userId: string, next: any) => {
       console.log(error);
     });
 };
+
+// export const fetchRoomList = async (userId: string, next: any) => {
+//   const roomList: ApiResponse<Array<RoomListResponse>> = await axios.post(
+//     `/chat/roomList/`, { userId: userId }
+//   );
+//   return roomList.data.data;
+// };
+
+
+
 
 // 스크롤시 채팅방의 채팅 데이터를 가져옴(옛날 채팅 리스트)
 export const fetchChatting = (param: FetchChattingRequest) => {
@@ -80,13 +91,23 @@ export interface CreateRoomResponse {
 }
 
 // 서버에서 채팅방 리스트에 대한 정보를 받아올 때
+// export interface RoomListResponse {
+//   friend: UserResponseDto;
+//   message: string; //친구와 나눈마지막 메세지
+//   roomId: number;
+//   unreadCount?: number;
+//   status: IChatRoomStatus; //0, 1, 2세가지가 들어옴
+//   updatedAt: Date;
+// }
+
 export interface RoomListResponse {
-  friend: UserResponseDto;
-  message: string; //친구와 나눈마지막 메세지
-  roomId: number;
+  myInfo: UserResponseDto;
+  friendInfo: UserResponseDto;
+  message: string;
+  status: IChatRoomStatus;
+  roomId?: string;
   unreadCount?: number;
-  status: IChatRoomStatus; //0, 1, 2세가지가 들어옴
-  updatedAt: Date;
+  updatedAt: Date | null;
 }
 
 export enum IChatRoomStatus {

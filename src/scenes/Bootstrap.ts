@@ -19,7 +19,6 @@ export default class Bootstrap extends Phaser.Scene {
       'assets/background/cloud_day.json'
     );
 
-    
     this.load.image('backdrop_day', 'assets/background/backdrop_day.png');
     this.load.atlas(
       'cloud_night',
@@ -66,7 +65,7 @@ export default class Bootstrap extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16,
     });
-    
+
     this.load.spritesheet('villas', 'assets/tileset/villas.png', {
       frameWidth: 16,
       frameHeight: 16,
@@ -78,6 +77,10 @@ export default class Bootstrap extends Phaser.Scene {
     });
 
     this.load.spritesheet('waterToy', 'assets/tileset/waterToy.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+    this.load.spritesheet('flowers', 'assets/tileset/flowers.png', {
       frameWidth: 16,
       frameHeight: 16,
     });

@@ -29,7 +29,7 @@ export default class OtherPlayer extends Player {
     name: string,
     frame?: string | number | undefined
   ) {
-    super(scene, x, y, texture, id, userId, userInfo, frame);
+    super(scene, x, y, texture, id, userId, userInfo, name, frame);
     this.targetPosition = [x, y];
 
     this.playerName.setText(name);
