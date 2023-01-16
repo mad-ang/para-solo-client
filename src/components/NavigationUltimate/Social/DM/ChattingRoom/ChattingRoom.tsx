@@ -53,7 +53,7 @@ export function InsideChattingRoom() {
   // };
 
   const userId = useAppSelector((state) => state.user.userId);
-  const friendId = useAppSelector((state) => state.dm.withWho);
+  const friendId = useAppSelector((state) => state.dm.frinedId);
 
   // useEffect(() => {
   //   scrollToBottom();
