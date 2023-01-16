@@ -112,11 +112,15 @@ export interface RoomListResponse {
 
 
 
-
+// 0 : 친구 요청
+// 1 : SOCKET_ON
+// 2 : SOCKET_OFF = 친구 요청 ㅅ
+// 3 : 친구요청 거절 혹은 상대방 차단.
 export enum IChatRoomStatus {
   FRIEND_REQUEST,
   SOCKET_ON,
   SOCKET_OFF,
+  REJECTED
 }
 
 // 서버에 채팅 가져오기
