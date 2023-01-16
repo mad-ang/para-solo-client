@@ -142,7 +142,7 @@ for (let i = avatars.length - 1; i > 0; i--) {
 }
 
 export default function CharacterSelectionDialog(props) {
-  const [name, setName] = useState<string>(props.playerName);
+  const [name, setName] = useState<string>(props.player || '');
   const [avatarIndex, setAvatarIndex] = useState<number>(0);
   const [nameFieldEmpty, setNameFieldEmpty] = useState<boolean>(false);
   const dispatch = useAppDispatch();
