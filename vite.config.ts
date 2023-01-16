@@ -8,14 +8,19 @@ export default defineConfig(({ command, mode }) => {
   return {
     // vite config
     plugins: [
-      react(),
-      [
-        'babel-plugin-styled-components',
-        {
-          displayName: true,
-          fileName: false,
+      react({
+        babel: {
+          plugins: [
+            [
+              'babel-plugin-styled-components',
+              {
+                displayName: true,
+                fileName: false,
+              },
+            ],
+          ],
         },
-      ],
+      }),
     ],
     define: {
       global: { x: 0 },
