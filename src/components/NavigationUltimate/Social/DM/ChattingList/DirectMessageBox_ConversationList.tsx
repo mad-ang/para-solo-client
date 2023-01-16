@@ -66,9 +66,9 @@ export const ConversationList = () => {
   let roomId = '';
   useEffect(() => {
     fetchRoomList(userId, (data: RoomListResponse[]) => {
-      console.log("데이터 요청@@!!!");
+      console.log('데이터 요청@@!!!');
       setRooms(data);
-      console.log("데이터 요청결과!!!", data);
+      console.log('데이터 요청결과!!!', data);
     });
   }, []);
 
@@ -101,27 +101,26 @@ export const ConversationList = () => {
         console.log('error', error);
       }
     }
-
-    return (
-      <DMmessageList>
-        <UnorderedList>
-          {rooms &&
-            rooms.map((room, index) => (
-              <ListTag
-                key={index}
-                onClick={(room) => {
-                  handleClick(room);
-                }}
-              >
-                <img src={room.friendInfo.profileImgUrl} alt={room.friendInfo.username} width="60" />
-                <IDwithLastmessage>
-                  <UserID>{room.friendInfo.username}</UserID>
-                  <div>{room.message}</div>
-                </IDwithLastmessage>
-              </ListTag>
-            ))}
-        </UnorderedList>
-      </DMmessageList>
-    );
   };
-}
+  return (
+    <DMmessageList>
+      <UnorderedList>
+        {rooms &&
+          rooms.map((room, index) => (
+            <ListTag
+              key={index}
+              onClick={(room) => {
+                handleClick(room);
+              }}
+            >
+              <img src={room.friendInfo.profileImgUrl} alt={room.friendInfo.username} width="60" />
+              <IDwithLastmessage>
+                <UserID>{room.friendInfo.username}</UserID>
+                <div>{room.message}</div>
+              </IDwithLastmessage>
+            </ListTag>
+          ))}
+      </UnorderedList>
+    </DMmessageList>
+  );
+};

@@ -22,7 +22,7 @@ export const fetchRoomList = async (userId: string, next: any) => {
     .then((response) => {
       console.log('hihihi');
       const { data } = response.data;
-      console.log("sss", response)
+      console.log('sss', response);
       next(data);
       // return data as ApiResponse<Array<RoomListResponse>>;
     })
@@ -91,17 +91,14 @@ export interface CreateRoomResponse {
 // }
 
 export interface RoomListResponse {
-  myInfo: UserResponseDto
-  friendInfo: UserResponseDto
-  message: string
-  status: IChatRoomStatus
-  roomId?: string
-  unreadCount?: number
-  updatedAt: Date | null
+  myInfo: UserResponseDto;
+  friendInfo: UserResponseDto;
+  message: string;
+  status: IChatRoomStatus;
+  roomId?: string;
+  unreadCount?: number;
+  updatedAt: Date | null;
 }
-
-
-
 
 export enum IChatRoomStatus {
   FRIEND_REQUEST,
