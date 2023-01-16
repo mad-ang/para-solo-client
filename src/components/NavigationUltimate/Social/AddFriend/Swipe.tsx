@@ -12,22 +12,6 @@ import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
 import axios from 'axios';
 
-const Wrapper = styled.div`
-  position: fixed;
-  left: 0px;
-  background-color: ${Colors.white};
-  gap: 10px;
-  bottom: 60px;
-  height: 400px;
-  width: 370px;
-  border-radius: 6px;
-  box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  font-style: normal;
-  font-weight: 400;
-`;
-
 function Swipe(props) {
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
@@ -97,7 +81,7 @@ function Swipe(props) {
   return (
     <Wrapper>
       <SwipeHeader>
-        <TitleText>현재 {userCnt}명이 접속해있어요</TitleText>
+        <TitleText>현재 {players.length}명이 접속해있어요</TitleText>
         <CloseButton onClick={handleClick}>X</CloseButton>
       </SwipeHeader>
       {userCnt === 0 ? (
@@ -150,6 +134,22 @@ function Swipe(props) {
     </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  position: fixed;
+  left: 0px;
+  background-color: ${Colors.white};
+  gap: 10px;
+  bottom: 60px;
+  height: 400px;
+  width: 370px;
+  border-radius: 6px;
+  box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  font-style: normal;
+  font-weight: 400;
+`;
 
 const CloseButton = styled.button`
   width: 30px;
