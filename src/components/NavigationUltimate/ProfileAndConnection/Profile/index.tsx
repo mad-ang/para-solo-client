@@ -25,12 +25,23 @@ import { addImage } from 'src/api/s3';
 
 function ProfileEditModal(props) {
   const originalUserInfo = useAppSelector((state) => state.user.userInfo);
-  const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
+  const [userProfile, setUserProfile] = useState<any>(
+    originalUserInfo?.profileImgUrl || DefaultAvatar
+  );
   const [editable, setEditable] = useState(false);
   const [username, setUsername] = useState(cookies.get('playerName') || '');
-  const [gender, setGender] = useState<Option | null>(null);
-  const [age, setAge] = useState<Option | null>(null);
-  const [height, setHeight] = useState<Option | null>(null);
+  const [gender, setGender] = useState<Option | null>({
+    value: originalUserInfo?.gender,
+    label: originalUserInfo?.gender || '-',
+  });
+  const [age, setAge] = useState<Option | null>({
+    value: originalUserInfo?.age,
+    label: originalUserInfo?.age || '-',
+  });
+  const [height, setHeight] = useState<Option | null>({
+    value: originalUserInfo?.height,
+    label: originalUserInfo?.height || '-',
+  });
   const dispatch = useAppDispatch();
   let refIndex = 0;
   const focused = useAppSelector((state) => state.chat.focused);
