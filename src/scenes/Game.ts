@@ -42,9 +42,8 @@ export default class Game extends Phaser.Scene {
   }
 
   init() {
-    this.animatedTiles = []
+    this.animatedTiles = [];
   }
-
 
   registerKeys() {
     this.cursors = {
@@ -120,10 +119,8 @@ export default class Game extends Phaser.Scene {
     const billboardImage = this.map.addTilesetImage('billboard', 'billboard');
 
     const campfire2Image = this.map.addTilesetImage('campfire2', 'campfire2');
-    
-    console.log('campfire2Image.tileData',campfire2Image.tileData)
 
-
+    console.log('campfire2Image.tileData', campfire2Image.tileData);
 
     const foodCarsImage = this.map.addTilesetImage('foodCars', 'foodCars');
 
@@ -148,7 +145,6 @@ export default class Game extends Phaser.Scene {
     const birdImage = this.map.addTilesetImage('bird', 'bird');
     const flowersImage = this.map.addTilesetImage('flowers', 'flowers');
 
-
     const GroundLayer = this.map.createLayer('ground', [
       modernExteriorsImage,
       waterToyImage,
@@ -158,60 +154,66 @@ export default class Game extends Phaser.Scene {
     ]);
     const fencesLayer = this.map.createLayer('fences', interiorImage);
 
-    const buildingsLayer = this.map.createLayer('buildings', 
-    [
-        boat1Image,
-        ModernExteriorsCompleteImage,
-        clothesImage,
-        interiorImage,
-        campfire2Image,
-        pigeonImage,
-        characterInWater,
-        fishImage,
-        fish2Image,
-        fish3Image,
-        fishingBoatImage,
-        campingImage,
-        vehiclesImage,
-        foodCarsImage,
-        villasImage,
-        birdImage,
-        pigeonImage,
-        ball1Image,
-        ball2Image,
-        flowersImage
-      ]
-      
-    )
-    
+    const buildingsLayer = this.map.createLayer('buildings', [
+      boat1Image,
+      ModernExteriorsCompleteImage,
+      clothesImage,
+      interiorImage,
+      campfire2Image,
+      pigeonImage,
+      characterInWater,
+      fishImage,
+      fish2Image,
+      fish3Image,
+      fishingBoatImage,
+      campingImage,
+      vehiclesImage,
+      foodCarsImage,
+      villasImage,
+      birdImage,
+      pigeonImage,
+      ball1Image,
+      ball2Image,
+      flowersImage,
+      wormImage
+    ]);
 
+    const buildingAnimationImages = [
+      boat1Image,
+      campfire2Image,
+      pigeonImage,
+      characterInWater,
+      fishImage,
+      fish2Image,
+      fish3Image,
+      fishingBoatImage,
+      birdImage,
+      pigeonImage,
+      ball1Image,
+      ball2Image,
+      wormImage,
+      clothesImage
+    ];
 
-    const tileData = campfire2Image.tileData as any;
+    buildingAnimationImages.forEach((imageSet) => {
+      const tileData = imageSet.tileData as any;
 
-    for (let tileid in tileData) {
-      // console.log('33333', tileid)
-
-      this.map.layers.forEach(layer => {
-        // console.log(9999, layer)
-        if (layer.tilemapLayer?.type === "StaticTilemapLayer") return;
-        layer.data.forEach(tileRow => {
-          tileRow.forEach(tile => {
-            if (tile.index - campfire2Image.firstgid === parseInt(tileid, 10)) {
-              this.animatedTiles.push(
-                new AnimatedTile(
-                  tile,
-                  tileData[tileid].animation,
-                  campfire2Image.firstgid
-                )
-              );
-            }
+      for (let tileid in tileData) {
+        this.map.layers.forEach((layer) => {
+          if (layer.tilemapLayer?.type === 'StaticTilemapLayer') return;
+          layer.data.forEach((tileRow) => {
+            tileRow.forEach((tile) => {
+              if (tile.index - imageSet.firstgid === parseInt(tileid, 10)) {
+                this.animatedTiles.push(
+                  new AnimatedTile(tile, tileData[tileid].animation, imageSet.firstgid)
+                );
+              }
+            });
           });
         });
-      });
-    }
-    // console.log('animatedTiles', this.animatedTiles);
-    
-    // this.animatedTiles.forEach(tile => tile.update(this.time.now));
+      }
+    });
+
     const ForegroundLayer = this.map.createLayer('foreground', [
       villasImage,
       interiorImage,
@@ -223,10 +225,28 @@ export default class Game extends Phaser.Scene {
       vehiclesImage,
       foodCarsImage,
       modernExteriorsImage,
-      clothesImage
+      clothesImage,
     ]);
-    // this.map.createDynamicLayer('water', [ModernExteriorsCompleteImage, interiorImage, campingImage]);
 
+    const foregroundAnimationImage = [billboardImage];
+    foregroundAnimationImage.forEach((imageSet) => {
+      const tileData = imageSet.tileData as any;
+
+      for (let tileid in tileData) {
+        this.map.layers.forEach((layer) => {
+          if (layer.tilemapLayer?.type === 'StaticTilemapLayer') return;
+          layer.data.forEach((tileRow) => {
+            tileRow.forEach((tile) => {
+              if (tile.index - imageSet.firstgid === parseInt(tileid, 10)) {
+                this.animatedTiles.push(
+                  new AnimatedTile(tile, tileData[tileid].animation, imageSet.firstgid)
+                );
+              }
+            });
+          });
+        });
+      }
+    });
 
     const secondGroundLayer = this.map.createLayer('secondGround', [
       ModernExteriorsCompleteImage,
@@ -483,7 +503,7 @@ export default class Game extends Phaser.Scene {
   }
 
   update(t: number, dt: number) {
-    this.animatedTiles.forEach((tile)=>tile.update(dt));
+    this.animatedTiles.forEach((tile) => tile.update(dt));
 
     if (this.myPlayer && this.network) {
       this.playerSelector.update(this.myPlayer, this.cursors);

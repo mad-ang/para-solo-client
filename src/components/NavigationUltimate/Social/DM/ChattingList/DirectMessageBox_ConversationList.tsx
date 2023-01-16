@@ -11,7 +11,7 @@ import {
   SetChattingListActivateOnly,
 } from '../../../../../stores/NavbarStore';
 import { useQuery } from 'react-query';
-import { ApiResponse, fetchRoomList, RoomListResponse, IChatRoomStatus } from 'src/api/chat';
+import { ApiResponse, fetchRoomList, RoomListResponse, IChatRoomStatus, UserResponseDto } from 'src/api/chat';
 import axios from 'axios';
 import FriendRequest from 'src/components/NavigationUltimate/Social/AddFriend/FriendRequest';
 
@@ -61,6 +61,7 @@ const DMmessageList = styled.div`
 export const ConversationList = () => {
   const [rooms, setRooms] = useState<RoomListResponse[]>([]);
   const [friendRequestModal, setFriendRequestModal] = useState(false);
+  const [FriendRequestProps, setFriendRequestProps] = useState<UserResponseDto>({} as UserResponseDto);
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.userId);
   const friendId = useAppSelector((state) => state.dm.frinedId);
@@ -82,21 +83,16 @@ export const ConversationList = () => {
     roomId: roomId,
   };
 
-  const handleClick = async (room) => {
+  const handleClick = async (room, index) => {
     // if (room.status == IChatRoomStatus.FRIEND_REQUEST) {
-    if (true) {
       setFriendRequestModal(true);
-      // alert('친구 요청을 수락해주세요'); //송희누나의 모달창이 뜰 예정
-      //수락하면 다음으로 진행
-      //+ lastchat을, 친구와 대화를 시작해 보세요로 바꾸기
-      //거절하면... 해당 메시지 삭제 요청
-      //+ 즉, 친구리스트에서 지워주면 끝
-    }
+      setFriendRequestProps(room.friendInfo);
+    // }
 
     if (room.status != IChatRoomStatus.FRIEND_REQUEST) {
       dispatch(SetChattingListActivateOnly());
       try {
-        const response = await axios.post('/joinRoom', body);
+        const response = await axios.post('/chat/joinRoom', body);
         if (response.data.status === 200) {
           dispatch(SetChattingRoomActivated(true));
           // Response userId
@@ -113,11 +109,12 @@ export const ConversationList = () => {
         <>
         <UnorderedList>
           {rooms &&
-            rooms.map((room, index) => (              
+            rooms.map((room, index) => (
+
               <ListTag
                 key={index}
-                onClick={(room) => {
-                  handleClick(room);
+                onClick = { () => {
+                  handleClick(room, index);
                 }}
               >
                 <img src={room.friendInfo.profileImgUrl} alt={room.friendInfo.username} width="60" />
@@ -125,10 +122,12 @@ export const ConversationList = () => {
                   <UserID>{room.friendInfo.username}</UserID>
                   <div>{room.message}</div>
                 </IDwithLastmessage>
-                {friendRequestModal? <FriendRequest/> : null}
               </ListTag>
             ))}
         </UnorderedList>
+        {friendRequestModal? 
+        <FriendRequest setFriendRequestModal={setFriendRequestModal} friendInfo = {FriendRequestProps}
+        /> : null}
         </>
       </DMmessageList>
     );
