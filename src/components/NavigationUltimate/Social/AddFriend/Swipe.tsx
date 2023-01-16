@@ -20,7 +20,8 @@ function Swipe(props) {
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
   const userId = useAppSelector((state) => state.user.userId);
-  const friendId = useAppSelector((state) => state.dm.frinedId);
+  const userName = useAppSelector((state) => state.user.userName);
+  const friendId = useAppSelector((state) => state.dm.friendId);
   const userCnt = useAppSelector((state) => state.room.userCnt);
   // const game = phaserGame.scene.keys.game as Game;
   // const players = Array.from(game?.allOtherPlayers());
@@ -33,13 +34,13 @@ function Swipe(props) {
     let body = {
       myInfo: {
         userId: userId,
-        username: 'userName',
-        profileImgUrl: 'ImageUrl',
+        username: userName,
+        profileImgUrl: 'https://user-images.githubusercontent.com/63194662/211139505-282c312a-2d1c-4186-a22b-4fdb7c375803.png',
       },
       friendInfo: {
         userId: id,
         username: name,
-        profileImgUrl: 'friendUrl',
+        profileImgUrl: 'https://user-images.githubusercontent.com/63194662/211139490-e3606d1d-3f68-4041-8b99-1a09d2a1b61c.png',
         // username: 'friendName',
         // profileImgUrl: props.url,
       },
@@ -100,7 +101,7 @@ function Swipe(props) {
         >
           {otherPlayers?.map(
             (player, i: number) =>
-              i >= 1 && (
+              
                 <SwiperSlide key={i}>
                   {/* <SwiperSlide key={player.id}> */}
                   <SwipeBody>
@@ -131,7 +132,7 @@ function Swipe(props) {
                     </Button>
                   </SwipeBody>
                 </SwiperSlide>
-              )
+              
           )}
         </Swiper>
       )}

@@ -19,7 +19,7 @@ import {
   // setGender as setStoreGender,
   // setAge as setStoreAge,
   // setHeight as setStoreHeight,
-  setUserInfo as setStoreUserInfo,
+  setUserInfo as setStoreUserInfo, setUserName,
 } from 'src/stores/UserStore';
 import { addImage } from 'src/api/s3';
 
@@ -60,7 +60,8 @@ function ProfileEditModal(props) {
 
   const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!editable) return;
-    setUsername(event.target.value);
+    setUsername(event.target.value);            //colyseus에서의 유저이름 변경
+    dispatch(setUserName(event.target.value));  //redux store에서의 유저이름 변경
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

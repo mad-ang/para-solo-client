@@ -57,14 +57,14 @@ const DMmessageList = styled.div`
   border-bottom-right-radius: 25px;
 `;
 
-/* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.frinedId)에 친구의 userId를 넣어준다  */
+/* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.friendId)에 친구의 userId를 넣어준다  */
 export const ConversationList = () => {
   const [rooms, setRooms] = useState<RoomListResponse[]>([]);
   const [friendRequestModal, setFriendRequestModal] = useState(false);
   const [FriendRequestProps, setFriendRequestProps] = useState<UserResponseDto>({} as UserResponseDto);
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.userId);
-  const friendId = useAppSelector((state) => state.dm.frinedId);
+  const friendId = useAppSelector((state) => state.dm.friendId);
 
   let roomId = '';
   useEffect(() => {
@@ -84,25 +84,33 @@ export const ConversationList = () => {
   };
 
   const handleClick = async (room, index) => {
-    // if (room.status == IChatRoomStatus.FRIEND_REQUEST) {
+    if (room.status == IChatRoomStatus.FRIEND_REQUEST) {
+      
       setFriendRequestModal(true);
       setFriendRequestProps(room.friendInfo);
-    // }
-
-    if (room.status != IChatRoomStatus.FRIEND_REQUEST) {
-      dispatch(SetChattingListActivateOnly());
+    }
+    else{
+      console.log("This room's status is... ", room.status);
       try {
         const response = await axios.post('/chat/joinRoom', body);
-        if (response.data.status === 200) {
+        if (response.status === 200) {
+          console.log("DEBUG111");
           dispatch(SetChattingRoomActivated(true));
+          console.log("DEBUG222");
           // Response userId
-          dispatch(setkey(room.friend.userId));
+          dispatch(setkey(room.friendInfo.userId));
+          console.log(response);
+          console.log(response.data);
+          console.log(response.data.payload);
           dispatch(setRoomId(response.data.payload.roomId));
+          console.log("DEBUG333");
         }
       } catch (error) {
         console.log('error', error);
       }
     }
+      // dispatch(SetChattingListActivateOnly());
+    
   }
     return (
       <DMmessageList>
