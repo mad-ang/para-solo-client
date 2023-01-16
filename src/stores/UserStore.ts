@@ -6,6 +6,7 @@ import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
 import { StreamTwoTone } from '@mui/icons-material';
 import Cookies from 'universal-cookie';
+import { UserResponseDto } from 'src/api/chat';
 const cookies = new Cookies();
 
 export function getInitialBackgroundMode() {
@@ -25,7 +26,7 @@ export const userSlice = createSlice({
   initialState: {
     backgroundMode: getInitialBackgroundMode(),
     sessionId: '',
-    userId: '', // 일단 유지
+    userId: '',
     videoConnected: false,
     webcamAudioStatus: false,
     webcamVideoStatus: false,
@@ -34,6 +35,7 @@ export const userSlice = createSlice({
     characterSelected: false,
     accessToken: '',
     userInfo: {
+      profileImgUrl: '',
       gender: '',
       age: '',
       height: '',
@@ -82,7 +84,7 @@ export const userSlice = createSlice({
     setAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload;
     },
-    setUserInfo: (state, action: PayloadAction<string>) => {
+    setUserInfo: (state, action: PayloadAction<UserResponseDto>) => {
       state.userInfo = action.payload;
     },
     // setGender: (state, action: PayloadAction<string>) => {

@@ -16,6 +16,7 @@ import Game from 'scenes/Game';
 import Cookies from 'universal-cookie';
 import { UserResponseDto } from 'src/api/chat';
 import { setUserInfo } from 'src/stores/UserStore';
+import { getUserInfo } from 'src/api/auth';
 const cookies = new Cookies();
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
@@ -40,12 +41,25 @@ export default class MyPlayer extends Player {
     const userId = store.getState().user?.userId || cookies.get('userId');
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId);
     store.dispatch(pushPlayerJoinedMessage(name));
+    getUserInfo()
+      .then((response) => {
+        if (!response) return;
+        const { userId, username, ...additionalInfo } = response;
+        console.log(userId, username, additionalInfo);
+        store.dispatch(setUserInfo(additionalInfo));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   setPlayerInfo(userInfo: UserResponseDto) {
     console.log('변경함수 호출!');
     const userId = store.getState().user?.userId || cookies.get('userId');
     phaserEvents.emit(Event.MY_PLAYER_INFO_CHANGE, userInfo, userId);
+    const infoToChange = store.getState().user?.userInfo;
+    const newInfo = { ...infoToChange, ...userInfo };
+    store.dispatch(setUserInfo(newInfo));
   }
 
   setPlayerTexture(texture: string) {
