@@ -66,7 +66,9 @@ export function ConversationList() {
   let roomId = '';
   useEffect(() => {
     fetchRoomList(userId, (data: RoomListResponse[]) => {
+      console.log("데이터 요청@@!!!");
       setRooms(data);
+      console.log("데이터 요청결과!!!", data);
     });
   }, []);
 
@@ -111,9 +113,9 @@ export function ConversationList() {
                   handleClick(room);
                 }}
               >
-                <img src={room.friend.profileImgUrl} alt={room.friend.username} width="60" />
+                <img src={room.friendInfo.profileImgUrl} alt={room.friendInfo.username} width="60" />
                 <IDwithLastmessage>
-                  <UserID>{room.friend.username}</UserID>
+                  <UserID>{room.friendInfo.username}</UserID>
                   <div>{room.message}</div>
                 </IDwithLastmessage>
               </ListTag>
