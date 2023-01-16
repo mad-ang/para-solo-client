@@ -89,7 +89,7 @@ export default function FriendRequest(props) {
   const players = Array.from(game?.allOtherPlayers());
 
   function handleClick() {
-    dispatch(SetAddFriendsActivated(false));
+    props.setFriendRequestModal(false);
   }
 
   return (
