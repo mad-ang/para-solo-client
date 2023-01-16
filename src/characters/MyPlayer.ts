@@ -36,10 +36,11 @@ export default class MyPlayer extends Player {
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
   }
 
-  setPlayerName(name: string) {
+  setPlayerName(name: string, authFlag: number = 1) {
+    if (!authFlag) return;
     this.playerName.setText(name);
     const userId = store.getState().user?.userId || cookies.get('userId');
-    phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId);
+    phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId, authFlag);
     store.dispatch(pushPlayerJoinedMessage(name));
     getUserInfo()
       .then((response) => {
@@ -53,10 +54,10 @@ export default class MyPlayer extends Player {
       });
   }
 
-  setPlayerInfo(userInfo: UserResponseDto) {
-    console.log('변경함수 호출!');
+  setPlayerInfo(userInfo: UserResponseDto, authFlag: number = 1) {
+    if (!authFlag) return;
     const userId = store.getState().user?.userId || cookies.get('userId');
-    phaserEvents.emit(Event.MY_PLAYER_INFO_CHANGE, userInfo, userId);
+    phaserEvents.emit(Event.MY_PLAYER_INFO_CHANGE, userInfo, userId, authFlag);
     const infoToChange = store.getState().user?.userInfo;
     const newInfo = { ...infoToChange, ...userInfo };
     store.dispatch(setUserInfo(newInfo));

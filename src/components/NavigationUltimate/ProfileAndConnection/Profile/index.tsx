@@ -87,6 +87,7 @@ function ProfileEditModal(props) {
   };
 
   const save = () => {
+    let authFlag = 0;
     setEditable(false);
     // if (inputRefs?.current) {
     //   inputRefs.current.blur();
@@ -97,10 +98,10 @@ function ProfileEditModal(props) {
       alert('사용자 정보 인증 오류');
       return;
     }
-
+    authFlag = 1;
     const game = phaserGame.scene.keys.game as Game;
     if (game.myPlayer.name !== username) {
-      game.myPlayer.setPlayerName(username);
+      game.myPlayer.setPlayerName(username, authFlag);
       cookies.set('playerName', username, { path: '/' });
     }
 
@@ -112,7 +113,7 @@ function ProfileEditModal(props) {
     };
 
     const infoToChange = { ...originalUserInfo, ...newUserInfo };
-    game.myPlayer.setPlayerInfo(infoToChange);
+    game.myPlayer.setPlayerInfo(infoToChange, authFlag);
   };
 
   const updateAtOnce = (username, playerInfo) => {

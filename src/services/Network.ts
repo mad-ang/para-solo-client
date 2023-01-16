@@ -233,16 +233,19 @@ export default class Network {
   }
 
   // method to send player name to Colyseus server
-  updatePlayerName(currentName: string, currentUserId) {
-    this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName, userId: currentUserId });
+  updatePlayerName(currentName: string, currentUserId: string, authFlag: number) {
+    this.room?.send(Message.UPDATE_PLAYER_NAME, {
+      name: currentName,
+      userId: currentUserId,
+      authFlag: authFlag,
+    });
   }
 
-  updatePlayerInfo(currentUserInfo: UserResponseDto, currentUserId: string) {
-    console.log('UPDATE_PLAYER_INFO 호출!@!');
-
+  updatePlayerInfo(currentUserInfo: UserResponseDto, currentUserId: string, authFlag: number) {
     this.room?.send(Message.UPDATE_PLAYER_INFO, {
       userInfo: currentUserInfo,
       userId: currentUserId,
+      authFlag: authFlag,
     });
   }
   // method to send ready-to-connect signal to Colyseus server
