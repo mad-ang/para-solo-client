@@ -24,9 +24,10 @@ import {
 import { addImage } from 'src/api/s3';
 
 function ProfileEditModal(props) {
+  const originalUserInfo = useAppSelector((state) => state.user.userInfo);
   const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
   const [editable, setEditable] = useState(false);
-  const [username, setUsername] = useState(cookies.get('playerName'));
+  const [username, setUsername] = useState(cookies.get('playerName') || '');
   const [gender, setGender] = useState<Option | null>(null);
   const [age, setAge] = useState<Option | null>(null);
   const [height, setHeight] = useState<Option | null>(null);
@@ -43,7 +44,6 @@ function ProfileEditModal(props) {
   const handleChangeUserProfile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event?.target?.files;
     if (!files) return;
-    console.log('files', files);
     addImage('profile', files, setUserProfile);
   };
 
@@ -76,7 +76,6 @@ function ProfileEditModal(props) {
   };
 
   const save = () => {
-    const game = phaserGame.scene.keys.game as Game;
     setEditable(false);
     // if (inputRefs?.current) {
     //   inputRefs.current.blur();
@@ -88,10 +87,8 @@ function ProfileEditModal(props) {
       return;
     }
 
-    const myPlayerInfo = game?.myPlayer?.userInfo;
-    if (!myPlayerInfo) return;
-
-    if (myPlayerInfo.username !== username) {
+    const game = phaserGame.scene.keys.game as Game;
+    if (game.myPlayer.name !== username) {
       game.myPlayer.setPlayerName(username);
       cookies.set('playerName', username, { path: '/' });
     }
@@ -103,24 +100,30 @@ function ProfileEditModal(props) {
       height: height?.value,
     };
 
-    console.log('변경하겠다', 'myPlayerInfo', myPlayerInfo, 'newUserInfo', newUserInfo);
-    game.myPlayer.setPlayerInfo(newUserInfo);
-
+    const infoToChange = { ...originalUserInfo, ...newUserInfo };
+    game.myPlayer.setPlayerInfo(infoToChange);
   };
 
-  const updateAtOnce = (playerInfo) => {
+  const updateAtOnce = (username, playerInfo) => {
+    setUsername(username);
     setUserProfile(playerInfo.profileImgUrl || DefaultAvatar);
-    setUsername(playerInfo.username);
-    setGender(playerInfo.gender);
-    setAge(playerInfo.age);
-    setHeight(playerInfo.height);
+    setGender({ value: playerInfo.gender, label: playerInfo.gender });
+    setAge({ value: playerInfo.age, label: playerInfo.age });
+    setHeight({ value: playerInfo.height, label: playerInfo.height });
   };
 
   useEffect(() => {
-    const game = phaserGame.scene.keys.game as Game;
-    if (!game?.myPlayer) return;
-    const playerInfo = game.myPlayer.userInfo;
-    updateAtOnce(playerInfo);
+    (async () => {
+      getUserInfo()
+        .then((response) => {
+          if (!response) return;
+          const { userId, username, ...additionalInfo } = response;
+          updateAtOnce(username, additionalInfo);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    })();
   }, []);
 
   return (

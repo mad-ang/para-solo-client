@@ -1,8 +1,8 @@
 export type Option = { value: string; label: string };
 
 export const genderOptions: any = [
-  { value: 'male', label: '남' },
-  { value: 'female', label: '여' },
+  { value: '남', label: '남' },
+  { value: '여', label: '여' },
 ];
 
 export const ageOptions: any = Array.from({ length: 21 }, (_, i) => ({
