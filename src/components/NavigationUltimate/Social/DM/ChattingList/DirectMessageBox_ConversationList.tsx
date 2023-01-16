@@ -57,7 +57,7 @@ const DMmessageList = styled.div`
 `;
 
 /* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.frinedId)에 친구의 userId를 넣어준다  */
-export function ConversationList() {
+export const ConversationList = () => {
   const [rooms, setRooms] = useState<RoomListResponse[]>([]);
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.userId);
