@@ -101,15 +101,10 @@ export default function SignUpDialog() {
       try {
         const signUpResponse = await axios.post('/auth/signup', body);
         if (signUpResponse.data.status === 200) {
-          if (
-            login(body, (accessToken) => {
-              dispatch(setAccessToken(accessToken));
-              dispatch(setStoreUserId(userId));
-            })
-          ) {
-          } else {
-            throw 'login error';
-          }
+          login(body, (accessToken) => {
+            dispatch(setAccessToken(accessToken));
+            dispatch(setStoreUserId(userId));
+          });
         }
       } catch (error) {
         setUserIdFieldWrong(true);
@@ -133,9 +128,11 @@ export default function SignUpDialog() {
           margin="normal"
           error={userIdFieldEmpty || userIdFieldWrong}
           helperText={
-            (userIdFieldEmpty && '이름이 필요해요') ||
+            (userIdFieldEmpty && '아이디가 필요해요') ||
             (userIdFieldWrong && '이미 존재하는 아이디입니다.')
           }
+          inputProps={{ maxLength: 20 }}
+          value={userId}
           onInput={(e) => {
             setUserId((e.target as HTMLInputElement).value?.trim());
           }}

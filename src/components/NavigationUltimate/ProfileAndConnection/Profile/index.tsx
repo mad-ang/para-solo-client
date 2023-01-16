@@ -9,22 +9,22 @@ import Colors from 'src/utils/Colors';
 import InputBase from '@mui/material/InputBase';
 import Select from 'react-select';
 import { infoItemList, Option, genderOptions, ageOptions, heightOptions } from './data';
-import { getUserInfo, updateUserInfo } from 'src/api/auth';
+import { authenticateUser, getUserInfo, updateUserInfo } from 'src/api/auth';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
-const game = phaserGame.scene.keys.game as Game;
+
 import {
-  setGender as setStoreGender,
-  setAge as setStoreAge,
-  setHeight as setStoreHeight,
+  // setGender as setStoreGender,
+  // setAge as setStoreAge,
+  // setHeight as setStoreHeight,
+  setUserInfo as setStoreUserInfo,
 } from 'src/stores/UserStore';
 import { addImage } from 'src/api/s3';
 
 function ProfileEditModal(props) {
   const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
-  const [originalInfo, setOriginalInfo] = useState<any>(null);
   const [editable, setEditable] = useState(false);
   const [username, setUsername] = useState(cookies.get('playerName'));
   const [gender, setGender] = useState<Option | null>(null);
@@ -69,63 +69,59 @@ function ProfileEditModal(props) {
   };
 
   const edit = () => {
-    setEditable(!editable);
+    setEditable(true);
     if (inputRefs?.current) {
       inputRefs.current[0].focus();
     }
   };
 
   const save = () => {
-    setEditable(!editable);
+    const game = phaserGame.scene.keys.game as Game;
+    setEditable(false);
     // if (inputRefs?.current) {
     //   inputRefs.current.blur();
     // }
 
+    const isAuth = authenticateUser();
+    if (!isAuth) {
+      alert('사용자 정보 인증 오류');
+      return;
+    }
+
+    const myPlayerInfo = game?.myPlayer?.userInfo;
+    if (!myPlayerInfo) return;
+
+    if (myPlayerInfo.username !== username) {
+      game.myPlayer.setPlayerName(username);
+      cookies.set('playerName', username, { path: '/' });
+    }
+
     const newUserInfo = {
       profileImgUrl: userProfile,
-      username: username,
       gender: gender?.value,
       age: age?.value,
       height: height?.value,
     };
 
-    const keys = Object.keys(originalInfo);
-    for (let i = 0; i < keys.length; i++) {
-      if (originalInfo[keys[i]] == newUserInfo[keys[i]]) {
-        delete newUserInfo[keys[i]];
-      }
-    }
-    console.log('저장할 정보', newUserInfo);
-    cookies.set('playerName', username, { path: '/' });
-    game.myPlayer.setPlayerName(username);
+    console.log('변경하겠다', 'myPlayerInfo', myPlayerInfo, 'newUserInfo', newUserInfo);
+    game.myPlayer.setPlayerInfo(newUserInfo);
 
-    (async () => {
-      const userData = await updateUserInfo(newUserInfo);
-      if (!userData) return;
-      setStoreGender(userData.gender);
-      setStoreAge(userData.age);
-      setStoreHeight(userData.height);
-    })();
+  };
+
+  const updateAtOnce = (playerInfo) => {
+    setUserProfile(playerInfo.profileImgUrl || DefaultAvatar);
+    setUsername(playerInfo.username);
+    setGender(playerInfo.gender);
+    setAge(playerInfo.age);
+    setHeight(playerInfo.height);
   };
 
   useEffect(() => {
-    if (editable) return;
-    (async () => {
-      try {
-        const userData = await getUserInfo();
-        if (!userData) return;
-        console.log('불러온 유저정보', userData);
-        setOriginalInfo(userData);
-        setUserProfile(userData.profileImgUrl || DefaultAvatar);
-        setUsername(userData.username);
-        setGender(userData.gender);
-        setAge(userData.age);
-        setHeight(userData.height);
-      } catch (error) {
-        setUserProfile(DefaultAvatar);
-      }
-    })();
-  }, [editable]);
+    const game = phaserGame.scene.keys.game as Game;
+    if (!game?.myPlayer) return;
+    const playerInfo = game.myPlayer.userInfo;
+    updateAtOnce(playerInfo);
+  }, []);
 
   return (
     <ProfileSettingEditor>

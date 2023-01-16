@@ -20,6 +20,7 @@ import {
 } from '../stores/ChatStore';
 import { useAppSelector } from '../hooks';
 import Cookies from 'universal-cookie';
+import { UserResponseDto } from 'src/api/chat';
 const cookies = new Cookies();
 export default class Network {
   private client: Client;
@@ -42,6 +43,7 @@ export default class Network {
     });
 
     phaserEvents.on(Event.MY_PLAYER_NAME_CHANGE, this.updatePlayerName, this);
+    phaserEvents.on(Event.MY_PLAYER_INFO_CHANGE, this.updatePlayerInfo, this);
     phaserEvents.on(Event.MY_PLAYER_TEXTURE_CHANGE, this.updatePlayer, this);
     phaserEvents.on(Event.PLAYER_DISCONNECTED, this.playerStreamDisconnect, this);
   }
@@ -95,6 +97,7 @@ export default class Network {
       player.onChange = (changes) => {
         changes.forEach((change) => {
           const { field, value } = change;
+          //  TODO: 다른 사용자 정보 업데이트 감지
           phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
 
           // when a new player finished setting up player name
@@ -228,6 +231,14 @@ export default class Network {
     this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName, userId: currentUserId });
   }
 
+  updatePlayerInfo(currentUserInfo: UserResponseDto, currentUserId: string) {
+    console.log('UPDATE_PLAYER_INFO 호출!@!');
+
+    this.room?.send(Message.UPDATE_PLAYER_INFO, {
+      userInfo: currentUserInfo,
+      userId: currentUserId,
+    });
+  }
   // method to send ready-to-connect signal to Colyseus server
   readyToConnect() {
     this.room?.send(Message.READY_TO_CONNECT);

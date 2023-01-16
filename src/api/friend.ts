@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
+import { UserResponseDto } from './chat';
 
 // 친구 추가 요청
 export const addFriendReq = (request: AddFriendRequestDto) => {
@@ -60,14 +61,14 @@ export interface UserData {
   room_list: Array<RoomListResponse>;
 }
 
-// 서버에서 가져온 유저 정보
-export interface UserResponseDto {
-  id: number;
-  user_id: string;
-  name: string;
-  status_msg: string;
-  profile_img_url: string;
-}
+
+// export interface UserResponseDto {
+//   id: number;
+//   user_id: string;
+//   name: string;
+//   status_msg: string;
+//   profile_img_url: string;
+// }
 
 // 서버에서 채팅방 리스트에 대한 정보를 받아올 때
 export interface RoomListResponse {

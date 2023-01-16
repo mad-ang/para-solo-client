@@ -54,7 +54,6 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-
     this.load.spritesheet('camping3', 'assets/tileset/camping3.png', {
       frameWidth: 16,
       frameHeight: 16,
@@ -67,20 +66,11 @@ export default class Bootstrap extends Phaser.Scene {
     this.load.spritesheet('waterBridge', 'assets/tileset/waterBridge.png', {
       frameWidth: 16,
       frameHeight: 16,
-      });
+    });
 
     // food 이미지 너무커서 vehicles 에 다 있음
 
     this.load.spritesheet('generic', 'assets/tileset/generic.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('boat1', 'assets/animate/boat1.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-    this.load.spritesheet('billboard', 'assets/animate/billboard.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
@@ -111,6 +101,11 @@ export default class Bootstrap extends Phaser.Scene {
     });
 
     this.load.spritesheet('modernExteriors', 'assets/tileset/modernExteriors.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet('ModernExteriorsComplete', 'assets/tileset/ModernExteriorsComplete.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
@@ -146,6 +141,82 @@ export default class Bootstrap extends Phaser.Scene {
     });
 
     this.load.spritesheet('buildings', 'assets/tileset/buildings.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+    this.load.spritesheet('parasol', 'assets/tileset/parasol.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+    this.load.spritesheet('parasol2', 'assets/tileset/parasol2.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+
+    
+    this.load.spritesheet('billboard', 'assets/animate/billboard.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+    this.load.spritesheet('boat1', 'assets/animate/boat1.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet('campfire2', 'assets/animate/campfire2.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet('bird', 'assets/animate/bird.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet('worm', 'assets/animate/worm.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+    this.load.spritesheet('pigeon', 'assets/animate/pigeon.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet('characterInWater', 'assets/animate/characterInWater.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet('clothes', 'assets/animate/clothes.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet('ball1', 'assets/animate/ball1.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet('ball2', 'assets/animate/ball2.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet('fishingBoat', 'assets/animate/fishingBoat.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet('fish', 'assets/animate/fish.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+    this.load.spritesheet('fish2', 'assets/animate/fish2.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+    this.load.spritesheet('fish3', 'assets/animate/fish3.png', {
       frameWidth: 16,
       frameHeight: 16,
     });

@@ -14,6 +14,8 @@ import OtherPlayer from './OtherPlayer';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Cookies from 'universal-cookie';
+import { UserResponseDto } from 'src/api/chat';
+import { setUserInfo } from 'src/stores/UserStore';
 const cookies = new Cookies();
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
@@ -25,9 +27,11 @@ export default class MyPlayer extends Player {
     texture: string,
     id: string,
     userId: string,
+    userInfo: UserResponseDto,
+    name: string,
     frame?: string | number
   ) {
-    super(scene, x, y, texture, id, userId, frame);
+    super(scene, x, y, texture, id, userId, userInfo, frame);
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
   }
 
@@ -36,6 +40,12 @@ export default class MyPlayer extends Player {
     const userId = store.getState().user?.userId || cookies.get('userId');
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId);
     store.dispatch(pushPlayerJoinedMessage(name));
+  }
+
+  setPlayerInfo(userInfo: UserResponseDto) {
+    console.log('변경함수 호출!');
+    const userId = store.getState().user?.userId || cookies.get('userId');
+    phaserEvents.emit(Event.MY_PLAYER_INFO_CHANGE, userInfo, userId);
   }
 
   setPlayerTexture(texture: string) {
@@ -225,6 +235,7 @@ declare global {
         texture: string,
         id: string,
         userId: string,
+        userInfo: UserResponseDto,
         frame?: string | number
       ): MyPlayer;
     }
@@ -240,9 +251,10 @@ Phaser.GameObjects.GameObjectFactory.register(
     texture: string,
     id: string,
     userId: string,
+    userInfo: UserResponseDto,
     frame?: string | number
   ) {
-    const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, frame);
+    const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, userInfo, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);

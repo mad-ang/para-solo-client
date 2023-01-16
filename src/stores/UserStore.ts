@@ -25,7 +25,7 @@ export const userSlice = createSlice({
   initialState: {
     backgroundMode: getInitialBackgroundMode(),
     sessionId: '',
-    userId: '',
+    userId: '', // 일단 유지
     videoConnected: false,
     webcamAudioStatus: false,
     webcamVideoStatus: false,
@@ -33,9 +33,14 @@ export const userSlice = createSlice({
     enteringProcess: ENTERING_PROCESS.ENTRY,
     characterSelected: false,
     accessToken: '',
-    gender: '',
-    age: '',
-    height: '',
+    userInfo: {
+      gender: '',
+      age: '',
+      height: '',
+    },
+    // gender: '',
+    // age: '',
+    // height: '',
   },
   reducers: {
     toggleBackgroundMode: (state) => {
@@ -77,15 +82,18 @@ export const userSlice = createSlice({
     setAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload;
     },
-    setGender: (state, action: PayloadAction<string>) => {
-      state.gender = action.payload;
+    setUserInfo: (state, action: PayloadAction<string>) => {
+      state.userInfo = action.payload;
     },
-    setAge: (state, action: PayloadAction<string>) => {
-      state.age = action.payload;
-    },
-    setHeight: (state, action: PayloadAction<string>) => {
-      state.height = action.payload;
-    },
+    // setGender: (state, action: PayloadAction<string>) => {
+    //   state.gender = action.payload;
+    // },
+    // setAge: (state, action: PayloadAction<string>) => {
+    //   state.age = action.payload;
+    // },
+    // setHeight: (state, action: PayloadAction<string>) => {
+    //   state.height = action.payload;
+    // },
   },
 });
 
@@ -101,9 +109,10 @@ export const {
   setEnteringProcess,
   setCharacterSelected,
   setAccessToken,
-  setGender,
-  setAge,
-  setHeight,
+  setUserInfo,
+  // setGender,
+  // setAge,
+  // setHeight,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { UserResponseDto } from 'src/api/chat';
 import { PlayerBehavior } from '../types/PlayerBehavior';
 /**
  * shifting distance for sitting animation
@@ -14,6 +15,7 @@ export const sittingShiftData = {
 export default class Player extends Phaser.Physics.Arcade.Sprite {
   playerId: string;
   userId: string;
+  userInfo: UserResponseDto;
   playerTexture: string;
   playerBehavior = PlayerBehavior.IDLE;
   readyToConnect = false;
@@ -30,12 +32,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     texture: string,
     id: string,
     userId: string,
+    userInfo: UserResponseDto,
     frame?: string | number
   ) {
-    super(scene, x, y, texture, frame);
+    super(scene, x, y, texture, userId, userInfo, frame);
 
     this.playerId = id;
     this.userId = userId || '최초 이름';
+    this.userInfo = userInfo;
     this.playerTexture = texture;
     this.setDepth(this.y);
 
