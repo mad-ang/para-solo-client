@@ -35,6 +35,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     userInfo: UserResponseDto,
     frame?: string | number
   ) {
+    //@ts-ignore
     super(scene, x, y, texture, userId, userInfo, frame);
 
     this.playerId = id;
