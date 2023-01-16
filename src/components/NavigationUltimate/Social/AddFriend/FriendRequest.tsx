@@ -81,7 +81,7 @@ export default function FriendRequest(props) {
           <div className="personal-image">
             <ProfileAvatarImage
               ref={imgRef}
-              src={props.profileImgUrl}
+              src={props.friendInfo.profileImgUrl}
               className="personal-avatar"
               alt="avatar"
               onError={() => {
@@ -90,12 +90,12 @@ export default function FriendRequest(props) {
             />
           </div>
         </ImageWrapper>
-        <Name>{props.username}</Name>
+        <Name>{props.friendInfo.username}</Name>
         <Message>좋은 만남 가져봐요</Message>
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => AcceptRequest(props.userId, props.username, 1)}
+          onClick={() => AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 1)}
           sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
         >
           수락{' '}
@@ -103,7 +103,7 @@ export default function FriendRequest(props) {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => AcceptRequest(props.userId, props.username, 0)}
+          onClick={() => AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0)}
           sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
         >
           거절{' '}
