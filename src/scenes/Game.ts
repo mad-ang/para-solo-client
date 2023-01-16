@@ -101,6 +101,8 @@ export default class Game extends Phaser.Scene {
     // 빌라에 돗자리,나무,꽃,벤치,의자 이쁜거 다 있음
     const villasImage = this.map.addTilesetImage('villas', 'villas');
 
+    const indoorsImage = this.map.addTilesetImage('indoors', 'indoors');
+
     // vehicles 에 푸드트럭, 보트 이미지 있음
     const vehiclesImage = this.map.addTilesetImage('vehicles', 'vehicles');
 
@@ -116,11 +118,13 @@ export default class Game extends Phaser.Scene {
     // 이하 animated tileset
     const boat1Image = this.map.addTilesetImage('boat1', 'boat1');
 
+    const box3Image = this.map.addTilesetImage('box3', 'box3');
+
     const billboardImage = this.map.addTilesetImage('billboard', 'billboard');
 
     const campfire2Image = this.map.addTilesetImage('campfire2', 'campfire2');
 
-    console.log('campfire2Image.tileData', campfire2Image.tileData);
+    // console.log('campfire2Image.tileData', campfire2Image.tileData);
 
     const foodCarsImage = this.map.addTilesetImage('foodCars', 'foodCars');
 
@@ -135,6 +139,8 @@ export default class Game extends Phaser.Scene {
     const ball2Image = this.map.addTilesetImage('ball2', 'ball2');
 
     const fishingBoatImage = this.map.addTilesetImage('fishingBoat', 'fishingBoat');
+
+    const busDoorImage = this.map.addTilesetImage('busDoor', 'busDoor');
 
     const fishImage = this.map.addTilesetImage('fish', 'fish');
 
@@ -175,7 +181,10 @@ export default class Game extends Phaser.Scene {
       ball1Image,
       ball2Image,
       flowersImage,
-      wormImage
+      wormImage,
+      busDoorImage,
+      box3Image,
+      indoorsImage,
     ]);
 
     const buildingAnimationImages = [
@@ -192,7 +201,9 @@ export default class Game extends Phaser.Scene {
       ball1Image,
       ball2Image,
       wormImage,
-      clothesImage
+      clothesImage,
+      busDoorImage,
+      box3Image,
     ];
 
     buildingAnimationImages.forEach((imageSet) => {
@@ -293,6 +304,7 @@ export default class Game extends Phaser.Scene {
     //   //   item.itemDirection = chairObj.properties[0].value
     // });
 
+    thirdGroundLayer.setDepth(6100);
     ForegroundLayer.setDepth(6000);
 
     // GrassLayer.setCollisionByProperty({ collisions: true });
