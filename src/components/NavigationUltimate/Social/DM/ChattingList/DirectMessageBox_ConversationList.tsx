@@ -77,49 +77,49 @@ export function ConversationList() {
   };
 
   const handleClick = async (room) => {
-    
     if (room.status == IChatRoomStatus.FRIEND_REQUEST) {
       alert('친구 요청을 수락해주세요'); //송희누나의 모달창이 뜰 예정
       //수락하면 다음으로 진행
-          //+ lastchat을, 친구와 대화를 시작해 보세요로 바꾸기
+      //+ lastchat을, 친구와 대화를 시작해 보세요로 바꾸기
       //거절하면... 해당 메시지 삭제 요청
-          //+ 즉, 친구리스트에서 지워주면 끝
+      //+ 즉, 친구리스트에서 지워주면 끝
     }
 
     if (room.status != IChatRoomStatus.FRIEND_REQUEST) {
-    dispatch(SetChattingListActivateOnly());
-    try {
-      const response = await axios.post('/joinRoom', body);
-      if (response.data.status === 200) {
-        dispatch(SetChattingRoomActivated(true));
-        // Response userId
-        dispatch(setkey(room.friend.userId));
-        dispatch(setRoomId(response.data.payload.roomId));
+      dispatch(SetChattingListActivateOnly());
+      try {
+        const response = await axios.post('/joinRoom', body);
+        if (response.data.status === 200) {
+          dispatch(SetChattingRoomActivated(true));
+          // Response userId
+          dispatch(setkey(room.friend.userId));
+          dispatch(setRoomId(response.data.payload.roomId));
+        }
+      } catch (error) {
+        console.log('error', error);
       }
-    } catch (error) {
-      console.log('error', error);
     }
-  };
 
-  return (
-    <DMmessageList>
-      <UnorderedList>
-        {rooms &&
-          rooms.map((room, index) => (
-            <ListTag
-              key={index}
-              onClick={(room) => {
-                handleClick(room);
-              }}
-            >
-              <img src={room.friend.profileImgUrl} alt={room.friend.username} width="60" />
-              <IDwithLastmessage>
-                <UserID>{room.friend.username}</UserID>
-                <div>{room.message}</div>
-              </IDwithLastmessage>
-            </ListTag>
-          ))}
-      </UnorderedList>
-    </DMmessageList>
-  );
+    return (
+      <DMmessageList>
+        <UnorderedList>
+          {rooms &&
+            rooms.map((room, index) => (
+              <ListTag
+                key={index}
+                onClick={(room) => {
+                  handleClick(room);
+                }}
+              >
+                <img src={room.friend.profileImgUrl} alt={room.friend.username} width="60" />
+                <IDwithLastmessage>
+                  <UserID>{room.friend.username}</UserID>
+                  <div>{room.message}</div>
+                </IDwithLastmessage>
+              </ListTag>
+            ))}
+        </UnorderedList>
+      </DMmessageList>
+    );
+  };
 }
