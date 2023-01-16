@@ -85,6 +85,7 @@ export const userSlice = createSlice({
       state.accessToken = action.payload;
     },
     setUserInfo: (state, action: PayloadAction<UserResponseDto>) => {
+      //@ts-ignore
       state.userInfo = action.payload;
     },
     // setGender: (state, action: PayloadAction<string>) => {

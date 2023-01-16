@@ -30,7 +30,7 @@ export default class MyPlayer extends Player {
     userId: string,
     userInfo: UserResponseDto,
     name: string,
-    frame?: string | number
+    frame?: string | number | undefined
   ) {
     super(scene, x, y, texture, id, userId, userInfo, frame);
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
@@ -270,8 +270,9 @@ Phaser.GameObjects.GameObjectFactory.register(
     id: string,
     userId: string,
     userInfo: UserResponseDto,
-    frame?: string | number
+    frame?: string | number | undefined
   ) {
+    //@ts-ignore
     const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, userInfo, frame);
 
     this.displayList.add(sprite);
