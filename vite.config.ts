@@ -9,7 +9,7 @@ export default defineConfig(({ command, mode }) => {
     // vite config
     plugins: [react()],
     define: {
-      global: {},
+      global: process.env.NODE_ENV === 'production' ? undefined : {},
       __APP_ENV__: env.APP_ENV,
     },
     resolve: {
