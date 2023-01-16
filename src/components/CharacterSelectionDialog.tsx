@@ -163,8 +163,6 @@ export default function CharacterSelectionDialog(props) {
       game.myPlayer.setPlayerName(name);
       game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
       game.network.readyToConnect();
-      cookies.set('playerName', name);
-      cookies.set('playerTexture', avatars[avatarIndex].name);
       dispatch(setCharacterSelected(true));
     }
   };

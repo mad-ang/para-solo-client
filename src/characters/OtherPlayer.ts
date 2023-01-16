@@ -34,6 +34,7 @@ export default class OtherPlayer extends Player {
 
     this.playerName.setText(name);
     this.userId = userId;
+    this.userInfo = userInfo;
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
   }
 
@@ -55,7 +56,7 @@ export default class OtherPlayer extends Player {
     }
   }
 
-  updateOtherPlayer(field: string, value: number | string | boolean) {
+  updateOtherPlayer(field: string, value: any) {
     switch (field) {
       case 'name':
         if (typeof value === 'string') {
@@ -99,7 +100,10 @@ export default class OtherPlayer extends Player {
         }
         break;
       case 'userInfo':
-        this.userInfo = value as UserResponseDto;
+        this.userInfo.profileImgUrl = value.profileImgUrl;
+        this.userInfo.gender = value.gender;
+        this.userInfo.age = value.age;
+        this.userInfo.height = value.height;
         break;
     }
   }

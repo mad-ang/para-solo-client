@@ -104,7 +104,6 @@ export default class Network {
           const { field, value } = change;
           //  TODO: 다른 사용자 정보 업데이트 감지
           phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
-
           // when a new player finished setting up player name
           if (field === 'name' && value !== '') {
             phaserEvents.emit(Event.PLAYER_JOINED, player, key);
@@ -233,16 +232,19 @@ export default class Network {
   }
 
   // method to send player name to Colyseus server
-  updatePlayerName(currentName: string, currentUserId) {
-    this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName, userId: currentUserId });
+  updatePlayerName(currentName: string, currentUserId: string, authFlag: number) {
+    this.room?.send(Message.UPDATE_PLAYER_NAME, {
+      name: currentName,
+      userId: currentUserId,
+      authFlag: authFlag,
+    });
   }
 
-  updatePlayerInfo(currentUserInfo: UserResponseDto, currentUserId: string) {
-    console.log('UPDATE_PLAYER_INFO 호출!@!');
-
+  updatePlayerInfo(currentUserInfo: UserResponseDto, currentUserId: string, authFlag: number) {
     this.room?.send(Message.UPDATE_PLAYER_INFO, {
       userInfo: currentUserInfo,
       userId: currentUserId,
+      authFlag: authFlag,
     });
   }
   // method to send ready-to-connect signal to Colyseus server
