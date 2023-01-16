@@ -23,7 +23,6 @@ export default defineConfig(({ command, mode }) => {
       }),
     ],
     define: {
-      global: { x: 0 },
       __APP_ENV__: env.APP_ENV,
     },
     resolve: {
