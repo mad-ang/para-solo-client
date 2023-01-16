@@ -96,7 +96,7 @@ export const ConversationList = () => {
     if (room.status != IChatRoomStatus.FRIEND_REQUEST) {
       dispatch(SetChattingListActivateOnly());
       try {
-        const response = await axios.post('/joinRoom', body);
+        const response = await axios.post('/chat/joinRoom', body);
         if (response.data.status === 200) {
           dispatch(SetChattingRoomActivated(true));
           // Response userId

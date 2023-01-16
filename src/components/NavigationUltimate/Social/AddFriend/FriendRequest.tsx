@@ -12,70 +12,6 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 
 export default function FriendRequest(props) {
-  async function AcceptRequest(id, name) {
-    console.log('친구 요청 수락');
-    console.log(id);
-    console.log(name);
-    let body = {
-      myInfo: {
-        userId: userId,
-        username: 'userName',
-        profileImgUrl: 'ImageUrl',
-      },
-      friendInfo: {
-        userId: id,
-        username: name,
-        profileImgUrl: 'friendUrl',
-        // username: 'friendName',
-        // profileImgUrl: props.url,
-      },
-      status: 0,
-      message: '친구 요청 수락',
-    };
-
-    try {
-      const Response = await axios.post('/chat/addFriend', body);
-      console.log(Response);
-      if (Response.status === 200) {
-        console.log('친구 요청 수락 성공');
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
-  }
-
-  async function RefuseRequest(id, name) {
-    console.log('친구 요청 거절');
-    console.log(id);
-    console.log(name);
-    let body = {
-      myInfo: {
-        userId: userId,
-        username: 'userName',
-        profileImgUrl: 'ImageUrl',
-      },
-      friendInfo: {
-        userId: id,
-        username: name,
-        profileImgUrl: 'friendUrl',
-        // username: 'friendName',
-        // profileImgUrl: props.url,
-      },
-      status: 0,
-      message: '친구 요청 거절',
-    };
-
-    try {
-      const Response = await axios.post('/chat/addFriend', body);
-      console.log(Response);
-      if (Response.status === 200) {
-        console.log('친구 요청 거절 성공');
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
-  }
-
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
   const imgRef = useRef<any>(null);
@@ -87,6 +23,48 @@ export default function FriendRequest(props) {
   const userCnt = useAppSelector((state) => state.room.userCnt);
   const game = phaserGame.scene.keys.game as Game;
   const players = Array.from(game?.allOtherPlayers());
+
+  async function AcceptRequest(id, name, status) {
+    console.log('친구 요청 수락');
+    console.log(id);
+    console.log(name);
+    let body = {
+      myId: userId,
+      friendId: id,
+      isAccept: status,
+    };
+
+    try {
+      const Response = await axios.post('/chat/acceptFriend', body);
+      console.log(Response.data);
+      if (Response.status === 200) {
+        console.log('친구 요청 수락 성공');
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+
+  //   async function RefuseRequest(id, name) {
+  //     console.log('친구 요청 거절');
+  //     console.log(id);
+  //     console.log(name);
+  //     let body = {
+  //         myId: userId,
+  //         friendId: id,
+  //         isAccepted: 0,
+  //       };
+
+  //     try {
+  //       const Response = await axios.post('/acceptFriend', body);
+  //       console.log(Response);
+  //       if (Response.status === 200) {
+  //         console.log('친구 요청 거절 성공');
+  //       }
+  //     } catch (error) {
+  //       console.log('error', error);
+  //     }
+  //   }
 
   function handleClick() {
     dispatch(SetAddFriendsActivated(false));
@@ -117,7 +95,7 @@ export default function FriendRequest(props) {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => AcceptRequest(props.userId, props.username)}
+          onClick={() => AcceptRequest(props.userId, props.username, 1)}
           sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
         >
           수락{' '}
@@ -125,7 +103,7 @@ export default function FriendRequest(props) {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => RefuseRequest(props.userId, props.username)}
+          onClick={() => AcceptRequest(props.userId, props.username, 0)}
           sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
         >
           거절{' '}
@@ -263,4 +241,3 @@ const ZeroMessage = styled.div`
   font-size: 24px;
   font-size: 1.5rem;
 `;
-
