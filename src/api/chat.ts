@@ -101,22 +101,20 @@ export interface CreateRoomResponse {
 // }
 
 export interface RoomListResponse {
-  myInfo: UserResponseDto
-  friendInfo: UserResponseDto
-  message: string
-  status: IChatRoomStatus
-  roomId?: string
-  unreadCount?: number
-  updatedAt: Date | null
+  myInfo: UserResponseDto;
+  friendInfo: UserResponseDto;
+  message: string;
+  status: IChatRoomStatus;
+  roomId?: string;
+  unreadCount?: number;
+  updatedAt: Date | null;
 }
-
-
-
 
 export enum IChatRoomStatus {
   FRIEND_REQUEST,
   SOCKET_ON,
   SOCKET_OFF,
+  REJECTED
 }
 
 // 서버에 채팅 가져오기

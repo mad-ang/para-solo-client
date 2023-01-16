@@ -89,20 +89,20 @@ export const ConversationList = () => {
       setFriendRequestProps(room.friendInfo);
     // }
 
-    // if (room.status != IChatRoomStatus.FRIEND_REQUEST) {
-    //   dispatch(SetChattingListActivateOnly());
-    //   try {
-    //     const response = await axios.post('/joinRoom', body);
-    //     if (response.data.status === 200) {
-    //       dispatch(SetChattingRoomActivated(true));
-    //       // Response userId
-    //       dispatch(setkey(room.friend.userId));
-    //       dispatch(setRoomId(response.data.payload.roomId));
-    //     }
-    //   } catch (error) {
-    //     console.log('error', error);
-    //   }
-    // }
+    if (room.status != IChatRoomStatus.FRIEND_REQUEST) {
+      dispatch(SetChattingListActivateOnly());
+      try {
+        const response = await axios.post('/chat/joinRoom', body);
+        if (response.data.status === 200) {
+          dispatch(SetChattingRoomActivated(true));
+          // Response userId
+          dispatch(setkey(room.friend.userId));
+          dispatch(setRoomId(response.data.payload.roomId));
+        }
+      } catch (error) {
+        console.log('error', error);
+      }
+    }
   }
     return (
       <DMmessageList>
