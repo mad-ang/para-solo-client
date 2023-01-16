@@ -44,7 +44,7 @@ export const login = (body, next): boolean | void => {
         // TODO accessToken을 계속 갱신해야 함. refreshToken 발급로직 없으므로 임식 처리
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
-        cookies.set('accessToken', accessToken, { path: '/' });
+        cookies.set('accessToken', accessToken, { path: '/', maxAge: 600 });
 
         // dispatch(setSignIn(false));
 
