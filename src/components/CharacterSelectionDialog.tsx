@@ -17,7 +17,7 @@ import Ash from '../images/login/Ash_login.png';
 import Lucy from '../images/login/Lucy_login.png';
 import Nancy from '../images/login/Nancy_login.png';
 import { useAppSelector, useAppDispatch } from '../hooks';
-import { ENTERING_PROCESS, setCharacterSelected, setUserId } from '../stores/UserStore';
+import { ENTERING_PROCESS, setCharacterSelected, setUserId, setUserName } from '../stores/UserStore';
 import { getAvatarString, getColorByString } from '../util';
 import Cookies from 'universal-cookie';
 import phaserGame from '../PhaserGame';
@@ -163,6 +163,7 @@ export default function CharacterSelectionDialog(props) {
       game.myPlayer.setPlayerName(name);
       game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
       game.network.readyToConnect();
+      dispatch(setUserName(name));
       dispatch(setCharacterSelected(true));
     }
   };

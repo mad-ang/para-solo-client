@@ -27,6 +27,7 @@ export const userSlice = createSlice({
     backgroundMode: getInitialBackgroundMode(),
     sessionId: '',
     userId: '',
+    userName: '',
     videoConnected: false,
     webcamAudioStatus: false,
     webcamVideoStatus: false,
@@ -56,6 +57,9 @@ export const userSlice = createSlice({
     setUserId: (state, action: PayloadAction<string>) => {
       cookies.set('userId', action.payload, { path: '/', maxAge: 600 });
       state.userId = action.payload;
+    },
+    setUserName: (state, action: PayloadAction<string>) => {
+      state.userName = action.payload;
     },
     setVideoConnected: (state, action: PayloadAction<boolean>) => {
       state.videoConnected = action.payload;
@@ -100,6 +104,7 @@ export const {
   toggleBackgroundMode,
   setSessionId,
   setUserId,
+  setUserName,
   setVideoConnected,
   setwebcamAudioStatus,
   setwebcamVideoStatus,

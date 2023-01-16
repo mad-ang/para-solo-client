@@ -84,25 +84,30 @@ export const ConversationList = () => {
   };
 
   const handleClick = async (room, index) => {
-    // if (room.status == IChatRoomStatus.FRIEND_REQUEST) {
+    if (room.status == IChatRoomStatus.FRIEND_REQUEST) {
+      
       setFriendRequestModal(true);
       setFriendRequestProps(room.friendInfo);
-    // }
-
-    if (room.status != IChatRoomStatus.FRIEND_REQUEST) {
-      dispatch(SetChattingListActivateOnly());
+    }
+    else{
+      console.log("This room's status is... ", room.status);
       try {
         const response = await axios.post('/chat/joinRoom', body);
-        if (response.data.status === 200) {
+        if (response.status === 200) {
+          console.log("DEBUG111");
           dispatch(SetChattingRoomActivated(true));
+          console.log("DEBUG222");
           // Response userId
           dispatch(setkey(room.friend.userId));
           dispatch(setRoomId(response.data.payload.roomId));
+          console.log("DEBUG333");
         }
       } catch (error) {
         console.log('error', error);
       }
     }
+      // dispatch(SetChattingListActivateOnly());
+    
   }
     return (
       <DMmessageList>
