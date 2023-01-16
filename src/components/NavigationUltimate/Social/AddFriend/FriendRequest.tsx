@@ -19,7 +19,7 @@ export default function FriendRequest(props) {
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
   const userId = useAppSelector((state) => state.user.userId);
-  const friendId = useAppSelector((state) => state.dm.frinedId);
+  const friendId = useAppSelector((state) => state.dm.friendId);
   const userCnt = useAppSelector((state) => state.room.userCnt);
   const game = phaserGame.scene.keys.game as Game;
   const players = Array.from(game?.allOtherPlayers());

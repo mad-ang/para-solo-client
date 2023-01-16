@@ -12,7 +12,7 @@ import { NavControllerSlice, SetChattingRoomActivated } from 'src/stores/NavbarS
 
 export default function HeadAppBar() {
   const dispatch = useAppDispatch();
-  const frinedId = useAppSelector((state) => state.dm.frinedId);
+  const friendId = useAppSelector((state) => state.dm.friendId);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -31,7 +31,7 @@ export default function HeadAppBar() {
             <ArrowBackIosNewIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {frinedId}
+            {friendId}
           </Typography>
           {/* <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 0 }}>
             <CloseIcon />
