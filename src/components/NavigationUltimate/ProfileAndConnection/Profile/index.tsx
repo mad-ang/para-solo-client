@@ -102,11 +102,9 @@ function ProfileEditModal(props) {
 
     const infoToChange = { ...originalUserInfo, ...newUserInfo };
     game.myPlayer.setPlayerInfo(infoToChange);
-    console.log('변경할정보', infoToChange);
   };
 
   const updateAtOnce = (username, playerInfo) => {
-    console.log('최초 1회 변경!', playerInfo);
     setUsername(username);
     setUserProfile(playerInfo.profileImgUrl || DefaultAvatar);
     setGender({ value: playerInfo.gender, label: playerInfo.gender });
@@ -120,7 +118,6 @@ function ProfileEditModal(props) {
         .then((response) => {
           if (!response) return;
           const { userId, username, ...additionalInfo } = response;
-          console.log('최초 1회 불러옴!', username, additionalInfo);
           updateAtOnce(username, additionalInfo);
         })
         .catch((error) => {
