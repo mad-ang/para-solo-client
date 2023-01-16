@@ -22,8 +22,9 @@ function Swipe(props) {
   const userId = useAppSelector((state) => state.user.userId);
   const friendId = useAppSelector((state) => state.dm.frinedId);
   const userCnt = useAppSelector((state) => state.room.userCnt);
-  const game = phaserGame.scene.keys.game as Game;
-  const players = Array.from(game?.allOtherPlayers());
+  // const game = phaserGame.scene.keys.game as Game;
+  // const players = Array.from(game?.allOtherPlayers());
+  const players = useAppSelector((state) => state.room.players);
 
   async function requestFriend(id, name) {
     console.log('친구요청하자~~~');
@@ -72,9 +73,9 @@ function Swipe(props) {
   // };
 
   useEffect(() => {
-    setOtherPlayers(players);
-    console.log(players);
+    console.log('현재 방의 players', players);
     console.log('Players Num: ', players.length);
+    setOtherPlayers(players);
     setPlayerNum(players.length);
   }, [players.length]);
 
@@ -84,7 +85,7 @@ function Swipe(props) {
         <TitleText>현재 {players.length}명이 접속해있어요</TitleText>
         <CloseButton onClick={handleClick}>X</CloseButton>
       </SwipeHeader>
-      {userCnt === 0 ? (
+      {players.length === 0 ? (
         <ZeroMessage>현재 접속해 있는 친구가 없어요</ZeroMessage>
       ) : (
         <Swiper
@@ -97,7 +98,7 @@ function Swipe(props) {
           //   setPlayerIndex(swiper.activeIndex);
           // }}
         >
-          {otherPlayers?.map((playerArr, i: number) => (
+          {otherPlayers?.map((player, i: number) => (
             <SwiperSlide key={i}>
               {/* <img src={avatar.img} alt={avatar.name} /> */}
               <SwipeBody>
@@ -105,7 +106,8 @@ function Swipe(props) {
                   <div className="personal-image">
                     <ProfileAvatarImage
                       ref={imgRef}
-                      src={userProfile}
+                      // src={userProfile}
+                      src={player.userInfo.profileImgUrl || DefaultAvatar}
                       className="personal-avatar"
                       alt="avatar"
                       onError={() => {
@@ -115,13 +117,13 @@ function Swipe(props) {
                     />
                   </div>
                 </ImageWrapper>
-                <Name>{playerArr[1].userId}</Name>
+                <Name>{player.name}</Name>
                 <Message>좋은 만남 가져봐요</Message>
                 <Button
                   // fullWidth={true}
                   variant="contained"
                   color="secondary"
-                  onClick={() => requestFriend(playerArr[1].userId, 'name')}
+                  onClick={() => requestFriend(player.userId, player.name)}
                   sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
                 >
                   친구 요청{' '}
