@@ -39,12 +39,6 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-
-    this.load.spritesheet('boat', 'assets/tileset/boat.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
     this.load.spritesheet('camping', 'assets/tileset/camping.png', {
       frameWidth: 16,
       frameHeight: 16,
@@ -60,6 +54,11 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
     this.load.spritesheet('waterBridge', 'assets/tileset/waterBridge.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet('foodCars', 'assets/tileset/foodCars.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
@@ -87,11 +86,6 @@ export default class Bootstrap extends Phaser.Scene {
     });
 
     this.load.spritesheet('playground', 'assets/tileset/playground.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('tent', 'assets/tileset/tent.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
@@ -136,10 +130,6 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-    this.load.spritesheet('buildings', 'assets/tileset/buildings.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
     this.load.spritesheet('parasol', 'assets/tileset/parasol.png', {
       frameWidth: 16,
       frameHeight: 16,
@@ -149,18 +139,11 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-
-    
     this.load.spritesheet('billboard', 'assets/animate/billboard.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
     this.load.spritesheet('boat1', 'assets/animate/boat1.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('campfire2', 'assets/animate/campfire2.png', {
       frameWidth: 16,
       frameHeight: 16,
     });

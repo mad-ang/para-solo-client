@@ -96,10 +96,12 @@ export default class Game extends Phaser.Scene {
 
     const picnicImage = this.map.addTilesetImage('picnic', 'picnic');
     const playgroundImage = this.map.addTilesetImage('playground', 'playground');
-    const tentImage = this.map.addTilesetImage('tent', 'tent');
 
     const modernExteriorsImage = this.map.addTilesetImage('modernExteriors', 'modernExteriors');
-    const ModernExteriorsCompleteImage = this.map.addTilesetImage('ModernExteriorsComplete', 'ModernExteriorsComplete');
+    const ModernExteriorsCompleteImage = this.map.addTilesetImage(
+      'ModernExteriorsComplete',
+      'ModernExteriorsComplete'
+    );
 
     const floorTilesImage = this.map.addTilesetImage('floorTiles', 'floorTiles');
 
@@ -121,17 +123,15 @@ export default class Game extends Phaser.Scene {
 
     const parasol2Image = this.map.addTilesetImage('parasol2', 'parasol2');
 
-
     // 이하 animated tileset
     const boat1Image = this.map.addTilesetImage('boat1', 'boat1');
 
     const billboardImage = this.map.addTilesetImage('billboard', 'billboard');
 
     const campfire2Image = this.map.addTilesetImage('campfire2', 'campfire2');
-    
-    const birdImage = this.map.addTilesetImage('bird', 'bird');
+    const foodCarsImage = this.map.addTilesetImage('foodCars', 'foodCars');
 
-    const workImage = this.map.addTilesetImage('work', 'work');
+    const birdImage = this.map.addTilesetImage('bird', 'bird');
 
     const pigeonImage = this.map.addTilesetImage('pigeon', 'pigeon');
 
@@ -164,21 +164,46 @@ export default class Game extends Phaser.Scene {
 
     const buildingsLayer = this.map.createLayer('buildings', [
       boat1Image,
-      camping3Image,
       ModernExteriorsCompleteImage,
-      villasImage,
       clothesImage,
-      
-
+      interiorImage,
+      campfire2Image,
+      pigeonImage,
+      characterInWater,
+      fishImage,
+      fish2Image,
+      fish3Image,
+      fishingBoatImage,
+      campingImage,
+      vehiclesImage,
+      foodCarsImage,
     ]);
 
-    const ForegroundLayer = this.map.createLayer('foreground', [villasImage,camping3Image,interiorImage,billboardImage,ModernExteriorsCompleteImage]);
+    const ForegroundLayer = this.map.createLayer('foreground', [
+      villasImage,
+      camping3Image,
+      interiorImage,
+      billboardImage,
+      ModernExteriorsCompleteImage,
+      parasol2Image,
+      parasolImage,
+      campingImage,
+      vehiclesImage,
+      foodCarsImage,
+    ]);
 
-    const secondGroundLayer = this.map.createLayer('secondGround', [ModernExteriorsCompleteImage,interiorImage]);
+    const secondGroundLayer = this.map.createLayer('secondGround', [
+      ModernExteriorsCompleteImage,
+      interiorImage,
+      campingImage,
+      camping3Image,
+    ]);
 
+    const thirdGroundLayer = this.map.createLayer('thirdGround', [
+      ModernExteriorsCompleteImage,
+      interiorImage,
+    ]);
 
-    
-    
     // const chairs = this.physics.add.staticGroup({ classType: Chair });
     // const chairLayer = this.map.getObjectLayer('Objects');
 
@@ -222,13 +247,12 @@ export default class Game extends Phaser.Scene {
     fencesLayer.setCollisionByProperty({ collisions: true });
     secondGroundLayer.setCollisionByProperty({ collisions: true });
 
-
     const cookies = new Cookies();
     const userId = store.getState().user?.userId || cookies.get('userId') || this.network.userId;
     const userInfo = store.getState().user?.userInfo;
     this.myPlayer = this.add.myPlayer(
-      Phaser.Math.RND.between(200, 700),
-      Phaser.Math.RND.between(200, 300),
+      Phaser.Math.RND.between(400, 900),
+      Phaser.Math.RND.between(400, 900),
       'adam',
       this.network.mySessionId,
       userId,
@@ -247,11 +271,9 @@ export default class Game extends Phaser.Scene {
     // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], SwingLayer);
     // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], cafeLayer);
 
-    
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], fencesLayer);
 
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], secondGroundLayer);
-
 
     // this.physics.add.overlap(
     //   this.playerSelector,

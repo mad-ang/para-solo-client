@@ -33,7 +33,7 @@ export default function NavigationContainer() {
     const audio = new Audio();
     audio.src = 'src/assets/music/BGM1.mp3';
     audio.loop = true;
-    audio.play();
+    // audio.play();
   }, []);
 
 

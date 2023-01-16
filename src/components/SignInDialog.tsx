@@ -165,10 +165,12 @@ export default function SignInDialog() {
           color="secondary"
           margin="normal"
           error={userIdFieldEmpty}
+          inputProps={{ maxLength: 20 }}
           helperText={
-            userIdFieldEmpty && '이름이 필요해요'
+            userIdFieldEmpty && '아이디가 필요해요'
             // || (failLogin && '회원정보가 잘못되었습니다')
           }
+          value={userId}
           onInput={(e) => {
             setUserId((e.target as HTMLInputElement).value?.trim());
           }}
