@@ -74,23 +74,33 @@ function Swipe(props) {
     dispatch(SetAddFriendsActivated(false));
   }
 
-  useEffect(() => {
+  const playerUpdate = () => {
     const game = phaserGame.scene.keys.game as Game;
+
     const players = Array.from(game?.allOtherPlayers());
     setOtherPlayers(players);
     console.log(players);
     console.log('Players Num: ', players.length);
     setPlayerNum(players.length);
-  }, [playerNum]);
+  };
+
+  const userCnt = useAppSelector((state) => state.room.userCnt);
+  useEffect(() => {
+    const game = phaserGame.scene.keys.game as Game;
+
+    const players = Array.from(game?.allOtherPlayers());
+    setOtherPlayers(players);
+    console.log(players);
+    console.log('Players Num: ', players.length);
+    setPlayerNum(players.length);
+  }, [userCnt]);
   return (
     <Wrapper>
       <SwipeHeader>
-        <TitleText>현재 {playerNum}명이 접속해있어요</TitleText>
+        <TitleText>현재 {userCnt}명이 접속해있어요</TitleText>
         <CloseButton onClick={handleClick}>X</CloseButton>
       </SwipeHeader>
-      {/* <SwipeBody> */}
-
-      {playerNum === 0 ? (
+      {userCnt === 0 ? (
         <ZeroMessage>현재 접속해 있는 친구가 없어요</ZeroMessage>
       ) : (
         <Swiper
@@ -99,14 +109,12 @@ function Swipe(props) {
           spaceBetween={10}
           slidesPerView={1}
           loop={true}
+          onSlideChange={() => {
+            playerUpdate;
+          }}
           // onSlideChange={(swiper) => {
           //   setPlayerIndex(swiper.activeIndex);
           // }}
-
-          // pagination={{ clickable: true }}
-          // scrollbar={{ draggable: true }}
-          // onSwiper={(swiper) => console.log(swiper)}
-          // onSlideChange={() => console.log('slide change')}
         >
           {otherPlayers?.map((playerArr, i: number) => (
             <SwiperSlide key={i}>
@@ -142,43 +150,6 @@ function Swipe(props) {
           ))}
         </Swiper>
       )}
-      {/* <SwipeBottom>
-        <Button
-          // fullWidth={true}
-          variant="contained"
-          color="secondary"
-          onClick={() => requestFriend(playerArr[1].userId, "name")}
-          sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
-        >
-          친구 요청{' '}
-        </Button>
-        <Button
-          fullWidth={true}
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            console.log('프로필 보기 (유료)');
-          }}
-          sx={{ marginLeft: 1, marginRight: 4, my: 1, width: '200px' }}
-        >
-          프로필 보기 (유료)
-        </Button>
-      </SwipeBottom> */}
-      {/* <ImageWrapper>
-          <div className="personal-image">
-            <ProfileAvatarImage
-              ref={imgRef}
-              src={userProfile}
-              className="personal-avatar"
-              alt="avatar"
-              onError={() => {
-                // @ts-ignore
-                if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
-              }}
-            />
-          </div>
-        </ImageWrapper> */}
-      {/* </SwipeBody> */}
     </Wrapper>
   );
 }
@@ -288,35 +259,6 @@ const Message = styled.div`
   font-weight: 400;
   font-size: 10px;
   font-size: 1.5rem;
-`;
-
-const SwipeBottom = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 60px;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const AddFriendButton = styled.button`
-  border: none;
-  width: 100px;
-  height: 75%;
-  margine: 30px;
-  font-weight: 400;
-  font-size: 20px;
-  background: none;
-
-  boarder-radius: 10px;
-  display: flex;
-  outline: none;
-
-  background-color: ${Colors.violet[1]};
-  &:hover {
-    background-color: ${Colors.violet[2]};
-  }
 `;
 
 const ZeroMessage = styled.div`

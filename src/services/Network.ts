@@ -12,7 +12,12 @@ import WebRTC from '../web/WebRTC';
 import { phaserEvents, Event } from '../events/EventCenter';
 import store from '../stores';
 import { setSessionId, setPlayerNameMap, removePlayerNameMap } from '../stores/UserStore';
-import { setLobbyJoined, setJoinedRoomData, setNumPlayer } from '../stores/RoomStore';
+import {
+  setLobbyJoined,
+  setJoinedRoomData,
+  setNumPlayer,
+  setRoomPlayers,
+} from '../stores/RoomStore';
 import {
   pushChatMessage,
   pushPlayerJoinedMessage,
@@ -157,6 +162,7 @@ export default class Network {
       if (playerSize === undefined) return;
       let numPlayers: number = playerSize;
       store.dispatch(setNumPlayer(numPlayers));
+      store.dispatch(setRoomPlayers(this.room?.state.players));
     });
   }
   getChairState() {
