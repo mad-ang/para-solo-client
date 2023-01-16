@@ -7,8 +7,17 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     // vite config
-    plugins: [react()],
+    plugins: [
+      react(),
+      'babel-plugin-styled-components',
+      {
+        displayName: true,
+        fileName: false,
+      },
+    ],
+
     define: {
+      global: { x: 0 },
       __APP_ENV__: env.APP_ENV,
     },
     resolve: {
