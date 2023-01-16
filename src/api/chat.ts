@@ -101,17 +101,14 @@ export interface CreateRoomResponse {
 // }
 
 export interface RoomListResponse {
-  myInfo: UserResponseDto
-  friendInfo: UserResponseDto
-  message: string
-  status: IChatRoomStatus
-  roomId?: string
-  unreadCount?: number
-  updatedAt: Date | null
+  myInfo: UserResponseDto;
+  friendInfo: UserResponseDto;
+  message: string;
+  status: IChatRoomStatus;
+  roomId?: string;
+  unreadCount?: number;
+  updatedAt: Date | null;
 }
-
-
-
 
 export enum IChatRoomStatus {
   FRIEND_REQUEST,

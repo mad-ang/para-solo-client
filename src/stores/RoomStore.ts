@@ -18,7 +18,7 @@ export const roomSlice = createSlice({
     roomDescription: '',
     availableRooms: new Array<RoomAvailable>(),
     userCnt: 0,
-    players: [],
+    players: new Array<IPlayer>(),
   },
   reducers: {
     setLobbyJoined: (state, action: PayloadAction<boolean>) => {
@@ -37,7 +37,6 @@ export const roomSlice = createSlice({
       state.userCnt = action.payload;
     },
     setRoomPlayers: (state, action: PayloadAction<IPlayer[]>) => {
-      //@ts-ignore
       state.players = action.payload;
     },
   },

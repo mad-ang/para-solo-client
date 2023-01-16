@@ -40,9 +40,6 @@ export const userSlice = createSlice({
       age: '',
       height: '',
     },
-    // gender: '',
-    // age: '',
-    // height: '',
   },
   reducers: {
     toggleBackgroundMode: (state) => {
@@ -84,8 +81,7 @@ export const userSlice = createSlice({
     setAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload;
     },
-    setUserInfo: (state, action: PayloadAction<UserResponseDto>) => {
-      //@ts-ignore
+    setUserInfo: (state, action: PayloadAction<any>) => {
       state.userInfo = action.payload;
     },
     // setGender: (state, action: PayloadAction<string>) => {
