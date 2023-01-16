@@ -180,8 +180,8 @@ export default class Game extends Phaser.Scene {
     const cookies = new Cookies();
     const userId = store.getState().user?.userId || cookies.get('userId') || this.network.userId;
     this.myPlayer = this.add.myPlayer(
-      Phaser.Math.RND.between(200, 700),
-      Phaser.Math.RND.between(200, 300),
+      Phaser.Math.RND.between(400, 900),
+      Phaser.Math.RND.between(400, 900),
       'adam',
       this.network.mySessionId,
       userId
