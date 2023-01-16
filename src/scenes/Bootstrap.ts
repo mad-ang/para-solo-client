@@ -98,6 +98,10 @@ export default class Bootstrap extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16,
     });
+    this.load.spritesheet('indoors', 'assets/tileset/indoors.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
 
     this.load.spritesheet('billboard', 'assets/animate/billboard.png', {
       frameWidth: 16,
@@ -113,6 +117,12 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
+    this.load.spritesheet('busDoor', 'assets/animate/busDoor.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+
     this.load.spritesheet('worm', 'assets/animate/worm.png', {
       frameWidth: 16,
       frameHeight: 16,
@@ -127,11 +137,16 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
+
     this.load.spritesheet('clothes', 'assets/animate/clothes.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
-
+    
+    this.load.spritesheet('box3', 'assets/animate/box3.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
     this.load.spritesheet('ball1', 'assets/animate/ball1.png', {
       frameWidth: 16,
       frameHeight: 16,
