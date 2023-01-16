@@ -27,7 +27,7 @@ export default class OtherPlayer extends Player {
     userId: string,
     userInfo: UserResponseDto,
     name: string,
-    frame?: string | number
+    frame?: string | number | undefined
   ) {
     super(scene, x, y, texture, id, userId, userInfo, frame);
     this.targetPosition = [x, y];
