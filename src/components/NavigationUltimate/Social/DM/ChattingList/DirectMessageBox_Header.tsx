@@ -31,7 +31,9 @@ const DMtop = styled.div`
     border-top-right-radius: 25px;
     font-weight: bold;
 `;
-const ButtonWrapper = styled.div`
+const ButtonWrapper = styled.button`
+    background: none;
+    border: none;
     padding-top: 7px;
 `;
 
@@ -49,7 +51,7 @@ export function DMboxHeader(){
                 <img src={'assets/directmessage/channelTalk.png'} width="30" />
                 최널톡
             </DirtyTalk>
-            <ButtonWrapper>
+            <ButtonWrapper onClick={handleClick}>
                 <ClearIcon fontSize="large" sx={{ color: Colors.violet[1]}} />
             </ButtonWrapper>
         </TopController>

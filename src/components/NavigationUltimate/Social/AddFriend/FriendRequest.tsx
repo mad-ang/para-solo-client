@@ -11,7 +11,7 @@ import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
 import axios from 'axios';
 
-export function friendRequest(props) {
+export default function FriendRequest(props) {
   async function AcceptRequest(id, name) {
     console.log('친구 요청 수락');
     console.log(id);
@@ -265,4 +265,3 @@ const ZeroMessage = styled.div`
   font-size: 1.5rem;
 `;
 
-export default friendRequest;
