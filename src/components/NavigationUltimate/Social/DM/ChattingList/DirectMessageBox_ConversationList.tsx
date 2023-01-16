@@ -4,7 +4,7 @@ import DMboxSVG from '../../../assets/directmessage/DM.svg';
 import channelTalkPNG from '../../../assets/directmessage/channeltalk.png';
 import { useNavigate } from 'react-router-dom';
 import { blue } from '@mui/material/colors';
-import { DMSlice, setkey, setRoomId } from '../../../../../stores/DMboxStore';
+import { DMSlice, setFriendId, setRoomId } from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import {
   SetChattingRoomActivated,
@@ -84,8 +84,9 @@ export const ConversationList = () => {
   };
 
   const handleClick = async (room, index) => {
+    body.friendId = room.friendInfo.userId;
+
     if (room.status == IChatRoomStatus.FRIEND_REQUEST) {
-      
       setFriendRequestModal(true);
       setFriendRequestProps(room.friendInfo);
     }
@@ -94,16 +95,19 @@ export const ConversationList = () => {
       try {
         const response = await axios.post('/chat/joinRoom', body);
         if (response.status === 200) {
-          console.log("DEBUG111");
+
           dispatch(SetChattingRoomActivated(true));
-          console.log("DEBUG222");
           // Response userId
-          dispatch(setkey(room.friendInfo.userId));
+          dispatch(setFriendId(room.friendInfo.userId));
+          console.log("DEBUG111");
           console.log(response);
           console.log(response.data);
-          console.log(response.data.payload);
-          dispatch(setRoomId(response.data.payload.roomId));
-          console.log("DEBUG333");
+          console.log("DEBUG22");
+          console.log(response.data.roomId);
+          console.log("DEBUG33");
+          console.log(body.friendId);
+          console.log("DEBUG444");
+          dispatch(setRoomId(response.data.roomId));
         }
       } catch (error) {
         console.log('error', error);

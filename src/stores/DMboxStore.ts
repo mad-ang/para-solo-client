@@ -28,7 +28,7 @@ export const DMSlice = createSlice({
     // SetFalselistORroom: (state) => {
     //   state.listORroom = false;
     // },
-    setkey: (state, action: PayloadAction<string>) => {
+    setFriendId: (state, action: PayloadAction<string>) => {
       state.friendId = action.payload;
     },
     setRoomId: (state, action: PayloadAction<string>) => {
@@ -37,6 +37,6 @@ export const DMSlice = createSlice({
   },
 });
 
-export const { setkey, setShowDM, setRoomId } = DMSlice.actions;
+export const { setFriendId, setShowDM, setRoomId } = DMSlice.actions;
 
 export default DMSlice.reducer;
