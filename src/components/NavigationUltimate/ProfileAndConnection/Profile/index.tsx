@@ -118,9 +118,9 @@ function ProfileEditModal(props) {
   const updateAtOnce = (username, playerInfo) => {
     setUsername(username);
     setUserProfile(playerInfo.profileImgUrl || DefaultAvatar);
-    setGender({ value: playerInfo.gender, label: playerInfo.gender });
-    setAge({ value: playerInfo.age, label: playerInfo.age });
-    setHeight({ value: playerInfo.height, label: playerInfo.height });
+    setGender({ value: playerInfo.gender, label: playerInfo.gender || '-' });
+    setAge({ value: playerInfo.age, label: playerInfo.age || '-' });
+    setHeight({ value: playerInfo.height, label: playerInfo.height || '-' });
   };
 
   useEffect(() => {
