@@ -58,6 +58,7 @@ export interface UserResponseDto {
   profileImgUrl?: string;
   gender?: string;
   age?: string;
+  height?: string;
 }
 
 // 채팅방 만들기 요청
@@ -81,10 +82,10 @@ export interface CreateRoomResponse {
 // 서버에서 채팅방 리스트에 대한 정보를 받아올 때
 export interface RoomListResponse {
   friend: UserResponseDto;
-  message: string;          //친구와 나눈마지막 메세지
+  message: string; //친구와 나눈마지막 메세지
   roomId: number;
   unreadCount?: number;
-  status: IChatRoomStatus;  //0, 1, 2세가지가 들어옴
+  status: IChatRoomStatus; //0, 1, 2세가지가 들어옴
   updatedAt: Date;
 }
 

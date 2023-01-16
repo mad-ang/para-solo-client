@@ -81,31 +81,15 @@ export default class Game extends Phaser.Scene {
 
     const interiorImage = this.map.addTilesetImage('interior', 'interior');
 
-    const basementImage = this.map.addTilesetImage('basement', 'basement');
-
     // 얘는 스프라이트 이미지로 움직이게 해야 함
-    const boatImage = this.map.addTilesetImage('boat', 'boat');
 
     const campingImage = this.map.addTilesetImage('camping', 'camping');
-    const campingZoneImage = this.map.addTilesetImage('campingZone', 'campingZone');
-
-    const camping3Image = this.map.addTilesetImage('camping3', 'camping3');
-
-    const genericImage = this.map.addTilesetImage('generic', 'generic');
-    const genericBuildingsImgae = this.map.addTilesetImage('genericBuildings', 'genericBuildings');
-
-    const picnicImage = this.map.addTilesetImage('picnic', 'picnic');
-    const playgroundImage = this.map.addTilesetImage('playground', 'playground');
 
     const modernExteriorsImage = this.map.addTilesetImage('modernExteriors', 'modernExteriors');
     const ModernExteriorsCompleteImage = this.map.addTilesetImage(
       'ModernExteriorsComplete',
       'ModernExteriorsComplete'
     );
-
-    const floorTilesImage = this.map.addTilesetImage('floorTiles', 'floorTiles');
-
-    const fencesImage = this.map.addTilesetImage('fences', 'fences');
 
     // 빌라에 돗자리,나무,꽃,벤치,의자 이쁜거 다 있음
     const villasImage = this.map.addTilesetImage('villas', 'villas');
@@ -117,7 +101,6 @@ export default class Game extends Phaser.Scene {
 
     const tileImage = this.map.addTilesetImage('tiles', 'tiles');
     const waterBridgeImage = this.map.addTilesetImage('waterBridge', 'waterBridge');
-    const buildingsImage = this.map.addTilesetImage('buildings', 'buildings');
 
     const parasolImage = this.map.addTilesetImage('parasol', 'parasol');
 
@@ -130,8 +113,6 @@ export default class Game extends Phaser.Scene {
 
     const campfire2Image = this.map.addTilesetImage('campfire2', 'campfire2');
     const foodCarsImage = this.map.addTilesetImage('foodCars', 'foodCars');
-
-    const birdImage = this.map.addTilesetImage('bird', 'bird');
 
     const pigeonImage = this.map.addTilesetImage('pigeon', 'pigeon');
 
@@ -150,11 +131,11 @@ export default class Game extends Phaser.Scene {
     const fish2Image = this.map.addTilesetImage('fish2', 'fish2');
 
     const fish3Image = this.map.addTilesetImage('fish3', 'fish3');
+    const wormImage = this.map.addTilesetImage('worm', 'worm');
+    const birdImage = this.map.addTilesetImage('bird', 'bird');
 
     const GroundLayer = this.map.createLayer('ground', [
-      floorTilesImage,
       modernExteriorsImage,
-      fencesImage,
       waterToyImage,
       tileImage,
       waterBridgeImage,
@@ -165,7 +146,7 @@ export default class Game extends Phaser.Scene {
     const buildingsLayer = this.map.createLayer('buildings', [
       boat1Image,
       ModernExteriorsCompleteImage,
-      clothesImage,
+      // clothesImage, 위치오류 발생 일단 보류
       interiorImage,
       campfire2Image,
       pigeonImage,
@@ -173,17 +154,22 @@ export default class Game extends Phaser.Scene {
       fishImage,
       fish2Image,
       fish3Image,
-      fishingBoatImage,
+      // fishingBoatImage, 위치오류 발생
       campingImage,
       vehiclesImage,
       foodCarsImage,
+      villasImage,
+      birdImage,
+      pigeonImage,
+      ball1Image,
+      ball2Image,
+      // billboardImage, 위치오류 발생
     ]);
 
     const ForegroundLayer = this.map.createLayer('foreground', [
       villasImage,
-      camping3Image,
       interiorImage,
-      billboardImage,
+      // billboardImage, 위치 오류 발생.
       ModernExteriorsCompleteImage,
       parasol2Image,
       parasolImage,
@@ -196,12 +182,12 @@ export default class Game extends Phaser.Scene {
       ModernExteriorsCompleteImage,
       interiorImage,
       campingImage,
-      camping3Image,
     ]);
 
     const thirdGroundLayer = this.map.createLayer('thirdGround', [
       ModernExteriorsCompleteImage,
       interiorImage,
+      campingImage,
     ]);
 
     // const chairs = this.physics.add.staticGroup({ classType: Chair });
