@@ -20,6 +20,8 @@ import { setFocused, setShowChat } from '../stores/ChatStore';
 import { NavKeys, Keyboard } from '../types/KeyboardState';
 import Cookies from 'universal-cookie';
 import { userInfo } from 'os';
+import { AnimatedTile } from 'src/anims/AnimatedTile';
+
 export default class Game extends Phaser.Scene {
   network!: Network;
   private cursors!: NavKeys;
@@ -33,10 +35,16 @@ export default class Game extends Phaser.Scene {
   private otherPlayerMap = new Map<string, OtherPlayer>();
   tableMap = new Map<string, Chair>();
   chairMap = new Map<string, Chair>();
+  private animatedTiles: AnimatedTile[] = [];
 
   constructor() {
     super('game');
   }
+
+  init() {
+    this.animatedTiles = []
+  }
+
 
   registerKeys() {
     this.cursors = {
@@ -112,6 +120,11 @@ export default class Game extends Phaser.Scene {
     const billboardImage = this.map.addTilesetImage('billboard', 'billboard');
 
     const campfire2Image = this.map.addTilesetImage('campfire2', 'campfire2');
+    
+    console.log('campfire2Image.tileData',campfire2Image.tileData)
+
+
+
     const foodCarsImage = this.map.addTilesetImage('foodCars', 'foodCars');
 
     const pigeonImage = this.map.addTilesetImage('pigeon', 'pigeon');
@@ -133,6 +146,8 @@ export default class Game extends Phaser.Scene {
     const fish3Image = this.map.addTilesetImage('fish3', 'fish3');
     const wormImage = this.map.addTilesetImage('worm', 'worm');
     const birdImage = this.map.addTilesetImage('bird', 'bird');
+    const flowersImage = this.map.addTilesetImage('flowers', 'flowers');
+
 
     const GroundLayer = this.map.createLayer('ground', [
       modernExteriorsImage,
@@ -143,28 +158,60 @@ export default class Game extends Phaser.Scene {
     ]);
     const fencesLayer = this.map.createLayer('fences', interiorImage);
 
-    const buildingsLayer = this.map.createLayer('buildings', [
-      boat1Image,
-      ModernExteriorsCompleteImage,
-      clothesImage,
-      interiorImage,
-      campfire2Image,
-      pigeonImage,
-      characterInWater,
-      fishImage,
-      fish2Image,
-      fish3Image,
-      fishingBoatImage,
-      campingImage,
-      vehiclesImage,
-      foodCarsImage,
-      villasImage,
-      birdImage,
-      pigeonImage,
-      ball1Image,
-      ball2Image,
-    ]);
+    const buildingsLayer = this.map.createLayer('buildings', 
+    [
+        boat1Image,
+        ModernExteriorsCompleteImage,
+        clothesImage,
+        interiorImage,
+        campfire2Image,
+        pigeonImage,
+        characterInWater,
+        fishImage,
+        fish2Image,
+        fish3Image,
+        fishingBoatImage,
+        campingImage,
+        vehiclesImage,
+        foodCarsImage,
+        villasImage,
+        birdImage,
+        pigeonImage,
+        ball1Image,
+        ball2Image,
+        flowersImage
+      ]
+      
+    )
+    
 
+
+    const tileData = campfire2Image.tileData as any;
+
+    for (let tileid in tileData) {
+      // console.log('33333', tileid)
+
+      this.map.layers.forEach(layer => {
+        // console.log(9999, layer)
+        if (layer.tilemapLayer?.type === "StaticTilemapLayer") return;
+        layer.data.forEach(tileRow => {
+          tileRow.forEach(tile => {
+            if (tile.index - campfire2Image.firstgid === parseInt(tileid, 10)) {
+              this.animatedTiles.push(
+                new AnimatedTile(
+                  tile,
+                  tileData[tileid].animation,
+                  campfire2Image.firstgid
+                )
+              );
+            }
+          });
+        });
+      });
+    }
+    // console.log('animatedTiles', this.animatedTiles);
+    
+    // this.animatedTiles.forEach(tile => tile.update(this.time.now));
     const ForegroundLayer = this.map.createLayer('foreground', [
       villasImage,
       interiorImage,
@@ -178,6 +225,8 @@ export default class Game extends Phaser.Scene {
       modernExteriorsImage,
       clothesImage
     ]);
+    // this.map.createDynamicLayer('water', [ModernExteriorsCompleteImage, interiorImage, campingImage]);
+
 
     const secondGroundLayer = this.map.createLayer('secondGround', [
       ModernExteriorsCompleteImage,
@@ -434,6 +483,8 @@ export default class Game extends Phaser.Scene {
   }
 
   update(t: number, dt: number) {
+    this.animatedTiles.forEach((tile)=>tile.update(dt));
+
     if (this.myPlayer && this.network) {
       this.playerSelector.update(this.myPlayer, this.cursors);
       this.myPlayer.update(
