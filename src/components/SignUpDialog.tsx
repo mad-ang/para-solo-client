@@ -133,9 +133,10 @@ export default function SignUpDialog() {
           margin="normal"
           error={userIdFieldEmpty || userIdFieldWrong}
           helperText={
-            (userIdFieldEmpty && '이름이 필요해요') ||
+            (userIdFieldEmpty && '아이디가 필요해요') ||
             (userIdFieldWrong && '이미 존재하는 아이디입니다.')
           }
+          inputProps={{ maxLength: 20 }}
           onInput={(e) => {
             setUserId((e.target as HTMLInputElement).value?.trim());
           }}

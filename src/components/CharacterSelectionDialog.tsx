@@ -142,7 +142,6 @@ for (let i = avatars.length - 1; i > 0; i--) {
 }
 
 export default function CharacterSelectionDialog(props) {
-  console.log('CharacterSelectionDialog props', props);
   const [name, setName] = useState<string>(props.playerName);
   const [avatarIndex, setAvatarIndex] = useState<number>(0);
   const [nameFieldEmpty, setNameFieldEmpty] = useState<boolean>(false);
@@ -222,6 +221,7 @@ export default function CharacterSelectionDialog(props) {
             error={nameFieldEmpty}
             helperText={nameFieldEmpty && '이름이 필요해요'}
             value={name}
+            inputProps={{ maxLength: 10 }}
             onInput={(e) => {
               setName((e.target as HTMLInputElement).value);
             }}
