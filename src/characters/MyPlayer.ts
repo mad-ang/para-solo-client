@@ -41,7 +41,7 @@ export default class MyPlayer extends Player {
     this.playerName.setText(name);
     const userId = store.getState().user?.userId || cookies.get('userId');
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId, authFlag);
-    cookies.set('playerName', name);
+    cookies.set('playerName', name, { path: '/', maxAge: 600 });
     store.dispatch(pushPlayerJoinedMessage(name));
 
     getUserInfo()
@@ -69,7 +69,7 @@ export default class MyPlayer extends Player {
     this.playerTexture = texture;
     this.anims.play(`${this.playerTexture}_idle_down`, true);
     phaserEvents.emit(Event.MY_PLAYER_TEXTURE_CHANGE, this.x, this.y, this.anims.currentAnim.key);
-    cookies.set('playerTexture', texture);
+    cookies.set('playerTexture', texture, { path: '/', maxAge: 600 });
   }
 
   update(

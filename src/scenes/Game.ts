@@ -146,7 +146,7 @@ export default class Game extends Phaser.Scene {
     const buildingsLayer = this.map.createLayer('buildings', [
       boat1Image,
       ModernExteriorsCompleteImage,
-      // clothesImage, 위치오류 발생 일단 보류
+      clothesImage,
       interiorImage,
       campfire2Image,
       pigeonImage,
@@ -154,7 +154,7 @@ export default class Game extends Phaser.Scene {
       fishImage,
       fish2Image,
       fish3Image,
-      // fishingBoatImage, 위치오류 발생
+      fishingBoatImage,
       campingImage,
       vehiclesImage,
       foodCarsImage,
@@ -163,19 +163,20 @@ export default class Game extends Phaser.Scene {
       pigeonImage,
       ball1Image,
       ball2Image,
-      // billboardImage, 위치오류 발생
     ]);
 
     const ForegroundLayer = this.map.createLayer('foreground', [
       villasImage,
       interiorImage,
-      // billboardImage, 위치 오류 발생.
+      billboardImage,
       ModernExteriorsCompleteImage,
       parasol2Image,
       parasolImage,
       campingImage,
       vehiclesImage,
       foodCarsImage,
+      modernExteriorsImage,
+      clothesImage
     ]);
 
     const secondGroundLayer = this.map.createLayer('secondGround', [

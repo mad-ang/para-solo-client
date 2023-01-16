@@ -1,6 +1,5 @@
 import react, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { SetAddFriendsActivated, SetAddFriendsActivateOnly } from 'src/stores/NavbarStore';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import phaserGame from 'src/PhaserGame';
@@ -12,22 +11,9 @@ import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
 import axios from 'axios';
 
-function Swipe(props) {
-  const dispatch = useAppDispatch();
-  const [otherPlayers, setOtherPlayers] = useState<any>();
-  const imgRef = useRef(null);
-  const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
-  const [playerIndex, setPlayerIndex] = useState<number>(0);
-  const [playerNum, setPlayerNum] = useState<number>(0);
-  const userId = useAppSelector((state) => state.user.userId);
-  const friendId = useAppSelector((state) => state.dm.frinedId);
-  const userCnt = useAppSelector((state) => state.room.userCnt);
-  // const game = phaserGame.scene.keys.game as Game;
-  // const players = Array.from(game?.allOtherPlayers());
-  const players = useAppSelector((state) => state.room.players);
-
-  async function requestFriend(id, name) {
-    console.log('친구요청하자~~~');
+export function friendRequest(props) {
+  async function AcceptRequest(id, name) {
+    console.log('친구 요청 수락');
     console.log(id);
     console.log(name);
     let body = {
@@ -44,98 +30,108 @@ function Swipe(props) {
         // profileImgUrl: props.url,
       },
       status: 0,
-      message: '친구 요청',
+      message: '친구 요청 수락',
     };
 
     try {
       const Response = await axios.post('/chat/addFriend', body);
       console.log(Response);
       if (Response.status === 200) {
-        console.log('친구 요청 성공');
+        console.log('친구 요청 수락 성공');
       }
     } catch (error) {
       console.log('error', error);
     }
   }
 
+  async function RefuseRequest(id, name) {
+    console.log('친구 요청 거절');
+    console.log(id);
+    console.log(name);
+    let body = {
+      myInfo: {
+        userId: userId,
+        username: 'userName',
+        profileImgUrl: 'ImageUrl',
+      },
+      friendInfo: {
+        userId: id,
+        username: name,
+        profileImgUrl: 'friendUrl',
+        // username: 'friendName',
+        // profileImgUrl: props.url,
+      },
+      status: 0,
+      message: '친구 요청 거절',
+    };
+
+    try {
+      const Response = await axios.post('/chat/addFriend', body);
+      console.log(Response);
+      if (Response.status === 200) {
+        console.log('친구 요청 거절 성공');
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+
+  const dispatch = useAppDispatch();
+  const [otherPlayers, setOtherPlayers] = useState<any>();
+  const imgRef = useRef(null);
+  const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
+  const [playerIndex, setPlayerIndex] = useState<number>(0);
+  const [playerNum, setPlayerNum] = useState<number>(0);
+  const userId = useAppSelector((state) => state.user.userId);
+  const friendId = useAppSelector((state) => state.dm.frinedId);
+  const userCnt = useAppSelector((state) => state.room.userCnt);
+  const game = phaserGame.scene.keys.game as Game;
+  const players = Array.from(game?.allOtherPlayers());
+
   function handleClick() {
     dispatch(SetAddFriendsActivated(false));
   }
 
-  // const playerUpdate = () => {
-
-  //   const game = phaserGame.scene.keys.game as Game;
-  //   const players = Array.from(game?.allOtherPlayers());
-  //   setOtherPlayers(players);
-  //   console.log(players);
-  //   console.log('Players Num: ', players.length);
-  //   setPlayerNum(players.length);
-  // };
-
-  useEffect(() => {
-    console.log('현재 방의 players', players);
-    console.log('Players Num: ', players.length);
-    setOtherPlayers(players);
-    setPlayerNum(players.length);
-  }, [players.length]);
-
   return (
     <Wrapper>
       <SwipeHeader>
-        <TitleText>현재 {players.length - 1}명이 접속해있어요</TitleText>
+        <TitleText>친구 요청</TitleText>
         <CloseButton onClick={handleClick}>X</CloseButton>
       </SwipeHeader>
-      {players.length === 0 ? (
-        <ZeroMessage>현재 접속해 있는 친구가 없어요</ZeroMessage>
-      ) : (
-        <Swiper
-          modules={[Navigation]}
-          navigation
-          spaceBetween={10}
-          slidesPerView={1}
-          loop={true}
-          // onSlideChange={(swiper) => {
-          //   setPlayerIndex(swiper.activeIndex);
-          // }}
+      <SwipeBody>
+        <ImageWrapper>
+          <div className="personal-image">
+            <ProfileAvatarImage
+              ref={imgRef}
+              src={props.profileImgUrl}
+              className="personal-avatar"
+              alt="avatar"
+              onError={() => {
+                // @ts-ignore
+                if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
+              }}
+            />
+          </div>
+        </ImageWrapper>
+        <Name>{props.username}</Name>
+        <Message>좋은 만남 가져봐요</Message>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => AcceptRequest(props.userId, props.username)}
+          sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
         >
-          {otherPlayers?.map(
-            (player, i: number) =>
-              i >= 1 && (
-                <SwiperSlide key={i}>
-                  {/* <SwiperSlide key={player.id}> */}
-                  <SwipeBody>
-                    <ImageWrapper>
-                      <div className="personal-image">
-                        <ProfileAvatarImage
-                          ref={imgRef}
-                          src={DefaultAvatar}
-                          // src={player.userInfo.profileImgUrl || DefaultAvatar}
-                          className="personal-avatar"
-                          alt="avatar"
-                          onError={() => {
-                            // @ts-ignore
-                            if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
-                          }}
-                        />
-                      </div>
-                    </ImageWrapper>
-                    <Name>{player.name}</Name>
-                    <Message>좋은 만남 가져봐요</Message>
-                    <Button
-                      // fullWidth={true}
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => requestFriend(player.userId, player.name)}
-                      sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
-                    >
-                      친구 요청{' '}
-                    </Button>
-                  </SwipeBody>
-                </SwiperSlide>
-              )
-          )}
-        </Swiper>
-      )}
+          수락{' '}
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => RefuseRequest(props.userId, props.username)}
+          sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
+        >
+          거절{' '}
+        </Button>
+      </SwipeBody>
     </Wrapper>
   );
 }
@@ -269,4 +265,4 @@ const ZeroMessage = styled.div`
   font-size: 1.5rem;
 `;
 
-export default Swipe;
+export default friendRequest;

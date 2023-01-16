@@ -57,7 +57,7 @@ export const userSlice = createSlice({
       state.sessionId = action.payload;
     },
     setUserId: (state, action: PayloadAction<string>) => {
-      cookies.set('userId', action.payload, { path: '/' });
+      cookies.set('userId', action.payload, { path: '/', maxAge: 600 });
       state.userId = action.payload;
     },
     setVideoConnected: (state, action: PayloadAction<boolean>) => {

@@ -164,7 +164,14 @@ export default class Network {
       if (playerSize === undefined) return;
       let numPlayers: number = playerSize;
       store.dispatch(setNumPlayer(numPlayers));
-      store.dispatch(setRoomPlayers(this.room?.state.players));
+      const players: any = [];
+      this.room?.state.players.forEach((value, key, map) => {
+        players.push(value);
+        // console.log('valueeeee', value.userId);
+      });
+      store.dispatch(setRoomPlayers(players));
+      // console.log(555555, players);
+      // console.log('room.state.players', this.room?.state.players.);
     });
   }
   getChairState() {
