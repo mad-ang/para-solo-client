@@ -9,20 +9,14 @@ export default defineConfig(({ command, mode }) => {
     // vite config
     plugins: [
       react({
+        jsxImportSource: '@emotion/react',
         babel: {
-          plugins: [
-            [
-              'babel-plugin-styled-components',
-              {
-                displayName: true,
-                fileName: false,
-              },
-            ],
-          ],
+          plugins: [['@emotion/babel-plugin']],
         },
       }),
     ],
     define: {
+      global: process.env.NODE_ENV === 'production' ? undefined : {},
       __APP_ENV__: env.APP_ENV,
     },
     resolve: {
