@@ -15,7 +15,7 @@ import axios from 'axios';
 function Swipe(props) {
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
-  const imgRef = useRef(null);
+  const imgRef = useRef<any>(null);
   const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
@@ -113,7 +113,6 @@ function Swipe(props) {
                           className="personal-avatar"
                           alt="avatar"
                           onError={() => {
-                            // @ts-ignore
                             if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
                           }}
                         />

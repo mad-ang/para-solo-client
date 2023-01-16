@@ -101,21 +101,15 @@ export interface CreateRoomResponse {
 // }
 
 export interface RoomListResponse {
-  myInfo: UserResponseDto
-  friendInfo: UserResponseDto
-  message: string
-  status: IChatRoomStatus
-  roomId?: string
-  unreadCount?: number
-  updatedAt: Date | null
+  myInfo: UserResponseDto;
+  friendInfo: UserResponseDto;
+  message: string;
+  status: IChatRoomStatus;
+  roomId?: string;
+  unreadCount?: number;
+  updatedAt: Date | null;
 }
 
-
-
-// 0 : 친구 요청
-// 1 : SOCKET_ON
-// 2 : SOCKET_OFF = 친구 요청 ㅅ
-// 3 : 친구요청 거절 혹은 상대방 차단.
 export enum IChatRoomStatus {
   FRIEND_REQUEST,
   SOCKET_ON,

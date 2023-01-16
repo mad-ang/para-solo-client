@@ -14,7 +14,7 @@ import axios from 'axios';
 export default function FriendRequest(props) {
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
-  const imgRef = useRef(null);
+  const imgRef = useRef<any>(null);
   const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
@@ -85,7 +85,6 @@ export default function FriendRequest(props) {
               className="personal-avatar"
               alt="avatar"
               onError={() => {
-                // @ts-ignore
                 if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
               }}
             />
