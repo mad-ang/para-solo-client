@@ -15,6 +15,7 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: {
         src: path.resolve(__dirname, './src'),
+        './runtimeConfig': './runtimeConfig.browser',
       },
     },
   };
