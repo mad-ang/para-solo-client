@@ -192,6 +192,7 @@ export default class Game extends Phaser.Scene {
       ball1Image,
       ball2Image,
       wormImage,
+      clothesImage
     ];
 
     buildingAnimationImages.forEach((imageSet) => {
