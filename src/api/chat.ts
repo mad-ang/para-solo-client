@@ -21,8 +21,8 @@ export const fetchRoomList = async (userId: string, next: any) => {
     .post(`/chat/roomList/`, { userId: userId })
     .then((response) => {
       console.log('hihihi');
-      const { data } = response.data;
-      console.log('sss', response);
+      const { data } = response;
+      console.log("sss", response)
       next(data);
       // return data as ApiResponse<Array<RoomListResponse>>;
     })
@@ -30,6 +30,16 @@ export const fetchRoomList = async (userId: string, next: any) => {
       console.log(error);
     });
 };
+
+// export const fetchRoomList = async (userId: string, next: any) => {
+//   const roomList: ApiResponse<Array<RoomListResponse>> = await axios.post(
+//     `/chat/roomList/`, { userId: userId }
+//   );
+//   return roomList.data.data;
+// };
+
+
+
 
 // 스크롤시 채팅방의 채팅 데이터를 가져옴(옛날 채팅 리스트)
 export const fetchChatting = (param: FetchChattingRequest) => {
