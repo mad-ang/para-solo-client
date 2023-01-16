@@ -37,6 +37,9 @@ function Swipe(props) {
   const [playerNum, setPlayerNum] = useState<number>(0);
   const userId = useAppSelector((state) => state.user.userId);
   const friendId = useAppSelector((state) => state.dm.frinedId);
+  const userCnt = useAppSelector((state) => state.room.userCnt);
+  const game = phaserGame.scene.keys.game as Game;
+  const players = Array.from(game?.allOtherPlayers());
 
   async function requestFriend(id, name) {
     console.log('친구요청하자~~~');
@@ -50,9 +53,9 @@ function Swipe(props) {
       },
       friendInfo: {
         userId: id,
-        // username: 'friendName',
-        profileImgUrl: 'friendUrl',
         username: name,
+        profileImgUrl: 'friendUrl',
+        // username: 'friendName',
         // profileImgUrl: props.url,
       },
       status: 0,
@@ -74,26 +77,23 @@ function Swipe(props) {
     dispatch(SetAddFriendsActivated(false));
   }
 
-  const playerUpdate = () => {
-    const game = phaserGame.scene.keys.game as Game;
+  // const playerUpdate = () => {
 
-    const players = Array.from(game?.allOtherPlayers());
-    setOtherPlayers(players);
-    console.log(players);
-    console.log('Players Num: ', players.length);
-    setPlayerNum(players.length);
-  };
+  //   const game = phaserGame.scene.keys.game as Game;
+  //   const players = Array.from(game?.allOtherPlayers());
+  //   setOtherPlayers(players);
+  //   console.log(players);
+  //   console.log('Players Num: ', players.length);
+  //   setPlayerNum(players.length);
+  // };
 
-  const userCnt = useAppSelector((state) => state.room.userCnt);
   useEffect(() => {
-    const game = phaserGame.scene.keys.game as Game;
-
-    const players = Array.from(game?.allOtherPlayers());
     setOtherPlayers(players);
     console.log(players);
     console.log('Players Num: ', players.length);
     setPlayerNum(players.length);
-  }, [userCnt]);
+  }, [players.length]);
+
   return (
     <Wrapper>
       <SwipeHeader>
@@ -109,9 +109,6 @@ function Swipe(props) {
           spaceBetween={10}
           slidesPerView={1}
           loop={true}
-          onSlideChange={() => {
-            playerUpdate;
-          }}
           // onSlideChange={(swiper) => {
           //   setPlayerIndex(swiper.activeIndex);
           // }}
