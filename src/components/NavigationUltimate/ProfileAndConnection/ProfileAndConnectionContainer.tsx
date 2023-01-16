@@ -1,6 +1,7 @@
 import react from 'react';
 import Profile from './Profile';
 import Connection from './Connection';
+import MusicController from './MusicController';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -13,6 +14,7 @@ export default function () {
     <Wrapper>
       <Profile />
       <Connection />
+      <MusicController />
     </Wrapper>
   );
 }

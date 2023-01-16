@@ -29,14 +29,6 @@ const RedContainer = styled.div`
 
 export default function NavigationContainer() {
 
-  useEffect(() => {
-    const audio = new Audio();
-    audio.src = 'src/assets/music/BGM1.mp3';
-    audio.loop = true;
-    // audio.play();
-  }, []);
-
-
   const dispatch = useAppDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
