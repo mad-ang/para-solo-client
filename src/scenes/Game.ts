@@ -175,6 +175,7 @@ export default class Game extends Phaser.Scene {
       ball1Image,
       ball2Image,
       flowersImage,
+      wormImage
     ]);
 
     const buildingAnimationImages = [
@@ -190,6 +191,7 @@ export default class Game extends Phaser.Scene {
       pigeonImage,
       ball1Image,
       ball2Image,
+      wormImage,
     ];
 
     buildingAnimationImages.forEach((imageSet) => {
