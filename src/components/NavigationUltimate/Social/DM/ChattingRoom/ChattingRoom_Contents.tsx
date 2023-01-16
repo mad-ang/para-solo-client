@@ -53,7 +53,7 @@ export default function ChatBubbles(props) {
     socketClient.on('connect', () => {
       console.log('connected to socket server');
       socketClient.emit('join-room', { roomId: roomId  , userId: userId, friendId: friendId });
-      socketClient.emit('show-messages', { roomId: roomId , userId: userId, friendId: friendId });
+      // socketClient.emit('show-messages', { roomId: roomId , userId: userId, friendId: friendId });
       socketClient.on('show-messages', (data) => {
         console.log("데이터좀 보여주세요!!!", data);
         setMessageList((messageList) => [...messageList, ...data]);
