@@ -34,32 +34,7 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-    this.load.spritesheet('basement', 'assets/tileset/basement.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('bigTree', 'assets/tileset/bigTree.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('boat', 'assets/tileset/boat.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
     this.load.spritesheet('camping', 'assets/tileset/camping.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('camping3', 'assets/tileset/camping3.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('campingZone', 'assets/tileset/campingZone.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
@@ -68,34 +43,14 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
+    this.load.spritesheet('foodCars', 'assets/tileset/foodCars.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
     // food 이미지 너무커서 vehicles 에 다 있음
 
-    this.load.spritesheet('generic', 'assets/tileset/generic.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('campfire2', 'assets/tileset/campfire2.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('genericBuildings', 'assets/tileset/genericBuildings.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('picnic', 'assets/tileset/picnic.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('playground', 'assets/tileset/playground.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('tent', 'assets/tileset/tent.png', {
+    this.load.spritesheet('campfire2', 'assets/animate/campfire2.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
@@ -109,17 +64,7 @@ export default class Bootstrap extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16,
     });
-
-    this.load.spritesheet('floorTiles', 'assets/tileset/floorTiles.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('fences', 'assets/tileset/fences.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
+    
     this.load.spritesheet('villas', 'assets/tileset/villas.png', {
       frameWidth: 16,
       frameHeight: 16,
@@ -140,10 +85,6 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-    this.load.spritesheet('buildings', 'assets/tileset/buildings.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
     this.load.spritesheet('parasol', 'assets/tileset/parasol.png', {
       frameWidth: 16,
       frameHeight: 16,
@@ -153,18 +94,11 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-
-    
     this.load.spritesheet('billboard', 'assets/animate/billboard.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
     this.load.spritesheet('boat1', 'assets/animate/boat1.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-
-    this.load.spritesheet('campfire2', 'assets/animate/campfire2.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
