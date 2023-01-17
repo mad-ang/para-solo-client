@@ -66,25 +66,30 @@ export const ConversationList = () => {
   const userId = useAppSelector((state) => state.user.userId);
   const friendId = useAppSelector((state) => state.dm.friendId);
 
-  let roomId = '';
+  
   useEffect(() => {
       fetchRoomList(userId, (data)=>{
         setRooms(data)
       });
   }, []);
-
   useEffect(()=>{
     console.log("rooms", rooms)
   }, [rooms])
 
+
+  let roomId = '';
   let body = {
     userId: userId,
     friendId: friendId,
     roomId: roomId,
   };
 
-  const handleClick = async (room, index) => {
+  const handleClick = async (room) => {
+
     body.friendId = room.friendInfo.userId;
+    body.roomId = room.roomId;
+    console.log("friendId는..", room.friendInfo.userId);
+    console.log("roomId는..", room.roomId);
 
     if (room.status == IChatRoomStatus.FRIEND_REQUEST) {
       setFriendRequestModal(true);
@@ -121,12 +126,12 @@ export const ConversationList = () => {
         <>
         <UnorderedList>
           {rooms &&
-            rooms.map((room, index) => (
+            rooms.map((room) => (
 
               <ListTag
-                key={index}
+                // key={index}
                 onClick = { () => {
-                  handleClick(room, index);
+                  handleClick(room);
                 }}
               >
                 <img src={room.friendInfo.profileImgUrl} alt={room.friendInfo.username} width="60" />

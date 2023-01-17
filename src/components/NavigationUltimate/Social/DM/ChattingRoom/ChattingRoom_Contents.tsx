@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import styled from 'styled-components';
 import { io, Socket } from 'socket.io-client';
 import { ServerToClientEvents, ClientToServerEvents } from 'src/api/chat';
+// import {DMSlice} from 'src/stores/DMboxStore';
 
 const socketHost = 'http://localhost';
 const socketPort = '5002';
@@ -40,6 +41,10 @@ export default function ChatBubbles(props) {
   // socketClient.emit('test', '안녕하세요');
 
   // 채팅 시작 시 저장되어 있던 채팅 리스트 보여줌
+  const roomId = useAppSelector((state) => state.dm.roomId);
+  const friendId = useAppSelector((state) => state.dm.friendId);
+  const userId = useAppSelector((state) => state.user.userId);
+
   const socketClient = io(`${socketHost}:${socketPort}`);
   useEffect(() => {
     console.log('방 입장');
@@ -47,9 +52,10 @@ export default function ChatBubbles(props) {
 
     socketClient.on('connect', () => {
       console.log('connected to socket server');
-      socketClient.emit('join-room', { roomId: 'test', userId: '123456', friendId: '654321' });
+      socketClient.emit('join-room', { roomId: roomId  , userId: userId, friendId: friendId });
+      // socketClient.emit('show-messages', { roomId: roomId , userId: userId, friendId: friendId });
       socketClient.on('show-messages', (data) => {
-        console.log(data);
+        console.log("데이터좀 보여주세요!!!", data);
         setMessageList((messageList) => [...messageList, ...data]);
       });
     });
@@ -66,8 +72,14 @@ export default function ChatBubbles(props) {
   // 내가 쓴 메세지 채팅 리스트에 추가
   useEffect(() => {
     console.log('props.newMessage', props.newMessage);
+    const body = {
+      roomId: roomId,
+      userId: userId,
+      friendId: friendId,
+      message: props.newMessage.message,
+    }
     setMessageList((messageList) => [...messageList, props.newMessage]);
-    socketClient.emit('message', props.newMessage);
+    socketClient.emit('message', body);
   }, [props.newMessage]);
 
   // 내가 쓴 메세지 서버에 전송
