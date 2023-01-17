@@ -124,7 +124,6 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-
     this.load.spritesheet('worm', 'assets/animate/worm.png', {
       frameWidth: 16,
       frameHeight: 16,
@@ -139,12 +138,11 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-
     this.load.spritesheet('clothes', 'assets/animate/clothes.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
-    
+
     this.load.spritesheet('box3', 'assets/animate/box3.png', {
       frameWidth: 16,
       frameHeight: 16,
@@ -177,20 +175,20 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-    this.load.spritesheet('adam', 'assets/character/adam.png', {
-      frameWidth: 32,
+    this.load.spritesheet('logan', 'assets/character/logan.png', {
+      frameWidth: 16,
       frameHeight: 32,
     });
-    this.load.spritesheet('ash', 'assets/character/ash.png', {
-      frameWidth: 32,
+    this.load.spritesheet('kevin', 'assets/character/kevin.png', {
+      frameWidth: 16,
       frameHeight: 32,
     });
-    this.load.spritesheet('lucy', 'assets/character/lucy.png', {
-      frameWidth: 32,
+    this.load.spritesheet('zoey', 'assets/character/zoey.png', {
+      frameWidth: 16,
       frameHeight: 32,
     });
-    this.load.spritesheet('nancy', 'assets/character/nancy.png', {
-      frameWidth: 32,
+    this.load.spritesheet('emma', 'assets/character/emma.png', {
+      frameWidth: 16,
       frameHeight: 32,
     });
 
