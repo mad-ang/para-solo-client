@@ -284,7 +284,7 @@ export default function ConnectionStatus() {
       <StyledRedBox onClick={openProfile} pressed={NavControllerProfileActivated}>
         <img
           // src="https://user-images.githubusercontent.com/63194662/211139459-96aa37f8-fcd9-4126-9a6b-52296fc3236c.png"
-          src = {userprofileImgUrl}
+          src={userprofileImgUrl || DefaultAvatar}
           height={35}
         />
         <ConnectionStatusWithSmallLight/> {/* 유저의 접속상태에 따라 green/gray로 변경 */}
