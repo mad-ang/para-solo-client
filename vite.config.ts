@@ -9,7 +9,8 @@ export default defineConfig(({ command, mode }) => {
     // vite config
     plugins: [
       react({
-        // jsxImportSource: '@emotion/react',
+        jsxRuntime: 'classic',
+        jsxImportSource: '@emotion/react',
         babel: {
           plugins: [['@emotion/babel-plugin']],
         },
