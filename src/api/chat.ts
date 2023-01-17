@@ -21,9 +21,9 @@ export const fetchRoomList = async (userId: string, next: any) => {
     .post(`/chat/roomList`, { userId: userId })
     .then((response) => {
       console.log('hihihi');
-      const { data } = response;
-      console.log("sss", response)
-      next(data);
+      const { payload } = response.data;
+      console.log('sss', response);
+      next(payload);
       // return data as ApiResponse<Array<RoomListResponse>>;
     })
     .catch((error) => {
@@ -37,9 +37,6 @@ export const fetchRoomList = async (userId: string, next: any) => {
 //   );
 //   return roomList.data.data;
 // };
-
-
-
 
 // 스크롤시 채팅방의 채팅 데이터를 가져옴(옛날 채팅 리스트)
 export const fetchChatting = (param: FetchChattingRequest) => {
@@ -114,7 +111,7 @@ export enum IChatRoomStatus {
   FRIEND_REQUEST,
   SOCKET_ON,
   SOCKET_OFF,
-  REJECTED
+  REJECTED,
 }
 
 // 서버에 채팅 가져오기
