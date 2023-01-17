@@ -268,6 +268,7 @@ function ProfileEditModal(props) {
 export default function ConnectionStatus() {
   const NavControllerProfileActivated = useAppSelector((state) => state.nav.NavControllerProfileActivated);
   const userName = useAppSelector((state) => state.user.userName);
+  const userprofileImgUrl = useAppSelector((state) => state.user.userInfo.profileImgUrl);
   const dispatch = useAppDispatch();
 
   function openProfile() {
@@ -282,7 +283,8 @@ export default function ConnectionStatus() {
     <div>
       <StyledRedBox onClick={openProfile} pressed={NavControllerProfileActivated}>
         <img
-          src="https://user-images.githubusercontent.com/63194662/211139459-96aa37f8-fcd9-4126-9a6b-52296fc3236c.png"
+          // src="https://user-images.githubusercontent.com/63194662/211139459-96aa37f8-fcd9-4126-9a6b-52296fc3236c.png"
+          src = {userprofileImgUrl}
           height={35}
         />
         <ConnectionStatusWithSmallLight/> {/* 유저의 접속상태에 따라 green/gray로 변경 */}
