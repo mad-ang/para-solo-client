@@ -142,15 +142,7 @@ export default class Bootstrap extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16,
     });
-<<<<<<< Updated upstream
-
-    this.load.spritesheet('box3', 'assets/animate/box3.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-=======
     
->>>>>>> Stashed changes
     this.load.spritesheet('ball1', 'assets/animate/ball1.png', {
       frameWidth: 16,
       frameHeight: 16,
