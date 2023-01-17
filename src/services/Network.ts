@@ -165,7 +165,7 @@ export default class Network {
       let numPlayers: number = playerSize;
       store.dispatch(setNumPlayer(numPlayers));
       const players: any = [];
-      this.room?.state.players.forEach((value, key, map) => {
+      this.room?.state.players.forEach((value) => {
         players.push(value);
         // console.log('valueeeee', value.userId);
       });

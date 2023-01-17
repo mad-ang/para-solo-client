@@ -3,14 +3,17 @@ import { AxiosResponse } from 'axios';
 import { UserResponseDto } from './chat';
 
 // 친구 추가 요청
-export const addFriendReq = (request: AddFriendRequestDto) => {
-  return axios.post(`/friend/add`, request)
-    .then(response => {
-        const { data } = response.data;
-        return data as ApiResponse<boolean>;
+export const addFriendReq = (body: any) => {
+  return axios
+    .post(`/chat/addFriend`, body)
+    .then((response) => {
+      const { payload } = response.data;
+      if (response.status === 200) {
+        console.log('친구 요청 성공');
+      }
     })
-    .catch(error => {
-        console.log(error);
+    .catch((error) => {
+      console.log(error);
     });
 };
 
@@ -18,15 +21,14 @@ export const addFriendReq = (request: AddFriendRequestDto) => {
 export const fetchFriendsReq = (id: number) => {
   return axios
     .get(`/friend/${id}`)
-    .then(response => {
+    .then((response) => {
       const { data } = response.data;
       return data as ApiResponse<Array<UserResponseDto>>;
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
     });
 };
-
 
 interface Response<T> {
   data: T;
@@ -60,7 +62,6 @@ export interface UserData {
   friends_list: Array<UserResponseDto>;
   room_list: Array<RoomListResponse>;
 }
-
 
 // export interface UserResponseDto {
 //   id: number;

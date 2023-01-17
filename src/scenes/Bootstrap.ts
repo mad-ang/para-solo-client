@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Network from '../services/Network';
+import Network2 from '../services/Network2';
 import { BackgroundMode } from '../types/BackgroundMode';
 import store from '../stores';
 import { ENTERING_PROCESS, setEnteringProcess } from '../stores/UserStore';
@@ -7,6 +8,7 @@ import { ENTERING_PROCESS, setEnteringProcess } from '../stores/UserStore';
 export default class Bootstrap extends Phaser.Scene {
   private preloadComplete = false;
   network!: Network;
+  network2!: Network2;
 
   constructor() {
     super('bootstrap');
@@ -19,7 +21,6 @@ export default class Bootstrap extends Phaser.Scene {
       'assets/background/cloud_day.json'
     );
 
-    
     this.load.image('backdrop_day', 'assets/background/backdrop_day.png');
     this.load.atlas(
       'cloud_night',
@@ -27,7 +28,7 @@ export default class Bootstrap extends Phaser.Scene {
       'assets/background/cloud_night.json'
     );
     this.load.image('backdrop_night', 'assets/background/backdrop_night.png');
-    this.load.image('sun_moon', 'assets/background/sun_moon.png');
+    this.load.image('sun_moon', 'assets/background/sun_moon2.png');
 
     this.load.tilemapTiledJSON('tilemap', 'assets/map/huntingMap.json');
 
@@ -66,7 +67,7 @@ export default class Bootstrap extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16,
     });
-    
+
     this.load.spritesheet('villas', 'assets/tileset/villas.png', {
       frameWidth: 16,
       frameHeight: 16,
@@ -78,6 +79,10 @@ export default class Bootstrap extends Phaser.Scene {
     });
 
     this.load.spritesheet('waterToy', 'assets/tileset/waterToy.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+    this.load.spritesheet('flowers', 'assets/tileset/flowers.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
@@ -95,6 +100,10 @@ export default class Bootstrap extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16,
     });
+    this.load.spritesheet('indoors', 'assets/tileset/indoors.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
 
     this.load.spritesheet('billboard', 'assets/animate/billboard.png', {
       frameWidth: 16,
@@ -106,6 +115,11 @@ export default class Bootstrap extends Phaser.Scene {
     });
 
     this.load.spritesheet('bird', 'assets/animate/bird.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet('busDoor', 'assets/animate/busDoor.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
@@ -128,7 +142,7 @@ export default class Bootstrap extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16,
     });
-
+    
     this.load.spritesheet('ball1', 'assets/animate/ball1.png', {
       frameWidth: 16,
       frameHeight: 16,
@@ -157,20 +171,20 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-    this.load.spritesheet('adam', 'assets/character/adam.png', {
-      frameWidth: 32,
+    this.load.spritesheet('logan', 'assets/character/logan.png', {
+      frameWidth: 16,
       frameHeight: 32,
     });
-    this.load.spritesheet('ash', 'assets/character/ash.png', {
-      frameWidth: 32,
+    this.load.spritesheet('kevin', 'assets/character/kevin.png', {
+      frameWidth: 16,
       frameHeight: 32,
     });
-    this.load.spritesheet('lucy', 'assets/character/lucy.png', {
-      frameWidth: 32,
+    this.load.spritesheet('zoey', 'assets/character/zoey.png', {
+      frameWidth: 16,
       frameHeight: 32,
     });
-    this.load.spritesheet('nancy', 'assets/character/nancy.png', {
-      frameWidth: 32,
+    this.load.spritesheet('emma', 'assets/character/emma.png', {
+      frameWidth: 16,
       frameHeight: 32,
     });
 
@@ -182,6 +196,7 @@ export default class Bootstrap extends Phaser.Scene {
 
   init() {
     this.network = new Network();
+    this.network2 = new Network2();
   }
 
   private launchBackground(backgroundMode: BackgroundMode) {
@@ -193,6 +208,7 @@ export default class Bootstrap extends Phaser.Scene {
     this.network.webRTC?.checkPreviousPermission();
     this.scene.launch('game', {
       network: this.network,
+      network2 : this.network2
     });
 
     // update Redux state

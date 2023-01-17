@@ -30,9 +30,9 @@ export default class MyPlayer extends Player {
     userId: string,
     userInfo: UserResponseDto,
     name: string,
-    frame?: string | number | undefined
+    frame?: string | number
   ) {
-    super(scene, x, y, texture, id, userId, userInfo, frame);
+    super(scene, x, y, texture, id, userId, userInfo, name, frame);
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
   }
 
@@ -138,7 +138,7 @@ export default class MyPlayer extends Player {
                 this.setPosition(
                   chairItem.x + sittingShiftData[chairItem.itemDirection][0],
                   chairItem.y + sittingShiftData[chairItem.itemDirection][1]
-                ).setDepth(chairItem.depth + sittingShiftData[chairItem.itemDirection][2]);
+                ).setDepth(10000+ chairItem.depth + sittingShiftData[chairItem.itemDirection][2]);
                 // also update playerNameContainer velocity and position
                 this.playContainerBody.setVelocity(0, 0);
                 this.playerContainer.setPosition(
@@ -174,18 +174,18 @@ export default class MyPlayer extends Player {
           network.sendPrivateMessage(this.userId, closePlayer.userId, '안녕하세요');
           return;
         } else {
-          const speed = cursors.shift?.isDown ? 240 : 120;
+          const speed = cursors.shift?.isDown ? 500 : 120;
           let vx = 0;
           let vy = 0;
           if (cursors.left?.isDown || cursors.A?.isDown) vx -= speed;
           if (cursors.right?.isDown || cursors.D?.isDown) vx += speed;
           if (cursors.up?.isDown || cursors.W?.isDown) {
             vy -= speed;
-            this.setDepth(this.y); //change player.depth if player.y changes
+            // this.setDepth(this.y); //change player.depth if player.y changes
           }
           if (cursors.down?.isDown || cursors.S?.isDown) {
             vy += speed;
-            this.setDepth(this.y); //change player.depth if player.y changes
+            // this.setDepth(this.y); //change player.depth if player.y changes
           }
 
           // update character velocity
@@ -270,10 +270,10 @@ Phaser.GameObjects.GameObjectFactory.register(
     id: string,
     userId: string,
     userInfo: UserResponseDto,
-    frame?: string | number | undefined
+    name : string,
+    frame?: string | number
   ) {
-    //@ts-ignore
-    const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, userInfo, frame);
+    const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, userInfo, name, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
@@ -284,7 +284,7 @@ Phaser.GameObjects.GameObjectFactory.register(
     sprite.body
       .setSize(sprite.width * collisionScale[0], sprite.height * collisionScale[1])
       .setOffset(
-        sprite.width * (1 - collisionScale[0]) * 0.5,
+        sprite.width * (1 - collisionScale[0]) * 0,
         sprite.height * (1 - collisionScale[1])
       );
 

@@ -1,6 +1,6 @@
 // import Phaser from "phaser";
 
-// import { debugDraw } from '../utils/debug'
+import { debugDraw } from '../utils/debug'
 import { createCharacterAnims } from '../anims/CharacterAnims';
 
 import Item from '../items/Item';
@@ -11,6 +11,7 @@ import MyPlayer from '../characters/MyPlayer';
 import OtherPlayer from '../characters/OtherPlayer';
 import PlayerSelector from '../characters/PlayerSelector';
 import Network from '../services/Network';
+import Network2 from '../services/Network2';
 import { IPlayer } from '../types/ITownState';
 import { PlayerBehavior } from '../types/PlayerBehavior';
 import { ItemType } from '../types/Items';
@@ -20,8 +21,11 @@ import { setFocused, setShowChat } from '../stores/ChatStore';
 import { NavKeys, Keyboard } from '../types/KeyboardState';
 import Cookies from 'universal-cookie';
 import { userInfo } from 'os';
+import { AnimatedTile } from 'src/anims/AnimatedTile';
+
 export default class Game extends Phaser.Scene {
   network!: Network;
+  networt2!: Network2;
   private cursors!: NavKeys;
   private keyE!: Phaser.Input.Keyboard.Key;
   private keyR!: Phaser.Input.Keyboard.Key;
@@ -33,9 +37,14 @@ export default class Game extends Phaser.Scene {
   private otherPlayerMap = new Map<string, OtherPlayer>();
   tableMap = new Map<string, Chair>();
   chairMap = new Map<string, Chair>();
-
+  private animatedTiles: AnimatedTile[] = [];
+  
   constructor() {
     super('game');
+  }
+
+  init() {
+    this.animatedTiles = [];
   }
 
   registerKeys() {
@@ -57,7 +66,6 @@ export default class Game extends Phaser.Scene {
       store.dispatch(setShowChat(false));
     });
   }
-
   disableKeys() {
     this.input.keyboard.enabled = false;
   }
@@ -68,20 +76,22 @@ export default class Game extends Phaser.Scene {
   allOtherPlayers() {
     return this.otherPlayerMap;
   }
-  create(data: { network: Network }) {
+  chairTalk(){
+    
+  }
+  create(data: { network: Network, network2: Network2 }) {
     if (!data.network) {
       throw new Error('server instance missing');
     } else {
       this.network = data.network;
+      this.networt2 = data.network2;
     }
 
     createCharacterAnims(this.anims);
 
     this.map = this.make.tilemap({ key: 'tilemap' });
-
+  
     const interiorImage = this.map.addTilesetImage('interior', 'interior');
-
-    // 얘는 스프라이트 이미지로 움직이게 해야 함
 
     const campingImage = this.map.addTilesetImage('camping', 'camping');
 
@@ -90,11 +100,10 @@ export default class Game extends Phaser.Scene {
       'ModernExteriorsComplete',
       'ModernExteriorsComplete'
     );
-
-    // 빌라에 돗자리,나무,꽃,벤치,의자 이쁜거 다 있음
     const villasImage = this.map.addTilesetImage('villas', 'villas');
 
-    // vehicles 에 푸드트럭, 보트 이미지 있음
+    const indoorsImage = this.map.addTilesetImage('indoors', 'indoors');
+
     const vehiclesImage = this.map.addTilesetImage('vehicles', 'vehicles');
 
     const waterToyImage = this.map.addTilesetImage('waterToy', 'waterToy');
@@ -109,9 +118,12 @@ export default class Game extends Phaser.Scene {
     // 이하 animated tileset
     const boat1Image = this.map.addTilesetImage('boat1', 'boat1');
 
+
     const billboardImage = this.map.addTilesetImage('billboard', 'billboard');
 
     const campfire2Image = this.map.addTilesetImage('campfire2', 'campfire2');
+
+
     const foodCarsImage = this.map.addTilesetImage('foodCars', 'foodCars');
 
     const pigeonImage = this.map.addTilesetImage('pigeon', 'pigeon');
@@ -126,6 +138,8 @@ export default class Game extends Phaser.Scene {
 
     const fishingBoatImage = this.map.addTilesetImage('fishingBoat', 'fishingBoat');
 
+    const busDoorImage = this.map.addTilesetImage('busDoor', 'busDoor');
+
     const fishImage = this.map.addTilesetImage('fish', 'fish');
 
     const fish2Image = this.map.addTilesetImage('fish2', 'fish2');
@@ -133,6 +147,7 @@ export default class Game extends Phaser.Scene {
     const fish3Image = this.map.addTilesetImage('fish3', 'fish3');
     const wormImage = this.map.addTilesetImage('worm', 'worm');
     const birdImage = this.map.addTilesetImage('bird', 'bird');
+    const flowersImage = this.map.addTilesetImage('flowers', 'flowers');
 
     const GroundLayer = this.map.createLayer('ground', [
       modernExteriorsImage,
@@ -163,8 +178,51 @@ export default class Game extends Phaser.Scene {
       pigeonImage,
       ball1Image,
       ball2Image,
+      flowersImage,
+      wormImage,
+      busDoorImage,
+      // box3Image,
+      indoorsImage,
     ]);
 
+    const buildingAnimationImages = [
+      boat1Image,
+      campfire2Image,
+      pigeonImage,
+      characterInWater,
+      fishImage,
+      fish2Image,
+      fish3Image,
+      fishingBoatImage,
+      birdImage,
+      pigeonImage,
+      ball1Image,
+      ball2Image,
+      wormImage,
+      clothesImage,
+      busDoorImage,
+      // box3Image,
+    ];
+    let i = 0
+    buildingAnimationImages.forEach((imageSet) => {
+      const tileData = imageSet.tileData as any;
+      for (let tileid in tileData) {
+        this.map.layers.forEach((layer) => {
+          if (layer.tilemapLayer?.type === 'StaticTilemapLayer') return;
+          layer.data.forEach((tileRow) => {
+            tileRow.forEach((tile) => {
+              if (tile.index - imageSet.firstgid === parseInt(tileid, 10)) {
+                this.animatedTiles.push(
+                  new AnimatedTile(tile, tileData[tileid].animation, imageSet.firstgid)
+                  );
+                }
+                i++
+            });
+          });
+        });
+      }
+    });
+    console.log('animate loop i', i)
     const ForegroundLayer = this.map.createLayer('foreground', [
       villasImage,
       interiorImage,
@@ -176,8 +234,31 @@ export default class Game extends Phaser.Scene {
       vehiclesImage,
       foodCarsImage,
       modernExteriorsImage,
-      clothesImage
+      clothesImage,
     ]);
+    let j = 0
+    const foregroundAnimationImage = [billboardImage];
+    foregroundAnimationImage.forEach((imageSet) => {
+      const tileData = imageSet.tileData as any;
+
+      for (let tileid in tileData) {
+        this.map.layers.forEach((layer) => {
+          if (layer.tilemapLayer?.type === 'StaticTilemapLayer') return;
+          layer.data.forEach((tileRow) => {
+            tileRow.forEach((tile) => {
+              if (tile.index - imageSet.firstgid === parseInt(tileid, 10)) {
+                this.animatedTiles.push(
+                  new AnimatedTile(tile, tileData[tileid].animation, imageSet.firstgid)
+                );
+              }
+              j++
+            });
+          });
+        });
+      }
+    });
+    console.log('billboardImage', j);
+    
 
     const secondGroundLayer = this.map.createLayer('secondGround', [
       ModernExteriorsCompleteImage,
@@ -191,17 +272,20 @@ export default class Game extends Phaser.Scene {
       campingImage,
     ]);
 
-    // const chairs = this.physics.add.staticGroup({ classType: Chair });
-    // const chairLayer = this.map.getObjectLayer('Objects');
+    const chairs = this.physics.add.staticGroup({ classType: Chair });
+
+
+
+    // const chairLayer = this.map.getObjectLayer('object2');
 
     // chairLayer.objects.forEach((obj, i) => {
-    //   const item = this.addObjectFromTiled(chairs, obj, 'interior', 'interior') as Chair;
-    //   //   item.setDepth(item.y + item.height * 0.27);
-    //   const tableId = `${Math.floor(i / 4)}`;
+    //   const item = this.addObjectFromTiled(chairs, obj, 'camping', 'camping') as Chair;
+    //     // item.setDepth(item.y + item.height * 0.27);eee
+    //   const tableId = `${Math.floor(i / 2)}`;
     //   const chairId = `${i}`;
     //   // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
-    //   //   item.itemDirection = chairObj.properties[0].value
-    //   item.itemDirection = 'down';
+    //     item.itemDirection = obj.properties[0].value
+    //   // item.itemDirection = 'down';
     //   item.tableId = tableId;
     //   item.chairId = chairId;
     //   this.tableMap.set(tableId, item);
@@ -209,28 +293,25 @@ export default class Game extends Phaser.Scene {
     // });
 
     // const chairs = this.physics.add.staticGroup({ classType: Chair });
-    // const chairLayer = this.map.getObjectLayer("Objects");
-    // chairLayer.objects.forEach((chairObj, i) => {
+
+    // const objectTwoLayer = this.map.getObjectLayer("object2");
+    // objectTwoLayer.objects.forEach((chairObj, i) => {
     //   const item = this.addObjectFromTiled(
     //     chairs,
     //     chairObj,
-    //     "interior",
-    //     "interior"
+    //     "villas",
+    //     "object2"
     //   ) as Chair;
     //   const chairId = `${i}`;
     //   item.chairId = chairId;
     //   this.chairMap.set(chairId, item);
-    //   //   item.itemDirection = "down";
-    //   //   item.itemDirection = chairObj.properties[0].value
+    //     // item.itemDirection = "down";
+    //     // item.itemDirection = chairObj.properties[0].value
     // });
 
+    thirdGroundLayer.setDepth(6100);
     ForegroundLayer.setDepth(6000);
 
-    // GrassLayer.setCollisionByProperty({ collisions: true });
-    // BuildingLayer.setCollisionByProperty({ collisions: true });
-    // SwingLayer.setCollisionByProperty({ collisions: true });
-    // cafeLayer.setCollisionByProperty({ collisions: true });
-    // cafe_fenceLayer.setCollisionByProperty({ collisions: true });
     fencesLayer.setCollisionByProperty({ collisions: true });
     secondGroundLayer.setCollisionByProperty({ collisions: true });
 
@@ -251,24 +332,17 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.zoom = 2;
     this.cameras.main.startFollow(this.myPlayer, true);
 
-    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], GroundLayer);
-    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], ForegroundLayer);
-    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], GrassLayer);
-    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], BuildingLayer);
-    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], SwingLayer);
-    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], cafeLayer);
-
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], fencesLayer);
 
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], secondGroundLayer);
 
-    // this.physics.add.overlap(
-    //   this.playerSelector,
-    //   [chairs],
-    //   this.handleItemSelectorOverlap,
-    //   undefined,
-    //   this
-    // );
+    this.physics.add.overlap(
+      this.playerSelector,
+      [chairs],
+      this.handleItemSelectorOverlap,
+      undefined,
+      this
+    );
 
     this.physics.add.overlap(
       this.playerSelector,
@@ -284,8 +358,7 @@ export default class Game extends Phaser.Scene {
       this.handlePlayersOverlap,
       undefined,
       this
-    );
-
+    ); 
     // register network event listeners
     this.network.onPlayerJoined(this.handlePlayerJoined, this);
     this.network.onPlayerLeft(this.handlePlayerLeft, this);
@@ -434,6 +507,8 @@ export default class Game extends Phaser.Scene {
   }
 
   update(t: number, dt: number) {
+    this.animatedTiles.forEach((tile) => tile.update(dt));
+
     if (this.myPlayer && this.network) {
       this.playerSelector.update(this.myPlayer, this.cursors);
       this.myPlayer.update(

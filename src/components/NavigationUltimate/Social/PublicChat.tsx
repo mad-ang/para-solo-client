@@ -24,15 +24,14 @@ import Colors from 'src/utils/Colors';
 
 const Backdrop = styled.div`
   position: fixed;
-  bottom: 65px;
+  bottom: 60px;
   left: 0px;
-  height: 30vh;
-  width: 30vw;
+  height: 400px;
+  width: 370px;
   max-height: 50%;
   max-width: 50%;
 `;
 const Wrapper = styled.div`
-  position: relative;
   height: 100%;
   padding: 16px;
   display: flex;
@@ -243,69 +242,67 @@ function Chat() {
   }, [chatMessages, showChat]);
 
   return (
-    <Backdrop>
-      <Wrapper>
-        <div className="wrapper777">
-          <ChatHeader>
-            <Showusercnt />
-            <IconButton
-              aria-label="close dialog"
-              className="close"
-              onClick={() => {
-                dispatch(SetPublicChatActivated(false));
-                dispatch(setShowChat(false));
-              }}
-              size="small"
-            >
-              <CloseIcon />
-            </IconButton>
-          </ChatHeader>
-          <ChatBox>
-            {chatMessages.map(({ messageType, chatMessage }, index) => (
-              <Message chatMessage={chatMessage} messageType={messageType} key={index} />
-            ))}
-            <div ref={messagesEndRef} />
-            {showEmojiPicker && (
-              <EmojiPickerWrapper>
-                <Picker
-                  theme="dark"
-                  showSkinTones={false}
-                  showPreview={false}
-                  onSelect={(emoji) => {
-                    setInputValue(inputValue + emoji.native);
-                    setShowEmojiPicker(!showEmojiPicker);
-                    dispatch(setFocused(true));
-                  }}
-                  exclude={['recent', 'flags']}
-                />
-              </EmojiPickerWrapper>
-            )}
-          </ChatBox>
-          <InputWrapper onSubmit={handleSubmit}>
-            <InputTextField
-              inputRef={inputRef}
-              autoFocus={focused}
-              fullWidth
-              placeholder="대화를 입력해주세요"
-              value={inputValue}
-              onKeyDown={handleKeyDown}
-              onChange={handleChange}
-              onFocus={() => {
-                if (!focused) {
+    <Backdrop className = "PublicChat">
+      <Wrapper className="wrapper777">
+        <ChatHeader>
+          <Showusercnt />
+          <IconButton
+            aria-label="close dialog"
+            className="close"
+            onClick={() => {
+              dispatch(SetPublicChatActivated(false));
+              dispatch(setShowChat(false));
+            }}
+            size="small"
+          >
+            <CloseIcon />
+          </IconButton>
+        </ChatHeader>
+        <ChatBox>
+          {chatMessages.map(({ messageType, chatMessage }, index) => (
+            <Message chatMessage={chatMessage} messageType={messageType} key={index} />
+          ))}
+          <div ref={messagesEndRef} />
+          {showEmojiPicker && (
+            <EmojiPickerWrapper>
+              <Picker
+                theme="dark"
+                showSkinTones={false}
+                showPreview={false}
+                onSelect={(emoji) => {
+                  setInputValue(inputValue + emoji.native);
+                  setShowEmojiPicker(!showEmojiPicker);
                   dispatch(setFocused(true));
-                  setReadyToSubmit(true);
-                }
-              }}
-              onBlur={() => {
-                dispatch(setFocused(false));
-                setReadyToSubmit(false);
-              }}
-            />
-            <IconButton aria-label="emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-              <InsertEmoticonIcon />
-            </IconButton>
-          </InputWrapper>
-        </div>
+                }}
+                exclude={['recent', 'flags']}
+              />
+            </EmojiPickerWrapper>
+          )}
+        </ChatBox>
+        <InputWrapper onSubmit={handleSubmit}>
+          <InputTextField
+            inputRef={inputRef}
+            autoFocus={focused}
+            fullWidth
+            placeholder="대화를 입력해주세요"
+            value={inputValue}
+            onKeyDown={handleKeyDown}
+            onChange={handleChange}
+            onFocus={() => {
+              if (!focused) {
+                dispatch(setFocused(true));
+                setReadyToSubmit(true);
+              }
+            }}
+            onBlur={() => {
+              dispatch(setFocused(false));
+              setReadyToSubmit(false);
+            }}
+          />
+          <IconButton aria-label="emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+            <InsertEmoticonIcon />
+          </IconButton>
+        </InputWrapper>
       </Wrapper>
     </Backdrop>
   );

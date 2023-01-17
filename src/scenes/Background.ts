@@ -39,13 +39,13 @@ export default class Background extends Phaser.Scene {
 
     // Add sun or moon image
     const sunMoonImage = this.add.image(
-      sceneWidth / 2,
-      sceneHeight / 2,
+      sceneWidth /1.4,
+      sceneHeight / 4,
       "sun_moon"
     );
     const scale2 = Math.max(
-      sceneWidth / sunMoonImage.width,
-      sceneHeight / sunMoonImage.height
+      sceneWidth / sunMoonImage.width*0.25,
+      sceneHeight / sunMoonImage.height*0.25
     );
     sunMoonImage.setScale(scale2).setScrollFactor(0);
 

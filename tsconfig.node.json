@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsxImportSource": "@emotion/react",
     "composite": true,
     "baseUrl": ".",
     "paths": {

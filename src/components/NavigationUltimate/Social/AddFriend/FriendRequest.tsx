@@ -11,31 +11,33 @@ import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
 import axios from 'axios';
 
-export function friendRequest(props) {
-  async function AcceptRequest(id, name) {
+export default function FriendRequest(props) {
+  const dispatch = useAppDispatch();
+  const [otherPlayers, setOtherPlayers] = useState<any>();
+  const imgRef = useRef<any>(null);
+  const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
+  const [playerIndex, setPlayerIndex] = useState<number>(0);
+  const [playerNum, setPlayerNum] = useState<number>(0);
+  const userId = useAppSelector((state) => state.user.userId);
+  const friendId = useAppSelector((state) => state.dm.friendId);
+  const userCnt = useAppSelector((state) => state.room.userCnt);
+  const game = phaserGame.scene.keys.game as Game;
+  const players = Array.from(game?.allOtherPlayers());
+
+  async function AcceptRequest(id, name, status) {
     console.log('친구 요청 수락');
     console.log(id);
     console.log(name);
+    console.log(status);
     let body = {
-      myInfo: {
-        userId: userId,
-        username: 'userName',
-        profileImgUrl: 'ImageUrl',
-      },
-      friendInfo: {
-        userId: id,
-        username: name,
-        profileImgUrl: 'friendUrl',
-        // username: 'friendName',
-        // profileImgUrl: props.url,
-      },
-      status: 0,
-      message: '친구 요청 수락',
+      myId: userId,
+      friendId: id,
+      isAccept: status,
     };
 
     try {
-      const Response = await axios.post('/chat/addFriend', body);
-      console.log(Response);
+      const Response = await axios.post('/chat/acceptFriend', body);
+      // console.log(Response.data);
       if (Response.status === 200) {
         console.log('친구 요청 수락 성공');
       }
@@ -44,52 +46,29 @@ export function friendRequest(props) {
     }
   }
 
-  async function RefuseRequest(id, name) {
-    console.log('친구 요청 거절');
-    console.log(id);
-    console.log(name);
-    let body = {
-      myInfo: {
-        userId: userId,
-        username: 'userName',
-        profileImgUrl: 'ImageUrl',
-      },
-      friendInfo: {
-        userId: id,
-        username: name,
-        profileImgUrl: 'friendUrl',
-        // username: 'friendName',
-        // profileImgUrl: props.url,
-      },
-      status: 0,
-      message: '친구 요청 거절',
-    };
+  //   async function RefuseRequest(id, name) {
+  //     console.log('친구 요청 거절');
+  //     console.log(id);
+  //     console.log(name);
+  //     let body = {
+  //         myId: userId,
+  //         friendId: id,
+  //         isAccepted: 0,
+  //       };
 
-    try {
-      const Response = await axios.post('/chat/addFriend', body);
-      console.log(Response);
-      if (Response.status === 200) {
-        console.log('친구 요청 거절 성공');
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
-  }
-
-  const dispatch = useAppDispatch();
-  const [otherPlayers, setOtherPlayers] = useState<any>();
-  const imgRef = useRef(null);
-  const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
-  const [playerIndex, setPlayerIndex] = useState<number>(0);
-  const [playerNum, setPlayerNum] = useState<number>(0);
-  const userId = useAppSelector((state) => state.user.userId);
-  const friendId = useAppSelector((state) => state.dm.frinedId);
-  const userCnt = useAppSelector((state) => state.room.userCnt);
-  const game = phaserGame.scene.keys.game as Game;
-  const players = Array.from(game?.allOtherPlayers());
+  //     try {
+  //       const Response = await axios.post('/acceptFriend', body);
+  //       console.log(Response);
+  //       if (Response.status === 200) {
+  //         console.log('친구 요청 거절 성공');
+  //       }
+  //     } catch (error) {
+  //       console.log('error', error);
+  //     }
+  //   }
 
   function handleClick() {
-    dispatch(SetAddFriendsActivated(false));
+    props.setFriendRequestModal(false);
   }
 
   return (
@@ -103,22 +82,24 @@ export function friendRequest(props) {
           <div className="personal-image">
             <ProfileAvatarImage
               ref={imgRef}
-              src={props.profileImgUrl}
+              src={props.friendInfo.profileImgUrl}
               className="personal-avatar"
               alt="avatar"
               onError={() => {
-                // @ts-ignore
                 if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
               }}
             />
           </div>
         </ImageWrapper>
-        <Name>{props.username}</Name>
+        <Name>{props.friendInfo.username}</Name>
         <Message>좋은 만남 가져봐요</Message>
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => AcceptRequest(props.userId, props.username)}
+          onClick={() => {
+            AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 1);
+            handleClick();
+          }}
           sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
         >
           수락{' '}
@@ -126,7 +107,10 @@ export function friendRequest(props) {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => RefuseRequest(props.userId, props.username)}
+          onClick={() => {
+            AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0)
+            handleClick();
+          }}
           sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
         >
           거절{' '}
@@ -264,5 +248,3 @@ const ZeroMessage = styled.div`
   font-size: 24px;
   font-size: 1.5rem;
 `;
-
-export default friendRequest;

@@ -11,16 +11,18 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
 import axios from 'axios';
+import { addFriendReq } from 'src/api/friend';
 
 function Swipe(props) {
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
-  const imgRef = useRef(null);
+  const imgRef = useRef<any>(null);
   const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
   const userId = useAppSelector((state) => state.user.userId);
-  const friendId = useAppSelector((state) => state.dm.frinedId);
+  const userName = useAppSelector((state) => state.user.userName);
+  const friendId = useAppSelector((state) => state.dm.friendId);
   const userCnt = useAppSelector((state) => state.room.userCnt);
   // const game = phaserGame.scene.keys.game as Game;
   // const players = Array.from(game?.allOtherPlayers());
@@ -33,13 +35,15 @@ function Swipe(props) {
     let body = {
       myInfo: {
         userId: userId,
-        username: 'userName',
-        profileImgUrl: 'ImageUrl',
+        username: userName,
+        profileImgUrl:
+          'https://user-images.githubusercontent.com/63194662/211139505-282c312a-2d1c-4186-a22b-4fdb7c375803.png',
       },
       friendInfo: {
         userId: id,
         username: name,
-        profileImgUrl: 'friendUrl',
+        profileImgUrl:
+          'https://user-images.githubusercontent.com/63194662/211139490-e3606d1d-3f68-4041-8b99-1a09d2a1b61c.png',
         // username: 'friendName',
         // profileImgUrl: props.url,
       },
@@ -48,11 +52,7 @@ function Swipe(props) {
     };
 
     try {
-      const Response = await axios.post('/chat/addFriend', body);
-      console.log(Response);
-      if (Response.status === 200) {
-        console.log('친구 요청 성공');
-      }
+      addFriendReq(body);
     } catch (error) {
       console.log('error', error);
     }
@@ -85,7 +85,7 @@ function Swipe(props) {
         <TitleText>현재 {players.length - 1}명이 접속해있어요</TitleText>
         <CloseButton onClick={handleClick}>X</CloseButton>
       </SwipeHeader>
-      {players.length === 0 ? (
+      {players.length - 1 === 0 ? (
         <ZeroMessage>현재 접속해 있는 친구가 없어요</ZeroMessage>
       ) : (
         <Swiper
@@ -98,42 +98,40 @@ function Swipe(props) {
           //   setPlayerIndex(swiper.activeIndex);
           // }}
         >
-          {otherPlayers?.map(
-            (player, i: number) =>
-              i >= 1 && (
-                <SwiperSlide key={i}>
-                  {/* <SwiperSlide key={player.id}> */}
-                  <SwipeBody>
-                    <ImageWrapper>
-                      <div className="personal-image">
-                        <ProfileAvatarImage
-                          ref={imgRef}
-                          src={DefaultAvatar}
-                          // src={player.userInfo.profileImgUrl || DefaultAvatar}
-                          className="personal-avatar"
-                          alt="avatar"
-                          onError={() => {
-                            // @ts-ignore
-                            if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
-                          }}
-                        />
-                      </div>
-                    </ImageWrapper>
-                    <Name>{player.name}</Name>
-                    <Message>좋은 만남 가져봐요</Message>
-                    <Button
-                      // fullWidth={true}
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => requestFriend(player.userId, player.name)}
-                      sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
-                    >
-                      친구 요청{' '}
-                    </Button>
-                  </SwipeBody>
-                </SwiperSlide>
-              )
-          )}
+          {otherPlayers?.map((player, i: number) => {
+            player.userId !== userId ? (
+              <SwiperSlide key={i}>
+                {/* <SwiperSlide key={player.id}> */}
+                <SwipeBody>
+                  <ImageWrapper>
+                    <div className="personal-image">
+                      <ProfileAvatarImage
+                        ref={imgRef}
+                        src={DefaultAvatar}
+                        // src={player.userInfo.profileImgUrl || DefaultAvatar}
+                        className="personal-avatar"
+                        alt="avatar"
+                        onError={() => {
+                          if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
+                        }}
+                      />
+                    </div>
+                  </ImageWrapper>
+                  <Name>{player.name}</Name>
+                  <Message>좋은 만남 가져봐요</Message>
+                  <Button
+                    // fullWidth={true}
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => requestFriend(player.userId, player.name)}
+                    sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
+                  >
+                    친구 요청{' '}
+                  </Button>
+                </SwipeBody>
+              </SwiperSlide>
+            ) : null;
+          })}
         </Swiper>
       )}
     </Wrapper>
@@ -267,6 +265,13 @@ const ZeroMessage = styled.div`
   font-weight: 600;
   font-size: 24px;
   font-size: 1.5rem;
+
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  height: 75%;
 `;
 
 export default Swipe;

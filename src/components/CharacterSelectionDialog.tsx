@@ -12,12 +12,17 @@ import { Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import Adam from '../images/login/Adam_login.png';
-import Ash from '../images/login/Ash_login.png';
-import Lucy from '../images/login/Lucy_login.png';
-import Nancy from '../images/login/Nancy_login.png';
+import Logan from '../images/login/Logan_login.png';
+import Kevin from '../images/login/Kevin_login.png';
+import Zoey from '../images/login/Zoey_login.png';
+import Emma from '../images/login/Emma_login.png';
 import { useAppSelector, useAppDispatch } from '../hooks';
-import { ENTERING_PROCESS, setCharacterSelected, setUserId } from '../stores/UserStore';
+import {
+  ENTERING_PROCESS,
+  setCharacterSelected,
+  setUserId,
+  setUserName,
+} from '../stores/UserStore';
 import { getAvatarString, getColorByString } from '../util';
 import Cookies from 'universal-cookie';
 import phaserGame from '../PhaserGame';
@@ -35,9 +40,9 @@ const Wrapper = styled.form`
   box-shadow: 0px 0px 5px #0000006f;
 `;
 
-const Title = styled.p`
+const Title = styled.h3`
   margin: 5px;
-  font-size: 20px;
+  font-size: 25px;
   color: #c2c2c2;
   text-align: center;
 `;
@@ -70,7 +75,7 @@ const RoomDescription = styled.div`
 `;
 
 const SubTitle = styled.h3`
-  width: 160px;
+  width: 200px;
   font-size: 16px;
   color: #eee;
   text-align: center;
@@ -129,10 +134,10 @@ const Warning = styled.div`
 `;
 
 const avatars = [
-  { name: 'adam', img: Adam },
-  { name: 'ash', img: Ash },
-  { name: 'lucy', img: Lucy },
-  { name: 'nancy', img: Nancy },
+  { name: 'logan', img: Logan },
+  { name: 'kevin', img: Kevin },
+  { name: 'zoey', img: Zoey },
+  { name: 'emma', img: Emma },
 ];
 
 // shuffle the avatars array
@@ -163,6 +168,7 @@ export default function CharacterSelectionDialog(props) {
       game.myPlayer.setPlayerName(name);
       game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
       game.network.readyToConnect();
+      dispatch(setUserName(name));
       dispatch(setCharacterSelected(true));
     }
   };
@@ -192,7 +198,7 @@ export default function CharacterSelectionDialog(props) {
       </RoomDescription>
       <Content>
         <Left>
-          <SubTitle>어떤 모습으로 들어갈까요</SubTitle>
+          <SubTitle>어떤 모습으로 들어갈까요?</SubTitle>
           <Swiper
             modules={[Navigation]}
             navigation

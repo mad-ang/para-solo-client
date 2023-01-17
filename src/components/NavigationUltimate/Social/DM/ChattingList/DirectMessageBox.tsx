@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import DMboxSVG from '../../../assets/directmessage/DM.svg';
 import channelTalkPNG from '../../../assets/directmessage/channeltalk.png';
 import { InsideChattingRoom } from '../ChattingRoom/ChattingRoom';
-import { DMSlice, setkey } from '../../../../../stores/DMboxStore';
+import { DMSlice, setFriendId } from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import { ConversationList } from './DirectMessageBox_ConversationList';
 import { DMboxHeader } from './DirectMessageBox_Header';

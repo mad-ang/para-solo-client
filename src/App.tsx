@@ -35,6 +35,7 @@ axios.defaults.baseURL =
 console.log('axios.defaults.baseURL ', axios.defaults.baseURL);
 
 const Backdrop = styled.div`
+  font-family: 'Ycomputer-Regular';
   position: absolute;
   z-index: 10;
   height: 90%;
@@ -42,8 +43,6 @@ const Backdrop = styled.div`
 `;
 
 function App() {
-  console.log(88888, import.meta.env.VITE_ENDPOINT);
-
   const tableDialogOpen = useAppSelector((state) => state.table.tableDialogOpen);
   const videoConnected = useAppSelector((state) => state.user.videoConnected);
   const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
