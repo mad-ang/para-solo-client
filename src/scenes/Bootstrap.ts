@@ -28,7 +28,7 @@ export default class Bootstrap extends Phaser.Scene {
       'assets/background/cloud_night.json'
     );
     this.load.image('backdrop_night', 'assets/background/backdrop_night.png');
-    this.load.image('sun_moon', 'assets/background/sun_moon.png');
+    this.load.image('sun_moon', 'assets/background/sun_moon2.png');
 
     this.load.tilemapTiledJSON('tilemap', 'assets/map/huntingMap.json');
 
