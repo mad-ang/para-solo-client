@@ -88,8 +88,6 @@ export default class Game extends Phaser.Scene {
 
     const interiorImage = this.map.addTilesetImage('interior', 'interior');
 
-    // 얘는 스프라이트 이미지로 움직이게 해야 함
-
     const campingImage = this.map.addTilesetImage('camping', 'camping');
 
     const modernExteriorsImage = this.map.addTilesetImage('modernExteriors', 'modernExteriors');
@@ -97,13 +95,10 @@ export default class Game extends Phaser.Scene {
       'ModernExteriorsComplete',
       'ModernExteriorsComplete'
     );
-
-    // 빌라에 돗자리,나무,꽃,벤치,의자 이쁜거 다 있음
     const villasImage = this.map.addTilesetImage('villas', 'villas');
 
     const indoorsImage = this.map.addTilesetImage('indoors', 'indoors');
 
-    // vehicles 에 푸드트럭, 보트 이미지 있음
     const vehiclesImage = this.map.addTilesetImage('vehicles', 'vehicles');
 
     const waterToyImage = this.map.addTilesetImage('waterToy', 'waterToy');
@@ -124,7 +119,6 @@ export default class Game extends Phaser.Scene {
 
     const campfire2Image = this.map.addTilesetImage('campfire2', 'campfire2');
 
-    // console.log('campfire2Image.tileData', campfire2Image.tileData);
 
     const foodCarsImage = this.map.addTilesetImage('foodCars', 'foodCars');
 
@@ -289,29 +283,25 @@ export default class Game extends Phaser.Scene {
     // });
 
     // const chairs = this.physics.add.staticGroup({ classType: Chair });
-    // const chairLayer = this.map.getObjectLayer("Objects");
-    // chairLayer.objects.forEach((chairObj, i) => {
+
+    // const objectTwoLayer = this.map.getObjectLayer("object2");
+    // objectTwoLayer.objects.forEach((chairObj, i) => {
     //   const item = this.addObjectFromTiled(
     //     chairs,
     //     chairObj,
-    //     "interior",
-    //     "interior"
+    //     "villas",
+    //     "object2"
     //   ) as Chair;
     //   const chairId = `${i}`;
     //   item.chairId = chairId;
     //   this.chairMap.set(chairId, item);
-    //   //   item.itemDirection = "down";
-    //   //   item.itemDirection = chairObj.properties[0].value
+    //     // item.itemDirection = "down";
+    //     // item.itemDirection = chairObj.properties[0].value
     // });
 
     thirdGroundLayer.setDepth(6100);
     ForegroundLayer.setDepth(6000);
 
-    // GrassLayer.setCollisionByProperty({ collisions: true });
-    // BuildingLayer.setCollisionByProperty({ collisions: true });
-    // SwingLayer.setCollisionByProperty({ collisions: true });
-    // cafeLayer.setCollisionByProperty({ collisions: true });
-    // cafe_fenceLayer.setCollisionByProperty({ collisions: true });
     fencesLayer.setCollisionByProperty({ collisions: true });
     secondGroundLayer.setCollisionByProperty({ collisions: true });
 
@@ -331,13 +321,6 @@ export default class Game extends Phaser.Scene {
     this.otherPlayers = this.physics.add.group({ classType: OtherPlayer });
     this.cameras.main.zoom = 2;
     this.cameras.main.startFollow(this.myPlayer, true);
-
-    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], GroundLayer);
-    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], ForegroundLayer);
-    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], GrassLayer);
-    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], BuildingLayer);
-    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], SwingLayer);
-    // this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], cafeLayer);
 
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], fencesLayer);
 
