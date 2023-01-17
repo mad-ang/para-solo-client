@@ -28,6 +28,7 @@ export default function FriendRequest(props) {
     console.log('친구 요청 수락');
     console.log(id);
     console.log(name);
+    console.log(status);
     let body = {
       myId: userId,
       friendId: id,
@@ -36,7 +37,7 @@ export default function FriendRequest(props) {
 
     try {
       const Response = await axios.post('/chat/acceptFriend', body);
-      console.log(Response.data);
+      // console.log(Response.data);
       if (Response.status === 200) {
         console.log('친구 요청 수락 성공');
       }

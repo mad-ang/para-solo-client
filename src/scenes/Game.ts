@@ -11,6 +11,7 @@ import MyPlayer from '../characters/MyPlayer';
 import OtherPlayer from '../characters/OtherPlayer';
 import PlayerSelector from '../characters/PlayerSelector';
 import Network from '../services/Network';
+import Network2 from '../services/Network2';
 import { IPlayer } from '../types/ITownState';
 import { PlayerBehavior } from '../types/PlayerBehavior';
 import { ItemType } from '../types/Items';
@@ -24,6 +25,7 @@ import { AnimatedTile } from 'src/anims/AnimatedTile';
 
 export default class Game extends Phaser.Scene {
   network!: Network;
+  networt2!: Network2;
   private cursors!: NavKeys;
   private keyE!: Phaser.Input.Keyboard.Key;
   private keyR!: Phaser.Input.Keyboard.Key;
@@ -75,11 +77,12 @@ export default class Game extends Phaser.Scene {
   allOtherPlayers() {
     return this.otherPlayerMap;
   }
-  create(data: { network: Network }) {
+  create(data: { network: Network, network2: Network2 }) {
     if (!data.network) {
       throw new Error('server instance missing');
     } else {
       this.network = data.network;
+      this.networt2 = data.network2;
     }
 
     createCharacterAnims(this.anims);
