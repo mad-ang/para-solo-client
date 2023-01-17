@@ -18,7 +18,7 @@ export const createRoom = (param: CreateRoomRequest) => {
 export const fetchRoomList = async (userId: string, next: any) => {
   // return await axios.get(`/chat/roomList/${userId}`)
   return await axios
-    .post(`/chat/roomList/`, { userId: userId })
+    .post(`/chat/roomList`, { userId: userId })
     .then((response) => {
       console.log('hihihi');
       const { data } = response;
