@@ -266,9 +266,8 @@ function ProfileEditModal(props) {
 }
 
 export default function ConnectionStatus() {
-  const NavControllerProfileActivated = useAppSelector(
-    (state) => state.nav.NavControllerProfileActivated
-  );
+  const NavControllerProfileActivated = useAppSelector((state) => state.nav.NavControllerProfileActivated);
+  const userName = useAppSelector((state) => state.user.userName);
   const dispatch = useAppDispatch();
 
   function openProfile() {
@@ -286,7 +285,8 @@ export default function ConnectionStatus() {
           src="https://user-images.githubusercontent.com/63194662/211139459-96aa37f8-fcd9-4126-9a6b-52296fc3236c.png"
           height={35}
         />
-        <UserNameDiv>왕십리꿀벅지</UserNameDiv>
+        <ConnectionStatusWithSmallLight/> {/* 유저의 접속상태에 따라 green/gray로 변경 */}
+        <UserNameDiv> {userName} </UserNameDiv>
 
         <EditIcon sx={{ fontSize: 30, color: '#fff' }}></EditIcon>
       </StyledRedBox>
@@ -303,7 +303,7 @@ const StyledRedBox = styled.button<{ pressed: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 185px;
+
   height: 44px;
   border: none;
   border-radius: 12px;
@@ -518,4 +518,13 @@ const InputTextField = styled(InputBase)`
     padding: 5px;
     color: #000;
   }
+`;
+
+const ConnectionStatusWithSmallLight = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: ${Colors.greenlight};
+  margin-right: 5px;
+  margin-left: 5px;
 `;
