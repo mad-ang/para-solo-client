@@ -9,7 +9,6 @@ export default defineConfig(({ command, mode }) => {
     // vite config
     plugins: [
       react({
-        jsxRuntime: 'classic',
         jsxImportSource: '@emotion/react',
         babel: {
           plugins: [['@emotion/babel-plugin']],
@@ -17,7 +16,6 @@ export default defineConfig(({ command, mode }) => {
       }),
     ],
     define: {
-      global: process.env.NODE_ENV === 'production' ? undefined : {},
       __APP_ENV__: env.APP_ENV,
     },
     resolve: {
