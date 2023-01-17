@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
 import axios from 'axios';
+import { addFriendReq } from 'src/api/friend';
 
 function Swipe(props) {
   const dispatch = useAppDispatch();
@@ -51,11 +52,7 @@ function Swipe(props) {
     };
 
     try {
-      const Response = await axios.post('/chat/addFriend', body);
-      console.log(Response);
-      if (Response.status === 200) {
-        console.log('친구 요청 성공');
-      }
+      addFriendReq(body);
     } catch (error) {
       console.log('error', error);
     }
