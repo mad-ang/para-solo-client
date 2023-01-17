@@ -143,7 +143,7 @@ export default function EntryDialog(props) {
         {!props.hasToken && (
           <Wrapper>
             <>
-              <Title>👩‍❤️‍👨 파라솔로에 오신것을 환영합니다 👩‍❤️‍👨</Title>
+              <Title> 🏖파라솔로에 오신것을 환영합니다 </Title>
               <Content>
                 <img src={logo} alt="logo" />
                 {lobbyJoined && (
