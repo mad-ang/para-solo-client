@@ -33,7 +33,7 @@ export const chatSlice = createSlice({
         chatMessage: {
           createdAt: new Date().getTime(),
           author: action.payload,
-          content: '님이 맘스타운에 입장했어요',
+          content: '님이 파라솔로에 입장했어요',
         } as IChatMessage,
       });
     },
@@ -43,7 +43,7 @@ export const chatSlice = createSlice({
         chatMessage: {
           createdAt: new Date().getTime(),
           author: action.payload,
-          content: '님이 맘스타운에서 나갔어요',
+          content: '님이 파라솔로에서 나갔어요',
         } as IChatMessage,
       });
     },

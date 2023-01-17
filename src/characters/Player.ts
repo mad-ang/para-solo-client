@@ -49,7 +49,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.playerContainer = this.scene.add.container(this.x, this.y - 22).setDepth(7000);
 
     // add dialogBubble to playerContainer
-    this.playerDialogBubble = this.scene.add.container(0, 0).setDepth(5000);
+    this.playerDialogBubble = this.scene.add.container(0, 0).setDepth(5100);
     this.playerContainer.add(this.playerDialogBubble);
 
     // add playerName to playerContainer

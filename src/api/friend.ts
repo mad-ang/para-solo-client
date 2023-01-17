@@ -4,7 +4,7 @@ import { UserResponseDto } from './chat';
 
 // 친구 추가 요청
 export const addFriendReq = (request: AddFriendRequestDto) => {
-  return axios.post(`/friend/add`, request)
+  return axios.post(`/chat/addFriend`, request)
     .then(response => {
         const { data } = response.data;
         return data as ApiResponse<boolean>;

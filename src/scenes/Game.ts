@@ -77,6 +77,9 @@ export default class Game extends Phaser.Scene {
   allOtherPlayers() {
     return this.otherPlayerMap;
   }
+  chairTalk(){
+    
+  }
   create(data: { network: Network, network2: Network2 }) {
     if (!data.network) {
       throw new Error('server instance missing');
@@ -116,7 +119,6 @@ export default class Game extends Phaser.Scene {
     // 이하 animated tileset
     const boat1Image = this.map.addTilesetImage('boat1', 'boat1');
 
-    const box3Image = this.map.addTilesetImage('box3', 'box3');
 
     const billboardImage = this.map.addTilesetImage('billboard', 'billboard');
 
@@ -180,7 +182,7 @@ export default class Game extends Phaser.Scene {
       flowersImage,
       wormImage,
       busDoorImage,
-      box3Image,
+      // box3Image,
       indoorsImage,
     ]);
 
@@ -200,12 +202,11 @@ export default class Game extends Phaser.Scene {
       wormImage,
       clothesImage,
       busDoorImage,
-      box3Image,
+      // box3Image,
     ];
-
+    let i = 0
     buildingAnimationImages.forEach((imageSet) => {
       const tileData = imageSet.tileData as any;
-
       for (let tileid in tileData) {
         this.map.layers.forEach((layer) => {
           if (layer.tilemapLayer?.type === 'StaticTilemapLayer') return;
@@ -214,14 +215,15 @@ export default class Game extends Phaser.Scene {
               if (tile.index - imageSet.firstgid === parseInt(tileid, 10)) {
                 this.animatedTiles.push(
                   new AnimatedTile(tile, tileData[tileid].animation, imageSet.firstgid)
-                );
-              }
+                  );
+                }
+                i++
             });
           });
         });
       }
     });
-
+    console.log('animate loop i', i)
     const ForegroundLayer = this.map.createLayer('foreground', [
       villasImage,
       interiorImage,
@@ -235,7 +237,7 @@ export default class Game extends Phaser.Scene {
       modernExteriorsImage,
       clothesImage,
     ]);
-
+    let j = 0
     const foregroundAnimationImage = [billboardImage];
     foregroundAnimationImage.forEach((imageSet) => {
       const tileData = imageSet.tileData as any;
@@ -250,11 +252,14 @@ export default class Game extends Phaser.Scene {
                   new AnimatedTile(tile, tileData[tileid].animation, imageSet.firstgid)
                 );
               }
+              j++
             });
           });
         });
       }
     });
+    console.log('billboardImage', j);
+    
 
     const secondGroundLayer = this.map.createLayer('secondGround', [
       ModernExteriorsCompleteImage,
@@ -268,17 +273,20 @@ export default class Game extends Phaser.Scene {
       campingImage,
     ]);
 
-    // const chairs = this.physics.add.staticGroup({ classType: Chair });
-    // const chairLayer = this.map.getObjectLayer('Objects');
+    const chairs = this.physics.add.staticGroup({ classType: Chair });
+
+
+
+    // const chairLayer = this.map.getObjectLayer('object2');
 
     // chairLayer.objects.forEach((obj, i) => {
-    //   const item = this.addObjectFromTiled(chairs, obj, 'interior', 'interior') as Chair;
-    //   //   item.setDepth(item.y + item.height * 0.27);
-    //   const tableId = `${Math.floor(i / 4)}`;
+    //   const item = this.addObjectFromTiled(chairs, obj, 'camping', 'camping') as Chair;
+    //     // item.setDepth(item.y + item.height * 0.27);eee
+    //   const tableId = `${Math.floor(i / 2)}`;
     //   const chairId = `${i}`;
     //   // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
-    //   //   item.itemDirection = chairObj.properties[0].value
-    //   item.itemDirection = 'down';
+    //     item.itemDirection = obj.properties[0].value
+    //   // item.itemDirection = 'down';
     //   item.tableId = tableId;
     //   item.chairId = chairId;
     //   this.tableMap.set(tableId, item);
@@ -329,13 +337,13 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], secondGroundLayer);
 
-    // this.physics.add.overlap(
-    //   this.playerSelector,
-    //   [chairs],
-    //   this.handleItemSelectorOverlap,
-    //   undefined,
-    //   this
-    // );
+    this.physics.add.overlap(
+      this.playerSelector,
+      [chairs],
+      this.handleItemSelectorOverlap,
+      undefined,
+      this
+    );
 
     this.physics.add.overlap(
       this.playerSelector,

@@ -96,7 +96,10 @@ export default function FriendRequest(props) {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 1)}
+          onClick={() => {
+            AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 1);
+            handleClick();
+          }}
           sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
         >
           수락{' '}
@@ -104,7 +107,10 @@ export default function FriendRequest(props) {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0)}
+          onClick={() => {
+            AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0)
+            handleClick();
+          }}
           sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
         >
           거절{' '}
