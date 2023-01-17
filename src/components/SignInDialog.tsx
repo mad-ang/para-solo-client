@@ -18,6 +18,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import phaserGame from '../PhaserGame';
+import Game from 'src/scenes/Game';
+
 import Bootstrap from '../scenes/Bootstrap';
 import { constants } from 'buffer';
 import { login } from 'src/api/auth';
@@ -88,7 +90,7 @@ export default function SignInDialog() {
   const [userIdFieldWrong, setUserIdFieldWrong] = useState<boolean>(false);
   const [pwFieldWrong, setPwFieldWrong] = useState<boolean>(false);
   const [failLogin, setFailLogin] = useState<boolean>(false);
-
+  const game = phaserGame.scene.keys.game as Game; 
   const goToEntry = (event) => {
     event.preventDefault();
     dispatch(setEnteringProcess(ENTERING_PROCESS.ENTRY));

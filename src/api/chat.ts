@@ -105,8 +105,8 @@ export interface RoomListResponse {
   friendInfo: UserResponseDto;
   message: string;
   status: IChatRoomStatus;
-  roomId?: string;
-  unreadCount?: number;
+  roomId: string;
+  unread?: number;
   updatedAt: Date | null;
 }
 

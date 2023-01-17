@@ -53,7 +53,7 @@ export const login = (body, next): boolean | void => {
           .joinOrCreatePublic()
           .then(() => bootstrap.launchGame())
           .catch((error) => console.error(error));
-
+        bootstrap.network2.whoAmI(body.userId);
         console.log('200 로그인 성공인딩');
         return true;
       } else {

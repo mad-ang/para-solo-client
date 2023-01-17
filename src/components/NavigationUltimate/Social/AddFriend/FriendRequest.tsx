@@ -28,6 +28,7 @@ export default function FriendRequest(props) {
     console.log('친구 요청 수락');
     console.log(id);
     console.log(name);
+    console.log(status);
     let body = {
       myId: userId,
       friendId: id,
@@ -36,7 +37,7 @@ export default function FriendRequest(props) {
 
     try {
       const Response = await axios.post('/chat/acceptFriend', body);
-      console.log(Response.data);
+      // console.log(Response.data);
       if (Response.status === 200) {
         console.log('친구 요청 수락 성공');
       }
@@ -95,7 +96,10 @@ export default function FriendRequest(props) {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 1)}
+          onClick={() => {
+            AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 1);
+            handleClick();
+          }}
           sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
         >
           수락{' '}
@@ -103,7 +107,10 @@ export default function FriendRequest(props) {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0)}
+          onClick={() => {
+            AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0)
+            handleClick();
+          }}
           sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
         >
           거절{' '}
