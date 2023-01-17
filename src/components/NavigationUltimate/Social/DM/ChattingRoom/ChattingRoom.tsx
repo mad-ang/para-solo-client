@@ -6,7 +6,8 @@ import ChatBubbles from './ChattingRoom_Contents';
 import React, { useRef, useState, useEffect } from 'react';
 import 'emoji-mart/css/emoji-mart.css';
 import { setShowDM } from 'src/stores/DMboxStore';
-
+import Game from 'src/scenes/Game';
+import phaserGame from 'src/PhaserGame';
 import io from 'socket.io-client';
 import axios from 'axios';
 const socketHost = 'http://localhost';
@@ -28,6 +29,7 @@ const Wrapper = styled.div`
 `;
 
 export function InsideChattingRoom() {
+  const game = phaserGame.scene.keys.game as Game;
   // export const InsideChattingRoom = async (event) => {
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -38,6 +40,7 @@ export function InsideChattingRoom() {
   const [value, setValue] = useState('안녀녀녀녕a');
   // const [roomId, setRoomId] = useState('');
   let roomId = '';
+  const socketClient = game.networt2.getSocket();
   // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   setInputValue(event.target.value);
   // };

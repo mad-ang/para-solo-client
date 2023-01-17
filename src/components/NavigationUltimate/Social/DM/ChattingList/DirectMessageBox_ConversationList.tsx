@@ -74,20 +74,20 @@ export const ConversationList = () => {
   }, []);
   useEffect(()=>{
     console.log("rooms", rooms)
+    
   }, [rooms])
 
-
-  let roomId = '';
-  let body = {
-    userId: userId,
-    friendId: friendId,
-    roomId: roomId,
-  };
+  // let roomId = '';
+  // let body = {
+  //   userId: userId,
+  //   friendId: friendId,
+  //   roomId: roomId,
+  // };
 
   const handleClick = async (room) => {
 
-    body.friendId = room.friendInfo.userId;
-    body.roomId = room.roomId;
+    // body.friendId = room.friendInfo.userId;
+    // body.roomId = room.roomId;
     console.log("friendId는..", room.friendInfo.userId);
     console.log("roomId는..", room.roomId);
 
@@ -98,22 +98,11 @@ export const ConversationList = () => {
     else{
       console.log("This room's status is... ", room.status);
       try {
-        const response = await axios.post('/chat/joinRoom', body);
-        if (response.status === 200) {
-
           dispatch(SetChattingRoomActivated(true));
           // Response userId
           dispatch(setFriendId(room.friendInfo.userId));
-          console.log("DEBUG111");
-          console.log(response);
-          console.log(response.data);
-          console.log("DEBUG22");
-          console.log(response.data.roomId);
-          console.log("DEBUG33");
-          console.log(body.friendId);
-          console.log("DEBUG444");
-          dispatch(setRoomId(response.data.roomId));
-        }
+          dispatch(setRoomId(room.roomId));
+          
       } catch (error) {
         console.log('error', error);
       }
@@ -129,7 +118,7 @@ export const ConversationList = () => {
             rooms.map((room) => (
 
               <ListTag
-                // key={index}
+                key={room.roomId}
                 onClick = { () => {
                   handleClick(room);
                 }}
