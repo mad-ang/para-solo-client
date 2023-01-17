@@ -16,7 +16,6 @@ export default defineConfig(({ command, mode }) => {
       }),
     ],
     define: {
-      global: process.env.NODE_ENV === 'production' ? undefined : {},
       __APP_ENV__: env.APP_ENV,
     },
     resolve: {
