@@ -21,18 +21,7 @@ width: 370px;
 export default function ChatBubbles(props) {
   const game = phaserGame.scene.keys.game as Game;
   // 기존 메세지 리스트 -> 삭제 예정
-  const [messageList, setMessageList] = useState([Message
-   // Gray bubble
-    // new Message({ id: 0, message: "I'm you -- the blue bubble!" }), // Blue bubble
-    // new Message({
-    //   id: 1,
-    //   message: "I'm the recipient! (The person you're talking to)",
-    // }), // Gray bubble
-    // new Message({
-    //   id: 1,
-    //   message: "I'm the recipient! (The person you're talking to)",
-    // }), // Gray bubble
-  ]);
+  const [messageList, setMessageList] = useState([Message]);
 
   // socketClient.on('connect', () => {
   //   console.log('connected to socket server');
@@ -107,11 +96,12 @@ export default function ChatBubbles(props) {
           // JSON: Custom bubble styles
           bubbleStyles={{
             text: {
-              fontSize: 20,
+              fontFamily: 'Ycomputer-Regular',
+              fontSize: 16,
             },
             chatbubble: {
-              borderRadius: 25,
-              padding: 15,
+              borderRadius: 8,
+              padding: 10,
               maxWidth: 200,
               width: 'fit-content',
               marginTop: 1,

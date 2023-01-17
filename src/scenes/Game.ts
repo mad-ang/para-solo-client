@@ -1,6 +1,6 @@
 // import Phaser from "phaser";
 
-// import { debugDraw } from '../utils/debug'
+import { debugDraw } from '../utils/debug'
 import { createCharacterAnims } from '../anims/CharacterAnims';
 
 import Item from '../items/Item';
@@ -38,7 +38,7 @@ export default class Game extends Phaser.Scene {
   tableMap = new Map<string, Chair>();
   chairMap = new Map<string, Chair>();
   private animatedTiles: AnimatedTile[] = [];
-
+  
   constructor() {
     super('game');
   }
@@ -66,7 +66,6 @@ export default class Game extends Phaser.Scene {
       store.dispatch(setShowChat(false));
     });
   }
-
   disableKeys() {
     this.input.keyboard.enabled = false;
   }
@@ -91,7 +90,7 @@ export default class Game extends Phaser.Scene {
     createCharacterAnims(this.anims);
 
     this.map = this.make.tilemap({ key: 'tilemap' });
-
+  
     const interiorImage = this.map.addTilesetImage('interior', 'interior');
 
     const campingImage = this.map.addTilesetImage('camping', 'camping');
@@ -359,8 +358,7 @@ export default class Game extends Phaser.Scene {
       this.handlePlayersOverlap,
       undefined,
       this
-    );
-
+    ); 
     // register network event listeners
     this.network.onPlayerJoined(this.handlePlayerJoined, this);
     this.network.onPlayerLeft(this.handlePlayerLeft, this);
