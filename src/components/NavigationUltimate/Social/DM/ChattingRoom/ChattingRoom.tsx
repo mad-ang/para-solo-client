@@ -10,8 +10,11 @@ import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
 import io from 'socket.io-client';
 import axios from 'axios';
-const socketHost = 'http://localhost';
-const socketPort = '5002';
+
+const socketUrl =
+  process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
+    ? `https://${import.meta.env.VITE_SERVER_URL}`
+    : `http://${window.location.hostname}:5002`;
 
 const Wrapper = styled.div`
   position: fixed;
@@ -36,7 +39,7 @@ export function InsideChattingRoom() {
   const directMessages = useAppSelector((state) => state.dm.directMessages);
   const showDM = useAppSelector((state) => state.dm.showDM);
   const dispatch = useAppDispatch();
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState<any>(null);
   const [value, setValue] = useState('안녀녀녀녕a');
   // const [roomId, setRoomId] = useState('');
   let roomId = '';
@@ -62,7 +65,7 @@ export function InsideChattingRoom() {
   //   scrollToBottom();
   // }, [directMessages, showDM]);
 
-  // const socketClient = io(`${socketHost}:${socketPort}`);
+  // const socketClient = io(`${socketUrl}`);
   // socketClient.on('connect', () => {
   //   console.log('connected to socket server');
   //   //1. 일단 보낸다
