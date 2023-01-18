@@ -100,10 +100,10 @@ export default class OtherPlayer extends Player {
         }
         break;
       case 'userInfo':
-        this.userInfo.profileImgUrl = value.profileImgUrl;
-        this.userInfo.gender = value.gender;
-        this.userInfo.age = value.age;
-        this.userInfo.height = value.height;
+        this.userInfo.profileImgUrl = value?.profileImgUrl || '';
+        this.userInfo.gender = value?.gender || '';
+        this.userInfo.age = value?.age || '';
+        this.userInfo.height = value?.height || '';
         break;
     }
   }
@@ -144,7 +144,7 @@ export default class OtherPlayer extends Player {
       const sittingShift = sittingShiftData[animDir];
       if (sittingShift) {
         // set hardcoded depth (differs between directions) if player sits down
-        this.setDepth(3000 +this.depth + sittingShiftData[animDir][2]);
+        this.setDepth(3000 + this.depth + sittingShiftData[animDir][2]);
       }
     }
 

@@ -103,7 +103,10 @@ export default class Network {
         changes.forEach((change) => {
           const { field, value } = change;
           //  TODO: 다른 사용자 정보 업데이트 감지
-          phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
+          if (value != undefined) {
+            phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
+          }
+
           // when a new player finished setting up player name
           if (field === 'name' && value !== '') {
             phaserEvents.emit(Event.PLAYER_JOINED, player, key);
