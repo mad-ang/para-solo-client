@@ -1,7 +1,7 @@
 {
-  "name": "skyoffice",
+  "name": "parasolo",
   "private": true,
-  "description": "Client for SkyOffice",
+  "description": "Client for parasolo",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
