@@ -138,7 +138,6 @@ export default function SignUpDialog() {
           }}
         />
         <TextField
-          autoFocus
           fullWidth
           label="비밀번호"
           variant="outlined"

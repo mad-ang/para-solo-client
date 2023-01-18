@@ -90,7 +90,7 @@ export default function SignInDialog() {
   const [userIdFieldWrong, setUserIdFieldWrong] = useState<boolean>(false);
   const [pwFieldWrong, setPwFieldWrong] = useState<boolean>(false);
   const [failLogin, setFailLogin] = useState<boolean>(false);
-  const game = phaserGame.scene.keys.game as Game; 
+  const game = phaserGame.scene.keys.game as Game;
   const goToEntry = (event) => {
     event.preventDefault();
     dispatch(setEnteringProcess(ENTERING_PROCESS.ENTRY));
@@ -178,7 +178,6 @@ export default function SignInDialog() {
           }}
         />
         <TextField
-          autoFocus
           fullWidth
           label="비밀번호"
           variant="outlined"
