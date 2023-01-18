@@ -99,7 +99,7 @@ function Swipe(props) {
           // }}
         >
           {otherPlayers?.map((player, i: number) => {
-            player.userId !== userId ? (
+            return player.userId !== userId ? (
               <SwiperSlide key={i}>
                 {/* <SwiperSlide key={player.id}> */}
                 <SwipeBody>
