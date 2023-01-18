@@ -156,7 +156,7 @@ export default class Game extends Phaser.Scene {
     ]);
     const fencesLayer = this.map.createLayer('fences', interiorImage);
 
-    const logoLayer = this.map.createLayer('logo',logoImage)
+    const logoLayer = this.map.createLayer('logo', logoImage);
     const buildingsLayer = this.map.createLayer('buildings', [
       boat1Image,
       ModernExteriorsCompleteImage,
@@ -271,68 +271,81 @@ export default class Game extends Phaser.Scene {
     const chairs = this.physics.add.staticGroup({ classType: Chair });
 
     const chairs2Layer = this.map.getObjectLayer('object2');
+    let _tableId = 0;
+    let _chairId = 0;
+    let log_i = 0;
     chairs2Layer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
       item.setDepth(item.y + item.height * 0.27);
-      const tableId = `${Math.floor(i / 2)}`;
-      const chairId = `${i}`;
+      const tableId = `${Math.floor(i / 2) + _tableId}`;
+      const chairId = `${i + _chairId}`;
       // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
       item.itemDirection = obj.properties[0].value;
       // item.itemDirection = 'down';
       item.tableId = tableId;
       item.chairId = chairId;
-      this.tableMap.set(tableId, item);
-      this.chairMap.set(chairId, item);
+      log_i++;
+
+      this.tableMap.set(item.tableId, item);
+      this.chairMap.set(item.chairId, item);
     });
+    _tableId = _tableId + Math.floor((log_i - _chairId) / 2);
+    _chairId = log_i;
 
     const chairs3Layer = this.map.getObjectLayer('object3');
 
     chairs3Layer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
       // item.setDepth(item.y + item.height * 0.27);
-      const tableId = `${Math.floor(i / 3)}`;
-      const chairId = `${i}`;
+      const tableId = `${Math.floor(i / 3) + _tableId}`;
+      const chairId = `${i + _chairId}`;
       // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
       item.itemDirection = obj.properties[0].value;
       // item.itemDirection = 'down';
       item.tableId = tableId;
       item.chairId = chairId;
-      this.tableMap.set(tableId, item);
-      this.chairMap.set(chairId, item);
+      log_i++;
+      this.tableMap.set(item.tableId, item);
+      this.chairMap.set(item.chairId, item);
     });
-
+    _tableId = _tableId + Math.floor((log_i - _chairId) / 3);
+    _chairId = log_i;
     const chairs4Layer = this.map.getObjectLayer('object4');
 
     chairs4Layer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
       // item.setDepth(item.y + item.height * 0.27);
-      const tableId = `${Math.floor(i / 4)}`;
-      const chairId = `${i}`;
+      const tableId = `${Math.floor(i / 4) + _tableId}`;
+      const chairId = `${i + _chairId}`;
       // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
       item.itemDirection = obj.properties[0].value;
       // item.itemDirection = 'down';
       item.tableId = tableId;
       item.chairId = chairId;
-      this.tableMap.set(tableId, item);
-      this.chairMap.set(chairId, item);
+      log_i++;
+      this.tableMap.set(item.tableId, item);
+      this.chairMap.set(item.chairId, item);
     });
-
+    _tableId = _tableId + Math.floor((log_i - _chairId) / 4);
+    _chairId = log_i;
     const chairs6Layer = this.map.getObjectLayer('object6');
 
     chairs6Layer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(chairs, obj, 'interior', 'interior') as Chair;
       // item.setDepth(item.y + item.height * 0.27);
-      const tableId = `${Math.floor(i / 6)}`;
-      const chairId = `${i}`;
+      const tableId = `${Math.floor(i / 6) + _tableId}`;
+      const chairId = `${i + _chairId}`;
       // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
       item.itemDirection = obj.properties[0].value;
       // item.itemDirection = 'down';
       item.tableId = tableId;
       item.chairId = chairId;
-      this.tableMap.set(tableId, item);
-      this.chairMap.set(chairId, item);
+      log_i++;
+      this.tableMap.set(item.tableId, item);
+      this.chairMap.set(item.chairId, item);
     });
-
+    _tableId = _tableId + Math.floor((log_i - _chairId) / 6);
+    _chairId = log_i;
     // const chairs = this.physics.add.staticGroup({ classType: Chair });
 
     // const objectTwoLayer = this.map.getObjectLayer("object2");
