@@ -46,7 +46,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     this.anims.play(`${this.playerTexture}_idle_down`, true);
 
-    this.playerContainer = this.scene.add.container(this.x, this.y - 22).setDepth(7000);
+    this.playerContainer = this.scene.add.container(this.x, this.y - 22).setDepth(6000);
 
     // add dialogBubble to playerContainer
     this.playerDialogBubble = this.scene.add.container(0, 0).setDepth(6000);

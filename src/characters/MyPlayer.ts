@@ -181,11 +181,11 @@ export default class MyPlayer extends Player {
           if (cursors.right?.isDown || cursors.D?.isDown) vx += speed;
           if (cursors.up?.isDown || cursors.W?.isDown) {
             vy -= speed;
-            // this.setDepth(this.y); //change player.depth if player.y changes
+            this.setDepth(this.y); //change player.depth if player.y changes
           }
           if (cursors.down?.isDown || cursors.S?.isDown) {
             vy += speed;
-            // this.setDepth(this.y); //change player.depth if player.y changes
+            this.setDepth(this.y); //change player.depth if player.y changes
           }
 
           // update character velocity
@@ -270,7 +270,7 @@ Phaser.GameObjects.GameObjectFactory.register(
     id: string,
     userId: string,
     userInfo: UserResponseDto,
-    name : string,
+    name: string,
     frame?: string | number
   ) {
     const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, userInfo, name, frame);

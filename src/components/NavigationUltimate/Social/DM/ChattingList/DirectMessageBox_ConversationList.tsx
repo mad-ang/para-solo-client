@@ -20,36 +20,43 @@ import {
 } from 'src/api/chat';
 import axios from 'axios';
 import FriendRequest from 'src/components/NavigationUltimate/Social/AddFriend/FriendRequest';
+import Colors from 'src/utils/Colors';
 
 const UnorderedList = styled.ul`
   list-style: none;
-  border-bottom: none;
-  padding: 0;
-  margin: 0;
 `;
+
 const ListTag = styled.li`
+  width: 340px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  border-bottom: none;
   cursor: pointer;
+  padding-top: 5px;
+  padding-bottom: 5px;
 `;
 const IDwithLastmessage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 10px;
+  padding: 0px 0px 0px 30px;
   border-bottom: none;
   cursor: pointer;
 `;
 const UserID = styled.div`
   display: block;
   font-size: 1.17em;
-  margin-left: 0;
-  margin-right: 0;
+  margin: 0px 0px 10px 0px;
   font-weight: bold;
+  // color: ${Colors.skyblue[2]};
+`;
+
+const LastMessage = styled.div`
+  display: block;
+  font-size: 1em;
+  margin: 0px 0px 10px 0px;
 `;
 const DMmessageList = styled.div`
   background: #ffffff;
@@ -79,8 +86,6 @@ export const ConversationList = () => {
       setRooms(data);
     });
   }, []);
-
-
 
   useEffect(() => {
     console.log('rooms', rooms);
@@ -127,14 +132,14 @@ export const ConversationList = () => {
                   handleClick(room);
                 }}
               >
-                <img
+                <ProfileAvatarImage
                   src={room.friendInfo.profileImgUrl}
                   alt={room.friendInfo.username}
                   width="60"
                 />
                 <IDwithLastmessage>
                   <UserID>{room.friendInfo.username}</UserID>
-                  <div>{room.message}</div>
+                  <LastMessage>{room.message}</LastMessage>
                 </IDwithLastmessage>
               </ListTag>
             ))}
@@ -150,3 +155,9 @@ export const ConversationList = () => {
     </DMmessageList>
   );
 };
+
+const ProfileAvatarImage = styled.img`
+  width: 75px;
+  height: 75px;
+  border-radius: 100%;
+`;
