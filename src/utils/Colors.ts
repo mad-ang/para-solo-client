@@ -4,6 +4,10 @@ export const Colors = {
     1: '#CAB8FF',
     2: '#7954a1',
   },
+  skyblue: {
+    1: '#9FD9FC',
+    2: '#51ABE4',
+  },
   white: '#FFFFFF',
   black: '#000000',
   greenlight: '#86FF73',

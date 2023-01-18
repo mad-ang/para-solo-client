@@ -25,7 +25,7 @@ const StyledAudioBox = styled.button`
   font-size: 1rem;
   font-weight: 900;
   &:hover {
-    background-color: ${Colors.violet[1]};
+    background-color: ${Colors.skyblue[1]};
   }
 `;
 
@@ -37,7 +37,7 @@ export default function () {
     const audio = audioRef.current;
     audio.src = 'src/assets/music/BGM1.mp3';
     audio.loop = true;
-    // if (BGMstate) audio.play();
+    if (BGMstate) audio.play();
   }, [BGMstate]);
 
   const handleBGM = () => {

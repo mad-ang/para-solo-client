@@ -9,7 +9,7 @@ const SexyChar = styled.span`
   font-weight: 900;
   margin: 0 0.5rem;
   font-family: 'Nanum Gothic', sans-serif;
-  color: ${Colors.blue};
+  color: ${Colors.skyblue[1]};
   background-color: ${Colors.indigo};
 `;
 
@@ -25,7 +25,7 @@ export default function HuntingPochaPocha() {
   return (
     <Wrapper>
       <img src="/src/assets/navbar/Beach.png" height={35} />
-      {ProjectNameChar('ParaSolo')}
+      {ProjectNameChar('Para-Solo')}
       {/* {ProjectNameChar('Beach')} */}
     </Wrapper>
   );
