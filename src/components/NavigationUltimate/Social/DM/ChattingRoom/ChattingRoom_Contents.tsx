@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 export default function ChatBubbles(props) {
   const game = phaserGame.scene.keys.game as Game;
   // 기존 메세지 리스트 -> 삭제 예정
-  const [messageList, setMessageList] = useState([]);
+  const [messageList, setMessageList] = useState<any>([]);
 
   // socketClient.on('connect', () => {
   //   console.log('connected to socket server');
@@ -46,20 +46,17 @@ export default function ChatBubbles(props) {
     // socketClient.emit('show-messages', { roomId: roomId , userId: userId, friendId: friendId });
     socketClient.on('show-messages', (data) => {
       data.forEach((element) => {
-        // console.log('받음2', element.content);s
         if (element.senderId) {
           if (element.senderId === userId) {
             element.id = 0;
           } else {
             element.id = 1;
           }
-          console.log('===말풍선 생긴다?');
           setMessageList((messageList) => [...messageList, element]);
         }
       });
     });
     socketClient.on('message', (data) => {
-      console.log('받음', data);
       data.id = 1;
       setMessageList((messageList) => [...messageList, data]);
     });
@@ -69,7 +66,7 @@ export default function ChatBubbles(props) {
   // 내가 쓴 메세지 채팅 리스트에 추가
   useEffect(() => {
     if (!props.newMessage || props.newMessage.length === 0) return;
-    console.log('99999 props.newMessage', props.newMessage);
+
     const body = {
       // id : 0,
       roomId: roomId,
