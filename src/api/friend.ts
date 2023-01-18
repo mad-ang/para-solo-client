@@ -22,8 +22,7 @@ export const fetchFriendsReq = (id: number) => {
   return axios
     .get(`/friend/${id}`)
     .then((response) => {
-      const { data } = response.data;
-      return data as ApiResponse<Array<UserResponseDto>>;
+      const { payload } = response.data;
     })
     .catch((error) => {
       console.log(error);

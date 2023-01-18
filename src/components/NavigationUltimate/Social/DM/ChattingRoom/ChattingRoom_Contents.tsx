@@ -12,10 +12,9 @@ import phaserGame from 'src/PhaserGame';
 const socketHost = 'http://localhost';
 const socketPort = '5002';
 
-
 const Wrapper = styled.div`
-height: 460px;
-width: 370px;
+  height: 460px;
+  width: 370px;
 `;
 
 export default function ChatBubbles(props) {
@@ -30,7 +29,7 @@ export default function ChatBubbles(props) {
   // socketClient.emit('test', '안녕하세요');
 
   // const socketClient = io(`${socketHost}:${socketPort}`);
-  
+
   // 채팅 시작 시 저장되어 있던 채팅 리스트 보여줌
   const roomId = useAppSelector((state) => state.dm.roomId);
   const friendId = useAppSelector((state) => state.dm.friendId);
@@ -40,34 +39,31 @@ export default function ChatBubbles(props) {
     console.log('방 입장');
     console.log('소켓', socketClient);
 
-    
-      console.log('connected to socket server-room', roomId);
-      socketClient.emit('join-room', { roomId: roomId, userId: userId, friendId: friendId });
-      // socketClient.emit('show-messages', { roomId: roomId , userId: userId, friendId: friendId });
-      socketClient.on('show-messages', (data) => {
-        console.log('데이터좀 보여주세요!!!', data);
-        data.forEach((element) => {
-          // console.log('받음2', element.content);s
-          if (element.senderId) {
-            if (element.senderId === userId) {
-              console.log('check');
-
-              element.id = 0;
-            } else {
-              element.id = 1;
-            }
-            setMessageList((messageList) => [...messageList, element]);
+    console.log('connected to socket server-room', roomId);
+    socketClient.emit('join-room', { roomId: roomId, userId: userId, friendId: friendId });
+    // socketClient.emit('show-messages', { roomId: roomId , userId: userId, friendId: friendId });
+    socketClient.on('show-messages', (data) => {
+      data.forEach((element) => {
+        // console.log('받음2', element.content);s
+        if (element.senderId) {
+          if (element.senderId === userId) {
+            element.id = 0;
+          } else {
+            element.id = 1;
           }
-        });
+          console.log('===말풍선 생긴다?');
+          setMessageList((messageList) => [...messageList, element]);
+        }
       });
-      socketClient.on('message', (data) => {
-        console.log('받음', data);
-        data.id = 1;
-        setMessageList((messageList) => [...messageList, data]);
-      });
-    }, []);
-    // 실시간 메세지 받으면 채팅 리스트에 추가
-    
+    });
+    socketClient.on('message', (data) => {
+      console.log('받음', data);
+      data.id = 1;
+      setMessageList((messageList) => [...messageList, data]);
+    });
+  }, []);
+  // 실시간 메세지 받으면 채팅 리스트에 추가
+
   // 내가 쓴 메세지 채팅 리스트에 추가
   useEffect(() => {
     console.log('props.newMessage', props.newMessage);
