@@ -15,7 +15,7 @@ import { addFriendReq } from 'src/api/friend';
 
 const dummyImages = [
   'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/1.jpeg',
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/2.jpeg',
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/8.jpg',
   'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/3.png',
   'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/7.jpg',
   'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/4.jpeg',
@@ -46,14 +46,13 @@ function Swipe(props) {
       myInfo: {
         userId: userId,
         username: userName,
-        profileImgUrl:
-          'https://user-images.githubusercontent.com/63194662/211139505-282c312a-2d1c-4186-a22b-4fdb7c375803.png',
+        profileImgUrl: 'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/7.jpg',
       },
       friendInfo: {
         userId: id,
         username: name,
         profileImgUrl:
-          'https://user-images.githubusercontent.com/63194662/211139490-e3606d1d-3f68-4041-8b99-1a09d2a1b61c.png',
+          'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/leedohyun.png',
         // username: 'friendName',
         // profileImgUrl: props.url,
       },
@@ -121,7 +120,7 @@ function Swipe(props) {
                     <div className="personal-image">
                       <ProfileAvatarImage
                         ref={imgRef}
-                        src={i <= 6 ? dummyImages[i] : DefaultAvatar}
+                        src={i <= 5 ? dummyImages[i] : DefaultAvatar}
                         // src={player.userInfo.profileImgUrl || DefaultAvatar}
                         className="personal-avatar"
                         alt="avatar"
