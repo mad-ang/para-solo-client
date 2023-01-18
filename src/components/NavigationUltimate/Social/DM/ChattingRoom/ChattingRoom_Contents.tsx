@@ -9,11 +9,6 @@ import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
 // import {DMSlice} from 'src/stores/DMboxStore';
 
-const socketUrl =
-  process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
-    ? `https://${import.meta.env.VITE_SERVER_URL}`
-    : `http://${window.location.hostname}:5002`;
-
 const Wrapper = styled.div`
   height: 460px;
   width: 370px;
@@ -29,8 +24,6 @@ export default function ChatBubbles(props) {
   // });
 
   // socketClient.emit('test', '안녕하세요');
-
-  // const socketClient = io(`${socketUrl}`);
 
   // 채팅 시작 시 저장되어 있던 채팅 리스트 보여줌
   const roomId = useAppSelector((state) => state.dm.roomId);
