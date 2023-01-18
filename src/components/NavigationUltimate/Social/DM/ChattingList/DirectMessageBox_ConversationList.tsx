@@ -11,7 +11,13 @@ import {
   SetChattingListActivateOnly,
 } from '../../../../../stores/NavbarStore';
 import { useQuery } from 'react-query';
-import { ApiResponse, fetchRoomList, RoomListResponse, IChatRoomStatus, UserResponseDto } from 'src/api/chat';
+import {
+  ApiResponse,
+  fetchRoomList,
+  RoomListResponse,
+  IChatRoomStatus,
+  UserResponseDto,
+} from 'src/api/chat';
 import axios from 'axios';
 import FriendRequest from 'src/components/NavigationUltimate/Social/AddFriend/FriendRequest';
 
@@ -61,21 +67,24 @@ const DMmessageList = styled.div`
 export const ConversationList = () => {
   const [rooms, setRooms] = useState<RoomListResponse[]>([]);
   const [friendRequestModal, setFriendRequestModal] = useState(false);
-  const [FriendRequestProps, setFriendRequestProps] = useState<UserResponseDto>({} as UserResponseDto);
+  const [FriendRequestProps, setFriendRequestProps] = useState<UserResponseDto>(
+    {} as UserResponseDto
+  );
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.userId);
   const friendId = useAppSelector((state) => state.dm.friendId);
 
-  
   useEffect(() => {
-      fetchRoomList(userId, (data)=>{
-        setRooms(data)
-      });
+    fetchRoomList(userId).then((data) => {
+      setRooms(data);
+    });
   }, []);
-  useEffect(()=>{
-    console.log("rooms", rooms)
-    
-  }, [rooms])
+
+
+
+  useEffect(() => {
+    console.log('rooms', rooms);
+  }, [rooms]);
 
   // let roomId = '';
   // let body = {
@@ -85,45 +94,44 @@ export const ConversationList = () => {
   // };
 
   const handleClick = async (room) => {
-
     // body.friendId = room.friendInfo.userId;
     // body.roomId = room.roomId;
-    console.log("friendId는..", room.friendInfo.userId);
-    console.log("roomId는..", room.roomId);
+    console.log('friendId는..', room.friendInfo.userId);
+    console.log('roomId는..', room.roomId);
 
     if (room.status == IChatRoomStatus.FRIEND_REQUEST) {
       setFriendRequestModal(true);
       setFriendRequestProps(room.friendInfo);
-    }
-    else{
+    } else {
       console.log("This room's status is... ", room.status);
       try {
-          dispatch(SetChattingRoomActivated(true));
-          // Response userId
-          dispatch(setFriendId(room.friendInfo.userId));
-          dispatch(setRoomId(room.roomId));
-          
+        dispatch(SetChattingRoomActivated(true));
+        // Response userId
+        dispatch(setFriendId(room.friendInfo.userId));
+        dispatch(setRoomId(room.roomId));
       } catch (error) {
         console.log('error', error);
       }
     }
-      // dispatch(SetChattingListActivateOnly());
-    
-  }
-    return (
-      <DMmessageList>
-        <>
+    // dispatch(SetChattingListActivateOnly());
+  };
+  return (
+    <DMmessageList>
+      <>
         <UnorderedList>
           {rooms &&
             rooms.map((room) => (
-
               <ListTag
                 key={room.roomId}
-                onClick = { () => {
+                onClick={() => {
                   handleClick(room);
                 }}
               >
-                <img src={room.friendInfo.profileImgUrl} alt={room.friendInfo.username} width="60" />
+                <img
+                  src={room.friendInfo.profileImgUrl}
+                  alt={room.friendInfo.username}
+                  width="60"
+                />
                 <IDwithLastmessage>
                   <UserID>{room.friendInfo.username}</UserID>
                   <div>{room.message}</div>
@@ -131,10 +139,14 @@ export const ConversationList = () => {
               </ListTag>
             ))}
         </UnorderedList>
-        {friendRequestModal? 
-        <FriendRequest setFriendRequestModal={setFriendRequestModal} friendInfo = {FriendRequestProps}
-        /> : null}
-        </>
-      </DMmessageList>
-    );
-  };
+        {friendRequestModal ? (
+          <FriendRequest
+            setRooms={setRooms}
+            setFriendRequestModal={setFriendRequestModal}
+            friendInfo={FriendRequestProps}
+          />
+        ) : null}
+      </>
+    </DMmessageList>
+  );
+};

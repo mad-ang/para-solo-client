@@ -15,20 +15,13 @@ export const createRoom = (param: CreateRoomRequest) => {
 };
 
 // 현재 채팅방 목록을 가져옴
-export const fetchRoomList = async (userId: string, next: any) => {
-  // return await axios.get(`/chat/roomList/${userId}`)
-  return await axios
-    .post(`/chat/roomList/`, { userId: userId })
-    .then((response) => {
-      console.log('hihihi');
-      const { data } = response;
-      console.log("sss", response)
-      next(data);
-      // return data as ApiResponse<Array<RoomListResponse>>;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+export const fetchRoomList = async (userId: string): Promise<any> => {
+  try {
+    const response = await axios.post(`/chat/roomList`, { userId: userId });
+    return response.data.payload;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // export const fetchRoomList = async (userId: string, next: any) => {
@@ -37,9 +30,6 @@ export const fetchRoomList = async (userId: string, next: any) => {
 //   );
 //   return roomList.data.data;
 // };
-
-
-
 
 // 스크롤시 채팅방의 채팅 데이터를 가져옴(옛날 채팅 리스트)
 export const fetchChatting = (param: FetchChattingRequest) => {
@@ -114,7 +104,7 @@ export enum IChatRoomStatus {
   FRIEND_REQUEST,
   SOCKET_ON,
   SOCKET_OFF,
-  REJECTED
+  REJECTED,
 }
 
 // 서버에 채팅 가져오기

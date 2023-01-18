@@ -35,6 +35,7 @@ axios.defaults.baseURL =
 console.log('axios.defaults.baseURL ', axios.defaults.baseURL);
 
 const Backdrop = styled.div`
+  font-family: 'Ycomputer-Regular';
   position: absolute;
   z-index: 10;
   height: 90%;

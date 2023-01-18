@@ -1,12 +1,12 @@
-import Phaser from "phaser";
-import Game from "./scenes/Game";
-import Background from "./scenes/Background";
-import Bootstrap from "./scenes/Bootstrap";
+import Phaser from 'phaser';
+import Game from './scenes/Game';
+import Background from './scenes/Background';
+import Bootstrap from './scenes/Bootstrap';
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  parent: "phaser-container",
-  backgroundColor: "#93cbee",
+  parent: 'phaser-container',
+  backgroundColor: '#93cbee',
   pixelArt: true, // Prevent pixel art from becoming blurred when scaled.
   scale: {
     mode: Phaser.Scale.ScaleModes.RESIZE,
@@ -14,10 +14,10 @@ const config: Phaser.Types.Core.GameConfig = {
     height: window.innerHeight,
   },
   physics: {
-    default: "arcade",
+    default: 'arcade',
     arcade: {
       gravity: { y: 0 },
-      debug: import.meta.env.VITE_DEV_MODE === "true",
+      debug: import.meta.env.VITE_DEV_MODE === 'true',
     },
   },
   autoFocus: true,

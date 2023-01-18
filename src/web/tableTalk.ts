@@ -1,8 +1,9 @@
-import Peer from 'peerjs';
-import store from '../stores';
-import { setMyStream, addVideoStream, removeVideoStream } from '../stores/tableStore';
-import phaserGame from '../PhaserGame';
-import Game from '../scenes/Game';
+import Peer from 'peerjs'
+import store from '../stores'
+import { setMyStream, addVideoStream, removeVideoStream } from '../stores/tableStore'
+import phaserGame from '../PhaserGame'
+import Game from '../scenes/Game'
+import Network from 'src/services/Network'
 
 export default class TableTalkManager {
   private myPeer: Peer;
@@ -45,6 +46,10 @@ export default class TableTalkManager {
   }
 
   startTableTalk() {
+    // @ts-ignore
+    const game = phaserGame.scene.keys.game as Game
+    game.network.connectToTable(store.getState().table.tableId!);
+
     navigator.mediaDevices
       ?.getUserMedia({
         video: true,

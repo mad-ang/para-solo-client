@@ -138,7 +138,7 @@ export default class MyPlayer extends Player {
                 this.setPosition(
                   chairItem.x + sittingShiftData[chairItem.itemDirection][0],
                   chairItem.y + sittingShiftData[chairItem.itemDirection][1]
-                ).setDepth(chairItem.depth + sittingShiftData[chairItem.itemDirection][2]);
+                ).setDepth(10000+ chairItem.depth + sittingShiftData[chairItem.itemDirection][2]);
                 // also update playerNameContainer velocity and position
                 this.playContainerBody.setVelocity(0, 0);
                 this.playerContainer.setPosition(
@@ -181,11 +181,11 @@ export default class MyPlayer extends Player {
           if (cursors.right?.isDown || cursors.D?.isDown) vx += speed;
           if (cursors.up?.isDown || cursors.W?.isDown) {
             vy -= speed;
-            this.setDepth(this.y); //change player.depth if player.y changes
+            // this.setDepth(this.y); //change player.depth if player.y changes
           }
           if (cursors.down?.isDown || cursors.S?.isDown) {
             vy += speed;
-            this.setDepth(this.y); //change player.depth if player.y changes
+            // this.setDepth(this.y); //change player.depth if player.y changes
           }
 
           // update character velocity
@@ -284,7 +284,7 @@ Phaser.GameObjects.GameObjectFactory.register(
     sprite.body
       .setSize(sprite.width * collisionScale[0], sprite.height * collisionScale[1])
       .setOffset(
-        sprite.width * (1 - collisionScale[0]) * 0.5,
+        sprite.width * (1 - collisionScale[0]) * 0,
         sprite.height * (1 - collisionScale[1])
       );
 
