@@ -1,10 +1,14 @@
 @font-face {
   font-family: 'Ycomputer-Regular';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/Ycomputer-Regular.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/Ycomputer-Regular.woff2')
+    format('woff2');
   font-weight: normal;
   font-style: normal;
 }
 
+img {
+  object-fit: cover;
+}
 
 body {
   margin: 0;
