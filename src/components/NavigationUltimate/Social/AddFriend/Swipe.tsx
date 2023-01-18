@@ -40,7 +40,7 @@ function Swipe(props) {
   // const players = Array.from(game?.allOtherPlayers());
   const players = useAppSelector((state) => state.room.players);
 
-  async function requestFriend(id, name) {
+  async function requestFriend(id, name, targetImgUrl) {
     console.log('친구요청하자~~~');
     console.log(id);
     console.log(name);
@@ -48,13 +48,14 @@ function Swipe(props) {
       myInfo: {
         userId: userId,
         username: userName,
-        profileImgUrl: 'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/7.jpg',
+        profileImgUrl:
+          'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/leedohyun.png',
       },
       friendInfo: {
         userId: id,
         username: name,
         profileImgUrl:
-          'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/leedohyun.png',
+          targetImgUrl || 'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/7.jpg',
         // username: 'friendName',
         // profileImgUrl: props.url,
       },
@@ -138,7 +139,9 @@ function Swipe(props) {
                     // fullWidth={true}
                     variant="contained"
                     color="secondary"
-                    onClick={() => requestFriend(player.userId, player.name)}
+                    onClick={() =>
+                      requestFriend(player.userId, player.name, i <= 5 ? dummyImages[i] : null)
+                    }
                     sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
                   >
                     친구 요청{' '}
