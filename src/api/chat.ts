@@ -21,9 +21,12 @@ export const fetchRoomList = async (userId: string, next: any) => {
     .post(`/chat/roomList`, { userId: userId })
     .then((response) => {
       console.log('hihihi');
-      const { payload } = response.data;
-      console.log('sss', response);
-      next(payload);
+      // const { payload } = response.data;
+      // console.log('sss', response);
+      // next(payload);
+      const { data } = response;
+      console.log("sss", response)
+      next(data);
       // return data as ApiResponse<Array<RoomListResponse>>;
     })
     .catch((error) => {
