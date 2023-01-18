@@ -12,6 +12,8 @@ import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import { addFriendReq } from 'src/api/friend';
+import ClearIcon from '@mui/icons-material/Close';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Swipe(props) {
   const dispatch = useAppDispatch();
@@ -83,10 +85,13 @@ function Swipe(props) {
     <Wrapper>
       <SwipeHeader>
         <TitleText>현재 {players.length - 1}명이 접속해있어요</TitleText>
-        <CloseButton onClick={handleClick}>X</CloseButton>
+        <CloseIcon onClick={handleClick}></CloseIcon>
       </SwipeHeader>
       {players.length - 1 === 0 ? (
-        <ZeroMessage><p>현재 접속해 있는 친구가 없어요</p><p font>🥲</p></ZeroMessage>
+        <ZeroMessage>
+          <p>현재 접속해 있는 친구가 없어요</p>
+          <p>🥲</p>
+        </ZeroMessage>
       ) : (
         <Swiper
           modules={[Navigation]}
@@ -159,14 +164,17 @@ const CloseButton = styled.button`
   height: 30px;
   border: none;
   border-radius: 50%;
+  align-items: center;
 `;
 
 const SwipeHeader = styled.div`
-  padding: 10px 10px 0 10px;
+  padding: 10px 0px 10px 10px;
   width: 100%;
   position: relative;
   display: grid;
   grid-template-columns: 90% 10%;
+  background-color: ${Colors.skyblue[1]};
+  align-items: center;
 `;
 
 const TitleText = styled.div`
@@ -272,6 +280,12 @@ const ZeroMessage = styled.div`
   align-items: center;
   overflow-y: auto;
   height: 75%;
+`;
+
+const ButtonWrapper = styled.button`
+  background: none;
+  border: none;
+  padding-top: 7px;
 `;
 
 export default Swipe;

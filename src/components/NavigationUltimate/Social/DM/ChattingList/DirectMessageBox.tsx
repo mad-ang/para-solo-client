@@ -40,11 +40,10 @@ const Wrapper = styled.div`
 `;
 const DMwrapper = styled.div`
   position: fixed;
-  bottom: 100px;
+  bottom: 0px;
   left: 0px;
   background: none;
   gap: 10px;
-  bottom: 60px;
   height: 580px;
   width: 370px;
   border-radius: 25px;
@@ -134,7 +133,7 @@ function DMbox() {
   return (
     <DMwrapper>
       <DMboxHeader />
-      <DMSearchConversation />
+      {/* <DMSearchConversation /> */}
       <ConversationList />
     </DMwrapper>
   );
