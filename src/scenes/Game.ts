@@ -181,6 +181,7 @@ export default class Game extends Phaser.Scene {
       wormImage,
       busDoorImage,
       indoorsImage,
+      logoImage
     ]);
 
     const buildingAnimationImages = [
