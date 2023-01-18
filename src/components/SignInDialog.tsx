@@ -23,6 +23,8 @@ import Game from 'src/scenes/Game';
 import Bootstrap from '../scenes/Bootstrap';
 import { constants } from 'buffer';
 import { login } from 'src/api/auth';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const Wrapper = styled.form`
   position: fixed;
@@ -95,6 +97,53 @@ export default function SignInDialog() {
     event.preventDefault();
     dispatch(setEnteringProcess(ENTERING_PROCESS.ENTRY));
   };
+
+  const handleSubmit = async (): Promise<boolean> => {
+    try {
+      if (userId === '' || password === '') {
+        if (userId === '') setUserIdFieldEmpty(true);
+        if (password === '') setPwFieldEmpty(true);
+      } else {
+        const body = {
+          userId: userId,
+          password: password,
+        };
+
+        const data = await login(body);
+
+        if (data.status == 200) {
+          const { payload } = data;
+          const token = payload.accessToken;
+          if (token) {
+            setAccessToken(token);
+          }
+
+          // TODO accessToken을 계속 갱신해야 함. refreshToken 발급로직 없으므로 임식 처리
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+          cookies.set('accessToken', token, { path: '/', maxAge: 600 });
+
+          const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
+          bootstrap.network
+            .joinOrCreatePublic()
+            .then(() => bootstrap.launchGame())
+            .catch((error) => console.error(error));
+          bootstrap.network2.whoAmI(payload.userId);
+          dispatch(setStoreUserId(payload.userId));
+          console.log('200 로그인 성공인딩');
+          return true;
+        } else {
+          console.log('data.status가 200이 아닐 때', data.status);
+          setFailLogin(true);
+          return false;
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      return false
+    }
+  };
+
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
@@ -104,42 +153,16 @@ export default function SignInDialog() {
     setPwFieldWrong(false);
 
     console.log(userId);
+    handleSubmit();
+  };
 
-    if (userId === '' || password === '') {
-      if (userId === '') setUserIdFieldEmpty(true);
-      if (password === '') setPwFieldEmpty(true);
-    } else {
-      const body = {
-        userId: userId,
-        password: password,
-      };
-
-      // login(body, (accessToken) => {
-      //   dispatch(setAccessToken(accessToken));
-      //   dispatch(setStoreUserId(userId));
-      // });
-
-      setFailLogin(
-        !login(body, (accessToken) => {
-          dispatch(setAccessToken(accessToken));
-          dispatch(setStoreUserId(userId));
-        })
-      );
-
-      console.log('failLogin', failLogin);
-
-      // console.log('temp', temp);
-      // if (
-      //   !login(body, (accessToken) => {
-      //     dispatch(setAccessToken(accessToken));
-      //     dispatch(setStoreUserId(userId));
-      //   })
-      // ) {
-      //   console.log('로그인 실패');
-
-      // }
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleSubmit();
     }
   };
+
   return (
     <>
       {/* {signedUp === true
@@ -191,6 +214,7 @@ export default function SignInDialog() {
           onInput={(e) => {
             setPassword((e.target as HTMLInputElement).value);
           }}
+          onKeyDown={handleKeyDown}
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (

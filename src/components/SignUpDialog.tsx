@@ -17,6 +17,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
 import { login } from 'src/api/auth';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const Wrapper = styled.form`
   position: fixed;
@@ -76,42 +78,65 @@ export default function SignUpDialog() {
     dispatch(setEnteringProcess(ENTERING_PROCESS.ENTRY));
   };
 
+  const handleSubmit = async (): Promise<boolean> => {
+    try {
+      if (!userId || userId.length === 0) {
+        setUserIdFieldEmpty(true);
+        return false;
+      }
+      if (!password || password.length === 0) {
+        setPwFieldEmpty(true);
+        return false;
+      }
+      let body = {
+        userId: userId,
+        password: password,
+      };
+      // try {
+      const signUpResponse = await axios.post('/auth/signup', body);
+      if (signUpResponse.data.status === 200) {
+        const data = await login(body);
+        if (data.status == 200) {
+          const { payload } = data;
+          const token = payload.accessToken;
+          if (token) {
+            setAccessToken(token);
+          }
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          cookies.set('accessToken', token, { path: '/', maxAge: 600 });
+          const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
+          bootstrap.network
+            .joinOrCreatePublic()
+            .then(() => bootstrap.launchGame())
+            .catch((error) => console.error(error));
+          bootstrap.network2.whoAmI(payload.userId);
+          dispatch(setStoreUserId(payload.userId));
+          console.log('200 로그인 성공인딩');
+          return true;
+        } else {
+          console.log('data.status가 200이 아닐 때', data.status);
+          return false;
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     setUserIdFieldEmpty(false);
     setUserIdFieldWrong(false);
     setPwFieldEmpty(false);
 
-    console.log(userId);
-    console.log(userIdFieldEmpty);
-    if (userId === '') {
-      setUserIdFieldEmpty(true);
-    }
-    if (password === '') {
-      setPwFieldEmpty(true);
-    } else {
-      let body = {
-        userId: userId,
-        password: password,
-      };
+    handleSubmit();
+  };
 
-      console.log({ userId });
-      console.log({ password });
-
-      try {
-        const signUpResponse = await axios.post('/auth/signup', body);
-        if (signUpResponse.data.status === 200) {
-          login(body, (accessToken) => {
-            dispatch(setAccessToken(accessToken));
-            dispatch(setStoreUserId(userId));
-          });
-        }
-      } catch (error) {
-        setUserIdFieldWrong(true);
-        console.log('error', error);
-      }
-
-      // //  TODO: 자동로그인 POST 요청 추가. then()
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleSubmit();
     }
   };
 
@@ -148,6 +173,7 @@ export default function SignUpDialog() {
           onInput={(e) => {
             setPassword((e.target as HTMLInputElement).value);
           }}
+          onKeyDown={handleKeyDown}
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
