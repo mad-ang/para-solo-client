@@ -275,23 +275,21 @@ export default class Game extends Phaser.Scene {
 
     const chairs = this.physics.add.staticGroup({ classType: Chair });
 
+    // const chairsLayer = this.map.getObjectLayer('object2');
 
-
-    const chairsLayer = this.map.getObjectLayer('object2');
-
-    chairsLayer.objects.forEach((obj, i) => {
-      const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
-        // item.setDepth(item.y + item.height * 0.27);eee
-      const tableId = `${Math.floor(i / 2)}`;
-      const chairId = `${i}`;
-      // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
-        item.itemDirection = obj.properties[0].value
-      // item.itemDirection = 'down';
-      item.tableId = tableId;
-      item.chairId = chairId;
-      this.tableMap.set(tableId, item);
-      this.chairMap.set(chairId, item);
-    });
+    // chairsLayer.objects.forEach((obj, i) => {
+    //   const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
+    //     // item.setDepth(item.y + item.height * 0.27);eee
+    //   const tableId = `${Math.floor(i / 2)}`;
+    //   const chairId = `${i}`;
+    //   // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
+    //     item.itemDirection = obj.properties[0].value
+    //   // item.itemDirection = 'down';
+    //   item.tableId = tableId;
+    //   item.chairId = chairId;
+    //   this.tableMap.set(tableId, item);
+    //   this.chairMap.set(chairId, item);
+    // });
 
     // const chairs = this.physics.add.staticGroup({ classType: Chair });
 
