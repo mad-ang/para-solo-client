@@ -9,10 +9,6 @@ import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
 // import {DMSlice} from 'src/stores/DMboxStore';
 
-const socketUrl =
-  process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
-    ? `https://${import.meta.env.VITE_SERVER_URL}`
-    : `http://${window.location.hostname}:5002`;
 
 const Wrapper = styled.div`
   height: 460px;
