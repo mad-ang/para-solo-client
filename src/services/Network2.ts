@@ -10,8 +10,8 @@ export default class chatNetwork {
   constructor() {
     const socketUrl =
       process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
-        ? `https://${import.meta.env.VITE_SERVER_URL}`
-        : `http://${window.location.hostname}:8080`;
+        ? `http://${import.meta.env.VITE_SERVER_URL}`
+        : `http://${window.location.hostname}:5002`;
 
     this.socketClient = io(`${socketUrl}`,{rejectUnauthorized: false});
 
