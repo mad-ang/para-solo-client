@@ -24,21 +24,17 @@ import Colors from 'src/utils/Colors';
 
 const UnorderedList = styled.ul`
   list-style: none;
-  border-bottom: none;
-  padding: 0;
-  margin: 0;
 `;
+
 const ListTag = styled.li`
   width: 340px;
-  height: 75px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  // border-bottom: solid ${Colors.skyblue[2]} 1px;
   cursor: pointer;
-  margine: 20px 10px 20px 10px;
-  padding: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 `;
 const IDwithLastmessage = styled.div`
   display: flex;
@@ -136,7 +132,7 @@ export const ConversationList = () => {
                   handleClick(room);
                 }}
               >
-                <img
+                <ProfileAvatarImage
                   src={room.friendInfo.profileImgUrl}
                   alt={room.friendInfo.username}
                   width="60"
@@ -159,3 +155,9 @@ export const ConversationList = () => {
     </DMmessageList>
   );
 };
+
+const ProfileAvatarImage = styled.img`
+  width: 75px;
+  height: 75px;
+  border-radius: 100%;
+`;

@@ -10,10 +10,10 @@ export default class chatNetwork {
   constructor() {
     const socketUrl =
       process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
-        ? `http://${import.meta.env.VITE_SERVER_URL}`
+        ? `http://15.164.233.132:5002`
         : `http://${window.location.hostname}:5002`;
 
-    this.socketClient = io(`${socketUrl}`,{rejectUnauthorized: false});
+    this.socketClient = io(`${socketUrl}`);
 
     this.socketClient.on('request-friend', (data) => {});
     this.socketClient.on('accept-friend', (data) => {});
