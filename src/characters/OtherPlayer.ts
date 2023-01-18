@@ -144,7 +144,7 @@ export default class OtherPlayer extends Player {
       const sittingShift = sittingShiftData[animDir];
       if (sittingShift) {
         // set hardcoded depth (differs between directions) if player sits down
-        this.setDepth(this.depth + sittingShiftData[animDir][2]);
+        this.setDepth(3000 +this.depth + sittingShiftData[animDir][2]);
       }
     }
 
