@@ -276,10 +276,9 @@ export default class Game extends Phaser.Scene {
     const chairs = this.physics.add.staticGroup({ classType: Chair });
 
     const chairs2Layer = this.map.getObjectLayer('object2');
-
     chairs2Layer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
-        // item.setDepth(item.y + item.height * 0.27);eee
+        item.setDepth(item.y + item.height * 0.27);
       const tableId = `${Math.floor(i / 2)}`;
       const chairId = `${i}`;
       // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
@@ -298,7 +297,7 @@ export default class Game extends Phaser.Scene {
     chairs3Layer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
         // item.setDepth(item.y + item.height * 0.27);eee
-      const tableId = `${Math.floor(i / 2)}`;
+      const tableId = `${Math.floor(i / 3)}`;
       const chairId = `${i}`;
       // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
         item.itemDirection = obj.properties[0].value
@@ -314,7 +313,7 @@ export default class Game extends Phaser.Scene {
     chairs4Layer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
         // item.setDepth(item.y + item.height * 0.27);eee
-      const tableId = `${Math.floor(i / 2)}`;
+      const tableId = `${Math.floor(i / 4)}`;
       const chairId = `${i}`;
       // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
         item.itemDirection = obj.properties[0].value
@@ -330,7 +329,7 @@ export default class Game extends Phaser.Scene {
     chairs6Layer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(chairs, obj, 'interior', 'interior') as Chair;
         // item.setDepth(item.y + item.height * 0.27);eee
-      const tableId = `${Math.floor(i / 2)}`;
+      const tableId = `${Math.floor(i / 6)}`;
       const chairId = `${i}`;
       // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
         item.itemDirection = obj.properties[0].value
@@ -358,7 +357,7 @@ export default class Game extends Phaser.Scene {
     //     // item.itemDirection = chairObj.properties[0].value
     // });
 
-    thirdGroundLayer.setDepth(6100);
+    thirdGroundLayer.setDepth(6500);
     ForegroundLayer.setDepth(6000);
 
     fencesLayer.setCollisionByProperty({ collisions: true });
