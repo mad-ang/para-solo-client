@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="16" tileheight="16" infinite="0" nextlayerid="37" nextobjectid="363">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="16" tileheight="16" infinite="0" nextlayerid="37" nextobjectid="368">
  <editorsettings>
   <export format="json"/>
  </editorsettings>
@@ -1017,6 +1017,10 @@
   <object id="354" gid="82650" x="1232" y="592" width="16" height="16"/>
   <object id="357" gid="82676" x="1104" y="624" width="16" height="16"/>
   <object id="358" gid="82678" x="1136" y="624" width="16" height="16"/>
+  <object id="363" gid="82671" x="128" y="288" width="16" height="16"/>
+  <object id="364" gid="82673" x="160" y="288" width="16" height="16"/>
+  <object id="365" gid="82819" x="1184" y="688" width="16" height="16"/>
+  <object id="367" gid="82820" x="1200" y="688" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="32" name="object3">
   <object id="280" gid="82800" x="880" y="128" width="16" height="16"/>
@@ -1064,7 +1068,6 @@
   <object id="361" gid="82816" x="1040" y="752" width="16" height="16"/>
   <object id="362" gid="82818" x="1072" y="752" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="36" name="object5"/>
  <objectgroup id="26" name="object6">
   <object id="143" gid="18090" x="1072" y="144" width="16" height="16">
    <properties>
