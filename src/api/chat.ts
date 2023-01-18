@@ -91,6 +91,7 @@ export interface CreateRoomResponse {
 // }
 
 export interface RoomListResponse {
+  _id?: string;
   myInfo: UserResponseDto;
   friendInfo: UserResponseDto;
   message: string;

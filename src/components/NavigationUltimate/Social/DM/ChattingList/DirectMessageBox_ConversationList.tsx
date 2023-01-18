@@ -127,7 +127,7 @@ export const ConversationList = () => {
           {rooms &&
             rooms.map((room) => (
               <ListTag
-                key={room.roomId}
+                key={room._id}
                 onClick={() => {
                   handleClick(room);
                 }}
