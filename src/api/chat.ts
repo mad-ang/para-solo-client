@@ -15,7 +15,7 @@ export const createRoom = (param: CreateRoomRequest) => {
 };
 
 // 현재 채팅방 목록을 가져옴
-export const fetchRoomList = async (userId: string): any => {
+export const fetchRoomList = async (userId: string): Promise<any> => {
   try {
     const response = await axios.post(`/chat/roomList`, { userId: userId });
     return response.data.payload;

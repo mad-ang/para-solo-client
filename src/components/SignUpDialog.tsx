@@ -120,8 +120,8 @@ export default function SignUpDialog() {
       }
     } catch (error) {
       console.log(error);
-      return false;
     }
+    return false;
   };
 
   const onSubmitHandler = async (event) => {

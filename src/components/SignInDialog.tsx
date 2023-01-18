@@ -103,6 +103,7 @@ export default function SignInDialog() {
       if (userId === '' || password === '') {
         if (userId === '') setUserIdFieldEmpty(true);
         if (password === '') setPwFieldEmpty(true);
+        return false;
       } else {
         const body = {
           userId: userId,
@@ -140,8 +141,8 @@ export default function SignInDialog() {
       }
     } catch (error) {
       console.log(error);
-      return false
     }
+    return false;
   };
 
   const onSubmitHandler = (event) => {

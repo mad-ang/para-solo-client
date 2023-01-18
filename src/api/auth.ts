@@ -22,7 +22,7 @@ export const getUserInfo = (next?: any): any => {
 };
 
 // 로그인
-export const login = async (body: any): any => {
+export const login = async (body: any): Promise<any> => {
   try {
     const response = await axios.post('/auth/login', body, {
       withCredentials: true,
@@ -33,7 +33,7 @@ export const login = async (body: any): any => {
     return response.data;
   } catch (error) {
     console.log(error);
-    return null
+    return null;
   }
 };
 
