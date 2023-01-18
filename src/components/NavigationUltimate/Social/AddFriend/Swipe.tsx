@@ -86,7 +86,10 @@ function Swipe(props) {
         <CloseButton onClick={handleClick}>X</CloseButton>
       </SwipeHeader>
       {players.length - 1 === 0 ? (
-        <ZeroMessage><p>현재 접속해 있는 친구가 없어요</p><p font>🥲</p></ZeroMessage>
+        <ZeroMessage>
+          <p>현재 접속해 있는 친구가 없어요</p>
+          <p>🥲</p>
+        </ZeroMessage>
       ) : (
         <Swiper
           modules={[Navigation]}
