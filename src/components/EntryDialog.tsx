@@ -51,6 +51,7 @@ const Title = styled.h1`
 
 const Content = styled.div`
   display: flex;
+  font-family: 'Ycomputer-Regular';
   flex-direction: column;
   gap: 20px;
   margin: 20px 0;
@@ -67,7 +68,6 @@ const ProgressBarWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   h3 {
     color: #33ac96;
   }
@@ -143,7 +143,7 @@ export default function EntryDialog(props) {
         {!props.hasToken && (
           <Wrapper>
             <>
-              <Title> 🏖파라솔로에 오신것을 환영합니다 </Title>
+              <Title> 🏖 파라솔로에 오신것을 환영합니다 </Title>
               <Content>
                 <img src={logo} alt="logo" />
                 {lobbyJoined && (
@@ -155,27 +155,19 @@ export default function EntryDialog(props) {
                       handleConnect();
                     }}
                   >
-                    파라솔로 들어가기
+                    파라솔로로
                   </Button>
                 )}
-
-                {/* <Button
-                  variant="outlineds"
-                  color="secondary"
-                  onClick={() => (lobbyJoined ? setShowCustomRoom(true) : setShowSnackbar(true))}
-                >
-                  Create/find custom rooms
-                </Button> */}
-                {
+                {lobbyJoined && (
                   <Button variant="contained" color="secondary" onClick={signUpConnect}>
                     회원가입
                   </Button>
-                }
-                {
+                )}
+                {lobbyJoined && (
                   <Button variant="contained" color="secondary" onClick={signInConnect}>
                     로그인
                   </Button>
-                }
+                )}
               </Content>
             </>
           </Wrapper>

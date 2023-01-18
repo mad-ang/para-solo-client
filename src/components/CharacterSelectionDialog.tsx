@@ -40,9 +40,9 @@ const Wrapper = styled.form`
   box-shadow: 0px 0px 5px #0000006f;
 `;
 
-const Title = styled.p`
+const Title = styled.h3`
   margin: 5px;
-  font-size: 20px;
+  font-size: 25px;
   color: #c2c2c2;
   text-align: center;
 `;
@@ -75,7 +75,7 @@ const RoomDescription = styled.div`
 `;
 
 const SubTitle = styled.h3`
-  width: 160px;
+  width: 200px;
   font-size: 16px;
   color: #eee;
   text-align: center;
@@ -198,7 +198,7 @@ export default function CharacterSelectionDialog(props) {
       </RoomDescription>
       <Content>
         <Left>
-          <SubTitle>어떤 모습으로 들어갈까요</SubTitle>
+          <SubTitle>어떤 모습으로 들어갈까요?</SubTitle>
           <Swiper
             modules={[Navigation]}
             navigation

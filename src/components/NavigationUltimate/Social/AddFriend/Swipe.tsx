@@ -86,7 +86,7 @@ function Swipe(props) {
         <CloseButton onClick={handleClick}>X</CloseButton>
       </SwipeHeader>
       {players.length - 1 === 0 ? (
-        <ZeroMessage>현재 접속해 있는 친구가 없어요</ZeroMessage>
+        <ZeroMessage><p>현재 접속해 있는 친구가 없어요</p><p font>🥲</p></ZeroMessage>
       ) : (
         <Swiper
           modules={[Navigation]}
@@ -99,7 +99,7 @@ function Swipe(props) {
           // }}
         >
           {otherPlayers?.map((player, i: number) => {
-            player.userId !== userId ? (
+            return player.userId !== userId ? (
               <SwiperSlide key={i}>
                 {/* <SwiperSlide key={player.id}> */}
                 <SwipeBody>
@@ -266,7 +266,7 @@ const ZeroMessage = styled.div`
   font-size: 24px;
   font-size: 1.5rem;
 
-  padding: 20px;
+  padding: 70px 15px;
   display: flex;
   flex-direction: column;
   align-items: center;

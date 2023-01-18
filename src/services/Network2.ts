@@ -6,17 +6,18 @@ import { ChatFeed, Message } from 'react-chat-ui';
 
 export default class chatNetwork {
   private socketClient: Socket;
-  
+
   constructor() {
-    const socketHost = 'http://localhost';
-    const socketPort = '5002';
-    this.socketClient = io(`${socketHost}:${socketPort}`);
+    const socketUrl =
+      process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
+        ? `https://${import.meta.env.VITE_SERVER_URL}:5002`
+        : `http://${window.location.hostname}:5002`;
 
-    this.socketClient.on('request-friend', (data) => {
+    this.socketClient = io(`${socketUrl}`);
 
-    })
-    this.socketClient.on('accept-friend', (data) => {})
-    this.socketClient.on('update-room-id', (data) => {})
+    this.socketClient.on('request-friend', (data) => {});
+    this.socketClient.on('accept-friend', (data) => {});
+    this.socketClient.on('update-room-id', (data) => {});
   }
   // init() {
   //   this.socketClient.on('connect', () => {
@@ -40,8 +41,8 @@ export default class chatNetwork {
   sendMessage = (message: object) => {
     this.socketClient.emit('message', message);
   };
-  whoAmI = (userId : string) => {
-    console.log("whoAmI", userId)
+  whoAmI = (userId: string) => {
+    console.log('whoAmI', userId);
     this.socketClient.emit('whoAmI', userId);
-  }
+  };
 }

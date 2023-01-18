@@ -309,13 +309,13 @@ const StyledRedBox = styled.button<{ pressed: boolean }>`
   height: 44px;
   border: none;
   border-radius: 12px;
-  background-color: ${(props) => (props.pressed ? Colors.violet[1] : Colors.indigo)};
+  background-color: ${(props) => (props.pressed ? Colors.skyblue[1] : Colors.indigo)};
   font-size: 1rem;
   font-weight: 900;
   padding: 4x;
 
   &:hover {
-    background-color: ${Colors.violet[1]};
+    background-color: ${Colors.skyblue[1]};
   }
 `;
 
@@ -377,7 +377,7 @@ const ImageWrapper = styled.div<EditableProps>`
   height: 98px;
   border-radius: 100%;
   border: ${(props) =>
-    props.editable ? `1px solid ${Colors.violet[2]}` : '1px solid transparent'};
+    props.editable ? `1px solid ${Colors.skyblue[2]}` : '1px solid transparent'};
   cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
   display: flex;
   justify-content: center;
@@ -449,7 +449,7 @@ const ProfileUserName = styled.div<EditableProps>`
   font-weight: 600;
   border-radius: 6px;
   border: ${(props) =>
-    props.editable ? `1px solid ${Colors.violet[2]}` : '1px solid transparent'};
+    props.editable ? `1px solid ${Colors.skyblue[2]}` : '1px solid transparent'};
   cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
 `;
 
@@ -459,7 +459,7 @@ const InfoContainer = styled.div<EditableProps>`
   width: 100%;
   border-radius: 6px;
   border: ${(props) =>
-    props.editable ? `1px solid ${Colors.violet[2]}` : '1px solid transparent'};
+    props.editable ? `1px solid ${Colors.skyblue[2]}` : '1px solid transparent'};
   cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
 `;
 
@@ -490,9 +490,9 @@ const ProfileBottom = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${Colors.violet[1]};
+  background-color: ${Colors.skyblue[1]};
   &:hover {
-    background-color: ${Colors.violet[2]};
+    background-color: ${Colors.skyblue[2]};
   }
 `;
 

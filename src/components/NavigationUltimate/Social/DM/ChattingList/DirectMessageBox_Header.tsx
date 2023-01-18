@@ -52,7 +52,7 @@ export function DMboxHeader(){
                 최널톡
             </DirtyTalk>
             <ButtonWrapper onClick={handleClick}>
-                <ClearIcon fontSize="large" sx={{ color: Colors.violet[1]}} />
+                <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[1]}} />
             </ButtonWrapper>
         </TopController>
         </DMtop>
