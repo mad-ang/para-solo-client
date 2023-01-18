@@ -13,6 +13,16 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import { addFriendReq } from 'src/api/friend';
 
+const dummyImages = [
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/1.jpeg',
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/2.jpeg',
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/3.png',
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/7.jpg',
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/4.jpeg',
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/5.png',
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/6.jpg',
+];
+
 function Swipe(props) {
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
@@ -102,6 +112,7 @@ function Swipe(props) {
           // }}
         >
           {otherPlayers?.map((player, i: number) => {
+            console.log(i);
             return player.userId !== userId ? (
               <SwiperSlide key={i}>
                 {/* <SwiperSlide key={player.id}> */}
@@ -110,7 +121,7 @@ function Swipe(props) {
                     <div className="personal-image">
                       <ProfileAvatarImage
                         ref={imgRef}
-                        src={DefaultAvatar}
+                        src={i <= 6 ? dummyImages[i] : DefaultAvatar}
                         // src={player.userInfo.profileImgUrl || DefaultAvatar}
                         className="personal-avatar"
                         alt="avatar"
@@ -249,6 +260,7 @@ const ImageWrapper = styled.div`
 const ProfileAvatarImage = styled.img`
   width: 160px;
   height: 160px;
+  object-fit: cover;
 `;
 
 const Name = styled.div`
