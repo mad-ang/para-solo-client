@@ -77,6 +77,25 @@ export default class Game extends Phaser.Scene {
     return this.otherPlayerMap;
   }
   chairTalk() {}
+
+  setUptable = (chairs: Phaser.Physics.Arcade.StaticGroup ,chairLayer : Phaser.Tilemaps.ObjectLayer, lastChairIdx: number, lastTableIdx: number,talbePerChair: number) => {
+    let currentChairIdx = lastChairIdx;
+    chairLayer.objects.forEach((obj, i) => {
+      const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
+      const tableId = `${Math.floor(i / talbePerChair) + lastTableIdx}`;
+      const chairId = `${currentChairIdx++}`;
+      
+      item.itemDirection = obj.properties[0].value;
+      item.tableId = tableId;
+      item.chairId = chairId;
+      this.tableMap.set(tableId, item);
+      this.chairMap.set(chairId, item);
+    })
+    lastTableIdx = lastTableIdx + Math.floor((currentChairIdx - lastChairIdx) / talbePerChair);
+    lastChairIdx = currentChairIdx;
+    return {lastChairIdx, lastTableIdx};
+  }
+  
   create(data: { network: Network; network2: Network2 }) {
     if (!data.network) {
       throw new Error('server instance missing');
@@ -96,6 +115,7 @@ export default class Game extends Phaser.Scene {
     const campingImage = this.map.addTilesetImage('camping', 'camping');
 
     const modernExteriorsImage = this.map.addTilesetImage('modernExteriors', 'modernExteriors');
+
     const ModernExteriorsCompleteImage = this.map.addTilesetImage(
       'ModernExteriorsComplete',
       'ModernExteriorsComplete'
@@ -272,97 +292,29 @@ export default class Game extends Phaser.Scene {
     const chairs = this.physics.add.staticGroup({ classType: Chair });
 
     const chairs2Layer = this.map.getObjectLayer('object2');
-    let _tableId = 0;
-    let _chairId = 0;
-    let log_i = 0;
-    chairs2Layer.objects.forEach((obj, i) => {
-      const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
-      item.setDepth(item.y + item.height * 0.27);
-      const tableId = `${Math.floor(i / 2) + _tableId}`;
-      const chairId = `${i + _chairId}`;
-      // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
-      item.itemDirection = obj.properties[0].value;
-      // item.itemDirection = 'down';
-      item.tableId = tableId;
-      item.chairId = chairId;
-      log_i++;
-
-      this.tableMap.set(item.tableId, item);
-      this.chairMap.set(item.chairId, item);
-    });
-    _tableId = _tableId + Math.floor((log_i - _chairId) / 2);
-    _chairId = log_i;
-
     const chairs3Layer = this.map.getObjectLayer('object3');
-
-    chairs3Layer.objects.forEach((obj, i) => {
-      const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
-      // item.setDepth(item.y + item.height * 0.27);
-      const tableId = `${Math.floor(i / 3) + _tableId}`;
-      const chairId = `${i + _chairId}`;
-      // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
-      item.itemDirection = obj.properties[0].value;
-      // item.itemDirection = 'down';
-      item.tableId = tableId;
-      item.chairId = chairId;
-      log_i++;
-      this.tableMap.set(item.tableId, item);
-      this.chairMap.set(item.chairId, item);
-    });
-    _tableId = _tableId + Math.floor((log_i - _chairId) / 3);
-    _chairId = log_i;
     const chairs4Layer = this.map.getObjectLayer('object4');
-
-    chairs4Layer.objects.forEach((obj, i) => {
-      const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
-      // item.setDepth(item.y + item.height * 0.27);
-      const tableId = `${Math.floor(i / 4) + _tableId}`;
-      const chairId = `${i + _chairId}`;
-      // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
-      item.itemDirection = obj.properties[0].value;
-      // item.itemDirection = 'down';
-      item.tableId = tableId;
-      item.chairId = chairId;
-      log_i++;
-      this.tableMap.set(item.tableId, item);
-      this.chairMap.set(item.chairId, item);
-    });
-    _tableId = _tableId + Math.floor((log_i - _chairId) / 4);
-    _chairId = log_i;
     const chairs6Layer = this.map.getObjectLayer('object6');
-
-    chairs6Layer.objects.forEach((obj, i) => {
+    let TableSet = {
+      lastChairIdx: 0,
+      lastTableIdx: 0,
+    }
+    TableSet = this.setUptable( chairs, chairs2Layer, TableSet.lastChairIdx, TableSet.lastTableIdx, 2);
+    TableSet = this.setUptable( chairs, chairs3Layer, TableSet.lastChairIdx, TableSet.lastTableIdx, 3);
+    TableSet = this.setUptable( chairs, chairs4Layer, TableSet.lastChairIdx, TableSet.lastTableIdx, 4);
+    chairs6Layer.objects.forEach((obj,i) => {
       const item = this.addObjectFromTiled(chairs, obj, 'interior', 'interior') as Chair;
       // item.setDepth(item.y + item.height * 0.27);
-      const tableId = `${Math.floor(i / 6) + _tableId}`;
-      const chairId = `${i + _chairId}`;
+      const tableId = `${Math.floor(i / 6) + TableSet.lastTableIdx}`;
+      const chairId = `${TableSet.lastChairIdx++}`;
       // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
       item.itemDirection = obj.properties[0].value;
       // item.itemDirection = 'down';
       item.tableId = tableId;
       item.chairId = chairId;
-      log_i++;
       this.tableMap.set(item.tableId, item);
       this.chairMap.set(item.chairId, item);
     });
-    _tableId = _tableId + Math.floor((log_i - _chairId) / 6);
-    _chairId = log_i;
-    // const chairs = this.physics.add.staticGroup({ classType: Chair });
-
-    // const objectTwoLayer = this.map.getObjectLayer("object2");
-    // objectTwoLayer.objects.forEach((chairObj, i) => {
-    //   const item = this.addObjectFromTiled(
-    //     chairs,
-    //     chairObj,
-    //     "villas",
-    //     "object2"
-    //   ) as Chair;
-    //   const chairId = `${i}`;
-    //   item.chairId = chairId;
-    //   this.chairMap.set(chairId, item);
-    //     // item.itemDirection = "down";
-    //     // item.itemDirection = chairObj.properties[0].value
-    // });
 
     thirdGroundLayer.setDepth(6500);
     ForegroundLayer.setDepth(6000);
@@ -511,7 +463,7 @@ export default class Game extends Phaser.Scene {
   // function to update target position upon receiving player updates
   private handlePlayerUpdated(field: string, value: number | string, id: string) {
     const otherPlayer = this.otherPlayerMap.get(id);
-    otherPlayer?.updateOtherPlayer(field, value);
+    if (value != undefined) otherPlayer?.updateOtherPlayer(field, value);
   }
 
   private handlePlayersOverlap(myPlayer, otherPlayer) {
