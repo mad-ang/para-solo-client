@@ -10,6 +10,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
 import axios from 'axios';
+import { fetchRoomList } from 'src/api/chat';
 
 export default function FriendRequest(props) {
   const dispatch = useAppDispatch();
@@ -25,10 +26,6 @@ export default function FriendRequest(props) {
   const players = Array.from(game?.allOtherPlayers());
 
   async function AcceptRequest(id, name, status) {
-    console.log('친구 요청 수락');
-    console.log(id);
-    console.log(name);
-    console.log(status);
     let body = {
       myId: userId,
       friendId: id,
@@ -36,38 +33,19 @@ export default function FriendRequest(props) {
     };
 
     try {
-      const Response = await axios.post('/chat/acceptFriend', body);
-      // console.log(Response.data);
-      if (Response.status === 200) {
-        console.log('친구 요청 수락 성공');
-      }
+      const response = await axios.post('/chat/acceptFriend', body);
+      // if (response.data.status === 200) {
+      console.log('친구 요청 수락/거절 결과', response.data);
+      // }
     } catch (error) {
       console.log('error', error);
     }
   }
 
-  //   async function RefuseRequest(id, name) {
-  //     console.log('친구 요청 거절');
-  //     console.log(id);
-  //     console.log(name);
-  //     let body = {
-  //         myId: userId,
-  //         friendId: id,
-  //         isAccepted: 0,
-  //       };
-
-  //     try {
-  //       const Response = await axios.post('/acceptFriend', body);
-  //       console.log(Response);
-  //       if (Response.status === 200) {
-  //         console.log('친구 요청 거절 성공');
-  //       }
-  //     } catch (error) {
-  //       console.log('error', error);
-  //     }
-  //   }
-
   function handleClick() {
+    fetchRoomList(userId).then((data) => {
+      props.setRooms(data);
+    });
     props.setFriendRequestModal(false);
   }
 
@@ -108,7 +86,7 @@ export default function FriendRequest(props) {
           variant="contained"
           color="secondary"
           onClick={() => {
-            AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0)
+            AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0);
             handleClick();
           }}
           sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
