@@ -71,28 +71,30 @@ export default function FriendRequest(props) {
         </ImageWrapper>
         <Name>{props.friendInfo.username}</Name>
         <Message>좋은 만남 가져봐요</Message>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 1);
-            handleClick();
-          }}
-          sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
-        >
-          수락{' '}
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0);
-            handleClick();
-          }}
-          sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
-        >
-          거절{' '}
-        </Button>
+        <Buttons>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 1);
+              handleClick();
+            }}
+            sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '120px' }}
+          >
+            수락
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0);
+              handleClick();
+            }}
+            sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '120px' }}
+          >
+            거절
+          </Button>
+        </Buttons>
       </SwipeBody>
     </Wrapper>
   );
@@ -201,6 +203,15 @@ const ImageWrapper = styled.div`
     width: 50px;
     height: 50px;
   }
+`;
+
+const Buttons = styled.div`
+  display: flex;
+
+
+
+  align-items: center;
+  justify-content: center;
 `;
 
 const ProfileAvatarImage = styled.img`

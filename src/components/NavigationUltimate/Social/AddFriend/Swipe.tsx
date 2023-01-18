@@ -12,6 +12,18 @@ import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import { addFriendReq } from 'src/api/friend';
+import ClearIcon from '@mui/icons-material/Close';
+import CloseIcon from '@mui/icons-material/Close';
+
+const dummyImages = [
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/1.jpeg',
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/8.jpg',
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/3.png',
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/7.jpg',
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/4.jpeg',
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/5.png',
+  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/6.jpg',
+];
 
 function Swipe(props) {
   const dispatch = useAppDispatch();
@@ -36,14 +48,13 @@ function Swipe(props) {
       myInfo: {
         userId: userId,
         username: userName,
-        profileImgUrl:
-          'https://user-images.githubusercontent.com/63194662/211139505-282c312a-2d1c-4186-a22b-4fdb7c375803.png',
+        profileImgUrl: 'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/7.jpg',
       },
       friendInfo: {
         userId: id,
         username: name,
         profileImgUrl:
-          'https://user-images.githubusercontent.com/63194662/211139490-e3606d1d-3f68-4041-8b99-1a09d2a1b61c.png',
+          'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/leedohyun.png',
         // username: 'friendName',
         // profileImgUrl: props.url,
       },
@@ -83,7 +94,7 @@ function Swipe(props) {
     <Wrapper>
       <SwipeHeader>
         <TitleText>현재 {players.length - 1}명이 접속해있어요</TitleText>
-        <CloseButton onClick={handleClick}>X</CloseButton>
+        <CloseIcon onClick={handleClick}></CloseIcon>
       </SwipeHeader>
       {players.length - 1 === 0 ? (
         <ZeroMessage>
@@ -102,6 +113,7 @@ function Swipe(props) {
           // }}
         >
           {otherPlayers?.map((player, i: number) => {
+            console.log(i);
             return player.userId !== userId ? (
               <SwiperSlide key={i}>
                 {/* <SwiperSlide key={player.id}> */}
@@ -110,7 +122,7 @@ function Swipe(props) {
                     <div className="personal-image">
                       <ProfileAvatarImage
                         ref={imgRef}
-                        src={DefaultAvatar}
+                        src={i <= 5 ? dummyImages[i] : DefaultAvatar}
                         // src={player.userInfo.profileImgUrl || DefaultAvatar}
                         className="personal-avatar"
                         alt="avatar"
@@ -162,14 +174,17 @@ const CloseButton = styled.button`
   height: 30px;
   border: none;
   border-radius: 50%;
+  align-items: center;
 `;
 
 const SwipeHeader = styled.div`
-  padding: 10px 10px 0 10px;
+  padding: 10px 0px 10px 10px;
   width: 100%;
   position: relative;
   display: grid;
   grid-template-columns: 90% 10%;
+  background-color: ${Colors.skyblue[1]};
+  align-items: center;
 `;
 
 const TitleText = styled.div`
@@ -249,6 +264,7 @@ const ImageWrapper = styled.div`
 const ProfileAvatarImage = styled.img`
   width: 160px;
   height: 160px;
+  object-fit: cover;
 `;
 
 const Name = styled.div`
@@ -275,6 +291,12 @@ const ZeroMessage = styled.div`
   align-items: center;
   overflow-y: auto;
   height: 75%;
+`;
+
+const ButtonWrapper = styled.button`
+  background: none;
+  border: none;
+  padding-top: 7px;
 `;
 
 export default Swipe;
