@@ -25,7 +25,7 @@ const StyledAudioBox = styled.button`
   font-size: 1rem;
   font-weight: 900;
   &:hover {
-    background-color: ${Colors.violet[1]};
+    background-color: ${Colors.skyblue[1]};
   }
 `;
 
