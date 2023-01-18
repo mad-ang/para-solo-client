@@ -174,7 +174,7 @@ export default class MyPlayer extends Player {
           network.sendPrivateMessage(this.userId, closePlayer.userId, '안녕하세요');
           return;
         } else {
-          const speed = cursors.shift?.isDown ? 500 : 120;
+          const speed = cursors.shift?.isDown ? 240 : 120;
           let vx = 0;
           let vy = 0;
           if (cursors.left?.isDown || cursors.A?.isDown) vx -= speed;

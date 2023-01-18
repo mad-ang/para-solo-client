@@ -274,12 +274,10 @@ export default class Game extends Phaser.Scene {
 
     const chairs = this.physics.add.staticGroup({ classType: Chair });
 
+    // const chairsLayer = this.map.getObjectLayer('object2');
 
-
-    // const chairLayer = this.map.getObjectLayer('object2');
-
-    // chairLayer.objects.forEach((obj, i) => {
-    //   const item = this.addObjectFromTiled(chairs, obj, 'camping', 'camping') as Chair;
+    // chairsLayer.objects.forEach((obj, i) => {
+    //   const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
     //     // item.setDepth(item.y + item.height * 0.27);eee
     //   const tableId = `${Math.floor(i / 2)}`;
     //   const chairId = `${i}`;
