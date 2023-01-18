@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="16" tileheight="16" infinite="0" nextlayerid="37" nextobjectid="368">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="16" tileheight="16" infinite="0" nextlayerid="37" nextobjectid="370">
  <editorsettings>
   <export format="json"/>
  </editorsettings>
@@ -667,8 +667,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,43590,43591,0,0,78895,0,0,0,0,46694,0,46696,0,0,0,0,0,0,0,0,0,0,983,982,0,0,0,0,0,0,0,0,0,44401,0,0,0,0,0,0,0,0,78895,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,44292,44293,0,0,0,0,43590,43591,78895,0,0,0,0,986,987,988,0,0,0,0,0,0,0,0,0,0,1015,1014,0,0,0,0,0,0,0,0,35069,44577,0,44743,44744,44745,44746,44747,44748,0,78895,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,78899,0,0,0,0,0,45179,45180,44114,44115,0,0,78895,0,0,0,0,1018,1019,1020,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,35097,35098,35099,35100,35101,44401,0,44919,44920,44921,44922,44923,44924,0,78895,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,45173,0,0,0,0,0,0,0,34694,0,0,0,0,0,0,0,0,0,0,0,0,0,0,42159,0,0,0,0,0,0,0,0,35129,35130,35131,35132,35133,44577,0,0,0,0,0,0,0,0,78895,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,45349,0,0,0,0,78899,0,0,34726,0,0,0,0,0,0,0,0,0,0,0,0,0,46694,0,46696,0,0,0,0,0,0,0,35161,35162,35163,35164,35165,44401,0,44749,44750,0,0,44751,44752,0,78895,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,45173,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,42159,0,0,0,0,0,0,0,0,35129,35130,35131,35132,35133,44577,0,0,0,0,0,0,0,0,78895,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,45349,0,0,0,0,78899,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,46694,0,46696,0,0,0,0,0,0,0,35161,35162,35163,35164,35165,44401,0,44749,44750,0,0,44751,44752,0,78895,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,45525,0,0,0,0,0,0,78905,34758,34759,34760,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14844,14845,0,35193,35194,35195,35196,35197,44577,0,44925,44926,0,0,44927,44928,0,78895,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,882,883,0,0,0,0,0,0,858,859,0,0,0,0,0,0,0,0,0,0,0,14983,14984,0,35225,35226,35227,35228,35229,0,0,45101,45102,0,0,45103,45104,0,78895,0,
 0,0,78899,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,914,915,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,893,0,34658,34659,34692,34692,0,0,45277,45278,0,0,45279,45280,0,78895,0,
@@ -731,8 +731,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,44116,44117,44827,44828,0,0,43414,43415,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,35031,35032,35033,35034,35035,35036,35037,35038,35039,44567,44568,44569,44570,44571,44572,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,45003,45004,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,35063,35064,35065,35066,35067,35068,0,35070,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,43767,0,43766,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,34663,34664,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,35095,35096,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,23499,23500,23501,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23526,43943,0,43942,23530,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,34695,34696,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,35127,35128,0,0,0,0,0,0,0,44573,44574,0,0,44575,44576,0,0,0,
-0,23549,23550,23551,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23576,44119,0,44118,23580,0,0,0,0,0,0,0,0,0,45349,0,0,0,0,0,0,0,0,34727,34728,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,35159,35160,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,23499,23500,23501,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23526,43943,0,43942,23530,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,34694,34695,34696,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,35127,35128,0,0,0,0,0,0,0,44573,44574,0,0,44575,44576,0,0,0,
+0,23549,23550,23551,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23576,44119,0,44118,23580,0,0,0,0,0,0,0,0,0,45349,0,0,0,0,0,0,0,34726,34727,34728,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,35159,35160,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,23599,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,45525,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,35192,0,0,0,0,0,35198,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,35224,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,79047,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -979,99 +979,435 @@
 </data>
  </layer>
  <objectgroup id="31" name="object2">
-  <object id="319" gid="82640" x="752" y="128" width="16" height="16"/>
-  <object id="320" gid="82639" x="736" y="128" width="16" height="16"/>
-  <object id="321" gid="82639" x="640" y="144" width="16" height="16"/>
-  <object id="322" gid="82640" x="656" y="144" width="16" height="16"/>
-  <object id="323" gid="82651" x="176" y="688" width="16" height="16"/>
-  <object id="324" gid="82652" x="192" y="688" width="16" height="16"/>
-  <object id="325" gid="82651" x="256" y="688" width="16" height="16"/>
-  <object id="326" gid="82652" x="272" y="688" width="16" height="16"/>
-  <object id="327" gid="82651" x="336" y="688" width="16" height="16"/>
-  <object id="328" gid="82652" x="352" y="688" width="16" height="16"/>
-  <object id="329" gid="82651" x="416" y="688" width="16" height="16"/>
-  <object id="330" gid="82652" x="432" y="688" width="16" height="16"/>
-  <object id="331" gid="82651" x="496" y="688" width="16" height="16"/>
-  <object id="332" gid="82652" x="512" y="688" width="16" height="16"/>
-  <object id="333" gid="82651" x="576" y="688" width="16" height="16"/>
-  <object id="334" gid="82652" x="592" y="688" width="16" height="16"/>
-  <object id="335" gid="82651" x="656" y="688" width="16" height="16"/>
-  <object id="336" gid="82652" x="672" y="688" width="16" height="16"/>
-  <object id="337" gid="83096" x="16" y="608" width="16" height="16"/>
-  <object id="338" gid="83105" x="64" y="608" width="16" height="16"/>
-  <object id="339" gid="83105" x="64" y="688" width="16" height="16"/>
-  <object id="340" gid="83105" x="64" y="768" width="16" height="16"/>
-  <object id="341" gid="83096" x="16" y="688" width="16" height="16"/>
-  <object id="342" gid="83096" x="16" y="768" width="16" height="16"/>
-  <object id="343" gid="83059" x="160" y="592" width="16" height="16"/>
-  <object id="344" gid="83064" x="208" y="592" width="16" height="16"/>
-  <object id="345" gid="83096" x="288" y="592" width="16" height="16"/>
-  <object id="346" gid="83105" x="336" y="592" width="16" height="16"/>
-  <object id="347" gid="83059" x="560" y="592" width="16" height="16"/>
-  <object id="348" gid="83064" x="608" y="592" width="16" height="16"/>
-  <object id="349" gid="82913" x="432" y="592" width="16" height="16"/>
-  <object id="350" gid="83028" x="480" y="592" width="16" height="16"/>
-  <object id="351" gid="82760" x="992" y="592" width="16" height="16"/>
-  <object id="352" gid="82762" x="1024" y="592" width="16" height="16"/>
-  <object id="353" gid="82648" x="1200" y="592" width="16" height="16"/>
-  <object id="354" gid="82650" x="1232" y="592" width="16" height="16"/>
-  <object id="357" gid="82676" x="1104" y="624" width="16" height="16"/>
-  <object id="358" gid="82678" x="1136" y="624" width="16" height="16"/>
-  <object id="363" gid="82671" x="128" y="288" width="16" height="16"/>
-  <object id="364" gid="82673" x="160" y="288" width="16" height="16"/>
-  <object id="365" gid="82819" x="1184" y="688" width="16" height="16"/>
-  <object id="367" gid="82820" x="1200" y="688" width="16" height="16"/>
+  <object id="319" gid="82640" x="752" y="128" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="320" gid="82639" x="736" y="128" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="321" gid="82639" x="640" y="144" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="322" gid="82640" x="656" y="144" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="323" gid="82651" x="176" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="324" gid="82652" x="192" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="325" gid="82651" x="256" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="326" gid="82652" x="272" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="327" gid="82651" x="336" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="328" gid="82652" x="352" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="329" gid="82651" x="416" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="330" gid="82652" x="432" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="331" gid="82651" x="496" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="332" gid="82652" x="512" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="333" gid="82651" x="576" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="334" gid="82652" x="592" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="335" gid="82651" x="656" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="336" gid="82652" x="672" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="337" gid="83096" x="16" y="608" width="16" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="338" gid="83105" x="64" y="608" width="16" height="16">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="339" gid="83105" x="64" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="340" gid="83105" x="64" y="768" width="16" height="16">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="341" gid="83096" x="16" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="342" gid="83096" x="16" y="768" width="16" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="343" gid="83059" x="160" y="592" width="16" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="344" gid="83064" x="208" y="592" width="16" height="16">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="345" gid="83096" x="288" y="592" width="16" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="346" gid="83105" x="336" y="592" width="16" height="16">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="347" gid="83059" x="560" y="592" width="16" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="348" gid="83064" x="608" y="592" width="16" height="16">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="349" gid="82913" x="432" y="592" width="16" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="350" gid="83028" x="480" y="592" width="16" height="16">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="351" gid="82760" x="992" y="592" width="16" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="352" gid="82762" x="1024" y="592" width="16" height="16">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="353" gid="82648" x="1200" y="592" width="16" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="354" gid="82650" x="1232" y="592" width="16" height="16">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="357" gid="82676" x="1104" y="624" width="16" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="358" gid="82678" x="1136" y="624" width="16" height="16">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="363" gid="82671" x="128" y="288" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="364" gid="82673" x="160" y="288" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="368" gid="82820" x="1200" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="369" gid="82819" x="1184" y="688" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="32" name="object3">
-  <object id="280" gid="82800" x="880" y="128" width="16" height="16"/>
-  <object id="281" gid="82801" x="896" y="128" width="16" height="16"/>
-  <object id="282" gid="82802" x="912" y="128" width="16" height="16"/>
-  <object id="283" gid="82697" x="496" y="272" width="16" height="16"/>
-  <object id="284" gid="82696" x="480" y="272" width="16" height="16"/>
-  <object id="285" gid="82695" x="464" y="272" width="16" height="16"/>
+  <object id="280" gid="82800" x="880" y="128" width="16" height="16">
+   <properties>
+    <property name="direction" value="up"/>
+   </properties>
+  </object>
+  <object id="281" gid="82801" x="896" y="128" width="16" height="16">
+   <properties>
+    <property name="direction" value="up"/>
+   </properties>
+  </object>
+  <object id="282" gid="82802" x="912" y="128" width="16" height="16">
+   <properties>
+    <property name="direction" value="up"/>
+   </properties>
+  </object>
+  <object id="283" gid="82697" x="496" y="272" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="284" gid="82696" x="480" y="272" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="285" gid="82695" x="464" y="272" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="35" name="object4">
-  <object id="286" gid="82656" x="928" y="192" width="16" height="16"/>
-  <object id="287" gid="82657" x="944" y="192" width="16" height="16"/>
-  <object id="288" gid="82770" x="928" y="224" width="16" height="16"/>
-  <object id="289" gid="82771" x="944" y="224" width="16" height="16"/>
-  <object id="290" gid="82704" x="160" y="784" width="16" height="16"/>
-  <object id="291" gid="82705" x="176" y="784" width="16" height="16"/>
-  <object id="292" gid="82705" x="192" y="784" width="16" height="16"/>
-  <object id="294" gid="82706" x="208" y="784" width="16" height="16"/>
-  <object id="295" gid="82704" x="240" y="784" width="16" height="16"/>
-  <object id="296" gid="82705" x="272" y="784" width="16" height="16"/>
-  <object id="297" gid="82705" x="256" y="784" width="16" height="16"/>
-  <object id="298" gid="82706" x="288" y="784" width="16" height="16"/>
-  <object id="299" gid="82704" x="320" y="784" width="16" height="16"/>
-  <object id="300" gid="82705" x="336" y="784" width="16" height="16"/>
-  <object id="301" gid="82705" x="352" y="784" width="16" height="16"/>
-  <object id="302" gid="82706" x="368" y="784" width="16" height="16"/>
-  <object id="303" gid="82704" x="400" y="784" width="16" height="16"/>
-  <object id="304" gid="82705" x="416" y="784" width="16" height="16"/>
-  <object id="305" gid="82705" x="432" y="784" width="16" height="16"/>
-  <object id="306" gid="82706" x="448" y="784" width="16" height="16"/>
-  <object id="307" gid="82704" x="480" y="784" width="16" height="16"/>
-  <object id="308" gid="82705" x="496" y="784" width="16" height="16"/>
-  <object id="309" gid="82705" x="512" y="784" width="16" height="16"/>
-  <object id="310" gid="82706" x="528" y="784" width="16" height="16"/>
-  <object id="311" gid="82704" x="560" y="784" width="16" height="16"/>
-  <object id="312" gid="82705" x="576" y="784" width="16" height="16"/>
-  <object id="313" gid="82705" x="592" y="784" width="16" height="16"/>
-  <object id="314" gid="82706" x="608" y="784" width="16" height="16"/>
-  <object id="315" gid="82704" x="640" y="784" width="16" height="16"/>
-  <object id="316" gid="82705" x="656" y="784" width="16" height="16"/>
-  <object id="317" gid="82705" x="672" y="784" width="16" height="16"/>
-  <object id="318" gid="82706" x="688" y="784" width="16" height="16"/>
-  <object id="359" gid="82760" x="976" y="752" width="16" height="16"/>
-  <object id="360" gid="82762" x="1008" y="752" width="16" height="16"/>
-  <object id="361" gid="82816" x="1040" y="752" width="16" height="16"/>
-  <object id="362" gid="82818" x="1072" y="752" width="16" height="16"/>
+  <object id="286" gid="82656" x="928" y="192" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="287" gid="82657" x="944" y="192" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="288" gid="82770" x="928" y="224" width="16" height="16">
+   <properties>
+    <property name="direction" value="up"/>
+   </properties>
+  </object>
+  <object id="289" gid="82771" x="944" y="224" width="16" height="16">
+   <properties>
+    <property name="direction" value="up"/>
+   </properties>
+  </object>
+  <object id="290" gid="82704" x="160" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="291" gid="82705" x="176" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="292" gid="82705" x="192" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="294" gid="82706" x="208" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="295" gid="82704" x="240" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="296" gid="82705" x="272" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="297" gid="82705" x="256" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="298" gid="82706" x="288" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="299" gid="82704" x="320" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="300" gid="82705" x="336" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="301" gid="82705" x="352" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="302" gid="82706" x="368" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="303" gid="82704" x="400" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="304" gid="82705" x="416" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="305" gid="82705" x="432" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="306" gid="82706" x="448" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="307" gid="82704" x="480" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="308" gid="82705" x="496" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="309" gid="82705" x="512" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="310" gid="82706" x="528" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="311" gid="82704" x="560" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="312" gid="82705" x="576" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="313" gid="82705" x="592" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="314" gid="82706" x="608" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="315" gid="82704" x="640" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="316" gid="82705" x="656" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="317" gid="82705" x="672" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="318" gid="82706" x="688" y="784" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="359" gid="82760" x="976" y="752" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="360" gid="82762" x="1008" y="752" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="361" gid="82816" x="1040" y="752" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="362" gid="82818" x="1072" y="752" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="26" name="object6">
   <object id="143" gid="18090" x="1072" y="144" width="16" height="16">
    <properties>
-    <property name="left" value=""/>
+    <property name="direction" value="left"/>
    </properties>
   </object>
   <object id="144" gid="18225" x="1056" y="128" width="16" height="16">
