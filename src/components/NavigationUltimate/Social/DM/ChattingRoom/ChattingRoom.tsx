@@ -13,7 +13,7 @@ import axios from 'axios';
 
 const socketUrl =
   process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
-    ? `https://${import.meta.env.VITE_SERVER_URL}`
+    ? `https://${import.meta.env.VITE_SERVER_URL}:8080`
     : `http://${window.location.hostname}:5002`;
 
 const Wrapper = styled.div`
