@@ -84,7 +84,6 @@ export default class Game extends Phaser.Scene {
       const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
       const tableId = `${Math.floor(i / talbePerChair) + lastTableIdx}`;
       const chairId = `${currentChairIdx++}`;
-      
       item.itemDirection = obj.properties[0].value;
       item.tableId = tableId;
       item.chairId = chairId;
