@@ -190,7 +190,6 @@ export default class OtherPlayer extends Player {
       this.connectionBufferTime >= 750
     ) {
       if (this.x < 610 && this.y > 515 && this.myPlayer!.x < 610 && this.myPlayer!.y > 515) return;
-      console.log('disconnecting from', this.playerId);
 
       phaserEvents.emit(Event.PLAYER_DISCONNECTED, this.playerId);
       this.connectionBufferTime = 0;

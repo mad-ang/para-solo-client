@@ -41,9 +41,6 @@ function Swipe(props) {
   const players = useAppSelector((state) => state.room.players);
 
   async function requestFriend(id, name, targetImgUrl) {
-    console.log('친구요청하자~~~');
-    console.log(id);
-    console.log(name);
     let body = {
       myInfo: {
         userId: userId,
@@ -85,8 +82,6 @@ function Swipe(props) {
   // };
 
   useEffect(() => {
-    console.log('현재 방의 players', players);
-    console.log('Players Num: ', players.length);
     setOtherPlayers(players);
     setPlayerNum(players.length);
   }, [players.length]);
@@ -114,7 +109,6 @@ function Swipe(props) {
           // }}
         >
           {otherPlayers?.map((player, i: number) => {
-            console.log(i);
             return player.userId !== userId ? (
               <SwiperSlide key={i}>
                 {/* <SwiperSlide key={player.id}> */}

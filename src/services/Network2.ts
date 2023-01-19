@@ -42,7 +42,6 @@ export default class chatNetwork {
     this.socketClient.emit('message', message);
   };
   whoAmI = (userId: string) => {
-    console.log('whoAmI', userId);
     this.socketClient.emit('whoAmI', userId);
   };
 }

@@ -107,8 +107,6 @@ export default class MyPlayer extends Player {
       case PlayerBehavior.IDLE:
         // if press E in front of selected chair
         if (Phaser.Input.Keyboard.JustDown(keyE) && item?.itemType === ItemType.CHAIR) {
-          console.log('press E in Idle');
-
           const chairItem = item as Chair;
           const chair = network.getChairState()?.get(String(chairItem.chairId));
           const isExisted = network.getPlayers()?.has(String(chair?.clientId));
