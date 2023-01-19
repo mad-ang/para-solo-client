@@ -328,10 +328,11 @@ export default class Game extends Phaser.Scene {
     this.myPlayer = this.add.myPlayer(
       Phaser.Math.RND.between(400, 900),
       Phaser.Math.RND.between(400, 900),
-      'adam',
+      'kevin',
       this.network.mySessionId,
       userId,
       userInfo
+      // 로건 케빈 엠마 
     );
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16);
 
@@ -432,7 +433,7 @@ export default class Game extends Phaser.Scene {
     const otherPlayer = this.add.otherPlayer(
       newPlayer.x,
       newPlayer.y,
-      'adam',
+      'kevin',
       id,
       newPlayer.userId,
       newPlayer.userInfo,
