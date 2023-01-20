@@ -78,7 +78,7 @@ export default function BottomAppBar(props) {
           setValue(event.target.value);
         }}
         onKeyDown={handleOnKeyDown}
-        InputProps={{
+        InputProps={{style: {fontFamily: 'Ycomputer-Regular', color: 'black'},
           endAdornment: (
             <InputAdornment position="end">
               <IconButton color="primary" sx={{ p: '10px' }} onClick={handleSubmit} edge="end">

@@ -142,17 +142,15 @@ function Swipe(props) {
                   </ImageWrapper>
                   <Name>{player.name}</Name>
                   <Message>좋은 만남 가져봐요</Message>
-                  <Button
-                    // fullWidth={true}
-                    variant="contained"
-                    color="secondary"
+                  <MyButton
+                    
                     onClick={() =>
                       requestFriend(player.userId, player.name, i <= 5 ? dummyImages[i] : null)
                     }
-                    sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '200px' }}
+                    
                   >
                     친구 요청{' '}
-                  </Button>
+                  </MyButton>
                 </SwipeBody>
               </SwiperSlide>
             ) : null;
@@ -162,6 +160,7 @@ function Swipe(props) {
     </Wrapper>
   );
 }
+
 
 const Wrapper = styled.div`
   position: fixed;
@@ -179,14 +178,6 @@ const Wrapper = styled.div`
   // -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   font-style: normal;
   font-weight: 400;
-`;
-
-const CloseButton = styled.button`
-  width: 30px;
-  height: 30px;
-  border: none;
-  border-radius: 50%;
-  align-items: center;
 `;
 
 const SwipeHeader = styled.div`
@@ -207,28 +198,28 @@ align-items: center;
 `;
 
 
-const TitleImage = styled.img`
-  margin-left: 3px;
-  margin-right: 13px;
-  width: 28px;
-`;
 
 const DirtyTalk = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+display: flex;
+justify-content: flex-start;
+align-items: center;
+`;
+const TitleImage = styled.img`
+margin-left: 3px;
+margin-right: 13px;
+width: 28px;
 `;
 
 const TitleText = styled.div`
-  font-size: 23px;
-  font-weight: 600;
+font-size: 23px;
+font-weight: 600;
 `;
 
-// const TitleText = styled.div`
-//   
-//   font-size: 24px;
-//   font-size: 1.5rem;
-// `;
+const ButtonWrapper = styled.button`
+background: none;
+border: none;
+padding : 0px 10px 0px 0px;
+`;
 
 const SwipeBody = styled.div`
   padding: 0 10px 0px 10px;
@@ -241,7 +232,7 @@ const SwipeBody = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  margin-top: 40px;
+  margin-top: 25px;
   width: 160px;
   height: 160px;
   border-radius: 100%;
@@ -264,7 +255,7 @@ const ImageWrapper = styled.div`
     justify-content: center;
     align-items: center;
   }
-
+  
   .personal-avatar {
     box-sizing: border-box;
     border-radius: 100%;
@@ -315,7 +306,24 @@ const Name = styled.div`
 const Message = styled.div`
   font-weight: 400;
   font-size: 10px;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+`;
+
+
+
+const MyButton = styled.button`
+width: 180px;
+height: 40px;
+font-size: 1.2rem;
+font-weight: 500;
+margin-top: 12px;
+font-family: 'Ycomputer-Regular';
+border-radius: 10px;
+border: none;
+background-color: ${Colors.skyblue[1]};
+&:hover {
+  background-color: ${Colors.skyblue[2]};
+}
 `;
 
 const ZeroMessage = styled.div`
@@ -330,11 +338,4 @@ const ZeroMessage = styled.div`
   overflow-y: auto;
   height: 340px;
 `;
-
-const ButtonWrapper = styled.button`
-  background: none;
-  border: none;
-  padding : 0px 10px 0px 0px;
-`;
-
 export default Swipe;

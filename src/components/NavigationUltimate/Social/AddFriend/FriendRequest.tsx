@@ -11,6 +11,7 @@ import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import { fetchRoomList } from 'src/api/chat';
+import ClearIcon from '@mui/icons-material/Close';
 
 export default function FriendRequest(props) {
   const dispatch = useAppDispatch();
@@ -53,7 +54,9 @@ export default function FriendRequest(props) {
     <Wrapper>
       <SwipeHeader>
         <TitleText>친구 요청</TitleText>
-        <CloseButton onClick={handleClick}>X</CloseButton>
+        <ButtonWrapper onClick={handleClick}>
+          <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
+        </ButtonWrapper>
       </SwipeHeader>
       <SwipeBody>
         <ImageWrapper>
@@ -72,28 +75,23 @@ export default function FriendRequest(props) {
         <Name>{props.friendInfo.username}</Name>
         <Message>좋은 만남 가져봐요</Message>
         <Buttons>
-          <Button
-            variant="contained"
-            color="secondary"
+          <MyButton
             onClick={() => {
               AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 1);
               handleClick();
             }}
-            sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '120px' }}
           >
             수락
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
+          </MyButton>
+          <MyButton color = {`${Colors.pink[2]}`}
+          hoverColor = {`${Colors.red[1]}`}
             onClick={() => {
               AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0);
               handleClick();
             }}
-            sx={{ marginLeft: 4, marginRight: 1, my: 1, width: '120px' }}
           >
             거절
-          </Button>
+          </MyButton>
         </Buttons>
       </SwipeBody>
     </Wrapper>
@@ -108,7 +106,8 @@ const Wrapper = styled.div`
   bottom: 60px;
   height: 400px;
   width: 370px;
-  border-radius: 6px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
   box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
@@ -116,19 +115,18 @@ const Wrapper = styled.div`
   font-weight: 400;
 `;
 
-const CloseButton = styled.button`
-  width: 30px;
-  height: 30px;
-  border: none;
-  border-radius: 50%;
-`;
-
 const SwipeHeader = styled.div`
-  padding: 10px 10px 0 10px;
+  padding: 10px 10px 10px 20px;
   width: 100%;
   position: relative;
   display: grid;
   grid-template-columns: 90% 10%;
+`;
+
+const ButtonWrapper = styled.button`
+  background: none;
+  border: none;
+  padding: 0px 10px 0px 0px;
 `;
 
 const TitleText = styled.div`
@@ -147,7 +145,7 @@ const SwipeBody = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  margin-top: 20px;
+  margin-top: 10px;
   width: 160px;
   height: 160px;
   border-radius: 100%;
@@ -207,7 +205,6 @@ const ImageWrapper = styled.div`
 
 const Buttons = styled.div`
   display: flex;
-
   align-items: center;
   justify-content: center;
 `;
@@ -219,19 +216,28 @@ const ProfileAvatarImage = styled.img`
 
 const Name = styled.div`
   font-weight: 600;
-  font-size: 20px;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   margin: 10px 0;
 `;
 
 const Message = styled.div`
   font-weight: 400;
   font-size: 10px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 `;
 
-const ZeroMessage = styled.div`
-  font-weight: 600;
-  font-size: 24px;
-  font-size: 1.5rem;
+const MyButton = styled.button`
+  width: 120px;
+  height: 40px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-family: 'Ycomputer-Regular';
+  border-radius: 10px;
+  border: none;
+  background-color: ${props => props.color ? props.color: `${Colors.skyblue[1]}`};
+  margin: 15px 10px 10px 10px;
+
+  &:hover {
+    background-color: ${props => props.hoverColor ? props.hoverColor: `${Colors.skyblue[2]}`};
+  }
 `;
