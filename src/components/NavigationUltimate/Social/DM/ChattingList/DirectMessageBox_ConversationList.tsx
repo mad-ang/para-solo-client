@@ -166,6 +166,4 @@ const DMmessageList = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-bottom-left-radius: 25px;
-  border-bottom-right-radius: 25px;
 `;
