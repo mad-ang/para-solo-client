@@ -38,7 +38,6 @@ export default class MyPlayer extends Player {
 
   setPlayerName(name: string, authFlag: number = 1) {
     if (!authFlag) return;
-    console.log(22222222, name);
     this.playerName.setText(name);
     const userId = store.getState().user?.userId || cookies.get('userId');
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId, authFlag);
@@ -50,7 +49,6 @@ export default class MyPlayer extends Player {
       .then((response) => {
         if (!response) return;
         const { userId, username, userProfile, ...otherInfo } = response;
-        console.log(userId, username, userProfile);
         store.dispatch(setUserProfile(userProfile));
       })
       .catch((error) => {

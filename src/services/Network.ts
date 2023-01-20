@@ -170,11 +170,8 @@ export default class Network {
       const players: any = [];
       this.room?.state.players.forEach((value) => {
         players.push(value);
-        // console.log('valueeeee', value.userId);
       });
       store.dispatch(setRoomPlayers(players));
-      // console.log(555555, players);
-      // console.log('room.state.players', this.room?.state.players.);
     });
   }
   getChairState() {
@@ -251,7 +248,6 @@ export default class Network {
   }
 
   updatePlayerInfo(currentUserProfile: UserResponseDto, currentUserId: string, authFlag: number) {
-    console.log('업데이트할 정보?', currentUserProfile);
     this.room?.send(Message.UPDATE_PLAYER_INFO, {
       userProfile: currentUserProfile,
       userId: currentUserId,
