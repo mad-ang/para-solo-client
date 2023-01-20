@@ -58,7 +58,7 @@ const DirtyTalk = styled.div`
 `;
 const DMtop = styled.div`
   background: ${Colors.skyblue[1]};
-  padding: 0px 20px 0px 20px;
+  padding: 0px 0px 0px 20px;
   font-size: 28px;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
@@ -72,4 +72,5 @@ const DMtop = styled.div`
 const ButtonWrapper = styled.button`
   background: none;
   border: none;
+  padding: 0px 10px 0px 0px;
 `;

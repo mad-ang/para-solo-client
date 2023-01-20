@@ -48,6 +48,8 @@ const DMwrapper = styled.div`
   height: 580px;
   width: 370px;
   border-radius: 25px;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+
 `;
 const DM = styled.div`
   padding: 15px 35px 15px 15px;

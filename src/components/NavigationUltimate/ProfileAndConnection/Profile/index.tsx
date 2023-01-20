@@ -135,8 +135,16 @@ function ProfileEditModal(props) {
   return (
     <ProfileSettingEditor>
       <ProfileHeader>
-        <TitleText>프로필 수정</TitleText>
-        <ClearIcon fontSize="medium" />
+
+        <DirtyTalk>
+          <TitleImage src={'src/assets/directmessage/parasol.png'} width="30" />
+
+          <TitleText>프로필 수정</TitleText>
+        </DirtyTalk>
+        <ButtonWrapper onClick={handleClick}>
+          <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
+        </ButtonWrapper>
+
       </ProfileHeader>
       <ProfileBody>
         <ImageWrapper editable={editable}>
@@ -346,7 +354,18 @@ const ProfileSettingEditor = styled.div`
 const TitleText = styled.div`
   font-weight: 600;
   font-size: 24px;
-  font-size: 1.5rem;
+`;
+
+const DirtyTalk = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const TitleImage = styled.img`
+  margin-left: 3px;
+  margin-right: 13px;
+  width: 28px;
 `;
 
 // const CloseButton = styled.button`
@@ -358,11 +377,15 @@ const TitleText = styled.div`
 // `;
 
 const ProfileHeader = styled.div`
-  padding: 10px 10px 0 10px;
+  padding: 10px;
   width: 100%;
   position: relative;
   display: grid;
   grid-template-columns: 90% 10%;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  background-color: ${Colors.skyblue[1]};
+
 `;
 
 const ProfileBody = styled.div`
@@ -437,7 +460,11 @@ const ImageWrapper = styled.div<EditableProps>`
     height: 50px;
   }
 `;
-
+const ButtonWrapper = styled.button`
+  background: none;
+  border: none;
+  padding: 0px 10px 0px 0px;
+`;
 const ProfileAvatarImage = styled.img`
   width: 100%;
   height: 100%;
