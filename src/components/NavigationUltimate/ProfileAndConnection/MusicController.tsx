@@ -7,28 +7,6 @@ import MusicOffIcon from '@mui/icons-material/MusicOff';
 import React, { useRef, useState, useEffect } from 'react';
 import { truncate } from 'fs';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const StyledAudioBox = styled.button`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 44px;
-  height: 44px;
-  border: none;
-  border-radius: 30%;
-  background-color: ${Colors.indigo};
-  font-size: 1rem;
-  font-weight: 900;
-  &:hover {
-    background-color: ${Colors.skyblue[1]};
-  }
-`;
-
 export default function () {
   const [BGMstate, setBGMstate] = useState(true);
   const audioRef = useRef(new Audio());
@@ -57,3 +35,26 @@ export default function () {
     </Wrapper>
   );
 }
+
+/***** CSS *****/
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const StyledAudioBox = styled.button`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 30%;
+  background-color: ${Colors.indigo};
+  font-size: 1rem;
+  font-weight: 900;
+  &:hover {
+    background-color: ${Colors.skyblue[1]};
+  }
+`;

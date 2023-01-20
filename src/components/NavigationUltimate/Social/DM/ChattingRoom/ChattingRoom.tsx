@@ -29,7 +29,9 @@ const Wrapper = styled.div`
 
 export function InsideChattingRoom() {
 
+
   const [newMessage, setNewMessage] = useState<any>(null);
+
 
   return (
     <Wrapper>

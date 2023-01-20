@@ -22,113 +22,6 @@ import { roomSlice } from '../../../stores/RoomStore';
 import { ModalState, SetWhichModalActivated } from '../../../stores/NavbarStore';
 import Colors from 'src/utils/Colors';
 
-const Backdrop = styled.div`
-  position: fixed;
-  bottom: 60px;
-  left: 0px;
-  height: 400px;
-  width: 370px;
-  max-height: 50%;
-  max-width: 50%;
-`;
-const Wrapper = styled.div`
-  height: 100%;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-`;
-const FabWrapper = styled.div`
-  margin-top: auto;
-`;
-const ChatHeader = styled.div`
-  position: relative;
-  height: 35px;
-  background: #000000a7;
-  border-radius: 10px 10px 0px 0px;
-
-  h3 {
-    color: #fff;
-    margin: 7px;
-    font-size: 17px;
-    text-align: center;
-  }
-
-  .close {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-`;
-const ChatBox = styled(Box)`
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  background: #2c2c2c;
-  border: 1px solid #00000029;
-`;
-const MessageWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0px 2px;
-
-  p {
-    margin: 3px;
-    text-shadow: 0.3px 0.3px black;
-    font-size: 15px;
-    font-weight: bold;
-    line-height: 1.4;
-    overflow-wrap: anywhere;
-  }
-
-  span {
-    color: white;
-    font-weight: normal;
-  }
-
-  .notification {
-    color: grey;
-    font-weight: normal;
-  }
-
-  :hover {
-    background: #3a3a3a;
-  }
-`;
-const InputWrapper = styled.form`
-  border: 1px solid #42eacb;
-  border-radius: 0px 0px 10px 10px;
-  display: flex;
-  flex-direction: row;
-  background: linear-gradient(180deg, #000000c1, #242424c0);
-`;
-const InputTextField = styled(InputBase)`
-  border-radius: 0px 0px 10px 10px;
-  input {
-    padding: 5px;
-  }
-`;
-const EmojiPickerWrapper = styled.div`
-  position: absolute;
-  bottom: 54px;
-  right: 16px;
-`;
-const StyledRedBox = styled.button<{pressed:ModalState}>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 44px;
-  height: 44px;
-  border: none;
-  border-radius: 30%;
-  background-color: ${(props) => (props.pressed == ModalState.PublicChat ? Colors.skyblue[1] : Colors.indigo)};
-  font-size: 1rem;
-  font-weight: 900;
-
-  &:hover {
-    background-color: ${Colors.skyblue[1]};
-  }
-`;
-
 const dateFormatter = new Intl.DateTimeFormat('en', {
   timeStyle: 'short',
   dateStyle: 'short',
@@ -336,3 +229,112 @@ export default function PublicChat() {
     </div>
   );
 }
+
+
+/***** CSS *****/
+const Backdrop = styled.div`
+  position: fixed;
+  bottom: 60px;
+  left: 0px;
+  height: 400px;
+  width: 370px;
+  max-height: 50%;
+  max-width: 50%;
+`;
+const Wrapper = styled.div`
+  height: 100%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+`;
+const FabWrapper = styled.div`
+  margin-top: auto;
+`;
+const ChatHeader = styled.div`
+  position: relative;
+  height: 35px;
+  background: #000000a7;
+  border-radius: 10px 10px 0px 0px;
+
+  h3 {
+    color: #fff;
+    margin: 7px;
+    font-size: 17px;
+    text-align: center;
+  }
+
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+`;
+const ChatBox = styled(Box)`
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background: #2c2c2c;
+  border: 1px solid #00000029;
+`;
+const MessageWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0px 2px;
+
+  p {
+    margin: 3px;
+    text-shadow: 0.3px 0.3px black;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  span {
+    color: white;
+    font-weight: normal;
+  }
+
+  .notification {
+    color: grey;
+    font-weight: normal;
+  }
+
+  :hover {
+    background: #3a3a3a;
+  }
+`;
+const InputWrapper = styled.form`
+  border: 1px solid #42eacb;
+  border-radius: 0px 0px 10px 10px;
+  display: flex;
+  flex-direction: row;
+  background: linear-gradient(180deg, #000000c1, #242424c0);
+`;
+const InputTextField = styled(InputBase)`
+  border-radius: 0px 0px 10px 10px;
+  input {
+    padding: 5px;
+  }
+`;
+const EmojiPickerWrapper = styled.div`
+  position: absolute;
+  bottom: 54px;
+  right: 16px;
+`;
+const StyledRedBox = styled.button<{pressed:ModalState}>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 30%;
+  background-color: ${(props) => (props.pressed == ModalState.PublicChat ? Colors.skyblue[1] : Colors.indigo)};
+  font-size: 1rem;
+  font-weight: 900;
+
+  &:hover {
+    background-color: ${Colors.skyblue[1]};
+  }
+`;

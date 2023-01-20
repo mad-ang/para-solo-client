@@ -13,7 +13,7 @@ export enum ModalState {
 
 export const NavControllerSlice = createSlice({
   name: 'nav',
-  initialState: {currentState: ModalState.None},
+  initialState: {currentState: ModalState.PublicChat},
   reducers: {
     SetWhichModalActivated : (state, action: PayloadAction<ModalState>) => {
       // state = action.payload;
