@@ -28,7 +28,7 @@ export const addImage = async (albumName: string, files: any) => {
         body: file,
         headers: new Headers({
           'Content-Type': `image/${originalFiletype}`,
-          'Access-Control-Allow-Origin': '*',
+          'Cross-Origin-Resource-Policy': 'cross-origin',
         }),
       })
     );

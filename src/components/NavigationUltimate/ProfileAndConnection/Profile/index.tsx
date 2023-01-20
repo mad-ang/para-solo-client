@@ -135,6 +135,7 @@ function ProfileEditModal(props) {
   return (
     <ProfileSettingEditor>
       <ProfileHeader>
+
         <DirtyTalk>
           <TitleImage src={'src/assets/directmessage/parasol.png'} width="30" />
 
@@ -143,6 +144,7 @@ function ProfileEditModal(props) {
         <ButtonWrapper onClick={handleClick}>
           <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
         </ButtonWrapper>
+
       </ProfileHeader>
       <ProfileBody>
         <ImageWrapper editable={editable}>
@@ -409,8 +411,8 @@ const ImageWrapper = styled.div<EditableProps>`
 
   .personal-image {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 98px;
+    height: 98px;
   }
 
   .personal-image input[type='file'] {
@@ -421,8 +423,8 @@ const ImageWrapper = styled.div<EditableProps>`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    width: 98px;
+    height: 98px;
   }
 
   .personal-avatar {

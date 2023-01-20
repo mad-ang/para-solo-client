@@ -322,13 +322,13 @@ const ZeroMessage = styled.div`
   font-weight: 600;
   font-size: 24px;
   font-size: 1.5rem;
-
+  background-color: ${Colors.white};
   padding: 70px 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  height: 75%;
+  height: 340px;
 `;
 
 const ButtonWrapper = styled.button`
