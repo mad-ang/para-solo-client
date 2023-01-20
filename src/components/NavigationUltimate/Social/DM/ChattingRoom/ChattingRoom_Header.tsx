@@ -9,35 +9,63 @@ import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import CloseIcon from '@mui/icons-material/Close';
 import { setShowDM } from 'src/stores/DMboxStore';
 import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
+import styled from 'styled-components';
+import Colors from 'src/utils/Colors';
 
 export default function HeadAppBar() {
   const dispatch = useAppDispatch();
   const friendId = useAppSelector((state) => state.dm.friendId);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            onClick={() => {
-              dispatch(SetWhichModalActivated(ModalState.ChattingList));
-            }}
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 0 }}
-          >
-            <ArrowBackIosNewIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {friendId}
-          </Typography>
-          {/* <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 0 }}>
-            <CloseIcon />
-          </IconButton> */}
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <DMtop>
+      <DirtyTalk>
+        <IconButton
+          onClick={() => {
+            dispatch(SetWhichModalActivated(ModalState.ChattingList));
+          }}
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 0 }}
+        >
+          <ArrowBackIosNewIcon />
+        </IconButton>
+        <TitleText>{friendId}</TitleText>
+      </DirtyTalk>
+    </DMtop>
   );
 }
+
+const DirtyTalk = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+const DMtop = styled.div`
+  background: ${Colors.skyblue[1]};
+  padding: 0px 20px 0px 20px;
+  font-size: 28px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  font-weight: bold;
+  display: flex;
+  height: 60px;
+  flex-direction: row;
+  alsign-items: center;
+  justify-content: space-between;
+`;
+const ButtonWrapper = styled.button`
+  background: none;
+  border: none;
+`;
+
+const TitleImage = styled.img`
+  margin-left: 3px;
+  margin-right: 13px;
+  width: 28px;
+`;
+
+const TitleText = styled.div`
+  font-size: 23px;
+`;
