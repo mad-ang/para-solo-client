@@ -129,7 +129,6 @@ function ProfileEditModal(props) {
         .then((response) => {
           if (!response) return;
           const { userId, username, userProfile, ...otherInfo } = response;
-          console.log(3333, userProfile);
           updateAtOnce(username, userProfile);
         })
         .catch((error) => {
