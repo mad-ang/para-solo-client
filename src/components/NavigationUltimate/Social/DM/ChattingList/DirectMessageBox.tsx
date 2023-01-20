@@ -41,7 +41,7 @@ const Wrapper = styled.div`
 `;
 const DMwrapper = styled.div`
   position: fixed;
-  bottom: 0px;
+  bottom: 60px;
   left: 0px;
   background: none;
   gap: 10px;
@@ -132,7 +132,7 @@ function DMbox() {
   ];
 
   return (
-    <DMwrapper>
+    <DMwrapper className='DMwrapper'>
       <DMboxHeader />
       {/* <DMSearchConversation /> */}
       <ConversationList />

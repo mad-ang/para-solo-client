@@ -161,7 +161,7 @@ const LastMessage = styled.div`
 `;
 const DMmessageList = styled.div`
   background: #ffffff;
-  height: 460px;
+  height: 520px;
   overflow: auto;
   display: flex;
   flex-direction: column;
