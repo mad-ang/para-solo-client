@@ -77,7 +77,7 @@ export const ConversationList = () => {
   };
   return (
     <DMmessageList>
-      <>
+    
         <UnorderedList>
           {rooms &&
             rooms.map((room) => (
@@ -110,7 +110,7 @@ export const ConversationList = () => {
             friendInfo={FriendRequestProps}
           />
         ) : null}
-      </>
+      
     </DMmessageList>
   );
 };
@@ -123,18 +123,18 @@ const ProfileAvatarImage = styled.img`
 
 
 const UnorderedList = styled.ul`
-  list-style: none;
+  padding: 5px;
 `;
 
 const ListTag = styled.li`
-  width: 340px;
+  width: 320px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   cursor: pointer;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px;
+
 `;
 const IDwithLastmessage = styled.div`
   display: flex;
@@ -165,7 +165,6 @@ const DMmessageList = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0px 0px 0px 10px;
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
 `;
