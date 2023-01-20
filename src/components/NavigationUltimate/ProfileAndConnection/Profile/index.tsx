@@ -16,32 +16,23 @@ import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
 
 import {
-  // setGender as setStoreGender,
-  // setAge as setStoreAge,
-  // setHeight as setStoreHeight,
-  setUserInfo as setStoreUserInfo, setUserName,
+  setUserProfile as setStoreUserProfile,
+  setUsername as setStoreUsername,
+  setUserProfile,
 } from 'src/stores/UserStore';
 import { addImage } from 'src/api/s3';
 
 function ProfileEditModal(props) {
-  const originalUserInfo = useAppSelector((state) => state.user.userInfo);
-  const [userProfile, setUserProfile] = useState<any>(
-    originalUserInfo?.profileImgUrl || DefaultAvatar
+  const originalUsername = useAppSelector((state) => state.user.username);
+  const originalUserProfile = useAppSelector((state) => state.user.userProfile);
+  const [userProfileImg, setUserProfileImg] = useState<any>(
+    originalUserProfile?.profileImgUrl || DefaultAvatar
   );
   const [editable, setEditable] = useState(false);
   const [username, setUsername] = useState(cookies.get('playerName') || '');
-  const [gender, setGender] = useState<Option | null>({
-    value: originalUserInfo?.gender,
-    label: originalUserInfo?.gender || '-',
-  });
-  const [age, setAge] = useState<Option | null>({
-    value: originalUserInfo?.age,
-    label: originalUserInfo?.age || '-',
-  });
-  const [height, setHeight] = useState<Option | null>({
-    value: originalUserInfo?.height,
-    label: originalUserInfo?.height || '-',
-  });
+  const [gender, setGender] = useState<string>(originalUserProfile.gender);
+  const [age, setAge] = useState<string>(originalUserProfile.age);
+  const [height, setHeight] = useState<string>(originalUserProfile.heigth);
   const dispatch = useAppDispatch();
   let refIndex = 0;
   const focused = useAppSelector((state) => state.chat.focused);
@@ -55,13 +46,12 @@ function ProfileEditModal(props) {
   const handleChangeUserProfile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event?.target?.files;
     if (!files) return;
-    addImage('profile', files, setUserProfile);
+    addImage('profile', files, setUserProfileImg);
   };
 
   const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!editable) return;
-    setUsername(event.target.value);            //colyseus에서의 유저이름 변경
-    dispatch(setUserName(event.target.value));  //redux store에서의 유저이름 변경
+    setUsername(event.target.value); //colyseus에서의 유저이름 변경
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -100,28 +90,37 @@ function ProfileEditModal(props) {
       return;
     }
     authFlag = 1;
+
     const game = phaserGame.scene.keys.game as Game;
-    if (game.myPlayer.name !== username) {
+    if (originalUsername !== username) {
       game.myPlayer.setPlayerName(username, authFlag);
+      dispatch(setStoreUsername(username));
     }
 
-    const newUserInfo = {
-      profileImgUrl: userProfile,
-      gender: gender?.value,
-      age: age?.value,
-      height: height?.value,
+    let newUserInfo = {
+      profileImgUrl: userProfileImg === DefaultAvatar ? '' : userProfileImg,
+      gender: gender,
+      age: age,
+      height: height,
     };
 
-    const infoToChange = { ...originalUserInfo, ...newUserInfo };
-    game.myPlayer.setPlayerInfo(infoToChange, authFlag);
+    const keys = Object.keys(originalUserProfile);
+    keys.forEach((key: any) => {
+      if (newUserInfo[key]?.length === 0 || originalUserProfile[key] === newUserInfo[key]) {
+        delete newUserInfo[key];
+      }
+    });
+
+    game.myPlayer.setPlayerInfo(newUserInfo, authFlag);
+    dispatch(setUserProfile(newUserInfo));
   };
 
-  const updateAtOnce = (username, playerInfo) => {
+  const updateAtOnce = (username, additionalInfo) => {
     setUsername(username);
-    setUserProfile(playerInfo.profileImgUrl || DefaultAvatar);
-    setGender({ value: playerInfo.gender, label: playerInfo.gender || '-' });
-    setAge({ value: playerInfo.age, label: playerInfo.age || '-' });
-    setHeight({ value: playerInfo.height, label: playerInfo.height || '-' });
+    setUserProfileImg(additionalInfo.profileImgUrl || DefaultAvatar);
+    setGender(additionalInfo.gender);
+    setAge(additionalInfo.age);
+    setHeight(additionalInfo.height);
   };
 
   useEffect(() => {
@@ -129,8 +128,9 @@ function ProfileEditModal(props) {
       getUserInfo()
         .then((response) => {
           if (!response) return;
-          const { userId, username, ...additionalInfo } = response;
-          updateAtOnce(username, additionalInfo);
+          const { userId, username, userProfile, ...otherInfo } = response;
+          console.log(3333, userProfile);
+          updateAtOnce(username, userProfile);
         })
         .catch((error) => {
           console.error(error);
@@ -153,7 +153,7 @@ function ProfileEditModal(props) {
                 <figure className="personal-figure">
                   <ProfileAvatarImage
                     ref={imgRef}
-                    src={userProfile}
+                    src={userProfileImg}
                     className="personal-avatar"
                     alt="avatar"
                     style={{ marginTop: -17 }}
@@ -171,7 +171,7 @@ function ProfileEditModal(props) {
             <div className="personal-image">
               <ProfileAvatarImage
                 ref={imgRef}
-                src={userProfile}
+                src={userProfileImg}
                 className="personal-avatar"
                 alt="avatar"
                 onError={() => {
@@ -217,11 +217,11 @@ function ProfileEditModal(props) {
                   menuIsOpen={!editable ? false : undefined}
                   value={
                     item.id === 1
-                      ? gender
+                      ? { value: gender, label: gender || '-' }
                       : item.id === 2
-                      ? age
+                      ? { value: age, label: age || '-' }
                       : item.id === 3
-                      ? height
+                      ? { value: height, label: height || '-' }
                       : item.id === 4
                       ? '요소4'
                       : '요소5'
@@ -229,11 +229,11 @@ function ProfileEditModal(props) {
                   placeholder={item.label}
                   onChange={(choice: any) => {
                     item.id === 1
-                      ? setGender(choice)
+                      ? setGender(choice.value)
                       : item.id === 2
-                      ? setAge(choice)
+                      ? setAge(choice.value)
                       : item.id === 3
-                      ? setHeight(choice)
+                      ? setHeight(choice.value)
                       : () => {};
                   }}
                   options={item.options}
@@ -266,9 +266,11 @@ function ProfileEditModal(props) {
 }
 
 export default function ConnectionStatus() {
-  const NavControllerProfileActivated = useAppSelector((state) => state.nav.NavControllerProfileActivated);
-  const userName = useAppSelector((state) => state.user.userName);
-  const userprofileImgUrl = useAppSelector((state) => state.user.userInfo.profileImgUrl);
+  const NavControllerProfileActivated = useAppSelector(
+    (state) => state.nav.NavControllerProfileActivated
+  );
+  const username = useAppSelector((state) => state.user.username);
+  const userprofileImgUrl = useAppSelector((state) => state.user.userProfile.profileImgUrl);
   const dispatch = useAppDispatch();
 
   function openProfile() {
@@ -287,9 +289,8 @@ export default function ConnectionStatus() {
           src={userprofileImgUrl || DefaultAvatar}
           height={35}
         />
-        <ConnectionStatusWithSmallLight/> {/* 유저의 접속상태에 따라 green/gray로 변경 */}
-        <UserNameDiv> {userName} </UserNameDiv>
-
+        <ConnectionStatusWithSmallLight /> {/* 유저의 접속상태에 따라 green/gray로 변경 */}
+        <UsernameDiv> {username} </UsernameDiv>
         <EditIcon sx={{ fontSize: 30, color: '#fff' }}></EditIcon>
       </StyledRedBox>
       {NavControllerProfileActivated ? <ProfileEditModal /> : null}
@@ -319,7 +320,7 @@ const StyledRedBox = styled.button<{ pressed: boolean }>`
   }
 `;
 
-const UserNameDiv = styled.div`
+const UsernameDiv = styled.div`
   padding: 8px 2px;
   font-size: 1rem;
   color: ${Colors.white};

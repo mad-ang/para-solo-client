@@ -250,9 +250,10 @@ export default class Network {
     });
   }
 
-  updatePlayerInfo(currentUserInfo: UserResponseDto, currentUserId: string, authFlag: number) {
+  updatePlayerInfo(currentUserProfile: UserResponseDto, currentUserId: string, authFlag: number) {
+    console.log('업데이트할 정보?', currentUserProfile);
     this.room?.send(Message.UPDATE_PLAYER_INFO, {
-      userInfo: currentUserInfo,
+      userProfile: currentUserProfile,
       userId: currentUserId,
       authFlag: authFlag,
     });

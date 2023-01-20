@@ -33,7 +33,7 @@ function Swipe(props) {
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
   const userId = useAppSelector((state) => state.user.userId);
-  const userName = useAppSelector((state) => state.user.userName);
+  const username = useAppSelector((state) => state.user.username);
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userCnt = useAppSelector((state) => state.room.userCnt);
   // const game = phaserGame.scene.keys.game as Game;
@@ -44,7 +44,7 @@ function Swipe(props) {
     let body = {
       myInfo: {
         userId: userId,
-        username: userName,
+        username: username,
         profileImgUrl:
           'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/leedohyun.png',
       },

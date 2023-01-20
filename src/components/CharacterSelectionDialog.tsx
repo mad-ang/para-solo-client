@@ -21,7 +21,7 @@ import {
   ENTERING_PROCESS,
   setCharacterSelected,
   setUserId,
-  setUserName,
+  setUsername,
 } from '../stores/UserStore';
 import { getAvatarString, getColorByString } from '../util';
 import Cookies from 'universal-cookie';
@@ -168,7 +168,7 @@ export default function CharacterSelectionDialog(props) {
       game.myPlayer.setPlayerName(name);
       game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
       game.network.readyToConnect();
-      dispatch(setUserName(name));
+      dispatch(setUsername(name));
       dispatch(setCharacterSelected(true));
     }
   };
