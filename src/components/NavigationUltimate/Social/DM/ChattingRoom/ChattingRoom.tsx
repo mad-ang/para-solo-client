@@ -28,17 +28,9 @@ const Wrapper = styled.div`
 `;
 
 export function InsideChattingRoom() {
-  const game = phaserGame.scene.keys.game as Game;
-  const [inputValue, setInputValue] = useState('');
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const directMessages = useAppSelector((state) => state.dm.directMessages);
-  const showDM = useAppSelector((state) => state.dm.showDM);
-  const dispatch = useAppDispatch();
+
+
   const [newMessage, setNewMessage] = useState<any>(null);
-  let roomId = '';
-  const socketClient = game.networt2.getSocket();
-  const userId = useAppSelector((state) => state.user.userId);
-  const friendId = useAppSelector((state) => state.dm.friendId);
 
 
   return (
