@@ -1,7 +1,7 @@
 import react, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import { SetAddFriendsActivated, SetAddFriendsActivateOnly } from 'src/stores/NavbarStore';
+import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
@@ -68,7 +68,7 @@ function Swipe(props) {
   }
 
   function handleClick() {
-    dispatch(SetAddFriendsActivated(false));
+    dispatch(SetWhichModalActivated(ModalState.None));
   }
 
   // const playerUpdate = () => {

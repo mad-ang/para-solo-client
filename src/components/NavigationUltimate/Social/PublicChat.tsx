@@ -19,7 +19,7 @@ import { getColorByString } from '../../../util';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { MessageType, setFocused, setShowChat, chatSlice } from '../../../stores/ChatStore';
 import { roomSlice } from '../../../stores/RoomStore';
-import { SetPublicChatActivated, SetPublicChatActivateOnly } from '../../../stores/NavbarStore';
+import { ModalState, SetWhichModalActivated } from '../../../stores/NavbarStore';
 import Colors from 'src/utils/Colors';
 
 const Backdrop = styled.div`
@@ -112,7 +112,7 @@ const EmojiPickerWrapper = styled.div`
   bottom: 54px;
   right: 16px;
 `;
-const StyledRedBox = styled.button<{pressed:boolean}>`
+const StyledRedBox = styled.button<{pressed:ModalState}>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -120,7 +120,7 @@ const StyledRedBox = styled.button<{pressed:boolean}>`
   height: 44px;
   border: none;
   border-radius: 30%;
-  background-color: ${(props) => (props.pressed ? Colors.skyblue[1] : Colors.indigo)};
+  background-color: ${(props) => (props.pressed == ModalState.PublicChat ? Colors.skyblue[1] : Colors.indigo)};
   font-size: 1rem;
   font-weight: 900;
 
@@ -200,8 +200,8 @@ function Chat() {
     if (event.key === 'Escape') {
       // move focus back to the game
       inputRef.current?.blur();
-      dispatch(setShowChat(false));
-      dispatch(SetPublicChatActivated(false));
+      // dispatch(setShowChat(false));
+      dispatch(SetWhichModalActivated(ModalState.None));
     }
   };
 
@@ -250,8 +250,8 @@ function Chat() {
             aria-label="close dialog"
             className="close"
             onClick={() => {
-              dispatch(SetPublicChatActivated(false));
-              dispatch(setShowChat(false));
+              dispatch(SetWhichModalActivated(ModalState.None));
+              // dispatch(setShowChat(false));
             }}
             size="small"
           >
@@ -310,29 +310,29 @@ function Chat() {
 
 export default function PublicChat() {
   const dispatch = useAppDispatch();
-  const NavControllerPublicChatActivated = useAppSelector(
-    (state) => state.nav.NavControllerPublicChatActivated
+  const ActivatedNav = useAppSelector(
+    (state) => state.nav.currentState
   );
   
   function handleClick() {
-    if (NavControllerPublicChatActivated){
-      dispatch(SetPublicChatActivated(false));
+    if (ActivatedNav == ModalState.PublicChat){
+      dispatch(SetWhichModalActivated(ModalState.None));
     }
     else{
-      dispatch(SetPublicChatActivateOnly());
+      dispatch(SetWhichModalActivated(ModalState.PublicChat));
     }
   }
 
   return (
     <div>
-      <StyledRedBox pressed={NavControllerPublicChatActivated}
+      <StyledRedBox pressed={ActivatedNav}
         onClick={() => {
           handleClick();
         }}
       >
         <ChatIcon sx={{ color: '#fff' }} fontSize="large" />
       </StyledRedBox>
-      {NavControllerPublicChatActivated ? <Chat /> : null}
+      {ActivatedNav == ModalState.PublicChat ? <Chat /> : null}
     </div>
   );
 }

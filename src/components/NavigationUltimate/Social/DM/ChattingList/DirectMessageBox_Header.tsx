@@ -7,8 +7,8 @@ import Colors from 'src/utils/Colors';
 import { InsideChattingRoom } from '../ChattingRoom/ChattingRoom';
 import { useAppSelector, useAppDispatch } from '../../../../../hooks';
 import {
-  SetChattingListActivated,
-  SetChattingListActivateOnly,
+  ModalState,
+  SetWhichModalActivated,
 } from '../../../../../stores/NavbarStore';
 
 const TopController = styled.div`
@@ -48,7 +48,7 @@ export function DMboxHeader() {
   const dispatch = useAppDispatch();
   function handleClick() {
     console.log('clicked!!!! I want back to the chatting list');
-    dispatch(SetChattingListActivated(false));
+    dispatch(SetWhichModalActivated(ModalState.None));
   }
 
   return (

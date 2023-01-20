@@ -1,7 +1,7 @@
 import react, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import EditIcon from '@mui/icons-material/Edit';
-import { SetProfileActivated, SetProfileActivateOnly } from '../../../../stores/NavbarStore';
+import { SetWhichModalActivated, ModalState } from '../../../../stores/NavbarStore';
 import { setFocused } from 'src/stores/ChatStore';
 import { useAppSelector, useAppDispatch } from '../../../../hooks';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
@@ -49,7 +49,7 @@ function ProfileEditModal(props) {
   const inputRefs = useRef<any>([]);
   const imgRef = useRef<any>(null);
   function handleClick() {
-    dispatch(SetProfileActivated(false));
+    dispatch(SetWhichModalActivated(ModalState.None));
   }
 
   const handleChangeUserProfile = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -266,22 +266,22 @@ function ProfileEditModal(props) {
 }
 
 export default function ConnectionStatus() {
-  const NavControllerProfileActivated = useAppSelector((state) => state.nav.NavControllerProfileActivated);
+  const ActivatedNav = useAppSelector((state) => state.nav.currentState);
   const userName = useAppSelector((state) => state.user.userName);
   const userprofileImgUrl = useAppSelector((state) => state.user.userInfo.profileImgUrl);
   const dispatch = useAppDispatch();
 
   function openProfile() {
-    if (NavControllerProfileActivated) {
-      dispatch(SetProfileActivated(false));
+    if (ActivatedNav == ModalState.Profile) {
+      dispatch(SetWhichModalActivated(ModalState.None));
     } else {
-      dispatch(SetProfileActivateOnly());
+      dispatch(SetWhichModalActivated(ModalState.Profile));
     }
   }
 
   return (
     <div>
-      <StyledRedBox onClick={openProfile} pressed={NavControllerProfileActivated}>
+      <StyledRedBox onClick={openProfile} pressed={ActivatedNav}>
         <img
           // src="https://user-images.githubusercontent.com/63194662/211139459-96aa37f8-fcd9-4126-9a6b-52296fc3236c.png"
           src={userprofileImgUrl || DefaultAvatar}
@@ -292,7 +292,7 @@ export default function ConnectionStatus() {
 
         <EditIcon sx={{ fontSize: 30, color: '#fff' }}></EditIcon>
       </StyledRedBox>
-      {NavControllerProfileActivated ? <ProfileEditModal /> : null}
+      {ActivatedNav == ModalState.Profile ? <ProfileEditModal /> : null}
     </div>
   );
 }
@@ -301,7 +301,7 @@ interface EditableProps {
   editable: boolean;
 }
 
-const StyledRedBox = styled.button<{ pressed: boolean }>`
+const StyledRedBox = styled.button<{ pressed: ModalState }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -309,7 +309,7 @@ const StyledRedBox = styled.button<{ pressed: boolean }>`
   height: 44px;
   border: none;
   border-radius: 12px;
-  background-color: ${(props) => (props.pressed ? Colors.skyblue[1] : Colors.indigo)};
+  background-color: ${(props) => (props.pressed == ModalState.Profile ? Colors.skyblue[1] : Colors.indigo)};
   font-size: 1rem;
   font-weight: 900;
   padding: 4x;

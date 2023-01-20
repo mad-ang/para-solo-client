@@ -7,7 +7,7 @@ import HelperButtonGroup from './Helpers/HelperButtonGroup';
 import Colors from 'src/utils/Colors';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import React, { useRef, useState, useEffect } from 'react';
-import { SetAllDeactivated } from 'src/stores/NavbarStore';
+import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
 
 const Backdrop = styled.div`
   position: fixed;
@@ -34,7 +34,7 @@ export default function NavigationContainer() {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Escape') {
       inputRef.current?.blur();
-      dispatch(SetAllDeactivated());
+      dispatch(SetWhichModalActivated(ModalState.None));
     }
   };
 

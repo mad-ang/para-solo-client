@@ -7,8 +7,8 @@ import { blue } from '@mui/material/colors';
 import { DMSlice, setFriendId, setRoomId } from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import {
-  SetChattingRoomActivated,
-  SetChattingListActivateOnly,
+  SetWhichModalActivated,
+  ModalState,
 } from '../../../../../stores/NavbarStore';
 import { useQuery } from 'react-query';
 import {
@@ -110,7 +110,7 @@ export const ConversationList = () => {
     } else {
       console.log("This room's status is... ", room.status);
       try {
-        dispatch(SetChattingRoomActivated(true));
+        dispatch(SetWhichModalActivated(ModalState.ChattingListAndRoom));
         // Response userId
         dispatch(setFriendId(room.friendInfo.userId));
         dispatch(setRoomId(room.roomId));
@@ -118,7 +118,7 @@ export const ConversationList = () => {
         console.log('error', error);
       }
     }
-    // dispatch(SetChattingListActivateOnly());
+
   };
   return (
     <DMmessageList>

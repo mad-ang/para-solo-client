@@ -10,13 +10,14 @@ import { DMboxHeader } from './DirectMessageBox_Header';
 import { DMSearchConversation } from './DirectMessageBox_SearchConversation';
 
 import {
-  SetChattingListActivated,
-  SetChattingListActivateOnly,
+  ModalState,
+  SetWhichModalActivated,
 } from '../../../../../stores/NavbarStore';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import Colors from 'src/utils/Colors';
+import { Modal } from '@mui/material';
 
-const StyledRedBox = styled.button<{ pressed: boolean }>`
+const StyledRedBox = styled.button<{ pressed: ModalState }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +25,7 @@ const StyledRedBox = styled.button<{ pressed: boolean }>`
   height: 44px;
   border: none;
   border-radius: 30%;
-  background-color: ${(props) => (props.pressed ? Colors.skyblue[1] : Colors.indigo)};
+  background-color: ${(props) => (props.pressed == ModalState.ChattingList ? Colors.skyblue[1] : Colors.indigo)};
   font-size: 1rem;
   font-weight: 900;
 
@@ -141,31 +142,29 @@ function DMbox() {
 
 /* DMboxButton, something pop-up when clicks it */
 export default function DMboxButton() {
-  const NavControllerChattingListActivated = useAppSelector(
-    (state) => state.nav.NavControllerChattingListActivated
-  );
-  const NavControllerChattingRoomActivated = useAppSelector(
-    (state) => state.nav.NavControllerChattingRoomActivated
-  );
+  const ActivatedNav = useAppSelector( (state) => state.nav.currentState );
+  // const NavControllerChattingRoomActivated = useAppSelector(
+  //   (state) => state.nav.NavControllerChattingRoomActivated
+  // );
   const dispatch = useAppDispatch();
 
   function handleClick() {
-    if (NavControllerChattingListActivated) {
-      dispatch(SetChattingListActivated(false));
+    if (ActivatedNav == ModalState.ChattingList) {
+      dispatch(SetWhichModalActivated(ModalState.None));
     } else {
-      dispatch(SetChattingListActivateOnly());
+      dispatch(SetWhichModalActivated(ModalState.ChattingList));
     }
   }
 
   return (
     <Wrapper>
-      <StyledRedBox onClick={handleClick} pressed={NavControllerChattingListActivated}>
+      <StyledRedBox onClick={handleClick} pressed={ActivatedNav}>
         <VolunteerActivismIcon fontSize="large" sx={{ color: '#fff' }} />
       </StyledRedBox>
-      {NavControllerChattingListActivated && (
-        <div className="'DMpopup">
+      {(  (ActivatedNav == ModalState.ChattingList) || (ActivatedNav == ModalState.ChattingListAndRoom)  ) && (
+        <div className="DMpopup">
           <DMbox />
-          {NavControllerChattingRoomActivated ? <InsideChattingRoom /> : null}
+          {ActivatedNav == ModalState.ChattingListAndRoom ? <InsideChattingRoom /> : null}
         </div>
       )}
     </Wrapper>

@@ -8,7 +8,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import CloseIcon from '@mui/icons-material/Close';
 import { setShowDM } from 'src/stores/DMboxStore';
-import { NavControllerSlice, SetChattingRoomActivated } from 'src/stores/NavbarStore';
+import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
 
 export default function HeadAppBar() {
   const dispatch = useAppDispatch();
@@ -20,7 +20,7 @@ export default function HeadAppBar() {
         <Toolbar>
           <IconButton
             onClick={() => {
-              dispatch(SetChattingRoomActivated(false));
+              dispatch(SetWhichModalActivated(ModalState.ChattingList));
             }}
             size="large"
             edge="start"
