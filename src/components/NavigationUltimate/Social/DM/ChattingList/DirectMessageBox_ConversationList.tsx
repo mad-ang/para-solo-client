@@ -99,12 +99,14 @@ export const ConversationList = () => {
   // };
 
   const handleClick = async (room) => {
-    // body.friendId = room.friendInfo.userId;
-    // body.roomId = room.roomId;
+
     console.log('friendId는..', room.friendInfo.userId);
     console.log('roomId는..', room.roomId);
 
-    if (room.status == IChatRoomStatus.FRIEND_REQUEST) {
+    if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0) {
+      setFriendRequestProps(room.friendInfo);
+    } else if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 1) {
+      // 친구 요청 받음
       setFriendRequestModal(true);
       setFriendRequestProps(room.friendInfo);
     } else {
@@ -139,7 +141,11 @@ export const ConversationList = () => {
                 />
                 <IDwithLastmessage>
                   <UserID>{room.friendInfo.username}</UserID>
-                  <LastMessage>{room.message}</LastMessage>
+                  <LastMessage>
+                    {room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0
+                      ? (room.message = '친구 요청을 보냈어요')
+                      : room.message}
+                  </LastMessage>
                 </IDwithLastmessage>
               </ListTag>
             ))}
