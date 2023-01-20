@@ -86,12 +86,25 @@ function Swipe(props) {
     setPlayerNum(players.length);
   }, [players.length]);
 
+
+
+
+
   return (
     <Wrapper>
       <SwipeHeader className='Swipe-Header'>
+
+        
+      <DirtyTalk>
+      <TitleImage src={'src/assets/directmessage/parasol.png'} width="30" />
+
         <TitleText>현재 {players.length - 1}명이 접속해있어요</TitleText>
-        <CloseIcon onClick={handleClick}></CloseIcon>
-      </SwipeHeader>
+      </DirtyTalk>
+        
+        <ButtonWrapper onClick={handleClick}>
+
+    <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
+  </ButtonWrapper>      </SwipeHeader>
       {players.length - 1 === 0 ? (
         <ZeroMessage>
           <p>현재 접속해 있는 친구가 없어요</p>
@@ -153,15 +166,17 @@ function Swipe(props) {
 const Wrapper = styled.div`
   position: fixed;
   left: 0px;
-  background-color: none;
+  background-color: white;
   gap: 10px;
   bottom: 60px;
   height: 400px;
   width: 370px;
-  border-radius: 25px;
-  box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  // box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
+
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  // -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   font-style: normal;
   font-weight: 400;
 `;
@@ -175,11 +190,15 @@ const CloseButton = styled.button`
 `;
 
 const SwipeHeader = styled.div`
+
+display: flex;
+  justify-content: space-between;
+align-items: center;
   padding: 10px 0px 10px 10px;
   width: 100%;
   height: 60px;
   position: relative;
-  display: grid;
+  // display: grid;
   grid-template-columns: 90% 10%;
   background-color: ${Colors.skyblue[1]};
   border-top-left-radius: 25px;
@@ -187,11 +206,29 @@ const SwipeHeader = styled.div`
   align-items: center;
 `;
 
-const TitleText = styled.div`
-  font-weight: 600;
-  font-size: 24px;
-  font-size: 1.5rem;
+
+const TitleImage = styled.img`
+  margin-left: 3px;
+  margin-right: 13px;
+  width: 28px;
 `;
+
+const DirtyTalk = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const TitleText = styled.div`
+  font-size: 23px;
+  font-weight: 600;
+`;
+
+// const TitleText = styled.div`
+//   
+//   font-size: 24px;
+//   font-size: 1.5rem;
+// `;
 
 const SwipeBody = styled.div`
   padding: 0 10px 0px 10px;
@@ -297,7 +334,7 @@ const ZeroMessage = styled.div`
 const ButtonWrapper = styled.button`
   background: none;
   border: none;
-  padding-top: 7px;
+  padding : 0px 10px 0px 0px;
 `;
 
 export default Swipe;
