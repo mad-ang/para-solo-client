@@ -9,24 +9,6 @@ import { useAppSelector, useAppDispatch } from 'src/hooks';
 import React, { useRef, useState, useEffect } from 'react';
 import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
 
-const Backdrop = styled.div`
-  position: fixed;
-  display: flex;
-  gap: 10px;
-  bottom: 0px;
-  right: 0px;
-  align-items: flex-end;
-`;
-
-const RedContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  gap: 10px;
-  width: 100vw;
-  height: 60px;
-  background-color: ${Colors.indigo};
-`;
-
 export default function NavigationContainer() {
 
   const dispatch = useAppDispatch();
@@ -49,3 +31,22 @@ export default function NavigationContainer() {
     </Backdrop>
   );
 }
+
+/***** css *****/
+const Backdrop = styled.div`
+  position: fixed;
+  display: flex;
+  gap: 10px;
+  bottom: 0px;
+  right: 0px;
+  align-items: flex-end;
+`;
+
+const RedContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  width: 100vw;
+  height: 60px;
+  background-color: ${Colors.indigo};
+`;

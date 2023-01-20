@@ -2,6 +2,15 @@ import React, { useState } from 'react';
 import styled, {keyframes} from "styled-components";
 import { blue } from '@mui/material/colors';
 
+export function DMSearchConversation(){
+    return(
+        <DMsearch>
+            <DMsearchDiv>
+                🔍검색하기<input type="text" />
+            </DMsearchDiv>
+        </DMsearch>
+    );
+}
 
 const DMsearch = styled.div`
     display: flex;
@@ -24,15 +33,3 @@ const DMsearchDiv = styled.div`
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
 `
-
-
-export function DMSearchConversation(){
-    return(
-        <DMsearch>
-            <DMsearchDiv>
-                🔍검색하기<input type="text" />
-            </DMsearchDiv>
-        </DMsearch>
-    );
-
-}

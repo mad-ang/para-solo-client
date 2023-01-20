@@ -2,7 +2,6 @@ import react, { useEffect } from 'react';
 import styled from 'styled-components';
 import MicIcon from '@mui/icons-material/Mic';
 import MicOffIcon from '@mui/icons-material/MicOff';
-
 import VideocamIcon from '@mui/icons-material/Videocam';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 import store from 'src/stores';
@@ -15,7 +14,36 @@ import phaserGame from 'src/PhaserGame';
 import Bootstrap from 'src/scenes/Bootstrap';
 import Colors from 'src/utils/Colors';
 
-// styled.div with Shadow
+export default function ConnectionStatus() {
+  const audioStatus = useAppSelector((state) => state.user.webcamAudioStatus);
+  const videoStatus = useAppSelector((state) => state.user.webcamVideoStatus);
+  const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
+
+  return (
+    <Wrapper>
+      <StyledAudioBox onClick={() => bootstrap.network.webRTC?.toggleAudio()}>
+        {audioStatus ? (
+          <MicIcon fontSize="large" sx={{ color: Colors.white }}/>
+        ) : (
+          <MicOffIcon fontSize="large" sx={{ color: '#DD0000' }} />
+        )}
+        {audioStatus ? (<RecordingStatus/>):null}
+      </StyledAudioBox>
+      <StyledVideoBox onClick={() => bootstrap.network.webRTC?.toggleVideo()}>
+        {videoStatus ? (
+          <VideocamIcon fontSize="large" sx={{ color: Colors.white }} />
+        ) : (
+          <VideocamOffIcon fontSize="large" sx={{ color: '#DD0000' }} />
+        )}
+        {videoStatus ? (<RecordingStatus/>):null}
+      </StyledVideoBox>
+      
+    </Wrapper>
+  );
+}
+
+
+/***** CSS *****/
 const StyledAudioBox = styled.button`
   position: relative;
   display: flex;
@@ -67,32 +95,3 @@ const RecordingStatus = styled.div`
   border-radius: 50%;
   background-color: #DD0000;
 `;
-
-
-export default function ConnectionStatus() {
-  const audioStatus = useAppSelector((state) => state.user.webcamAudioStatus);
-  const videoStatus = useAppSelector((state) => state.user.webcamVideoStatus);
-  const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
-
-  return (
-    <Wrapper>
-      <StyledAudioBox onClick={() => bootstrap.network.webRTC?.toggleAudio()}>
-        {audioStatus ? (
-          <MicIcon fontSize="large" sx={{ color: Colors.white }}/>
-        ) : (
-          <MicOffIcon fontSize="large" sx={{ color: '#DD0000' }} />
-        )}
-        {audioStatus ? (<RecordingStatus/>):null}
-      </StyledAudioBox>
-      <StyledVideoBox onClick={() => bootstrap.network.webRTC?.toggleVideo()}>
-        {videoStatus ? (
-          <VideocamIcon fontSize="large" sx={{ color: Colors.white }} />
-        ) : (
-          <VideocamOffIcon fontSize="large" sx={{ color: '#DD0000' }} />
-        )}
-        {videoStatus ? (<RecordingStatus/>):null}
-      </StyledVideoBox>
-      
-    </Wrapper>
-  );
-}
