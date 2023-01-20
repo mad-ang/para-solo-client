@@ -99,16 +99,14 @@ export const ConversationList = () => {
   // };
 
   const handleClick = async (room) => {
-    // body.friendId = room.friendInfo.userId;
-    // body.roomId = room.roomId;
+
     console.log('friendId는..', room.friendInfo.userId);
     console.log('roomId는..', room.roomId);
-    console.log("room's 정보를 보여줘... ", room);
+
     if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0) {
       setFriendRequestProps(room.friendInfo);
     } else if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 1) {
       // 친구 요청 받음
-      console.log('친구 요청을 받았어... ', room.message);
       setFriendRequestModal(true);
       setFriendRequestProps(room.friendInfo);
     } else {
