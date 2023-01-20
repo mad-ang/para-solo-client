@@ -285,7 +285,7 @@ Phaser.GameObjects.GameObjectFactory.register(
     sprite.body
       .setSize(sprite.width * collisionScale[0], sprite.height * collisionScale[1])
       .setOffset(
-        sprite.width * (0.5 - collisionScale[0]) * 0.5,
+        sprite.width * (1 - collisionScale[0]) * 0.5,
         sprite.height * (1 - collisionScale[1])
       );
 
