@@ -25,10 +25,12 @@ export const addImage = async (albumName: string, files: any) => {
     const s3Response = await fetch(
       new Request(presignedUrl, {
         method: 'PUT',
+        mode: 'cors',
         body: file,
         headers: new Headers({
           'Content-Type': `image/${originalFiletype}`,
           'Cross-Origin-Resource-Policy': 'cross-origin',
+          'Cross-Origin-Embedder-Policy': 'require-corp',
         }),
       })
     );
