@@ -49,7 +49,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.playerContainer = this.scene.add.container(this.x, this.y - 22).setDepth(6000);
 
     // add dialogBubble to playerContainer
-    this.playerDialogBubble = this.scene.add.container(0, 0).setDepth(6000);
+    this.playerDialogBubble = this.scene.add.container(0, 0).setDepth(6000); // 닉네임
     this.playerContainer.add(this.playerDialogBubble);
 
     // add playerName to playerContainer
@@ -68,7 +68,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     const collisionScale = [0.5, 0.2];
     playContainerBody
       .setSize(this.width * collisionScale[0], this.height * collisionScale[1])
-      .setOffset(-5, this.height * (1 - collisionScale[1]) + 6); // 닉네임오프셋
+      .setOffset(-4.6, this.height * (1 - collisionScale[1]) + 6); // 닉네임오프셋
   }
 
   updateDialogBubble(content: string) {
