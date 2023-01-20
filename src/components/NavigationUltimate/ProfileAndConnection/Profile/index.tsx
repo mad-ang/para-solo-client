@@ -136,7 +136,7 @@ function ProfileEditModal(props) {
     <ProfileSettingEditor>
       <ProfileHeader>
         <TitleText>프로필 수정</TitleText>
-        <ClearIcon fontSize="medium"/>
+        <ClearIcon fontSize="medium" />
       </ProfileHeader>
       <ProfileBody>
         <ImageWrapper editable={editable}>
@@ -388,8 +388,8 @@ const ImageWrapper = styled.div<EditableProps>`
 
   .personal-image {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 98px;
+    height: 98px;
   }
 
   .personal-image input[type='file'] {
