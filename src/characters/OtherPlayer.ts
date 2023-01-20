@@ -25,16 +25,16 @@ export default class OtherPlayer extends Player {
     texture: string,
     id: string,
     userId: string,
-    userInfo: UserResponseDto,
+    userProfile: UserResponseDto,
     name: string,
     frame?: string | number | undefined
   ) {
-    super(scene, x, y, texture, id, userId, userInfo, name, frame);
+    super(scene, x, y, texture, id, userId, userProfile, name, frame);
     this.targetPosition = [x, y];
 
     this.playerName.setText(name);
     this.userId = userId;
-    this.userInfo = userInfo;
+    this.userProfile = userProfile;
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
   }
 
@@ -100,10 +100,10 @@ export default class OtherPlayer extends Player {
         }
         break;
       case 'userInfo':
-        this.userInfo.profileImgUrl = value?.profileImgUrl || '';
-        this.userInfo.gender = value?.gender || '';
-        this.userInfo.age = value?.age || '';
-        this.userInfo.height = value?.height || '';
+        this.userProfile.profileImgUrl = value?.profileImgUrl || '';
+        this.userProfile.gender = value?.gender || '';
+        this.userProfile.age = value?.age || '';
+        this.userProfile.height = value?.height || '';
         break;
     }
   }
@@ -207,7 +207,7 @@ declare global {
         texture: string,
         id: string,
         userId: string,
-        userInfo: UserResponseDto,
+        userProfile: UserResponseDto,
         name: string,
         frame?: string | number
       ): OtherPlayer;
@@ -224,11 +224,11 @@ Phaser.GameObjects.GameObjectFactory.register(
     texture: string,
     id: string,
     userId: string,
-    userInfo: UserResponseDto,
+    userProfile: UserResponseDto,
     name: string,
     frame?: string | number
   ) {
-    const sprite = new OtherPlayer(this.scene, x, y, texture, id, userId, userInfo, name, frame);
+    const sprite = new OtherPlayer(this.scene, x, y, texture, id, userId, userProfile, name, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);

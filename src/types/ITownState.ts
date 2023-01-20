@@ -9,7 +9,7 @@ export interface IPlayer extends Schema {
   readyToConnect: boolean;
   videoConnected: boolean;
   userId: string; // 일단 유지
-  userInfo: UserResponseDto;
+  userProfile: UserResponseDto;
 }
 export interface IChair extends Schema {
   occupied: boolean;

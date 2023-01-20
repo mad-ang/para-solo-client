@@ -28,11 +28,11 @@ export default class MyPlayer extends Player {
     texture: string,
     id: string,
     userId: string,
-    userInfo: UserResponseDto,
+    userProfile: UserResponseDto,
     name: string,
     frame?: string | number
   ) {
-    super(scene, x, y, texture, id, userId, userInfo, name, frame);
+    super(scene, x, y, texture, id, userId, userProfile, name, frame);
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
   }
 
@@ -251,7 +251,7 @@ declare global {
         texture: string,
         id: string,
         userId: string,
-        userInfo: UserResponseDto,
+        userProfile: UserResponseDto,
         frame?: string | number
       ): MyPlayer;
     }
@@ -267,11 +267,11 @@ Phaser.GameObjects.GameObjectFactory.register(
     texture: string,
     id: string,
     userId: string,
-    userInfo: UserResponseDto,
+    userProfile: UserResponseDto,
     name: string,
     frame?: string | number
   ) {
-    const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, userInfo, name, frame);
+    const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, userProfile, name, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);

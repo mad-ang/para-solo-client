@@ -346,14 +346,14 @@ export default class Game extends Phaser.Scene {
 
     const cookies = new Cookies();
     const userId = store.getState().user?.userId || cookies.get('userId') || this.network.userId;
-    const userInfo = store.getState().user?.userInfo;
+    const userProfile = store.getState().user?.userProfile;
     this.myPlayer = this.add.myPlayer(
       Phaser.Math.RND.between(400, 900),
       Phaser.Math.RND.between(400, 900),
       'kevin',
       this.network.mySessionId,
       userId,
-      userInfo
+      userProfile
       // 로건 케빈 엠마
     );
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16);
