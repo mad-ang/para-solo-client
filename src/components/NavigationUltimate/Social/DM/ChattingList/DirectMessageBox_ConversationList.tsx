@@ -103,8 +103,12 @@ export const ConversationList = () => {
     // body.roomId = room.roomId;
     console.log('friendId는..', room.friendInfo.userId);
     console.log('roomId는..', room.roomId);
-
-    if (room.status == IChatRoomStatus.FRIEND_REQUEST) {
+    console.log("room's 정보를 보여줘... ", room);
+    if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0) {
+      setFriendRequestProps(room.friendInfo);
+    } else if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 1) {
+      // 친구 요청 받음
+      console.log('친구 요청을 받았어... ', room.message);
       setFriendRequestModal(true);
       setFriendRequestProps(room.friendInfo);
     } else {
@@ -139,7 +143,11 @@ export const ConversationList = () => {
                 />
                 <IDwithLastmessage>
                   <UserID>{room.friendInfo.username}</UserID>
-                  <LastMessage>{room.message}</LastMessage>
+                  <LastMessage>
+                    {room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0
+                      ? (room.message = '친구 요청을 보냈어요')
+                      : room.message}
+                  </LastMessage>
                 </IDwithLastmessage>
               </ListTag>
             ))}

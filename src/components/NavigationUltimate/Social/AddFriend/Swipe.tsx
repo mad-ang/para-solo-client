@@ -57,7 +57,7 @@ function Swipe(props) {
         // profileImgUrl: props.url,
       },
       status: 0,
-      message: '친구 요청',
+      message: '친구 요청이 왔습니다',
     };
 
     try {
