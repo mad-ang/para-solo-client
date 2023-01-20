@@ -140,8 +140,9 @@ export default class MyPlayer extends Player {
                 // also update playerNameContainer velocity and position
                 this.playContainerBody.setVelocity(0, 0);
                 this.playerContainer.setPosition(
-                  chairItem.x + sittingShiftData[chairItem.itemDirection][0],
-                  chairItem.y + sittingShiftData[chairItem.itemDirection][1] - 30
+                  chairItem.x + sittingShiftData[chairItem.itemDirection][0] + 1,
+
+                  chairItem.y + sittingShiftData[chairItem.itemDirection][1] - 21.5
                 );
               }
 
