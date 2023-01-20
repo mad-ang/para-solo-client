@@ -43,16 +43,15 @@ export default class MyPlayer extends Player {
     const userId = store.getState().user?.userId || cookies.get('userId');
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId, authFlag);
     cookies.set('playerName', name, { path: '/', maxAge: 600 });
-  
+
     store.dispatch(pushPlayerJoinedMessage(name));
 
     getUserInfo()
       .then((response) => {
         if (!response) return;
-        console.log('res', response);
-        const { userId, username, ...additionalInfo } = response;
-        console.log(userId, username, additionalInfo);
-        store.dispatch(setUserProfile(additionalInfo));
+        const { userId, username, userProfile, ...otherInfo } = response;
+        console.log(userId, username, userProfile);
+        store.dispatch(setUserProfile(userProfile));
       })
       .catch((error) => {
         console.error(error);
