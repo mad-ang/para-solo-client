@@ -153,7 +153,7 @@ function ProfileEditModal(props) {
                 <figure className="personal-figure">
                   <ProfileAvatarImage
                     //@ts-ignore
-                    crossorigin="anonymous"
+                    crossorigin={'use-credentials'}
                     ref={imgRef}
                     src={userProfileImg}
                     className="personal-avatar"
@@ -176,7 +176,7 @@ function ProfileEditModal(props) {
             <div className="personal-image">
               <ProfileAvatarImage
                 //@ts-ignore
-                crossorigin="anonymous"
+                crossorigin={'use-credentials'}
                 ref={imgRef}
                 src={userProfileImg}
                 className="personal-avatar"
