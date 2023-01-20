@@ -43,10 +43,11 @@ function ProfileEditModal(props) {
     dispatch(SetWhichModalActivated(ModalState.None));
   }
 
-  const handleChangeUserProfile = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeUserProfile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event?.target?.files;
     if (!files) return;
-    addImage('profile', files, setUserProfileImg);
+    const imgUrl = await addImage('profile', files);
+    setUserProfileImg(imgUrl);
   };
 
   const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,12 +149,15 @@ function ProfileEditModal(props) {
                     src={userProfileImg}
                     className="personal-avatar"
                     alt="avatar"
-                    style={{ marginTop: -17 }}
+                    style={{ marginTop: -32, marginLeft: -81 }}
                     onError={() => {
                       if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
                     }}
                   />
-                  <figcaption className="personal-figcaption">
+                  <figcaption
+                    style={{ marginTop: -2, marginLeft: -82 }}
+                    className="personal-figcaption"
+                  >
                     <CameraImage src="https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png" />
                   </figcaption>
                 </figure>
@@ -389,10 +393,13 @@ const ImageWrapper = styled.div<EditableProps>`
   .personal-image input[type='file'] {
     display: none;
   }
+
   .personal-figure {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
   }
 
   .personal-avatar {
@@ -430,8 +437,8 @@ const ImageWrapper = styled.div<EditableProps>`
 `;
 
 const ProfileAvatarImage = styled.img`
-  width: 98px;
-  height: 98px;
+  width: 100%;
+  height: 100%;
 `;
 
 const CameraImage = styled.img`
