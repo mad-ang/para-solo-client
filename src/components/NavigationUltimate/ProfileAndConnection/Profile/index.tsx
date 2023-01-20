@@ -104,13 +104,6 @@ function ProfileEditModal(props) {
       height: height,
     };
 
-    const keys = Object.keys(originalUserProfile);
-    keys.forEach((key: any) => {
-      if (newUserInfo[key]?.length === 0 || originalUserProfile[key] === newUserInfo[key]) {
-        delete newUserInfo[key];
-      }
-    });
-
     game.myPlayer.setPlayerInfo(newUserInfo, authFlag);
     dispatch(setUserProfile(newUserInfo));
   };
@@ -264,7 +257,6 @@ function ProfileEditModal(props) {
   );
 }
 
-
 export default function ConnectionStatus() {
   const ActivatedNav = useAppSelector((state) => state.nav.currentState);
   const username = useAppSelector((state) => state.user.username);
@@ -282,10 +274,9 @@ export default function ConnectionStatus() {
   return (
     <div>
       <StyledRedBox onClick={openProfile} pressed={ActivatedNav}>
-        <img
+        <BottomProfileImg
           // src="https://user-images.githubusercontent.com/63194662/211139459-96aa37f8-fcd9-4126-9a6b-52296fc3236c.png"
           src={userprofileImgUrl || DefaultAvatar}
-          height={35}
         />
         <ConnectionStatusWithSmallLight /> {/* 유저의 접속상태에 따라 green/gray로 변경 */}
         <UsernameDiv> {username} </UsernameDiv>
@@ -295,6 +286,12 @@ export default function ConnectionStatus() {
     </div>
   );
 }
+
+const BottomProfileImg = styled.img`
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+`;
 
 interface EditableProps {
   editable: boolean;
@@ -308,7 +305,8 @@ const StyledRedBox = styled.button<{ pressed: ModalState }>`
   height: 44px;
   border: none;
   border-radius: 12px;
-  background-color: ${(props) => (props.pressed == ModalState.Profile ? Colors.skyblue[1] : Colors.indigo)};
+  background-color: ${(props) =>
+    props.pressed == ModalState.Profile ? Colors.skyblue[1] : Colors.indigo};
   font-size: 1rem;
   font-weight: 900;
   padding: 4x;
