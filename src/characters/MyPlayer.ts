@@ -15,7 +15,7 @@ import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Cookies from 'universal-cookie';
 import { UserResponseDto } from 'src/api/chat';
-import { setUserInfo } from 'src/stores/UserStore';
+import { setUserProfile } from 'src/stores/UserStore';
 import { getUserInfo } from 'src/api/auth';
 const cookies = new Cookies();
 export default class MyPlayer extends Player {
@@ -38,31 +38,34 @@ export default class MyPlayer extends Player {
 
   setPlayerName(name: string, authFlag: number = 1) {
     if (!authFlag) return;
+    console.log(22222222, name);
     this.playerName.setText(name);
     const userId = store.getState().user?.userId || cookies.get('userId');
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId, authFlag);
     cookies.set('playerName', name, { path: '/', maxAge: 600 });
+  
     store.dispatch(pushPlayerJoinedMessage(name));
 
     getUserInfo()
       .then((response) => {
         if (!response) return;
+        console.log('res', response);
         const { userId, username, ...additionalInfo } = response;
         console.log(userId, username, additionalInfo);
-        store.dispatch(setUserInfo(additionalInfo));
+        store.dispatch(setUserProfile(additionalInfo));
       })
       .catch((error) => {
         console.error(error);
       });
   }
 
-  setPlayerInfo(userInfo: UserResponseDto, authFlag: number = 1) {
+  setPlayerInfo(userProfile: UserResponseDto, authFlag: number = 1) {
     if (!authFlag) return;
     const userId = store.getState().user?.userId || cookies.get('userId');
-    phaserEvents.emit(Event.MY_PLAYER_INFO_CHANGE, userInfo, userId, authFlag);
-    const infoToChange = store.getState().user?.userInfo;
-    const newInfo = { ...infoToChange, ...userInfo };
-    store.dispatch(setUserInfo(newInfo));
+    phaserEvents.emit(Event.MY_PLAYER_INFO_CHANGE, userProfile, userId, authFlag);
+    const infoToChange = store.getState().user?.userProfile;
+    const newInfo = { ...infoToChange, ...userProfile };
+    store.dispatch(setUserProfile(newInfo));
   }
 
   setPlayerTexture(texture: string) {
@@ -282,7 +285,7 @@ Phaser.GameObjects.GameObjectFactory.register(
     sprite.body
       .setSize(sprite.width * collisionScale[0], sprite.height * collisionScale[1])
       .setOffset(
-        sprite.width * (0.5 - collisionScale[0]) * 0.5,
+        sprite.width * (1 - collisionScale[0]) * 0.5,
         sprite.height * (1 - collisionScale[1])
       );
 

@@ -76,26 +76,31 @@ export default class Game extends Phaser.Scene {
   allOtherPlayers() {
     return this.otherPlayerMap;
   }
-  chairTalk() {}
-
-  setUptable = (chairs: Phaser.Physics.Arcade.StaticGroup ,chairLayer : Phaser.Tilemaps.ObjectLayer, lastChairIdx: number, lastTableIdx: number,talbePerChair: number) => {
+  setUptable = (
+    chairs: Phaser.Physics.Arcade.StaticGroup,
+    chairLayer: Phaser.Tilemaps.ObjectLayer,
+    lastChairIdx: number,
+    lastTableIdx: number,
+    talbePerChair: number
+  ) => {
     let currentChairIdx = lastChairIdx;
     chairLayer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
       const tableId = `${Math.floor(i / talbePerChair) + lastTableIdx}`;
       const chairId = `${currentChairIdx++}`;
-      
+
+      // item.setDepth(item.y + item.height * 0.27);
       item.itemDirection = obj.properties[0].value;
       item.tableId = tableId;
       item.chairId = chairId;
       this.tableMap.set(tableId, item);
       this.chairMap.set(chairId, item);
-    })
+    });
     lastTableIdx = lastTableIdx + Math.floor((currentChairIdx - lastChairIdx) / talbePerChair);
     lastChairIdx = currentChairIdx;
-    return {lastChairIdx, lastTableIdx};
-  }
-  
+    return { lastChairIdx, lastTableIdx };
+  };
+
   create(data: { network: Network; network2: Network2 }) {
     if (!data.network) {
       throw new Error('server instance missing');
@@ -297,16 +302,34 @@ export default class Game extends Phaser.Scene {
     let TableSet = {
       lastChairIdx: 0,
       lastTableIdx: 0,
-    }
-    TableSet = this.setUptable( chairs, chairs2Layer, TableSet.lastChairIdx, TableSet.lastTableIdx, 2);
-    TableSet = this.setUptable( chairs, chairs3Layer, TableSet.lastChairIdx, TableSet.lastTableIdx, 3);
-    TableSet = this.setUptable( chairs, chairs4Layer, TableSet.lastChairIdx, TableSet.lastTableIdx, 4);
-    chairs6Layer.objects.forEach((obj,i) => {
+    };
+    TableSet = this.setUptable(
+      chairs,
+      chairs2Layer,
+      TableSet.lastChairIdx,
+      TableSet.lastTableIdx,
+      2
+    );
+    TableSet = this.setUptable(
+      chairs,
+      chairs3Layer,
+      TableSet.lastChairIdx,
+      TableSet.lastTableIdx,
+      3
+    );
+    TableSet = this.setUptable(
+      chairs,
+      chairs4Layer,
+      TableSet.lastChairIdx,
+      TableSet.lastTableIdx,
+      4
+    );
+    chairs6Layer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(chairs, obj, 'interior', 'interior') as Chair;
       // item.setDepth(item.y + item.height * 0.27);
       const tableId = `${Math.floor(i / 6) + TableSet.lastTableIdx}`;
       const chairId = `${TableSet.lastChairIdx++}`;
-      // 다음에 맵을 제작할 땐 아이템의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
+      // 다음에 맵을 제작할 땐 아이템d의 방향을 지정해주는 프로퍼티를 만들어서 지정해주자
       item.itemDirection = obj.properties[0].value;
       // item.itemDirection = 'down';
       item.tableId = tableId;
@@ -331,7 +354,7 @@ export default class Game extends Phaser.Scene {
       this.network.mySessionId,
       userId,
       userInfo
-      // 로건 케빈 엠마 
+      // 로건 케빈 엠마
     );
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16);
 
@@ -404,7 +427,7 @@ export default class Game extends Phaser.Scene {
     const actualY = object.y! - object.height! * 0.5;
     const obj = group
       .get(actualX, actualY, key, object.gid! - this.map.getTileset(tilesetName).firstgid)
-      .setDepth(actualY);
+      .setDepth(actualY * 0.5);
     return obj;
   }
 

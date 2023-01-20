@@ -27,7 +27,7 @@ export const userSlice = createSlice({
     backgroundMode: getInitialBackgroundMode(),
     sessionId: '',
     userId: '',
-    userName: '',
+    username: '',
     videoConnected: false,
     webcamAudioStatus: false,
     webcamVideoStatus: false,
@@ -35,11 +35,13 @@ export const userSlice = createSlice({
     enteringProcess: ENTERING_PROCESS.ENTRY,
     characterSelected: false,
     accessToken: '',
-    userInfo: {
+    userProfile: {
       profileImgUrl: '',
+      heigth: '',
+      weight: '',
+      region: '',
       gender: '',
       age: '',
-      height: '',
     },
   },
   reducers: {
@@ -58,8 +60,8 @@ export const userSlice = createSlice({
       cookies.set('userId', action.payload, { path: '/', maxAge: 600 });
       state.userId = action.payload;
     },
-    setUserName: (state, action: PayloadAction<string>) => {
-      state.userName = action.payload;
+    setUsername: (state, action: PayloadAction<string>) => {
+      state.username = action.payload;
     },
     setVideoConnected: (state, action: PayloadAction<boolean>) => {
       state.videoConnected = action.payload;
@@ -85,18 +87,9 @@ export const userSlice = createSlice({
     setAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload;
     },
-    setUserInfo: (state, action: PayloadAction<any>) => {
-      state.userInfo = action.payload;
+    setUserProfile: (state, action: PayloadAction<any>) => {
+      state.userProfile = action.payload;
     },
-    // setGender: (state, action: PayloadAction<string>) => {
-    //   state.gender = action.payload;
-    // },
-    // setAge: (state, action: PayloadAction<string>) => {
-    //   state.age = action.payload;
-    // },
-    // setHeight: (state, action: PayloadAction<string>) => {
-    //   state.height = action.payload;
-    // },
   },
 });
 
@@ -104,7 +97,7 @@ export const {
   toggleBackgroundMode,
   setSessionId,
   setUserId,
-  setUserName,
+  setUsername,
   setVideoConnected,
   setwebcamAudioStatus,
   setwebcamVideoStatus,
@@ -113,10 +106,7 @@ export const {
   setEnteringProcess,
   setCharacterSelected,
   setAccessToken,
-  setUserInfo,
-  // setGender,
-  // setAge,
-  // setHeight,
+  setUserProfile,
 } = userSlice.actions;
 
 export default userSlice.reducer;
