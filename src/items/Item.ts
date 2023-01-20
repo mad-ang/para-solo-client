@@ -64,12 +64,11 @@ export default class Item extends Phaser.Physics.Arcade.Sprite {
       .setFontFamily('Arial')
       .setFontSize(12)
       .setColor('#000000')
-
     // set dialogBox slightly larger than the text in it
     const statusBoxWidth = innerText.width + 4
     const statusBoxHeight = innerText.height + 2
     const statusBoxX = this.x - statusBoxWidth * 0.5
-    const statusBoxY = this.y - this.height * 0.25
+    const statusBoxY = this.y - this.height * 1.8
     this.statusBox.add(
       this.scene.add
         .graphics()
@@ -78,7 +77,7 @@ export default class Item extends Phaser.Physics.Arcade.Sprite {
         .lineStyle(1.5, 0x000000, 1)
         .strokeRoundedRect(statusBoxX, statusBoxY, statusBoxWidth, statusBoxHeight, 3)
     )
-    this.statusBox.add(innerText.setPosition(statusBoxX + 2, statusBoxY))
+    this.statusBox.add(innerText.setPosition(statusBoxX + 2, statusBoxY+2))
   }
 
   // remove everything in the dialog box container
