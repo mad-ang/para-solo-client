@@ -8,9 +8,10 @@ import chatNetwork from 'src/services/Network2';
 import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
 // import {DMSlice} from 'src/stores/DMboxStore';
-
+import {Colors} from 'src/utils/Colors';
+import { color } from '@mui/system';
 const Wrapper = styled.div`
-  height: 460px;
+  height: 450px;
   width: 370px;
 `;
 
@@ -74,7 +75,7 @@ export default function ChatBubbles(props) {
     <>
       <Wrapper>
         <ChatFeed
-          maxHeight={460}
+          maxHeight={450}
           messages={messageList} // Array: list of message objects
           // isTyping={false} // Boolean: is the recipient typing
           // hasInputField={false} // Boolean: use our input, or use your own
@@ -85,6 +86,7 @@ export default function ChatBubbles(props) {
             text: {
               fontFamily: 'Ycomputer-Regular',
               fontSize: 16,
+              color: `${Colors.black[1]}`,
             },
             chatbubble: {
               borderRadius: 8,
@@ -96,8 +98,12 @@ export default function ChatBubbles(props) {
               marginBottom: 1,
               marginLeft: 7,
               wordBreak: 'break-all',
+              backgroundColor: `${Colors.pink[1]}`,              
             },
-            userBubble: {},
+            userBubble: {
+              backgroundColor: `${Colors.skyblue[5]}`,
+              
+            },
           }}
         />
       </Wrapper>

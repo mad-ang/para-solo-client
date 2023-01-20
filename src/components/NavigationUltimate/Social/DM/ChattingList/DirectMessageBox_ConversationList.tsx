@@ -6,10 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { blue } from '@mui/material/colors';
 import { DMSlice, setFriendId, setRoomId } from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
-import {
-  SetWhichModalActivated,
-  ModalState,
-} from '../../../../../stores/NavbarStore';
+import { SetWhichModalActivated, ModalState } from '../../../../../stores/NavbarStore';
 import { useQuery } from 'react-query';
 import {
   ApiResponse,
@@ -21,7 +18,6 @@ import {
 import axios from 'axios';
 import FriendRequest from 'src/components/NavigationUltimate/Social/AddFriend/FriendRequest';
 import Colors from 'src/utils/Colors';
-
 
 /* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.friendId)에 친구의 userId를 넣어준다  */
 export const ConversationList = () => {
@@ -52,7 +48,6 @@ export const ConversationList = () => {
   // };
 
   const handleClick = async (room) => {
-
     console.log('friendId는..', room.friendInfo.userId);
     console.log('roomId는..', room.roomId);
 
@@ -73,45 +68,46 @@ export const ConversationList = () => {
         console.log('error', error);
       }
     }
-
   };
   return (
     <DMmessageList>
-    
-        <UnorderedList>
-          {rooms &&
-            rooms.map((room) => (
+      <UnorderedList>
+        {rooms &&
+          rooms.map(
+            (room) => (
               console.log('room메세지', room.message),
-              <ListTag
-                key={room._id}
-                onClick={() => {
-                  handleClick(room);
-                }}
-              >
-                <ProfileAvatarImage
-                  src={room.friendInfo.profileImgUrl}
-                  alt={room.friendInfo.username}
-                  width="60"
-                />
-                <IDwithLastmessage>
-                  <UserID>{room.friendInfo.username}</UserID>
-                  <LastMessage>
-                    {room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0
-                      ? (room.message = '친구 요청을 보냈어요')
-                      : room.message}
-                  </LastMessage>
-                </IDwithLastmessage>
-              </ListTag>
-            ))}
-        </UnorderedList>
-        {friendRequestModal ? (
-          <FriendRequest
-            setRooms={setRooms}
-            setFriendRequestModal={setFriendRequestModal}
-            friendInfo={FriendRequestProps}
-          />
-        ) : null}
-      
+              (
+                <ListTag
+                  key={room._id}
+                  onClick={() => {
+                    handleClick(room);
+                  }}
+                >
+                  <ProfileAvatarImage
+                    src={room.friendInfo.profileImgUrl}
+                    alt={room.friendInfo.username}
+                    width="60"
+                  />
+                  <IDwithLastmessage>
+                    <UserID>{room.friendInfo.username}</UserID>
+                    <LastMessage>
+                      {room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0
+                        ? (room.message = '친구 요청을 보냈어요')
+                        : room.message}
+                    </LastMessage>
+                  </IDwithLastmessage>
+                </ListTag>
+              )
+            )
+          )}
+      </UnorderedList>
+      {friendRequestModal ? (
+        <FriendRequest
+          setRooms={setRooms}
+          setFriendRequestModal={setFriendRequestModal}
+          friendInfo={FriendRequestProps}
+        />
+      ) : null}
     </DMmessageList>
   );
 };
@@ -122,9 +118,8 @@ const ProfileAvatarImage = styled.img`
   border-radius: 100%;
 `;
 
-
 const UnorderedList = styled.ul`
-  padding: 5px;
+  padding: 0px 5px 5px 5px;
 `;
 
 const ListTag = styled.li`
@@ -135,7 +130,6 @@ const ListTag = styled.li`
   justify-content: flex-start;
   cursor: pointer;
   padding: 5px;
-
 `;
 const IDwithLastmessage = styled.div`
   display: flex;
@@ -158,6 +152,11 @@ const LastMessage = styled.div`
   display: block;
   font-size: 1em;
   margin: 0px 0px 10px 0px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 200px;
+  height: 20px;
 `;
 const DMmessageList = styled.div`
   background: #ffffff;
@@ -166,4 +165,6 @@ const DMmessageList = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
 `;
+
