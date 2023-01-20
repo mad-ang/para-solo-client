@@ -28,12 +28,15 @@ export default function BottomAppBar(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('보냄');
-    if (value === '') return;
-
+    const Rvalue = value.trim()
+    if (Rvalue === '') {
+      
+      setValue('');
+      return;}
+      console.log('보냄');
     const newMessage = new Message({
       id: 0,
-      message: value,
+      message: Rvalue,
     });
     setNewMessage(newMessage);
 
@@ -47,7 +50,12 @@ export default function BottomAppBar(props) {
   };
 
   return (
-   <DMtop>
+   <DMbottom>
+
+{/* <Input placeholder="메세지 보내기"  onKeyDown={handleOnKeyDown} onChange={(event) => {
+          setValue(event.target.value);
+        }}/> */}
+
 
       <TextField
         onFocus={() => {
@@ -58,6 +66,7 @@ export default function BottomAppBar(props) {
         onBlur={() => {
           dispatch(setFocused(false));
         }}
+        
         value={value}
         fullWidth
         margin="dense"
@@ -80,9 +89,28 @@ export default function BottomAppBar(props) {
         }}
         />
   
-        </DMtop>
+        </DMbottom>
   );
 }
+
+// const Input = styled.input.attrs(props => ({
+//   type: "text",
+//   size: props.size || "1em",
+// }))`
+//   border: 2px solid palevioletred;
+//   margin: 0.5em;
+//   padding: 0.5em 1em 0.5em 1em;
+
+//     fontFamily: 'Ycomputer-Regular',
+
+//   multiline: true;
+//   maxRows: 2;
+//   width: 100%;
+//   background: transparent;
+
+
+// `;
+
 
 
 const DirtyTalk = styled.div`
@@ -90,16 +118,17 @@ const DirtyTalk = styled.div`
   justify-content: flex-start;
   align-items: center;
 `;
-const DMtop = styled.div`
+const DMbottom = styled.div`
   background: ${Colors.skyblue[1]};
-  padding: 0px 20px 0px 20px;
+
   font-size: 28px;
   font-weight: bold;
   display: flex;
-  height: 60px;
+  height: 70px;
   flex-direction: row;
   alsign-items: center;
   justify-content: space-between;
+  
 `;
 
 const ButtonWrapper = styled.button`
