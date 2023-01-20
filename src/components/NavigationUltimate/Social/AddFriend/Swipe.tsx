@@ -88,7 +88,7 @@ function Swipe(props) {
 
   return (
     <Wrapper>
-      <SwipeHeader>
+      <SwipeHeader className='Swipe-Header'>
         <TitleText>현재 {players.length - 1}명이 접속해있어요</TitleText>
         <CloseIcon onClick={handleClick}></CloseIcon>
       </SwipeHeader>
@@ -98,7 +98,7 @@ function Swipe(props) {
           <p>🥲</p>
         </ZeroMessage>
       ) : (
-        <Swiper
+        <Swiper className='Swiper'
           modules={[Navigation]}
           navigation
           spaceBetween={10}
@@ -112,7 +112,7 @@ function Swipe(props) {
             return player.userId !== userId ? (
               <SwiperSlide key={i}>
                 {/* <SwiperSlide key={player.id}> */}
-                <SwipeBody>
+                <SwipeBody className='SwipeBody'>
                   <ImageWrapper>
                     <div className="personal-image">
                       <ProfileAvatarImage
@@ -153,12 +153,12 @@ function Swipe(props) {
 const Wrapper = styled.div`
   position: fixed;
   left: 0px;
-  background-color: ${Colors.white};
+  background-color: none;
   gap: 10px;
   bottom: 60px;
   height: 400px;
   width: 370px;
-  border-radius: 6px;
+  border-radius: 25px;
   box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
@@ -177,10 +177,13 @@ const CloseButton = styled.button`
 const SwipeHeader = styled.div`
   padding: 10px 0px 10px 10px;
   width: 100%;
+  height: 60px;
   position: relative;
   display: grid;
   grid-template-columns: 90% 10%;
   background-color: ${Colors.skyblue[1]};
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
   align-items: center;
 `;
 
@@ -191,12 +194,13 @@ const TitleText = styled.div`
 `;
 
 const SwipeBody = styled.div`
-  padding: 0 10px 15px 10px;
+  padding: 0 10px 0px 10px;
   display: flex;
+  background-color: ${Colors.white};
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  height: 75%;
+  height: 340px;
 `;
 
 const ImageWrapper = styled.div`
@@ -281,13 +285,13 @@ const ZeroMessage = styled.div`
   font-weight: 600;
   font-size: 24px;
   font-size: 1.5rem;
-
+  background-color: ${Colors.white};
   padding: 70px 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  height: 75%;
+  height: 340px;
 `;
 
 const ButtonWrapper = styled.button`

@@ -1,6 +1,7 @@
 import react, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import EditIcon from '@mui/icons-material/Edit';
+import ClearIcon from '@mui/icons-material/Clear';
 import { SetWhichModalActivated, ModalState } from '../../../../stores/NavbarStore';
 import { setFocused } from 'src/stores/ChatStore';
 import { useAppSelector, useAppDispatch } from '../../../../hooks';
@@ -135,7 +136,7 @@ function ProfileEditModal(props) {
     <ProfileSettingEditor>
       <ProfileHeader>
         <TitleText>프로필 수정</TitleText>
-        <CloseButton onClick={handleClick}>X</CloseButton>
+        <ClearIcon fontSize="medium"/>
       </ProfileHeader>
       <ProfileBody>
         <ImageWrapper editable={editable}>
@@ -334,7 +335,7 @@ const ProfileSettingEditor = styled.div`
   bottom: 60px;
   height: 400px;
   width: 370px;
-  border-radius: 6px;
+  border-radius: 25px;
   box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
@@ -348,12 +349,13 @@ const TitleText = styled.div`
   font-size: 1.5rem;
 `;
 
-const CloseButton = styled.button`
-  width: 30px;
-  height: 30px;
-  border: none;
-  border-radius: 50%;
-`;
+// const CloseButton = styled.button`
+//   width: 30px;
+//   height: 30px;
+//   border: none;
+//   background-color: transparent;
+//   border-radius: 50%;
+// `;
 
 const ProfileHeader = styled.div`
   padding: 10px 10px 0 10px;
@@ -398,8 +400,8 @@ const ImageWrapper = styled.div<EditableProps>`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    width: 98px;
+    height: 98px;
   }
 
   .personal-avatar {
