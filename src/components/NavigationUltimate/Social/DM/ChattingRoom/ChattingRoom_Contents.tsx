@@ -49,7 +49,6 @@ export default function ChatBubbles(props) {
 
     socketClient.on('message', (data) => {
       data.id = 1;
-      setMessageList((messageList) => [...messageList, data]);
     });
   }, []);
   // 실시간 메세지 받으면 채팅 리스트에 추가

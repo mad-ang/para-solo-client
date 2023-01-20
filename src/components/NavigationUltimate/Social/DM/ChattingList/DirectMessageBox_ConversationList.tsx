@@ -81,6 +81,7 @@ export const ConversationList = () => {
         <UnorderedList>
           {rooms &&
             rooms.map((room) => (
+              console.log('room메세지', room.message),
               <ListTag
                 key={room._id}
                 onClick={() => {
