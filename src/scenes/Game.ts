@@ -15,12 +15,10 @@ import Network2 from '../services/Network2';
 import { IPlayer } from '../types/ITownState';
 import { PlayerBehavior } from '../types/PlayerBehavior';
 import { ItemType } from '../types/Items';
-
 import store from '../stores';
 import { setFocused, setShowChat } from '../stores/ChatStore';
 import { NavKeys, Keyboard } from '../types/KeyboardState';
 import Cookies from 'universal-cookie';
-import { userInfo } from 'os';
 import { AnimatedTile } from 'src/anims/AnimatedTile';
 
 export default class Game extends Phaser.Scene {
@@ -458,7 +456,7 @@ export default class Game extends Phaser.Scene {
       'kevin',
       id,
       newPlayer.userId,
-      newPlayer.userInfo,
+      newPlayer.userProfile,
       newPlayer.name
     );
     this.otherPlayers.add(otherPlayer);
