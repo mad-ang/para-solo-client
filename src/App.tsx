@@ -26,6 +26,8 @@ import Bootstrap from 'scenes/Bootstrap';
 import Cookies from 'universal-cookie';
 import store from './stores';
 import { Tab } from '@mui/material';
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
 const cookies = new Cookies();
 
 axios.defaults.baseURL =
@@ -78,9 +80,33 @@ function App() {
   }
 
   return (
-    <Backdrop className="Backdrop">
-      {ui}
-    </Backdrop>
+    <>
+      <Backdrop className="Backdrop">
+        {ui}
+      </Backdrop>
+      <PayPalScriptProvider options={{ "client-id": "AQ8I5aGAigVewWYkxJqmKqbGP_jLcGXGaSFK7FRrx2SG0sLcokhp8LyrnJC47ecahbqwvBLyDTm9Nps2" }}>
+            {/* <PayPalButtons
+                createOrder={(data, actions) => {
+                    return actions.order.create({
+                        purchase_units: [
+                            {
+                                amount: {
+                                    value: "1.99",
+                                },
+                            },
+                        ],
+                    });
+                }}
+                onApprove={(data, actions) => {
+                    return actions.order.capture().then((details) => {
+                        const name = details.payer.name.given_name;
+                        alert(`Transaction completed by ${name}`);
+                    });
+                }}
+            /> */}
+        </PayPalScriptProvider>
+
+    </>
   );
 }
 export default App;
