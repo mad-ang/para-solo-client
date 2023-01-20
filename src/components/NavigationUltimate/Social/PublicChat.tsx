@@ -19,9 +19,219 @@ import { getColorByString } from '../../../util';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { MessageType, setFocused, setShowChat, chatSlice } from '../../../stores/ChatStore';
 import { roomSlice } from '../../../stores/RoomStore';
-import { SetPublicChatActivated, SetPublicChatActivateOnly } from '../../../stores/NavbarStore';
+import { ModalState, SetWhichModalActivated } from '../../../stores/NavbarStore';
 import Colors from 'src/utils/Colors';
 
+const dateFormatter = new Intl.DateTimeFormat('en', {
+  timeStyle: 'short',
+  dateStyle: 'short',
+});
+
+function Showusercnt() {
+  const userCnt_fromserver = useAppSelector((state) => state.room.userCnt);
+
+  return (
+    <div>
+      <h3>대화창 (현재 마을에 {userCnt_fromserver} 명이 있어요)</h3>
+    </div>
+  );
+}
+
+const Message = ({ chatMessage, messageType }) => {
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
+  return (
+    <MessageWrapper
+      onMouseEnter={() => {
+        setTooltipOpen(true);
+      }}
+      onMouseLeave={() => {
+        setTooltipOpen(false);
+      }}
+    >
+      <Tooltip
+        open={tooltipOpen}
+        title={dateFormatter.format(chatMessage.createdAt)}
+        placement="right"
+        arrow
+      >
+        {messageType === MessageType.REGULAR_MESSAGE ? (
+          <p
+            style={{
+              color: getColorByString(chatMessage.author),
+            }}
+          >
+            {chatMessage.author}: <span>{chatMessage.content}</span>
+          </p>
+        ) : (
+          <p className="notification">
+            {chatMessage.author} {chatMessage.content}
+          </p>
+        )}
+      </Tooltip>
+    </MessageWrapper>
+  );
+};
+
+function Chat() {
+  const [inputValue, setInputValue] = useState('');
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [readyToSubmit, setReadyToSubmit] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const chatMessages = useAppSelector((state) => state.chat.chatMessages);
+  const focused = useAppSelector((state) => state.chat.focused);
+  const showChat = useAppSelector((state) => state.chat.showChat);
+  const dispatch = useAppDispatch();
+  const game = phaserGame.scene.keys.game as Game;
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Escape') {
+      // move focus back to the game
+      inputRef.current?.blur();
+      // dispatch(setShowChat(false));
+      dispatch(SetWhichModalActivated(ModalState.None));
+    }
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    // this is added because without this, 2 things happen at the same
+    // time when Enter is pressed, (1) the inputRef gets focus (from
+    // useEffect) and (2) the form gets submitted (right after the input
+    // gets focused)
+    if (!readyToSubmit) {
+      setReadyToSubmit(true);
+      return;
+    }
+    // move focus back to the game
+    inputRef.current?.blur();
+
+    const val = inputValue.trim();
+    setInputValue('');
+    if (val) {
+      game.network.addChatMessage(val);
+      game.myPlayer.updateDialogBubble(val);
+    }
+  };
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    if (focused) {
+      inputRef.current?.focus();
+    }
+  }, [focused]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatMessages, showChat]);
+
+  return (
+    <Backdrop className = "PublicChat">
+      <Wrapper className="wrapper777">
+        <ChatHeader>
+          <Showusercnt />
+          <IconButton
+            aria-label="close dialog"
+            className="close"
+            onClick={() => {
+              dispatch(SetWhichModalActivated(ModalState.None));
+              // dispatch(setShowChat(false));
+            }}
+            size="small"
+          >
+            <CloseIcon />
+          </IconButton>
+        </ChatHeader>
+        <ChatBox>
+          {chatMessages.map(({ messageType, chatMessage }, index) => (
+            <Message chatMessage={chatMessage} messageType={messageType} key={index} />
+          ))}
+          <div ref={messagesEndRef} />
+          {showEmojiPicker && (
+            <EmojiPickerWrapper>
+              <Picker
+                theme="dark"
+                showSkinTones={false}
+                showPreview={false}
+                onSelect={(emoji) => {
+                  setInputValue(inputValue + emoji.native);
+                  setShowEmojiPicker(!showEmojiPicker);
+                  dispatch(setFocused(true));
+                }}
+                exclude={['recent', 'flags']}
+              />
+            </EmojiPickerWrapper>
+          )}
+        </ChatBox>
+        <InputWrapper onSubmit={handleSubmit}>
+          <InputTextField
+            inputRef={inputRef}
+            autoFocus={focused}
+            fullWidth
+            placeholder="대화를 입력해주세요"
+            value={inputValue}
+            onKeyDown={handleKeyDown}
+            onChange={handleChange}
+            onFocus={() => {
+              if (!focused) {
+                dispatch(setFocused(true));
+                setReadyToSubmit(true);
+              }
+            }}
+            onBlur={() => {
+              dispatch(setFocused(false));
+              setReadyToSubmit(false);
+            }}
+          />
+          <IconButton aria-label="emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+            <InsertEmoticonIcon />
+          </IconButton>
+        </InputWrapper>
+      </Wrapper>
+    </Backdrop>
+  );
+}
+
+export default function PublicChat() {
+  const dispatch = useAppDispatch();
+  const ActivatedNav = useAppSelector(
+    (state) => state.nav.currentState
+  );
+  
+  function handleClick() {
+    if (ActivatedNav == ModalState.PublicChat){
+      dispatch(SetWhichModalActivated(ModalState.None));
+    }
+    else{
+      dispatch(SetWhichModalActivated(ModalState.PublicChat));
+    }
+  }
+
+  return (
+    <div>
+      <StyledRedBox pressed={ActivatedNav}
+        onClick={() => {
+          handleClick();
+        }}
+      >
+        <ChatIcon sx={{ color: '#fff' }} fontSize="large" />
+      </StyledRedBox>
+      {ActivatedNav == ModalState.PublicChat ? <Chat /> : null}
+    </div>
+  );
+}
+
+
+/***** CSS *****/
 const Backdrop = styled.div`
   position: fixed;
   bottom: 60px;
@@ -112,7 +322,7 @@ const EmojiPickerWrapper = styled.div`
   bottom: 54px;
   right: 16px;
 `;
-const StyledRedBox = styled.button<{pressed:boolean}>`
+const StyledRedBox = styled.button<{pressed:ModalState}>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -120,7 +330,7 @@ const StyledRedBox = styled.button<{pressed:boolean}>`
   height: 44px;
   border: none;
   border-radius: 30%;
-  background-color: ${(props) => (props.pressed ? Colors.skyblue[1] : Colors.indigo)};
+  background-color: ${(props) => (props.pressed == ModalState.PublicChat ? Colors.skyblue[1] : Colors.indigo)};
   font-size: 1rem;
   font-weight: 900;
 
@@ -128,211 +338,3 @@ const StyledRedBox = styled.button<{pressed:boolean}>`
     background-color: ${Colors.skyblue[1]};
   }
 `;
-
-const dateFormatter = new Intl.DateTimeFormat('en', {
-  timeStyle: 'short',
-  dateStyle: 'short',
-});
-
-function Showusercnt() {
-  const userCnt_fromserver = useAppSelector((state) => state.room.userCnt);
-
-  return (
-    <div>
-      <h3>대화창 (현재 마을에 {userCnt_fromserver} 명이 있어요)</h3>
-    </div>
-  );
-}
-
-const Message = ({ chatMessage, messageType }) => {
-  const [tooltipOpen, setTooltipOpen] = useState(false);
-
-  return (
-    <MessageWrapper
-      onMouseEnter={() => {
-        setTooltipOpen(true);
-      }}
-      onMouseLeave={() => {
-        setTooltipOpen(false);
-      }}
-    >
-      <Tooltip
-        open={tooltipOpen}
-        title={dateFormatter.format(chatMessage.createdAt)}
-        placement="right"
-        arrow
-      >
-        {messageType === MessageType.REGULAR_MESSAGE ? (
-          <p
-            style={{
-              color: getColorByString(chatMessage.author),
-            }}
-          >
-            {chatMessage.author}: <span>{chatMessage.content}</span>
-          </p>
-        ) : (
-          <p className="notification">
-            {chatMessage.author} {chatMessage.content}
-          </p>
-        )}
-      </Tooltip>
-    </MessageWrapper>
-  );
-};
-
-function Chat() {
-  const [inputValue, setInputValue] = useState('');
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [readyToSubmit, setReadyToSubmit] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const chatMessages = useAppSelector((state) => state.chat.chatMessages);
-  const focused = useAppSelector((state) => state.chat.focused);
-  const showChat = useAppSelector((state) => state.chat.showChat);
-  const dispatch = useAppDispatch();
-  const game = phaserGame.scene.keys.game as Game;
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Escape') {
-      // move focus back to the game
-      inputRef.current?.blur();
-      dispatch(setShowChat(false));
-      dispatch(SetPublicChatActivated(false));
-    }
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    // this is added because without this, 2 things happen at the same
-    // time when Enter is pressed, (1) the inputRef gets focus (from
-    // useEffect) and (2) the form gets submitted (right after the input
-    // gets focused)
-    if (!readyToSubmit) {
-      setReadyToSubmit(true);
-      return;
-    }
-    // move focus back to the game
-    inputRef.current?.blur();
-
-    const val = inputValue.trim();
-    setInputValue('');
-    if (val) {
-      game.network.addChatMessage(val);
-      game.myPlayer.updateDialogBubble(val);
-    }
-  };
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    if (focused) {
-      inputRef.current?.focus();
-    }
-  }, [focused]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [chatMessages, showChat]);
-
-  return (
-    <Backdrop className = "PublicChat">
-      <Wrapper className="wrapper777">
-        <ChatHeader>
-          <Showusercnt />
-          <IconButton
-            aria-label="close dialog"
-            className="close"
-            onClick={() => {
-              dispatch(SetPublicChatActivated(false));
-              dispatch(setShowChat(false));
-            }}
-            size="small"
-          >
-            <CloseIcon />
-          </IconButton>
-        </ChatHeader>
-        <ChatBox>
-          {chatMessages.map(({ messageType, chatMessage }, index) => (
-            <Message chatMessage={chatMessage} messageType={messageType} key={index} />
-          ))}
-          <div ref={messagesEndRef} />
-          {showEmojiPicker && (
-            <EmojiPickerWrapper>
-              <Picker
-                theme="dark"
-                showSkinTones={false}
-                showPreview={false}
-                onSelect={(emoji) => {
-                  setInputValue(inputValue + emoji.native);
-                  setShowEmojiPicker(!showEmojiPicker);
-                  dispatch(setFocused(true));
-                }}
-                exclude={['recent', 'flags']}
-              />
-            </EmojiPickerWrapper>
-          )}
-        </ChatBox>
-        <InputWrapper onSubmit={handleSubmit}>
-          <InputTextField
-            inputRef={inputRef}
-            autoFocus={focused}
-            fullWidth
-            placeholder="대화를 입력해주세요"
-            value={inputValue}
-            onKeyDown={handleKeyDown}
-            onChange={handleChange}
-            onFocus={() => {
-              if (!focused) {
-                dispatch(setFocused(true));
-                setReadyToSubmit(true);
-              }
-            }}
-            onBlur={() => {
-              dispatch(setFocused(false));
-              setReadyToSubmit(false);
-            }}
-          />
-          <IconButton aria-label="emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-            <InsertEmoticonIcon />
-          </IconButton>
-        </InputWrapper>
-      </Wrapper>
-    </Backdrop>
-  );
-}
-
-export default function PublicChat() {
-  const dispatch = useAppDispatch();
-  const NavControllerPublicChatActivated = useAppSelector(
-    (state) => state.nav.NavControllerPublicChatActivated
-  );
-  
-  function handleClick() {
-    if (NavControllerPublicChatActivated){
-      dispatch(SetPublicChatActivated(false));
-    }
-    else{
-      dispatch(SetPublicChatActivateOnly());
-    }
-  }
-
-  return (
-    <div>
-      <StyledRedBox pressed={NavControllerPublicChatActivated}
-        onClick={() => {
-          handleClick();
-        }}
-      >
-        <ChatIcon sx={{ color: '#fff' }} fontSize="large" />
-      </StyledRedBox>
-      {NavControllerPublicChatActivated ? <Chat /> : null}
-    </div>
-  );
-}

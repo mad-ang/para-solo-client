@@ -134,7 +134,6 @@ export default function SignInDialog() {
           console.log('200 로그인 성공인딩');
           return true;
         } else {
-          console.log('data.status가 200이 아닐 때', data.status);
           setFailLogin(true);
           return false;
         }

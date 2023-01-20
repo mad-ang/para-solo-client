@@ -25,6 +25,7 @@ import Game from './scenes/Game';
 import Bootstrap from 'scenes/Bootstrap';
 import Cookies from 'universal-cookie';
 import store from './stores';
+import { Tab } from '@mui/material';
 const cookies = new Cookies();
 
 axios.defaults.baseURL =
@@ -50,19 +51,16 @@ function App() {
 
   let ui: JSX.Element;
   if (characterSelected) {
-    if (tableDialogOpen) {
-      ui = <TableDialog />;
-    } else {
       ui = (
         /* Render Chat or VideoConnectionDialog if no dialogs are opened. */
         <>
           <NavigationContainer />
+          {tableDialogOpen ? <TableDialog/> : null}
           {/* Render VideoConnectionDialog if user is not connected to a webcam. */}
           {!videoConnected && <VideoConnectionDialog />}
           {!cookies.get('refreshToken') && <WelcomeToast />}
         </>
       );
-    }
   } else if (enteringProcess === ENTERING_PROCESS.ENTRY) {
     ui = <EntryDialog hasToken={cookies.get('refreshToken') ? true : false} />;
   } else if (enteringProcess === ENTERING_PROCESS.SIGNUP) {
@@ -82,7 +80,6 @@ function App() {
   return (
     <Backdrop className="Backdrop">
       {ui}
-      {!tableDialogOpen}
     </Backdrop>
   );
 }

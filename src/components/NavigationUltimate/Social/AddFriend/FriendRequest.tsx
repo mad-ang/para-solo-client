@@ -1,6 +1,6 @@
 import react, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import { SetAddFriendsActivated, SetAddFriendsActivateOnly } from 'src/stores/NavbarStore';
+// import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
@@ -138,7 +138,7 @@ const TitleText = styled.div`
 `;
 
 const SwipeBody = styled.div`
-  padding: 0 10px 15px 10px;
+  padding: 0 10px 0px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -147,7 +147,7 @@ const SwipeBody = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  margin-top: 40px;
+  margin-top: 20px;
   width: 160px;
   height: 160px;
   border-radius: 100%;
@@ -207,8 +207,6 @@ const ImageWrapper = styled.div`
 
 const Buttons = styled.div`
   display: flex;
-
-
 
   align-items: center;
   justify-content: center;

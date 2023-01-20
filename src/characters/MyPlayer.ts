@@ -15,12 +15,13 @@ import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Cookies from 'universal-cookie';
 import { UserResponseDto } from 'src/api/chat';
-import { setUserInfo } from 'src/stores/UserStore';
+import { setUserProfile } from 'src/stores/UserStore';
 import { getUserInfo } from 'src/api/auth';
 const cookies = new Cookies();
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
   private chairOnSit?: Chair;
+  private marker
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -28,41 +29,50 @@ export default class MyPlayer extends Player {
     texture: string,
     id: string,
     userId: string,
-    userInfo: UserResponseDto,
+    userProfile: UserResponseDto,
     name: string,
     frame?: string | number
   ) {
-    super(scene, x, y, texture, id, userId, userInfo, name, frame);
+    super(scene, x, y, texture, id, userId, userProfile, name, frame);
+    // this.marker = this.scene.add
+    //   .text(0, -3, '🏖')
+    //   .setFontFamily('')
+    //   .setFontSize(8)
+    //   .setColor('#d500f9')
+    //   .setOrigin(0.5)
+    //   .setResolution(10);
+    // this.playerContainer.add(this.marker)
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
+
   }
 
   setPlayerName(name: string, authFlag: number = 1) {
     if (!authFlag) return;
-    this.playerName.setText(name);
+    this.playerName.setText('🏖'+ name + '🏖');
     const userId = store.getState().user?.userId || cookies.get('userId');
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId, authFlag);
     cookies.set('playerName', name, { path: '/', maxAge: 600 });
+
     store.dispatch(pushPlayerJoinedMessage(name));
 
     getUserInfo()
       .then((response) => {
         if (!response) return;
-        const { userId, username, ...additionalInfo } = response;
-        console.log(userId, username, additionalInfo);
-        store.dispatch(setUserInfo(additionalInfo));
+        const { userId, username, userProfile, ...otherInfo } = response;
+        store.dispatch(setUserProfile(userProfile));
       })
       .catch((error) => {
         console.error(error);
       });
   }
 
-  setPlayerInfo(userInfo: UserResponseDto, authFlag: number = 1) {
+  setPlayerInfo(userProfile: UserResponseDto, authFlag: number = 1) {
     if (!authFlag) return;
     const userId = store.getState().user?.userId || cookies.get('userId');
-    phaserEvents.emit(Event.MY_PLAYER_INFO_CHANGE, userInfo, userId, authFlag);
-    const infoToChange = store.getState().user?.userInfo;
-    const newInfo = { ...infoToChange, ...userInfo };
-    store.dispatch(setUserInfo(newInfo));
+    phaserEvents.emit(Event.MY_PLAYER_INFO_CHANGE, userProfile, userId, authFlag);
+    const infoToChange = store.getState().user?.userProfile;
+    const newInfo = { ...infoToChange, ...userProfile };
+    store.dispatch(setUserProfile(newInfo));
   }
 
   setPlayerTexture(texture: string) {
@@ -107,8 +117,6 @@ export default class MyPlayer extends Player {
       case PlayerBehavior.IDLE:
         // if press E in front of selected chair
         if (Phaser.Input.Keyboard.JustDown(keyE) && item?.itemType === ItemType.CHAIR) {
-          console.log('press E in Idle');
-
           const chairItem = item as Chair;
           const chair = network.getChairState()?.get(String(chairItem.chairId));
           const isExisted = network.getPlayers()?.has(String(chair?.clientId));
@@ -142,8 +150,9 @@ export default class MyPlayer extends Player {
                 // also update playerNameContainer velocity and position
                 this.playContainerBody.setVelocity(0, 0);
                 this.playerContainer.setPosition(
-                  chairItem.x + sittingShiftData[chairItem.itemDirection][0],
-                  chairItem.y + sittingShiftData[chairItem.itemDirection][1] - 30
+                  chairItem.x + sittingShiftData[chairItem.itemDirection][0] + 1,
+
+                  chairItem.y + sittingShiftData[chairItem.itemDirection][1] - 21.5
                 );
               }
 
@@ -253,7 +262,7 @@ declare global {
         texture: string,
         id: string,
         userId: string,
-        userInfo: UserResponseDto,
+        userProfile: UserResponseDto,
         frame?: string | number
       ): MyPlayer;
     }
@@ -269,11 +278,11 @@ Phaser.GameObjects.GameObjectFactory.register(
     texture: string,
     id: string,
     userId: string,
-    userInfo: UserResponseDto,
+    userProfile: UserResponseDto,
     name: string,
     frame?: string | number
   ) {
-    const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, userInfo, name, frame);
+    const sprite = new MyPlayer(this.scene, x, y, texture, id, userId, userProfile, name, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
@@ -284,7 +293,7 @@ Phaser.GameObjects.GameObjectFactory.register(
     sprite.body
       .setSize(sprite.width * collisionScale[0], sprite.height * collisionScale[1])
       .setOffset(
-        sprite.width * (0.5 - collisionScale[0]) * 0.5,
+        sprite.width * (1 - collisionScale[0]) * 0.5,
         sprite.height * (1 - collisionScale[1])
       );
 

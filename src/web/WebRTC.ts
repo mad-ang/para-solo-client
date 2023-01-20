@@ -158,7 +158,6 @@ export default class WebRTC {
   //   const videoButton = document.createElement('button');
   //   videoButton.innerText = '얼굴 안보기';
   //   videoButton.addEventListener('click', () => {
-  //     console.log(3333);
   //     if (this.myStream) {
   //       const videoTrack = this.myStream.getVideoTracks()[0];
   //       if (videoTrack.enabled) {

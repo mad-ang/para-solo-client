@@ -62,7 +62,7 @@ export default function WelcomeToast() {
       <Wrapper>
         <ToastBox>
           <WelcomeMsg>
-            <p>Welcome to 🏖PraSolo🏖</p>
+            <p>Welcome to 🏖ParaSolo🏖</p>
           </WelcomeMsg>
         </ToastBox>
       </Wrapper>

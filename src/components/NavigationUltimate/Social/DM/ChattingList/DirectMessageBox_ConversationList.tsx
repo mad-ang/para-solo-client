@@ -7,8 +7,8 @@ import { blue } from '@mui/material/colors';
 import { DMSlice, setFriendId, setRoomId } from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import {
-  SetChattingRoomActivated,
-  SetChattingListActivateOnly,
+  SetWhichModalActivated,
+  ModalState,
 } from '../../../../../stores/NavbarStore';
 import { useQuery } from 'react-query';
 import {
@@ -22,53 +22,6 @@ import axios from 'axios';
 import FriendRequest from 'src/components/NavigationUltimate/Social/AddFriend/FriendRequest';
 import Colors from 'src/utils/Colors';
 
-const UnorderedList = styled.ul`
-  list-style: none;
-`;
-
-const ListTag = styled.li`
-  width: 340px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  cursor: pointer;
-  padding-top: 5px;
-  padding-bottom: 5px;
-`;
-const IDwithLastmessage = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 0px 0px 0px 30px;
-  border-bottom: none;
-  cursor: pointer;
-`;
-const UserID = styled.div`
-  display: block;
-  font-size: 1.17em;
-  margin: 0px 0px 10px 0px;
-  font-weight: bold;
-  // color: ${Colors.skyblue[2]};
-`;
-
-const LastMessage = styled.div`
-  display: block;
-  font-size: 1em;
-  margin: 0px 0px 10px 0px;
-`;
-const DMmessageList = styled.div`
-  background: #ffffff;
-  height: 460px;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px 0px 0px 10px;
-  border-bottom-left-radius: 25px;
-  border-bottom-right-radius: 25px;
-`;
 
 /* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.friendId)에 친구의 userId를 넣어준다  */
 export const ConversationList = () => {
@@ -99,18 +52,20 @@ export const ConversationList = () => {
   // };
 
   const handleClick = async (room) => {
-    // body.friendId = room.friendInfo.userId;
-    // body.roomId = room.roomId;
+
     console.log('friendId는..', room.friendInfo.userId);
     console.log('roomId는..', room.roomId);
 
-    if (room.status == IChatRoomStatus.FRIEND_REQUEST) {
+    if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0) {
+      setFriendRequestProps(room.friendInfo);
+    } else if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 1) {
+      // 친구 요청 받음
       setFriendRequestModal(true);
       setFriendRequestProps(room.friendInfo);
     } else {
       console.log("This room's status is... ", room.status);
       try {
-        dispatch(SetChattingRoomActivated(true));
+        dispatch(SetWhichModalActivated(ModalState.ChattingListAndRoom));
         // Response userId
         dispatch(setFriendId(room.friendInfo.userId));
         dispatch(setRoomId(room.roomId));
@@ -118,16 +73,17 @@ export const ConversationList = () => {
         console.log('error', error);
       }
     }
-    // dispatch(SetChattingListActivateOnly());
+
   };
   return (
     <DMmessageList>
-      <>
+    
         <UnorderedList>
           {rooms &&
             rooms.map((room) => (
+              console.log('room메세지', room.message),
               <ListTag
-                key={room.roomId}
+                key={room._id}
                 onClick={() => {
                   handleClick(room);
                 }}
@@ -139,7 +95,11 @@ export const ConversationList = () => {
                 />
                 <IDwithLastmessage>
                   <UserID>{room.friendInfo.username}</UserID>
-                  <LastMessage>{room.message}</LastMessage>
+                  <LastMessage>
+                    {room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0
+                      ? (room.message = '친구 요청을 보냈어요')
+                      : room.message}
+                  </LastMessage>
                 </IDwithLastmessage>
               </ListTag>
             ))}
@@ -151,7 +111,7 @@ export const ConversationList = () => {
             friendInfo={FriendRequestProps}
           />
         ) : null}
-      </>
+      
     </DMmessageList>
   );
 };
@@ -160,4 +120,52 @@ const ProfileAvatarImage = styled.img`
   width: 75px;
   height: 75px;
   border-radius: 100%;
+`;
+
+
+const UnorderedList = styled.ul`
+  padding: 5px;
+`;
+
+const ListTag = styled.li`
+  width: 320px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  padding: 5px;
+
+`;
+const IDwithLastmessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0px 0px 0px 30px;
+  border-bottom: none;
+  cursor: pointer;
+`;
+const UserID = styled.div`
+  display: block;
+  font-size: 1.17em;
+  margin: 0px 0px 10px 0px;
+  font-weight: bold;
+  // color: ${Colors.skyblue[2]};
+`;
+
+const LastMessage = styled.div`
+  display: block;
+  font-size: 1em;
+  margin: 0px 0px 10px 0px;
+`;
+const DMmessageList = styled.div`
+  background: #ffffff;
+  height: 520px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
 `;

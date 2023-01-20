@@ -1,13 +1,13 @@
 import react, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import { SetAddFriendsActivated, SetAddFriendsActivateOnly } from '../../../stores/NavbarStore';
+import { SetWhichModalActivated, ModalState } from '../../../stores/NavbarStore';
 import { useAppSelector, useAppDispatch } from '../../../hooks';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Colors from 'src/utils/Colors';
 import Swipe from 'src/components/NavigationUltimate/Social/AddFriend/Swipe';
-const StyledRedBox = styled.button<{pressed:boolean}>`
+const StyledRedBox = styled.button<{pressed:ModalState}>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,7 +15,7 @@ const StyledRedBox = styled.button<{pressed:boolean}>`
   height: 44px;
   border: none;
   border-radius: 30%;
-  background-color: ${(props) => (props.pressed ? Colors.skyblue[1] : Colors.indigo)};
+  background-color: ${(props) => (props.pressed == ModalState.AddFriends ? Colors.skyblue[1] : Colors.indigo)};
   font-size: 1rem;
   font-weight: 900;
 
@@ -40,7 +40,7 @@ function ShowUsersInRoomModal(props) {
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
   function handleClick() {
-    dispatch(SetAddFriendsActivated(false));
+    dispatch(SetWhichModalActivated(ModalState.AddFriends));
   }
 
   useEffect(() => {
@@ -71,17 +71,20 @@ function ShowUsersInRoomModal(props) {
 
 export default function AddFriendsInRoom() {
   const dispatch = useAppDispatch();
-  const NavControllerAddFriendsActivated = useAppSelector(
-    (state) => state.nav.NavControllerAddFriendsActivated
-  );
+  const ActivatedNav = useAppSelector((state) => state.nav.currentState);
 
   function handleClick() {
-    dispatch(SetAddFriendsActivateOnly());
+    if (ActivatedNav == ModalState.AddFriends){
+      dispatch(SetWhichModalActivated(ModalState.None));
+    }
+    else{
+      dispatch(SetWhichModalActivated(ModalState.AddFriends));
+    }
   }
 
   return (
     <>
-      <StyledRedBox pressed = {NavControllerAddFriendsActivated}>
+      <StyledRedBox pressed = {ActivatedNav}>
         <GroupAddIcon
           sx={{ color: '#fff' }}
           fontSize="large"
@@ -91,7 +94,7 @@ export default function AddFriendsInRoom() {
         />
       </StyledRedBox>
       {/* {NavControllerAddFriendsActivated ? <ShowUsersInRoomModal /> : null} */}
-      {NavControllerAddFriendsActivated ? <Swipe /> : null}
+      {ActivatedNav == ModalState.AddFriends ? <Swipe /> : null}
     </>
   );
 }

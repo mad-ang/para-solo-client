@@ -1,7 +1,7 @@
 import react, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import { SetAddFriendsActivated, SetAddFriendsActivateOnly } from 'src/stores/NavbarStore';
+import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
@@ -33,7 +33,7 @@ function Swipe(props) {
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
   const userId = useAppSelector((state) => state.user.userId);
-  const userName = useAppSelector((state) => state.user.userName);
+  const username = useAppSelector((state) => state.user.username);
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userCnt = useAppSelector((state) => state.room.userCnt);
   // const game = phaserGame.scene.keys.game as Game;
@@ -41,13 +41,10 @@ function Swipe(props) {
   const players = useAppSelector((state) => state.room.players);
 
   async function requestFriend(id, name, targetImgUrl) {
-    console.log('친구요청하자~~~');
-    console.log(id);
-    console.log(name);
     let body = {
       myInfo: {
         userId: userId,
-        username: userName,
+        username: username,
         profileImgUrl:
           'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/leedohyun.png',
       },
@@ -60,7 +57,7 @@ function Swipe(props) {
         // profileImgUrl: props.url,
       },
       status: 0,
-      message: '친구 요청',
+      message: '친구 요청이 왔습니다',
     };
 
     try {
@@ -71,7 +68,7 @@ function Swipe(props) {
   }
 
   function handleClick() {
-    dispatch(SetAddFriendsActivated(false));
+    dispatch(SetWhichModalActivated(ModalState.None));
   }
 
   // const playerUpdate = () => {
@@ -85,8 +82,6 @@ function Swipe(props) {
   // };
 
   useEffect(() => {
-    console.log('현재 방의 players', players);
-    console.log('Players Num: ', players.length);
     setOtherPlayers(players);
     setPlayerNum(players.length);
   }, [players.length]);
@@ -114,7 +109,6 @@ function Swipe(props) {
           // }}
         >
           {otherPlayers?.map((player, i: number) => {
-            console.log(i);
             return player.userId !== userId ? (
               <SwiperSlide key={i}>
                 {/* <SwiperSlide key={player.id}> */}

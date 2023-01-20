@@ -18,6 +18,7 @@ export const createRoom = (param: CreateRoomRequest) => {
 export const fetchRoomList = async (userId: string): Promise<any> => {
   try {
     const response = await axios.post(`/chat/roomList`, { userId: userId });
+    console.log("fetchRoom=====>",response.data.payload);
     return response.data.payload;
   } catch (error) {
     console.log(error);
@@ -91,6 +92,7 @@ export interface CreateRoomResponse {
 // }
 
 export interface RoomListResponse {
+  _id?: string;
   myInfo: UserResponseDto;
   friendInfo: UserResponseDto;
   message: string;

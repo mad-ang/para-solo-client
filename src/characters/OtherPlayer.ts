@@ -25,16 +25,16 @@ export default class OtherPlayer extends Player {
     texture: string,
     id: string,
     userId: string,
-    userInfo: UserResponseDto,
+    userProfile: UserResponseDto,
     name: string,
     frame?: string | number | undefined
   ) {
-    super(scene, x, y, texture, id, userId, userInfo, name, frame);
+    super(scene, x, y, texture, id, userId, userProfile, name, frame);
     this.targetPosition = [x, y];
 
     this.playerName.setText(name);
     this.userId = userId;
-    this.userInfo = userInfo;
+    this.userProfile = userProfile;
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
   }
 
@@ -100,10 +100,10 @@ export default class OtherPlayer extends Player {
         }
         break;
       case 'userInfo':
-        this.userInfo.profileImgUrl = value.profileImgUrl;
-        this.userInfo.gender = value.gender;
-        this.userInfo.age = value.age;
-        this.userInfo.height = value.height;
+        this.userProfile.profileImgUrl = value?.profileImgUrl || '';
+        this.userProfile.gender = value?.gender || '';
+        this.userProfile.age = value?.age || '';
+        this.userProfile.height = value?.height || '';
         break;
     }
   }
@@ -144,7 +144,7 @@ export default class OtherPlayer extends Player {
       const sittingShift = sittingShiftData[animDir];
       if (sittingShift) {
         // set hardcoded depth (differs between directions) if player sits down
-        this.setDepth(3000 +this.depth + sittingShiftData[animDir][2]);
+        this.setDepth(3000 + this.depth + sittingShiftData[animDir][2]);
       }
     }
 
@@ -190,7 +190,6 @@ export default class OtherPlayer extends Player {
       this.connectionBufferTime >= 750
     ) {
       if (this.x < 610 && this.y > 515 && this.myPlayer!.x < 610 && this.myPlayer!.y > 515) return;
-      console.log('disconnecting from', this.playerId);
 
       phaserEvents.emit(Event.PLAYER_DISCONNECTED, this.playerId);
       this.connectionBufferTime = 0;
@@ -208,7 +207,7 @@ declare global {
         texture: string,
         id: string,
         userId: string,
-        userInfo: UserResponseDto,
+        userProfile: UserResponseDto,
         name: string,
         frame?: string | number
       ): OtherPlayer;
@@ -225,22 +224,22 @@ Phaser.GameObjects.GameObjectFactory.register(
     texture: string,
     id: string,
     userId: string,
-    userInfo: UserResponseDto,
+    userProfile: UserResponseDto,
     name: string,
     frame?: string | number
   ) {
-    const sprite = new OtherPlayer(this.scene, x, y, texture, id, userId, userInfo, name, frame);
+    const sprite = new OtherPlayer(this.scene, x, y, texture, id, userId, userProfile, name, frame);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
     this.scene.physics.world.enableBody(sprite, Phaser.Physics.Arcade.DYNAMIC_BODY);
 
-    const collisionScale = [6, 4];
+    const collisionScale = [7, 3];
     sprite.body
       .setSize(sprite.width * collisionScale[0], sprite.height * collisionScale[1])
       .setOffset(
         sprite.width * (1 - collisionScale[0]) * 0.5,
-        sprite.height * (1 - collisionScale[1]) * 0.5 + 17
+        sprite.height * (1 - collisionScale[1]) * 0.5 +2
       );
 
     return sprite;

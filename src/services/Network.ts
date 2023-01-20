@@ -103,7 +103,10 @@ export default class Network {
         changes.forEach((change) => {
           const { field, value } = change;
           //  TODO: 다른 사용자 정보 업데이트 감지
-          phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
+          if (value != undefined) {
+            phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
+          }
+
           // when a new player finished setting up player name
           if (field === 'name' && value !== '') {
             phaserEvents.emit(Event.PLAYER_JOINED, player, key);
@@ -167,11 +170,8 @@ export default class Network {
       const players: any = [];
       this.room?.state.players.forEach((value) => {
         players.push(value);
-        // console.log('valueeeee', value.userId);
       });
       store.dispatch(setRoomPlayers(players));
-      // console.log(555555, players);
-      // console.log('room.state.players', this.room?.state.players.);
     });
   }
   getChairState() {
@@ -247,9 +247,9 @@ export default class Network {
     });
   }
 
-  updatePlayerInfo(currentUserInfo: UserResponseDto, currentUserId: string, authFlag: number) {
+  updatePlayerInfo(currentUserProfile: UserResponseDto, currentUserId: string, authFlag: number) {
     this.room?.send(Message.UPDATE_PLAYER_INFO, {
-      userInfo: currentUserInfo,
+      userProfile: currentUserProfile,
       userId: currentUserId,
       authFlag: authFlag,
     });
