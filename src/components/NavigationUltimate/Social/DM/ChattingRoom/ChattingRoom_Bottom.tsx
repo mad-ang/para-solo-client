@@ -9,6 +9,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { io, Socket } from 'socket.io-client';
 import { ServerToClientEvents, ClientToServerEvents } from 'src/api/chat';
+import styled from 'styled-components';
+import Colors from 'src/utils/Colors';
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
 
@@ -45,7 +47,8 @@ export default function BottomAppBar(props) {
   };
 
   return (
-    <AppBar position="relative" color="primary" sx={{ bottom: 0 }}>
+   <DMtop>
+
       <TextField
         onFocus={() => {
           if (!focused) {
@@ -75,7 +78,41 @@ export default function BottomAppBar(props) {
             </InputAdornment>
           ),
         }}
-      />
-    </AppBar>
+        />
+  
+        </DMtop>
   );
 }
+
+
+const DirtyTalk = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+const DMtop = styled.div`
+  background: ${Colors.skyblue[1]};
+  padding: 0px 20px 0px 20px;
+  font-size: 28px;
+  font-weight: bold;
+  display: flex;
+  height: 60px;
+  flex-direction: row;
+  alsign-items: center;
+  justify-content: space-between;
+`;
+
+const ButtonWrapper = styled.button`
+  background: none;
+  border: none;
+`;
+
+const TitleImage = styled.img`
+  margin-left: 3px;
+  margin-right: 13px;
+  width: 28px;
+`;
+
+const TitleText = styled.div`
+  font-size: 23px;
+`;
