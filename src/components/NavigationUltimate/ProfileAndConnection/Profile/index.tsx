@@ -1,6 +1,7 @@
 import react, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import EditIcon from '@mui/icons-material/Edit';
+import ClearIcon from '@mui/icons-material/Clear';
 import { SetWhichModalActivated, ModalState } from '../../../../stores/NavbarStore';
 import { setFocused } from 'src/stores/ChatStore';
 import { useAppSelector, useAppDispatch } from '../../../../hooks';
@@ -43,10 +44,11 @@ function ProfileEditModal(props) {
     dispatch(SetWhichModalActivated(ModalState.None));
   }
 
-  const handleChangeUserProfile = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeUserProfile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event?.target?.files;
     if (!files) return;
-    addImage('profile', files, setUserProfileImg);
+    const imgUrl = await addImage('profile', files);
+    setUserProfileImg(imgUrl);
   };
 
   const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -134,7 +136,7 @@ function ProfileEditModal(props) {
     <ProfileSettingEditor>
       <ProfileHeader>
         <TitleText>프로필 수정</TitleText>
-        <CloseButton onClick={handleClick}>X</CloseButton>
+        <ClearIcon fontSize="medium"/>
       </ProfileHeader>
       <ProfileBody>
         <ImageWrapper editable={editable}>
@@ -148,12 +150,15 @@ function ProfileEditModal(props) {
                     src={userProfileImg}
                     className="personal-avatar"
                     alt="avatar"
-                    style={{ marginTop: -17 }}
+                    style={{ marginTop: -32, marginLeft: -81 }}
                     onError={() => {
                       if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
                     }}
                   />
-                  <figcaption className="personal-figcaption">
+                  <figcaption
+                    style={{ marginTop: -2, marginLeft: -82 }}
+                    className="personal-figcaption"
+                  >
                     <CameraImage src="https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png" />
                   </figcaption>
                 </figure>
@@ -330,7 +335,7 @@ const ProfileSettingEditor = styled.div`
   bottom: 60px;
   height: 400px;
   width: 370px;
-  border-radius: 6px;
+  border-radius: 25px;
   box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
@@ -344,12 +349,13 @@ const TitleText = styled.div`
   font-size: 1.5rem;
 `;
 
-const CloseButton = styled.button`
-  width: 30px;
-  height: 30px;
-  border: none;
-  border-radius: 50%;
-`;
+// const CloseButton = styled.button`
+//   width: 30px;
+//   height: 30px;
+//   border: none;
+//   background-color: transparent;
+//   border-radius: 50%;
+// `;
 
 const ProfileHeader = styled.div`
   padding: 10px 10px 0 10px;
@@ -389,10 +395,13 @@ const ImageWrapper = styled.div<EditableProps>`
   .personal-image input[type='file'] {
     display: none;
   }
+
   .personal-figure {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
   }
 
   .personal-avatar {
@@ -430,8 +439,8 @@ const ImageWrapper = styled.div<EditableProps>`
 `;
 
 const ProfileAvatarImage = styled.img`
-  width: 98px;
-  height: 98px;
+  width: 100%;
+  height: 100%;
 `;
 
 const CameraImage = styled.img`
