@@ -21,11 +21,13 @@ import {
 import axios from 'axios';
 import FriendRequest from 'src/components/NavigationUltimate/Social/AddFriend/FriendRequest';
 import Colors from 'src/utils/Colors';
+import { AssociateUserSettingsRequest } from 'aws-sdk/clients/workspacesweb';
 
 
 /* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.friendId)에 친구의 userId를 넣어준다  */
 export const ConversationList = () => {
-  const [rooms, setRooms] = useState<RoomListResponse[]>([]);
+
+  // const [rooms, setRooms] = useState<RoomListResponse[]>([]);
   const [friendRequestModal, setFriendRequestModal] = useState(false);
   const [FriendRequestProps, setFriendRequestProps] = useState<UserResponseDto>(
     {} as UserResponseDto
@@ -33,16 +35,24 @@ export const ConversationList = () => {
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.userId);
   const friendId = useAppSelector((state) => state.dm.friendId);
+  
+  const {data:rooms, status, error} = useQuery('rooms', async()=> {
+      const data = await fetchRoomList(userId);
+      return data;
+  },{
+    // refetchInterval: 500,
+      refetchOnWindowFocus: false,
+  });
 
-  useEffect(() => {
-    fetchRoomList(userId).then((data) => {
-      setRooms(data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetchRoomList(userId).then((data) => {
+  //     setRooms(data);
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    console.log('rooms', rooms);
-  }, [rooms]);
+  // useEffect(() => {
+  //   console.log('rooms', rooms);
+  // }, [rooms]);
 
   // let roomId = '';
   // let body = {
