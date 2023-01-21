@@ -81,31 +81,11 @@ function App() {
 
   return (
     <>
-      <Backdrop className="Backdrop">
-        {ui}
-      </Backdrop>
-      <PayPalScriptProvider options={{ "client-id": "AQ8I5aGAigVewWYkxJqmKqbGP_jLcGXGaSFK7FRrx2SG0sLcokhp8LyrnJC47ecahbqwvBLyDTm9Nps2" }}>
-            {/* <PayPalButtons
-                createOrder={(data, actions) => {
-                    return actions.order.create({
-                        purchase_units: [
-                            {
-                                amount: {
-                                    value: "1.99",
-                                },
-                            },
-                        ],
-                    });
-                }}
-                onApprove={(data, actions) => {
-                    return actions.order.capture().then((details) => {
-                        const name = details.payer.name.given_name;
-                        alert(`Transaction completed by ${name}`);
-                    });
-                }}
-            /> */}
-        </PayPalScriptProvider>
-
+      <PayPalScriptProvider options={{ "client-id": "Ac1EY6svD5f5jwXD7ZGGjFhKxCEy5ENuJcpGO1aA8W1GPtCrisR_hdcyeiXOKpUSoWCQtKzbI2sBNk5a" }}>
+        <Backdrop className="Backdrop">
+          {ui}
+        </Backdrop>
+      </PayPalScriptProvider>
     </>
   );
 }

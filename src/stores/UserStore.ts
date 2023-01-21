@@ -35,6 +35,7 @@ export const userSlice = createSlice({
     enteringProcess: ENTERING_PROCESS.ENTRY,
     characterSelected: false,
     accessToken: '',
+    userCoin: 0,
     userProfile: {
       profileImgUrl: '',
       heigth: '',
@@ -87,6 +88,9 @@ export const userSlice = createSlice({
     setAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload;
     },
+    setUserCoin: (state, action: PayloadAction<number>) => {
+      state.userCoin = action.payload;
+    },
     setUserProfile: (state, action: PayloadAction<any>) => {
       state.userProfile = action.payload;
     },
@@ -106,6 +110,7 @@ export const {
   setEnteringProcess,
   setCharacterSelected,
   setAccessToken,
+  setUserCoin,
   setUserProfile,
 } = userSlice.actions;
 

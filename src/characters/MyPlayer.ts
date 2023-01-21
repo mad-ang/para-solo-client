@@ -15,7 +15,7 @@ import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Cookies from 'universal-cookie';
 import { UserResponseDto } from 'src/api/chat';
-import { setUserProfile } from 'src/stores/UserStore';
+import { setUserProfile, setUserCoin } from 'src/stores/UserStore';
 import { getUserInfo } from 'src/api/auth';
 const cookies = new Cookies();
 export default class MyPlayer extends Player {
@@ -58,8 +58,9 @@ export default class MyPlayer extends Player {
     getUserInfo()
       .then((response) => {
         if (!response) return;
-        const { userId, username, userProfile, ...otherInfo } = response;
+        const { userId, username, userProfile, userCoin, ...otherInfo } = response;
         store.dispatch(setUserProfile(userProfile));
+        // store.dispatch(setUserCoin(userCoin));
       })
       .catch((error) => {
         console.error(error);
