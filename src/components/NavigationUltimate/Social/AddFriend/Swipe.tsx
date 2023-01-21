@@ -2,7 +2,7 @@ import react, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
-import { setCoinLeft } from 'src/stores/UserStore';
+import { setUserCoin } from 'src/stores/UserStore';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
@@ -70,6 +70,10 @@ function Swipe(props) {
 
     try {
       addFriendReq(body);
+      
+      //여기에서 setUserCoin 써야함
+      //여기에서 localstate인 UserCoin의 개수를 통해, addFriendResult 를 업데이트 해주어야 함
+
     } catch (error) {
       console.log('error', error);
     }
@@ -78,16 +82,6 @@ function Swipe(props) {
   function handleClick() {
     dispatch(SetWhichModalActivated(ModalState.None));
   }
-
-  // const playerUpdate = () => {
-
-  //   const game = phaserGame.scene.keys.game as Game;
-  //   const players = Array.from(game?.allOtherPlayers());
-  //   setOtherPlayers(players);
-  //   console.log(players);
-  //   console.log('Players Num: ', players.length);
-  //   setPlayerNum(players.length);
-  // };
 
   useEffect(() => {
     setOtherPlayers(players);
