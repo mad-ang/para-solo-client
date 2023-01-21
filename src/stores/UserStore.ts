@@ -38,7 +38,7 @@ export const userSlice = createSlice({
     userCoin: 0,
     userProfile: {
       profileImgUrl: '',
-      heigth: '',
+      height: '',
       weight: '',
       region: '',
       gender: '',
