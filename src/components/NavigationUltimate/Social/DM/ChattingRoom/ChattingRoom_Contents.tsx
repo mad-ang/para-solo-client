@@ -36,31 +36,29 @@ export default function ChatBubbles(props) {
     socketNetwork.joinRoom(roomId, userId, friendId, callback);
   }, []);
 
-  // 실시간 메세지 받으면 채팅 리스트에 추가
-  // socketClient.on('message', (data) => {
-  //   data.id = 1;
-  //   // const newMessageList = [...messageList, data];
 
-  //   // setMessageList((messageList) => [...messageList, data]);
-  // });
-  // }, []);
-  // 내가 쓴 메세지 채팅 리스트에 추가
-  // useEffect(() => {
-  //   if (!props.newMessage || props.newMessage.length === 0) return;
+  useEffect(() => {
+    if (!props.newMessage || props.newMessage.length === 0) return;
+    
+    const body = {
+      // id : 0,
+      roomId: roomId,
+      userId: userId,
+      friendId: friendId,
+      message: props.newMessage.message,
+    };
+    
+    // 내가 쓴 메세지 채팅 리스트에 추가
+    setMessageList((messageList) => [...messageList, props.newMessage]);
+    
+    const callback = (data) => { 
+      // 실시간 메세지 받으면 채팅 리스트에 추가
+      setMessageList((messageList) => [...messageList, data]);
+    }
 
-  //   const body = {
-  //     // id : 0,
-  //     roomId: roomId,
-  //     userId: userId,
-  //     friendId: friendId,
-  //     message: props.newMessage.message,
-  //   };
-
-  //   setMessageList((messageList) => [...messageList, props.newMessage]);
-
-  //   // 내가 쓴 메세지 서버에 전송
-  //   game.networt2.sendMessage(body);
-  // }, [props.newMessage]);
+    // 내가 쓴 메세지 서버에 전송
+    game.networt2.sendMessage(body, callback);
+  }, [props.newMessage]);
 
   return (
     <>

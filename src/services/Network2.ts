@@ -49,17 +49,16 @@ export default class chatNetwork {
     });
   };
 
-  sendMessage = (message: object) => {
+  sendMessage = (message: object, callback: any) => {
     this.socketClient.emit('message', message);
+
+    this.socketClient.on('message', (data) => {
+      data.id = 1;
+      callback(data);
+    });
   };
+  
   whoAmI = (userId: string) => {
     this.socketClient.emit('whoAmI', userId);
   };
-
-  // getOldMessages = (userId: string) => {
-  //   console.log('getOldMessages 호출');
-  //   if (!userId) return [];
-  //   console.log('returning >> this.oldMessages', this.oldMessages);
-  //   return this.oldMessages;
-  // };
 }
