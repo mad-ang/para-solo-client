@@ -3,9 +3,12 @@ import { io, Socket } from 'socket.io-client';
 import { phaserEvents, Event } from 'src/events/EventCenter';
 import { ServerToClientEvents, ClientToServerEvents } from 'src/api/chat';
 import { ChatFeed, Message } from 'react-chat-ui';
-
+import store from '../stores';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 export default class chatNetwork {
   private socketClient: Socket;
+  public oldMessages: any[];
 
   constructor() {
     const socketUrl =
@@ -14,33 +17,47 @@ export default class chatNetwork {
         : `http://${window.location.hostname}:5002`;
 
     this.socketClient = io(`${socketUrl}`);
-
+    this.oldMessages = [];
     this.socketClient.on('request-friend', (data) => {});
     this.socketClient.on('accept-friend', (data) => {});
     this.socketClient.on('update-room-id', (data) => {});
   }
-  // init() {
-  //   this.socketClient.on('connect', () => {
-  //     console.log('socket connected');
-
-  //     this.socketClient.on('message', (data) => {
-  //       console.log('message', data);
-  //       // data.id = 1;
-  //       // setMessageList((messageList) => [...messageList, data]);
-  //     });
-
-  //     this.socketClient.on('disconnect', () => {
-  //       console.log('socket disconnected');
-  //     });
-  //   });
-  // }
 
   getSocket = () => {
     return this.socketClient;
   };
-  sendMessage = (message: object) => {
-    this.socketClient.emit('message', message);
+
+  joinRoom = (roomId: string, userId: string, friendId: string, callback: any) => {
+    console.log('join!');
+    this.socketClient.emit('join-room', { roomId: roomId, userId: userId, friendId: friendId });
+
+    this.socketClient.on('old-messages', (data) => {
+      const userId = store.getState().user.userId || cookies.get('userId');
+      this.oldMessages = [];
+      console.log('old-messages', '받아왔다!', data);
+      data.forEach((element: any) => {
+        if (element.senderId) {
+          if (element.senderId === userId) {
+            element.id = 0;
+          } else {
+            element.id = 1;
+          }
+          this.oldMessages.push(element);
+        }
+      });
+      callback(this.oldMessages);
+    });
   };
+
+  sendMessage = (message: object, callback: any) => {
+    this.socketClient.emit('message', message);
+
+    this.socketClient.on('message', (data) => {
+      data.id = 1;
+      callback(data);
+    });
+  };
+  
   whoAmI = (userId: string) => {
     this.socketClient.emit('whoAmI', userId);
   };

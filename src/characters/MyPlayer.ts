@@ -21,7 +21,7 @@ const cookies = new Cookies();
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
   private chairOnSit?: Chair;
-  private marker
+  private marker;
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -43,12 +43,11 @@ export default class MyPlayer extends Player {
     //   .setResolution(10);
     // this.playerContainer.add(this.marker)
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
-
   }
 
   setPlayerName(name: string, authFlag: number = 1) {
     if (!authFlag) return;
-    this.playerName.setText('🏖'+ name + '🏖');
+    this.playerName.setText('🏖' + name + '🏖');
     const userId = store.getState().user?.userId || cookies.get('userId');
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId, authFlag);
     cookies.set('playerName', name, { path: '/', maxAge: 600 });
