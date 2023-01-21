@@ -4,7 +4,9 @@ import { phaserEvents, Event } from 'src/events/EventCenter';
 import { ServerToClientEvents, ClientToServerEvents } from 'src/api/chat';
 import { ChatFeed, Message } from 'react-chat-ui';
 import store from '../stores';
+import { setRequestFriendCnt } from 'src/stores/DMboxStore';
 import Cookies from 'universal-cookie';
+import usePushNotification from 'src/api/notification';
 const cookies = new Cookies();
 export default class chatNetwork {
   private socketClient: Socket;
@@ -18,7 +20,11 @@ export default class chatNetwork {
 
     this.socketClient = io(`${socketUrl}`);
     this.oldMessages = [];
-    this.socketClient.on('request-friend', (data) => {});
+    this.socketClient.on('request-friend', (data) => {
+      store.dispatch(setRequestFriendCnt(1));
+      // alert('친구 요청 왔다')
+      console.log('request-friend', data);
+    });
     this.socketClient.on('accept-friend', (data) => {});
     this.socketClient.on('update-room-id', (data) => {});
   }
@@ -57,7 +63,7 @@ export default class chatNetwork {
       callback(data);
     });
   };
-  
+
   whoAmI = (userId: string) => {
     this.socketClient.emit('whoAmI', userId);
   };
