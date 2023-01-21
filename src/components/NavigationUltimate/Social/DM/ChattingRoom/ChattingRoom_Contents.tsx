@@ -18,7 +18,6 @@ const Wrapper = styled.div`
 export default function ChatBubbles(props) {
   const game = phaserGame.scene.keys.game as Game;
   const socketNetwork = game.networt2;
-  const socketClient = socketNetwork.getSocket();
 
   // 채팅 시작 시 저장되어 있던 채팅 리스트 보여줌
   const roomId = useAppSelector((state) => state.dm.roomId);
