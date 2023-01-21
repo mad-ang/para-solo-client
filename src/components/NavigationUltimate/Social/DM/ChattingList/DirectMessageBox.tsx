@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import DMboxSVG from '../../../assets/directmessage/DM.svg';
 import channelTalkPNG from '../../../assets/directmessage/channeltalk.png';
@@ -9,10 +9,7 @@ import { ConversationList } from './DirectMessageBox_ConversationList';
 import { DMboxHeader } from './DirectMessageBox_Header';
 import { DMSearchConversation } from './DirectMessageBox_SearchConversation';
 
-import {
-  ModalState,
-  SetWhichModalActivated,
-} from '../../../../../stores/NavbarStore';
+import { ModalState, SetWhichModalActivated } from '../../../../../stores/NavbarStore';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import Colors from 'src/utils/Colors';
 import { Modal } from '@mui/material';
@@ -25,7 +22,8 @@ const StyledRedBox = styled.button<{ pressed: ModalState }>`
   height: 44px;
   border: none;
   border-radius: 30%;
-  background-color: ${(props) => (props.pressed == ModalState.ChattingList ? Colors.skyblue[1] : Colors.indigo)};
+  background-color: ${(props) =>
+    props.pressed == ModalState.ChattingList ? Colors.skyblue[1] : Colors.indigo};
   font-size: 1rem;
   font-weight: 900;
 
@@ -49,7 +47,6 @@ const DMwrapper = styled.div`
   width: 370px;
   border-radius: 25px;
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-
 `;
 const DM = styled.div`
   padding: 15px 35px 15px 15px;
@@ -134,7 +131,7 @@ function DMbox() {
   ];
 
   return (
-    <DMwrapper className='DMwrapper'>
+    <DMwrapper className="DMwrapper">
       <DMboxHeader />
       {/* <DMSearchConversation /> */}
       <ConversationList />
@@ -144,7 +141,8 @@ function DMbox() {
 
 /* DMboxButton, something pop-up when clicks it */
 export default function DMboxButton() {
-  const ActivatedNav = useAppSelector( (state) => state.nav.currentState );
+  const ActivatedNav = useAppSelector((state) => state.nav.currentState);
+  const requestFriendCnt = useAppSelector((state) => state.dm.requestFriendCnt);
   // const NavControllerChattingRoomActivated = useAppSelector(
   //   (state) => state.nav.NavControllerChattingRoomActivated
   // );
@@ -162,8 +160,10 @@ export default function DMboxButton() {
     <Wrapper>
       <StyledRedBox onClick={handleClick} pressed={ActivatedNav}>
         <VolunteerActivismIcon fontSize="large" sx={{ color: '#fff' }} />
+        <div style={{ color: 'red' }}>{requestFriendCnt > 0 ? requestFriendCnt : '알림 없음'}</div>
       </StyledRedBox>
-      {(  (ActivatedNav == ModalState.ChattingList) || (ActivatedNav == ModalState.ChattingListAndRoom)  ) && (
+      {(ActivatedNav == ModalState.ChattingList ||
+        ActivatedNav == ModalState.ChattingListAndRoom) && (
         <div className="DMpopup">
           <DMbox />
           {ActivatedNav == ModalState.ChattingListAndRoom ? <InsideChattingRoom /> : null}
