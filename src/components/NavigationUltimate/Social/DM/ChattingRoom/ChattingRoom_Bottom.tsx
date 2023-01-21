@@ -15,12 +15,7 @@ import Colors from 'src/utils/Colors';
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
 
 export default function BottomAppBar(props) {
-  const [inputValue, setInputValue] = useState('');
-  const [readyToSubmit, setReadyToSubmit] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
-  const defaultInput = useRef<HTMLInputElement>(null);
   const { setNewMessage } = props;
   const focused = useAppSelector((state) => state.chat.focused);
 
