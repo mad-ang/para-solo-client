@@ -116,11 +116,8 @@ export default function SignInDialog() {
           const { payload } = data;
           const token = payload.accessToken;
           if (token) {
-            setAccessToken(token);
+            dispatch(setAccessToken(token));
           }
-
-          // TODO accessToken을 계속 갱신해야 함. refreshToken 발급로직 없으므로 임식 처리
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
           const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
           bootstrap.network

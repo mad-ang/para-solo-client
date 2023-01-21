@@ -100,9 +100,8 @@ export default function SignUpDialog() {
           const { payload } = data;
           const token = payload.accessToken;
           if (token) {
-            setAccessToken(token);
+            dispatch(setAccessToken(token));
           }
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
           const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
           bootstrap.network

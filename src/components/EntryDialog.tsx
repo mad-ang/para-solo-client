@@ -20,7 +20,7 @@ import { ENTERING_PROCESS, setEnteringProcess } from '../stores/UserStore';
 import { EnergySavingsLeaf } from '@mui/icons-material';
 import store from 'src/stores';
 import { setLobbyJoined } from 'src/stores/RoomStore';
-import { login } from 'src/api/auth';
+import { issueAccessToken, login } from 'src/api/auth';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 const cookies = new Cookies();
@@ -111,8 +111,8 @@ export default function EntryDialog(props) {
 
   useEffect(() => {
     if (props.hasToken && lobbyJoined) {
-      const accessToken = cookies.get('accessToken');
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      issueAccessToken({ refreshToken: cookies.get('refreshToken') });
+
       handleConnect();
     }
   }, [lobbyJoined]);

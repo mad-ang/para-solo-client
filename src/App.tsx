@@ -50,13 +50,6 @@ function App() {
   const videoConnected = useAppSelector((state) => state.user.videoConnected);
   const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
   const characterSelected = useAppSelector((state) => state.user.characterSelected);
-  const refreshToken = cookies.get('refreshToken');
-
-  useEffect(() => {
-    if (refreshToken) {
-      console.log(333);
-    }
-  }, [refreshToken]);
 
   let ui: JSX.Element;
   if (characterSelected) {
