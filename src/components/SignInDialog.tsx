@@ -122,8 +122,6 @@ export default function SignInDialog() {
           // TODO accessToken을 계속 갱신해야 함. refreshToken 발급로직 없으므로 임식 처리
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-          cookies.set('accessToken', token, { path: '/', maxAge: 600 });
-
           const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
           bootstrap.network
             .joinOrCreatePublic()

@@ -103,7 +103,7 @@ export default function SignUpDialog() {
             setAccessToken(token);
           }
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-          cookies.set('accessToken', token, { path: '/', maxAge: 600 });
+
           const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
           bootstrap.network
             .joinOrCreatePublic()
