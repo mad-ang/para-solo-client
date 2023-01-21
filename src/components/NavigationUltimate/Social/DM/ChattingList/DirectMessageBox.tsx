@@ -13,7 +13,6 @@ import { ModalState, SetWhichModalActivated } from '../../../../../stores/Navbar
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import Colors from 'src/utils/Colors';
 import { Modal } from '@mui/material';
-import usePushNotification from 'src/api/notification';
 
 const StyledRedBox = styled.button<{ pressed: ModalState }>`
   display: flex;
@@ -156,33 +155,6 @@ export default function DMboxButton() {
       dispatch(SetWhichModalActivated(ModalState.ChattingList));
     }
   }
-
-  const fireNotification = usePushNotification()?.fireNotification;
-  if (fireNotification) {
-    fireNotification('친구요청 왔다!');
-  }
-
-  // const fireNotification = usePushNotification()?.fireNotification;
-  // if (fireNotification) {
-  //   fireNotification('친구요청 왔다!');
-  // }
-
-  // useEffect(() => {
-  //   if (!('Notification' in window)) {
-  //     console.log('Browser does not support desktop notification');
-  //   } else {
-  //     Notification.requestPermission();
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (requestFriendCnt > 0) {
-  //     const fireNotification = usePushNotification()?.fireNotification;
-  //     if (fireNotification) {
-  //       fireNotification('친구요청 왔다!');
-  //     }
-  //   }
-  // }, [requestFriendCnt]);
 
   return (
     <Wrapper>

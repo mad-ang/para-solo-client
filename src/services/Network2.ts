@@ -6,7 +6,7 @@ import { ChatFeed, Message } from 'react-chat-ui';
 import store from '../stores';
 import { setRequestFriendCnt } from 'src/stores/DMboxStore';
 import Cookies from 'universal-cookie';
-import usePushNotification from 'src/api/notification';
+import { fireNotification } from 'src/api/notification';
 const cookies = new Cookies();
 export default class chatNetwork {
   private socketClient: Socket;
@@ -22,7 +22,7 @@ export default class chatNetwork {
     this.oldMessages = [];
     this.socketClient.on('request-friend', (data) => {
       store.dispatch(setRequestFriendCnt(1));
-      // alert('친구 요청 왔다')
+      fireNotification('[PARA-SOLO] 친구 요청 도착');
       console.log('request-friend', data);
     });
     this.socketClient.on('accept-friend', (data) => {});
