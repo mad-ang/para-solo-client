@@ -25,7 +25,6 @@ export default function BottomAppBar(props) {
     e.preventDefault();
     const Rvalue = value.trim()
     if (Rvalue === '') {
-      
       setValue('');
       return;}
       console.log('보냄');
@@ -34,7 +33,6 @@ export default function BottomAppBar(props) {
       message: Rvalue,
     });
     setNewMessage(newMessage);
-
     setValue('');
   };
 

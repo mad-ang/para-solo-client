@@ -8,7 +8,7 @@ import chatNetwork from 'src/services/Network2';
 import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
 // import {DMSlice} from 'src/stores/DMboxStore';
-import {Colors} from 'src/utils/Colors';
+import { Colors } from 'src/utils/Colors';
 import { color } from '@mui/system';
 const Wrapper = styled.div`
   height: 450px;
@@ -17,6 +17,7 @@ const Wrapper = styled.div`
 
 export default function ChatBubbles(props) {
   const game = phaserGame.scene.keys.game as Game;
+  const socketClient = game.networt2.getSocket();
   // 기존 메세지 리스트 -> 삭제 예정
   const [messageList, setMessageList] = useState<any>([]);
 
@@ -25,34 +26,29 @@ export default function ChatBubbles(props) {
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userId = useAppSelector((state) => state.user.userId);
 
-  useEffect(() => {
-    const socketClient = game.networt2.getSocket();
-    console.log('방 입장');
-    console.log('소켓', socketClient);
-    console.log('룸아이디', roomId);
+  socketClient.emit('join-room', { roomId: roomId, userId: userId, friendId: friendId });
 
-    socketClient.emit('join-room', { roomId: roomId, userId: userId, friendId: friendId });
-
-    socketClient.on('show-messages', (data) => {
-      console.log('메세지를 보여줘');
-
-      data.forEach((element) => {
-        if (element.senderId) {
-          if (element.senderId === userId) {
-            element.id = 0;
-          } else {
-            element.id = 1;
-          }
-          setMessageList((messageList) => [...messageList, element]);
+  socketClient.on('show-messages', (data) => {
+    // 기존 메시지들
+    data.forEach((element) => {
+      if (element.senderId) {
+        if (element.senderId === userId) {
+          element.id = 0;
+        } else {
+          element.id = 1;
         }
-      });
+        setMessageList((messageList) => [...messageList, element]);
+      }
     });
+  });
 
-    socketClient.on('message', (data) => {
-      data.id = 1;
-    });
-  }, []);
   // 실시간 메세지 받으면 채팅 리스트에 추가
+  socketClient.on('message', (data) => {
+    data.id = 1;
+    const newMessageList = [...messageList, data];
+    setMessageList(newMessageList);
+    // setMessageList((messageList) => [...messageList, data]);
+  });
 
   // 내가 쓴 메세지 채팅 리스트에 추가
   useEffect(() => {
@@ -67,9 +63,10 @@ export default function ChatBubbles(props) {
     };
 
     setMessageList((messageList) => [...messageList, props.newMessage]);
+
+    // 내가 쓴 메세지 서버에 전송
     game.networt2.sendMessage(body);
   }, [props.newMessage]);
-  // 내가 쓴 메세지 서버에 전송
 
   return (
     <>
@@ -98,11 +95,10 @@ export default function ChatBubbles(props) {
               marginBottom: 1,
               marginLeft: 7,
               wordBreak: 'break-all',
-              backgroundColor: `${Colors.pink[1]}`,              
+              backgroundColor: `${Colors.pink[1]}`,
             },
             userBubble: {
               backgroundColor: `${Colors.skyblue[5]}`,
-              
             },
           }}
         />
