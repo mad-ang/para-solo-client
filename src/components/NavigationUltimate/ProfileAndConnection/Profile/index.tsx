@@ -15,14 +15,15 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
-
 import {
   setUserProfile as setStoreUserProfile,
   setUsername as setStoreUsername,
   setUserProfile,
 } from 'src/stores/UserStore';
 import { addImage } from 'src/api/s3';
-
+import ParasolImg from 'src/assets/directmessage/parasol.png';
+const CameraImg =
+  'https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png';
 function ProfileEditModal(props) {
   const originalUsername = useAppSelector((state) => state.user.username);
   const originalUserProfile = useAppSelector((state) => state.user.userProfile);
@@ -136,7 +137,7 @@ function ProfileEditModal(props) {
     <ProfileSettingEditor>
       <ProfileHeader>
         <DirtyTalk>
-          <TitleImage src={'src/assets/directmessage/parasol.png'} width="30" />
+          <TitleImage src={ParasolImg} width="30" />
 
           <TitleText>프로필 수정</TitleText>
         </DirtyTalk>
@@ -167,7 +168,7 @@ function ProfileEditModal(props) {
                     style={{ marginTop: -2, marginLeft: -82 }}
                     className="personal-figcaption"
                   >
-                    <CameraImage src="https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png" />
+                    <CameraImage src={CameraImg} />
                   </figcaption>
                 </figure>
               </label>

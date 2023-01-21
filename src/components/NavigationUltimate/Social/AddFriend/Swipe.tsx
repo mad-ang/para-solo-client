@@ -14,6 +14,7 @@ import axios from 'axios';
 import { addFriendReq } from 'src/api/friend';
 import ClearIcon from '@mui/icons-material/Close';
 import CloseIcon from '@mui/icons-material/Close';
+import ParasolImg from 'src/assets/directmessage/parasol.png';
 
 const dummyImages = [
   'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/1.jpeg',
@@ -86,32 +87,26 @@ function Swipe(props) {
     setPlayerNum(players.length);
   }, [players.length]);
 
-
-
-
-
   return (
     <Wrapper>
-      <SwipeHeader className='Swipe-Header'>
+      <SwipeHeader className="Swipe-Header">
+        <DirtyTalk>
+          <TitleImage src={ParasolImg} width="30" />
 
-        
-      <DirtyTalk>
-      <TitleImage src={'src/assets/directmessage/parasol.png'} width="30" />
-
-        <TitleText>현재 {players.length - 1}명이 접속해있어요</TitleText>
-      </DirtyTalk>
-        
+          <TitleText>현재 {players.length - 1}명이 접속해있어요</TitleText>
+        </DirtyTalk>
         <ButtonWrapper onClick={handleClick}>
-
-    <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
-  </ButtonWrapper>      </SwipeHeader>
+          <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
+        </ButtonWrapper>{' '}
+      </SwipeHeader>
       {players.length - 1 === 0 ? (
         <ZeroMessage>
           <p>현재 접속해 있는 친구가 없어요</p>
           <p>🥲</p>
         </ZeroMessage>
       ) : (
-        <Swiper className='Swiper'
+        <Swiper
+          className="Swiper"
           modules={[Navigation]}
           navigation
           spaceBetween={10}
@@ -125,7 +120,7 @@ function Swipe(props) {
             return player.userId !== userId ? (
               <SwiperSlide key={i}>
                 {/* <SwiperSlide key={player.id}> */}
-                <SwipeBody className='SwipeBody'>
+                <SwipeBody className="SwipeBody">
                   <ImageWrapper>
                     <div className="personal-image">
                       <ProfileAvatarImage
@@ -143,11 +138,9 @@ function Swipe(props) {
                   <Name>{player.name}</Name>
                   <Message>좋은 만남 가져봐요</Message>
                   <MyButton
-                    
                     onClick={() =>
                       requestFriend(player.userId, player.name, i <= 5 ? dummyImages[i] : null)
                     }
-                    
                   >
                     친구 요청{' '}
                   </MyButton>
@@ -160,7 +153,6 @@ function Swipe(props) {
     </Wrapper>
   );
 }
-
 
 const Wrapper = styled.div`
   position: fixed;
@@ -181,10 +173,9 @@ const Wrapper = styled.div`
 `;
 
 const SwipeHeader = styled.div`
-
-display: flex;
+  display: flex;
   justify-content: space-between;
-align-items: center;
+  align-items: center;
   padding: 10px 0px 10px 10px;
   width: 100%;
   height: 60px;
@@ -197,28 +188,26 @@ align-items: center;
   align-items: center;
 `;
 
-
-
 const DirtyTalk = styled.div`
-display: flex;
-justify-content: flex-start;
-align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 `;
 const TitleImage = styled.img`
-margin-left: 3px;
-margin-right: 13px;
-width: 28px;
+  margin-left: 3px;
+  margin-right: 13px;
+  width: 28px;
 `;
 
 const TitleText = styled.div`
-font-size: 23px;
-font-weight: 600;
+  font-size: 23px;
+  font-weight: 600;
 `;
 
 const ButtonWrapper = styled.button`
-background: none;
-border: none;
-padding : 0px 10px 0px 0px;
+  background: none;
+  border: none;
+  padding: 0px 10px 0px 0px;
 `;
 
 const SwipeBody = styled.div`
@@ -255,7 +244,7 @@ const ImageWrapper = styled.div`
     justify-content: center;
     align-items: center;
   }
-  
+
   .personal-avatar {
     box-sizing: border-box;
     border-radius: 100%;
@@ -309,21 +298,19 @@ const Message = styled.div`
   font-size: 1.4rem;
 `;
 
-
-
 const MyButton = styled.button`
-width: 180px;
-height: 40px;
-font-size: 1.2rem;
-font-weight: 500;
-margin-top: 12px;
-font-family: 'Ycomputer-Regular';
-border-radius: 10px;
-border: none;
-background-color: ${Colors.skyblue[1]};
-&:hover {
-  background-color: ${Colors.skyblue[2]};
-}
+  width: 180px;
+  height: 40px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 12px;
+  font-family: 'Ycomputer-Regular';
+  border-radius: 10px;
+  border: none;
+  background-color: ${Colors.skyblue[1]};
+  &:hover {
+    background-color: ${Colors.skyblue[2]};
+  }
 `;
 
 const ZeroMessage = styled.div`

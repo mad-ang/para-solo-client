@@ -6,10 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import Colors from 'src/utils/Colors';
 import { InsideChattingRoom } from '../ChattingRoom/ChattingRoom';
 import { useAppSelector, useAppDispatch } from '../../../../../hooks';
-import {
-  ModalState,
-  SetWhichModalActivated,
-} from '../../../../../stores/NavbarStore';
+import { ModalState, SetWhichModalActivated } from '../../../../../stores/NavbarStore';
+import ParasolImg from 'src/assets/directmessage/parasol.png';
 
 export function DMboxHeader() {
   const dispatch = useAppDispatch();
@@ -21,7 +19,7 @@ export function DMboxHeader() {
   return (
     <DMtop>
       <DirtyTalk>
-        <TitleImage src={'src/assets/directmessage/parasol.png'} width="30" />
+        <TitleImage src={ParasolImg} width="30" />
         <TitleText>파라솔 DM</TitleText>
       </DirtyTalk>
       <ButtonWrapper onClick={handleClick}>

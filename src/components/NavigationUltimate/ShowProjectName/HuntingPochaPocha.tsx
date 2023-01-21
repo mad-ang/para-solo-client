@@ -1,7 +1,7 @@
 import react from 'react';
 import Colors from 'src/utils/Colors';
 import styled from 'styled-components';
-
+import BeachImg from 'src/assets/navbar/Beach.png';
 const SexyChar = styled.span`
   width: 50px;
   height: 50px;
@@ -24,7 +24,7 @@ function ProjectNameChar(char: string) {
 export default function HuntingPochaPocha() {
   return (
     <Wrapper>
-      <img src="/src/assets/navbar/Beach.png" height={35} />
+      <img src={BeachImg} height={35} />
       {ProjectNameChar('Para-Solo')}
       {/* {ProjectNameChar('Beach')} */}
     </Wrapper>
