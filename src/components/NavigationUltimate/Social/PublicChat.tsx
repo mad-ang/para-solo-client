@@ -148,7 +148,7 @@ function Chat() {
             }}
             size="small"
           >
-            <CloseIcon />
+            <CloseIcon sx={{ color: `${Colors.skyblue[2]}` }}/>
           </IconButton>
         </ChatHeader>
         <ChatBox>
@@ -193,7 +193,7 @@ function Chat() {
             }}
           />
           <IconButton aria-label="emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-            <InsertEmoticonIcon />
+            <InsertEmoticonIcon sx={{ color: `${Colors.skyblue[2]}` }}/>
           </IconButton>
         </InputWrapper>
       </Wrapper>
@@ -240,12 +240,16 @@ const Backdrop = styled.div`
   width: 370px;
   max-height: 50%;
   max-width: 50%;
+  
 `;
 const Wrapper = styled.div`
+
   height: 100%;
   padding: 16px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column;  
+
+
 `;
 const FabWrapper = styled.div`
   margin-top: auto;
@@ -253,11 +257,11 @@ const FabWrapper = styled.div`
 const ChatHeader = styled.div`
   position: relative;
   height: 35px;
-  background: #000000a7;
+  background: ${Colors.skyblue[1]};
   border-radius: 10px 10px 0px 0px;
 
   h3 {
-    color: #fff;
+    color: ${Colors.black};
     margin: 7px;
     font-size: 17px;
     text-align: center;
@@ -273,7 +277,7 @@ const ChatBox = styled(Box)`
   height: 100%;
   width: 100%;
   overflow: auto;
-  background: #2c2c2c;
+  background: white;
   border: 1px solid #00000029;
 `;
 const MessageWrapper = styled.div`
@@ -301,26 +305,28 @@ const MessageWrapper = styled.div`
   }
 
   :hover {
-    background: #3a3a3a;
+    background: ${Colors.skyblue[2]};
   }
 `;
 const InputWrapper = styled.form`
-  border: 1px solid #42eacb;
   border-radius: 0px 0px 10px 10px;
   display: flex;
   flex-direction: row;
-  background: linear-gradient(180deg, #000000c1, #242424c0);
+  background: ${Colors.skyblue[1]};
 `;
 const InputTextField = styled(InputBase)`
   border-radius: 0px 0px 10px 10px;
   input {
     padding: 5px;
+    color: ${Colors.black};
+    
   }
 `;
 const EmojiPickerWrapper = styled.div`
   position: absolute;
   bottom: 54px;
   right: 16px;
+  
 `;
 const StyledRedBox = styled.button<{pressed:ModalState}>`
   display: flex;
