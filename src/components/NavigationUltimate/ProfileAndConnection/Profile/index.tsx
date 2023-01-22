@@ -34,7 +34,7 @@ function ProfileEditModal(props) {
   const [username, setUsername] = useState(cookies.get('playerName') || '');
   const [gender, setGender] = useState<string>(originalUserProfile.gender);
   const [age, setAge] = useState<string>(originalUserProfile.age);
-  const [height, setHeight] = useState<string>(originalUserProfile.heigth);
+  const [height, setHeight] = useState<string>(originalUserProfile.height);
   const dispatch = useAppDispatch();
   let refIndex = 0;
   const focused = useAppSelector((state) => state.chat.focused);

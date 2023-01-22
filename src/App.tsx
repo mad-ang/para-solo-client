@@ -26,7 +26,7 @@ import Bootstrap from 'scenes/Bootstrap';
 import Cookies from 'universal-cookie';
 import store from './stores';
 import { Tab } from '@mui/material';
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 const cookies = new Cookies();
 
@@ -53,16 +53,16 @@ function App() {
 
   let ui: JSX.Element;
   if (characterSelected) {
-      ui = (
-        /* Render Chat or VideoConnectionDialog if no dialogs are opened. */
-        <>
-          <NavigationContainer />
-          {tableDialogOpen ? <TableDialog/> : null}
-          {/* Render VideoConnectionDialog if user is not connected to a webcam. */}
-          {!videoConnected && <VideoConnectionDialog />}
-          {!cookies.get('refreshToken') && <WelcomeToast />}
-        </>
-      );
+    ui = (
+      /* Render Chat or VideoConnectionDialog if no dialogs are opened. */
+      <>
+        <NavigationContainer />
+        {tableDialogOpen ? <TableDialog /> : null}
+        {/* Render VideoConnectionDialog if user is not connected to a webcam. */}
+        {!videoConnected && <VideoConnectionDialog />}
+        {!cookies.get('refreshToken') && <WelcomeToast />}
+      </>
+    );
   } else if (enteringProcess === ENTERING_PROCESS.ENTRY) {
     ui = <EntryDialog hasToken={cookies.get('refreshToken') ? true : false} />;
   } else if (enteringProcess === ENTERING_PROCESS.SIGNUP) {
@@ -81,31 +81,11 @@ function App() {
 
   return (
     <>
-      <Backdrop className="Backdrop">
-        {ui}
-      </Backdrop>
-      <PayPalScriptProvider options={{ "client-id": "AQ8I5aGAigVewWYkxJqmKqbGP_jLcGXGaSFK7FRrx2SG0sLcokhp8LyrnJC47ecahbqwvBLyDTm9Nps2" }}>
-            {/* <PayPalButtons
-                createOrder={(data, actions) => {
-                    return actions.order.create({
-                        purchase_units: [
-                            {
-                                amount: {
-                                    value: "1.99",
-                                },
-                            },
-                        ],
-                    });
-                }}
-                onApprove={(data, actions) => {
-                    return actions.order.capture().then((details) => {
-                        const name = details.payer.name.given_name;
-                        alert(`Transaction completed by ${name}`);
-                    });
-                }}
-            /> */}
-        </PayPalScriptProvider>
-
+      <PayPalScriptProvider options={{ "client-id": "Ac1EY6svD5f5jwXD7ZGGjFhKxCEy5ENuJcpGO1aA8W1GPtCrisR_hdcyeiXOKpUSoWCQtKzbI2sBNk5a" }}>
+        <Backdrop className="Backdrop">
+          {ui}
+        </Backdrop>
+      </PayPalScriptProvider>
     </>
   );
 }

@@ -2,6 +2,7 @@ import react, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
+import { setUserCoin } from 'src/stores/UserStore';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
@@ -15,6 +16,7 @@ import { addFriendReq } from 'src/api/friend';
 import ClearIcon from '@mui/icons-material/Close';
 import CloseIcon from '@mui/icons-material/Close';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
+import RequestFreindResultModal from './RequestFriendResultModal';
 
 const dummyImages = [
   'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/1.jpeg',
@@ -33,10 +35,14 @@ function Swipe(props) {
   const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
+  const [addFriendResult, setAddFriendResult] = useState<number>(0); //0: 친구 요청 전, 1: 친구 요청 성공, 2: 친구 요청 실패(코인충전)
+
   const userId = useAppSelector((state) => state.user.userId);
   const username = useAppSelector((state) => state.user.username);
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userCnt = useAppSelector((state) => state.room.userCnt);
+  // const noMoreCoin = useAppSelector((state) => state.user.noMoreCoin);
+  const userCoin = useAppSelector((state) => state.user.userCoin);
   // const game = phaserGame.scene.keys.game as Game;
   // const players = Array.from(game?.allOtherPlayers());
   const players = useAppSelector((state) => state.room.players);
@@ -63,6 +69,9 @@ function Swipe(props) {
 
     try {
       addFriendReq(body);
+
+      //여기에서 setUserCoin 써야함
+      //여기에서 localstate인 UserCoin의 개수를 통해, addFriendResult 를 업데이트 해주어야 함
     } catch (error) {
       console.log('error', error);
     }
@@ -71,16 +80,6 @@ function Swipe(props) {
   function handleClick() {
     dispatch(SetWhichModalActivated(ModalState.None));
   }
-
-  // const playerUpdate = () => {
-
-  //   const game = phaserGame.scene.keys.game as Game;
-  //   const players = Array.from(game?.allOtherPlayers());
-  //   setOtherPlayers(players);
-  //   console.log(players);
-  //   console.log('Players Num: ', players.length);
-  //   setPlayerNum(players.length);
-  // };
 
   useEffect(() => {
     setOtherPlayers(players);
@@ -138,9 +137,10 @@ function Swipe(props) {
                   <Name>{player.name}</Name>
                   <Message>좋은 만남 가져봐요</Message>
                   <MyButton
-                    onClick={() =>
-                      requestFriend(player.userId, player.name, i <= 5 ? dummyImages[i] : null)
-                    }
+                    onClick={() => {
+                      requestFriend(player.userId, player.name, i <= 5 ? dummyImages[i] : null);
+                      setAddFriendResult(1);
+                    }}
                   >
                     친구 요청{' '}
                   </MyButton>
@@ -149,6 +149,9 @@ function Swipe(props) {
             ) : null;
           })}
         </Swiper>
+      )}
+      {addFriendResult == 0 ? null : (
+        <RequestFreindResultModal setAddFriendResult={setAddFriendResult} />
       )}
     </Wrapper>
   );

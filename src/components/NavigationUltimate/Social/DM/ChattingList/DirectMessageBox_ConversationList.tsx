@@ -73,33 +73,28 @@ export const ConversationList = () => {
     <DMmessageList>
       <UnorderedList>
         {rooms &&
-          rooms.map(
-            (room) => (
-              console.log('room메세지', room.message),
-              (
-                <ListTag
-                  key={room._id}
-                  onClick={() => {
-                    handleClick(room);
-                  }}
-                >
-                  <ProfileAvatarImage
-                    src={room.friendInfo.profileImgUrl}
-                    alt={room.friendInfo.username}
-                    width="60"
-                  />
-                  <IDwithLastmessage>
-                    <UserID>{room.friendInfo.username}</UserID>
-                    <LastMessage>
-                      {room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0
-                        ? (room.message = '친구 요청을 보냈어요')
-                        : room.message}
-                    </LastMessage>
-                  </IDwithLastmessage>
-                </ListTag>
-              )
-            )
-          )}
+          rooms.map((room) => (
+            <ListTag
+              key={room._id}
+              onClick={() => {
+                handleClick(room);
+              }}
+            >
+              <ProfileAvatarImage
+                src={room.friendInfo.profileImgUrl}
+                alt={room.friendInfo.username}
+                width="60"
+              />
+              <IDwithLastmessage>
+                <UserID>{room.friendInfo.username}</UserID>
+                <LastMessage>
+                  {room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0
+                    ? (room.message = '친구 요청을 보냈어요')
+                    : room.message}
+                </LastMessage>
+              </IDwithLastmessage>
+            </ListTag>
+          ))}
       </UnorderedList>
       {friendRequestModal ? (
         <FriendRequest
@@ -165,6 +160,4 @@ const DMmessageList = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
 `;
-

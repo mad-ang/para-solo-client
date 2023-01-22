@@ -15,13 +15,13 @@ import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Cookies from 'universal-cookie';
 import { UserResponseDto } from 'src/api/chat';
-import { setUserProfile } from 'src/stores/UserStore';
+import { setUserProfile, setUserCoin } from 'src/stores/UserStore';
 import { getUserInfo } from 'src/api/auth';
 const cookies = new Cookies();
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
   private chairOnSit?: Chair;
-  private marker
+  private marker;
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -34,21 +34,12 @@ export default class MyPlayer extends Player {
     frame?: string | number
   ) {
     super(scene, x, y, texture, id, userId, userProfile, name, frame);
-    // this.marker = this.scene.add
-    //   .text(0, -3, '🏖')
-    //   .setFontFamily('')
-    //   .setFontSize(8)
-    //   .setColor('#d500f9')
-    //   .setOrigin(0.5)
-    //   .setResolution(10);
-    // this.playerContainer.add(this.marker)
     this.playContainerBody = this.playerContainer.body as Phaser.Physics.Arcade.Body;
-
   }
 
   setPlayerName(name: string, authFlag: number = 1) {
     if (!authFlag) return;
-    this.playerName.setText('🏖'+ name + '🏖');
+    this.playerName.setText('🏖' + name + '🏖');
     const userId = store.getState().user?.userId || cookies.get('userId');
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name, userId, authFlag);
     cookies.set('playerName', name, { path: '/', maxAge: 600 });
@@ -58,8 +49,9 @@ export default class MyPlayer extends Player {
     getUserInfo()
       .then((response) => {
         if (!response) return;
-        const { userId, username, userProfile, ...otherInfo } = response;
+        const { userId, username, userProfile, userCoin, ...otherInfo } = response;
         store.dispatch(setUserProfile(userProfile));
+        // store.dispatch(setUserCoin(userCoin));
       })
       .catch((error) => {
         console.error(error);
@@ -286,7 +278,6 @@ Phaser.GameObjects.GameObjectFactory.register(
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
-
     this.scene.physics.world.enableBody(sprite, Phaser.Physics.Arcade.DYNAMIC_BODY);
 
     const collisionScale = [0.5, 0.2];
