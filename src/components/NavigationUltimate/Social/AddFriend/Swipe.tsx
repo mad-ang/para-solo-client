@@ -13,21 +13,11 @@ import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import { addFriendReq } from 'src/api/friend';
-import {chargingCoinReq} from 'src/api/chargingCoin'
+import { chargingCoinReq } from 'src/api/chargingCoin';
 import ClearIcon from '@mui/icons-material/Close';
 import CloseIcon from '@mui/icons-material/Close';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
 import RequestFreindResultModal from './RequestFriendResultModal';
-
-const dummyImages = [
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/1.jpeg',
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/8.jpg',
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/3.png',
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/7.jpg',
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/4.jpeg',
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/5.png',
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/6.jpg',
-];
 
 function Swipe(props) {
   const dispatch = useAppDispatch();
@@ -36,10 +26,11 @@ function Swipe(props) {
   const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
-  const [addFriendResult, setAddFriendResult] = useState<number>(0); //0: 친구 요청 전, 1: 친구 요청 성공,  2: 친구 요청 실패(코인충전) 3:이미친구 
+  const [addFriendResult, setAddFriendResult] = useState<number>(0); //0: 친구 요청 전, 1: 친구 요청 성공,  2: 친구 요청 실패(코인충전) 3:이미친구
 
-  const userId = useAppSelector((state) => state.user.userId);
-  const username = useAppSelector((state) => state.user.username);
+  const myId = useAppSelector((state) => state.user.userId);
+  const myName = useAppSelector((state) => state.user.username);
+  const myProfile = useAppSelector((state) => state.user.userProfile);
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userCnt = useAppSelector((state) => state.room.userCnt);
   // const noMoreCoin = useAppSelector((state) => state.user.noMoreCoin);
@@ -51,18 +42,14 @@ function Swipe(props) {
   async function requestFriend(id, name, targetImgUrl) {
     let body = {
       myInfo: {
-        userId: userId,
-        username: username,
-        profileImgUrl:
-          'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/leedohyun.png',
+        userId: myId,
+        username: myName,
+        profileImgUrl: myProfile.profileImgUrl || '',
       },
       friendInfo: {
         userId: id,
         username: name,
-        profileImgUrl:
-          targetImgUrl || 'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/7.jpg',
-        // username: 'friendName',
-        // profileImgUrl: props.url,
+        profileImgUrl: targetImgUrl,
       },
       status: 0,
       message: '친구 요청이 왔습니다',
@@ -71,20 +58,18 @@ function Swipe(props) {
       const result = await addFriendReq(body);
       console.log('여기... result:', result);
       //여기에서 setUserCoin 써야함 (동기화)
-  
+
       //404 이면, setAddFriendResult(2)로 해주어야 함
-      if (result === 1){
-        console.log("친구 요청 성공(swipe.tsx)")
+      if (result === 1) {
+        console.log('친구 요청 성공(swipe.tsx)');
         setAddFriendResult(result!);
         dispatch(setUserCoin(userCoin - 1));
-      }
-      else if (result === 2){
-        console.log("코인 부족으로 인한 친구 요청 실패(swipe.tsx)")
+      } else if (result === 2) {
+        console.log('코인 부족으로 인한 친구 요청 실패(swipe.tsx)');
         setAddFriendResult(result!);
-      }
-      else if (result === 3){
+      } else if (result === 3) {
         setAddFriendResult(result!);
-        console.log("이미 친구이거나 친구요청을 보낸 상태입니다(swipe.tsx)")
+        console.log('이미 친구이거나 친구요청을 보낸 상태입니다(swipe.tsx)');
       }
       //여기에서 localstate인 UserCoin의 개수를 통해, addFriendResult 를 업데이트 해주어야 함
     } catch (error) {
@@ -131,7 +116,7 @@ function Swipe(props) {
           // }}
         >
           {otherPlayers?.map((player, i: number) => {
-            return player.userId !== userId ? (
+            return player.userId !== myId ? (
               <SwiperSlide key={i}>
                 {/* <SwiperSlide key={player.id}> */}
                 <SwipeBody className="SwipeBody">
@@ -139,7 +124,7 @@ function Swipe(props) {
                     <div className="personal-image">
                       <ProfileAvatarImage
                         ref={imgRef}
-                        src={i <= 5 ? dummyImages[i] : DefaultAvatar}
+                        src={player?.userProfile?.profileImgUrl || DefaultAvatar}
                         // src={player.userInfo.profileImgUrl || DefaultAvatar}
                         className="personal-avatar"
                         alt="avatar"
@@ -153,7 +138,11 @@ function Swipe(props) {
                   <Message>좋은 만남 가져봐요</Message>
                   <MyButton
                     onClick={() => {
-                      requestFriend(player.userId, player.name, i <= 5 ? dummyImages[i] : null);
+                      requestFriend(
+                        player.userId,
+                        player.name,
+                        player.userProfile.profileImgUrl || ''
+                      );
                       setAddFriendResult(1);
                     }}
                   >
@@ -165,8 +154,11 @@ function Swipe(props) {
           })}
         </Swiper>
       )}
-      {addFriendResult === 0 ? null :(
-        <RequestFreindResultModal setAddFriendResult={setAddFriendResult}  addFriendResult={addFriendResult}/>
+      {addFriendResult === 0 ? null : (
+        <RequestFreindResultModal
+          setAddFriendResult={setAddFriendResult}
+          addFriendResult={addFriendResult}
+        />
       )}
     </Wrapper>
   );
