@@ -6,6 +6,7 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import MusicOffIcon from '@mui/icons-material/MusicOff';
 import React, { useRef, useState, useEffect } from 'react';
 import { truncate } from 'fs';
+import BgmSrc from 'src/assets/music/BGM1.mp3';
 
 export default function () {
   const [BGMstate, setBGMstate] = useState(true);
@@ -13,7 +14,7 @@ export default function () {
 
   useEffect(() => {
     const audio = audioRef.current;
-    audio.src = '/assets/music/BGM1.mp3';
+    audio.src = BgmSrc;
     audio.loop = true;
     if (BGMstate) audio.play();
   }, [BGMstate]);
