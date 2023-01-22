@@ -16,6 +16,14 @@ export default defineConfig(({ command, mode }) => {
         },
       }),
     ],
+    server:{
+      watch:{
+        usePolling: true,
+      }
+    },
+    host: true,
+    strictPort:true,
+    port: 5173,
     define: {
       __APP_ENV__: env.APP_ENV,
     },

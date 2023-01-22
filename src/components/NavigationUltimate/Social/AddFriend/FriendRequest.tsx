@@ -84,7 +84,7 @@ export default function FriendRequest(props) {
             수락
           </MyButton>
           <MyButton color = {`${Colors.pink[2]}`}
-          hoverColor = {`${Colors.red[1]}`}
+            // hoverColor = {`${Colors.red[1]}`}
             onClick={() => {
               AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0);
               handleClick();
@@ -237,7 +237,8 @@ const MyButton = styled.button`
   background-color: ${props => props.color ? props.color: `${Colors.skyblue[1]}`};
   margin: 15px 10px 10px 10px;
 
-  &:hover {
-    background-color: ${props => props.hoverColor ? props.hoverColor: `${Colors.skyblue[2]}`};
-  }
-`;
+  `;
+  
+  // &:hover {
+  //   background-color: ${props => props.hoverColor ? props.hoverColor: `${Colors.skyblue[2]}`};
+  // }
