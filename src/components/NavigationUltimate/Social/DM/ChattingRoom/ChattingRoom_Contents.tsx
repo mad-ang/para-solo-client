@@ -10,15 +10,16 @@ import phaserGame from 'src/PhaserGame';
 // import {DMSlice} from 'src/stores/DMboxStore';
 import { Colors } from 'src/utils/Colors';
 import { color } from '@mui/system';
+import { setNewMessageCnt, setRequestFriendCnt } from 'src/stores/DMboxStore';
 const Wrapper = styled.div`
   height: 450px;
   width: 370px;
 `;
 
 export default function ChatBubbles(props) {
+  const dispatch = useAppDispatch();
   const game = phaserGame.scene.keys.game as Game;
   const socketNetwork = game.networt2;
-
   // 채팅 시작 시 저장되어 있던 채팅 리스트 보여줌
   const roomId = useAppSelector((state) => state.dm.roomId);
   const friendId = useAppSelector((state) => state.dm.friendId);
@@ -33,6 +34,9 @@ export default function ChatBubbles(props) {
       setMessageList(oldMessages);
     };
     socketNetwork.joinRoom(roomId, userId, friendId, callback);
+    
+    // if 친구요청일 때는 dispatch(setRequestFriendCnt(-1))     
+    // else : unread개수 카운트 dispatch(setNewMessageCnt(-1 * unread))
   }, []);
 
 
