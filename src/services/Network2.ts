@@ -22,29 +22,29 @@ export default class chatNetwork {
 
     this.socketClient = io(`${socketUrl}`);
     this.oldMessages = [];
-    this.socketClient.on('connect', () => {
-      this.socketClient.on('request-friend', (data) => {
-        store.dispatch(setRequestFriendCnt(1));
-        fireNotification('[PARA-SOLO] 친구 요청 도착', {
-          body: `${data.username}님과 친구를 맺어보아요.`,
-          icon: `${ParasolImg}`,
-        });
-        console.log('request-friend', data);
-      });
-      this.socketClient.on('accept-friend', (data) => {
-        fireNotification('[PARA-SOLO] 친구 요청 수락', {
-          body: `짝짝짝, ${data}님이 친구 요청을 수락했습니다.`,
-          icon: `${ParasolImg}`,
-        });
-        console.log('request-friend', data);
-      });
 
-      this.socketClient.on('message', (data) => {
-        console.log('message와땅');
-        data.id = 1;
-        store.dispatch(setNewMessage(data));
-        store.dispatch(setNewMessageCnt(1));
+    this.socketClient.on('request-friend', (data) => {
+      store.dispatch(setRequestFriendCnt(1));
+      fireNotification('[PARA-SOLO] 친구 요청 도착', {
+        body: `${data.username}님과 친구를 맺어보아요.`,
+        icon: `${ParasolImg}`,
       });
+      console.log('request-friend', data);
+    });
+
+    this.socketClient.on('accept-friend', (data) => {
+      console.log('fire!!! -> request-friend', data);
+      fireNotification('[PARA-SOLO] 친구 요청 수락', {
+        body: `짝짝짝, ${data}님이 친구 요청을 수락했습니다.`,
+        icon: `${ParasolImg}`,
+      });
+    });
+
+    this.socketClient.on('message', (data) => {
+      console.log('message와땅');
+      data.id = 1;
+      store.dispatch(setNewMessage(data));
+      store.dispatch(setNewMessageCnt(1));
     });
   }
 
@@ -73,8 +73,6 @@ export default class chatNetwork {
       callback(this.oldMessages);
     });
   };
-
-  listenMessage = () => {};
 
   sendMessage = (message: object) => {
     this.socketClient.emit('message', message);
