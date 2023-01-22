@@ -6,7 +6,7 @@ import ParasolImg from 'src/assets/directmessage/parasol.png';
 
 import { ChatFeed, Message } from 'react-chat-ui';
 import store from '../stores';
-import { setRequestFriendCnt } from 'src/stores/DMboxStore';
+import { setNewMessageCnt, setRequestFriendCnt } from 'src/stores/DMboxStore';
 import Cookies from 'universal-cookie';
 import { fireNotification } from 'src/api/notification';
 const cookies = new Cookies();
@@ -72,7 +72,7 @@ export default class chatNetwork {
     this.socketClient.on('message', (data) => {
       data.id = 1;
       callback(data);
-      store.dispatch(setRequestFriendCnt(1));
+      store.dispatch(setNewMessageCnt(1));
     });
   };
 
