@@ -27,7 +27,6 @@ import Cookies from 'universal-cookie';
 import store from './stores';
 import { Tab } from '@mui/material';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
-import BgmSrc from 'src/assets/music/BGM1.mp3';
 
 const cookies = new Cookies();
 
