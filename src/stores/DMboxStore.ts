@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Message } from 'react-chat-ui';
-import {  IChatRoomStatus } from 'src/api/chat';
+import { IChatRoomStatus } from 'src/api/chat';
 export enum DMProcess {
   JOINED_DM,
   SEND_DM,
@@ -19,8 +19,8 @@ export const DMSlice = createSlice({
     friendName: '',
     requestFriendCnt: 0,
     newMessageCnt: 0,
+    newMessage: '',
     // status 추가
-
   },
   reducers: {
     setShowDM: (state, action: PayloadAction<boolean>) => {
@@ -47,13 +47,24 @@ export const DMSlice = createSlice({
     setNewMessageCnt: (state, action: PayloadAction<number>) => {
       state.newMessageCnt += action.payload;
     },
+    setNewMessage: (state, action: PayloadAction<string>) => {
+      state.newMessage = action.payload;
+    },
     setdmProcess: (state, action: PayloadAction<any>) => {
       state.dmProcess = action.payload;
     },
   },
 });
 
-export const { setFriendId, setFriendName, setShowDM, setRoomId, setRequestFriendCnt, setNewMessageCnt, setdmProcess } =
-  DMSlice.actions;
+export const {
+  setFriendId,
+  setFriendName,
+  setShowDM,
+  setRoomId,
+  setRequestFriendCnt,
+  setNewMessageCnt,
+  setNewMessage,
+  setdmProcess,
+} = DMSlice.actions;
 
 export default DMSlice.reducer;

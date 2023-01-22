@@ -6,7 +6,7 @@ import ParasolImg from 'src/assets/directmessage/parasol.png';
 
 import { ChatFeed, Message } from 'react-chat-ui';
 import store from '../stores';
-import { setNewMessageCnt, setRequestFriendCnt } from 'src/stores/DMboxStore';
+import { setNewMessageCnt, setNewMessage, setRequestFriendCnt } from 'src/stores/DMboxStore';
 import Cookies from 'universal-cookie';
 import { fireNotification } from 'src/api/notification';
 const cookies = new Cookies();
@@ -38,6 +38,13 @@ export default class chatNetwork {
         });
         console.log('request-friend', data);
       });
+
+      this.socketClient.on('message', (data) => {
+        console.log('message와땅');
+        data.id = 1;
+        store.dispatch(setNewMessage(data));
+        store.dispatch(setNewMessageCnt(1));
+      });
     });
   }
 
@@ -67,15 +74,10 @@ export default class chatNetwork {
     });
   };
 
-  sendMessage = (message: object, callback: any) => {
-    this.socketClient.emit('message', message);
+  listenMessage = () => {};
 
-    this.socketClient.on('message', (data) => {
-      console.log('message와땅');
-      data.id = 1;
-      callback(data);
-      store.dispatch(setNewMessageCnt(1));
-    });
+  sendMessage = (message: object) => {
+    this.socketClient.emit('message', message);
   };
 
   whoAmI = (userId: string) => {
