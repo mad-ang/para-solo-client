@@ -26,6 +26,7 @@ export const Colors = {
   red: {
     1: '#C4564C',
     2: '#ED9090',
+    3: '#DD0000',
   },
   pink: {
     1: '#FFDAE0',

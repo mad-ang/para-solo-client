@@ -143,6 +143,8 @@ function DMbox() {
 export default function DMboxButton() {
   const ActivatedNav = useAppSelector((state) => state.nav.currentState);
   const requestFriendCnt = useAppSelector((state) => state.dm.requestFriendCnt);
+  const newMessageCnt = useAppSelector((state) => state.dm.newMessageCnt);
+  const [alertCnt, setAlertCnt] = useState<number>(requestFriendCnt + newMessageCnt);
   // const NavControllerChattingRoomActivated = useAppSelector(
   //   (state) => state.nav.NavControllerChattingRoomActivated
   // );
@@ -156,11 +158,15 @@ export default function DMboxButton() {
     }
   }
 
+  useEffect(() => {
+    setAlertCnt(requestFriendCnt + newMessageCnt);
+  }, [requestFriendCnt, newMessageCnt]);
+
   return (
     <Wrapper>
       <StyledRedBox onClick={handleClick} pressed={ActivatedNav}>
+        {alertCnt > 0 && <UnreadBadge>{alertCnt}</UnreadBadge>}
         <VolunteerActivismIcon fontSize="large" sx={{ color: '#fff' }} />
-        <div style={{ color: 'red' }}>{requestFriendCnt > 0 ? requestFriendCnt : '알림 없음'}</div>
       </StyledRedBox>
       {(ActivatedNav == ModalState.ChattingList ||
         ActivatedNav == ModalState.ChattingListAndRoom) && (
@@ -172,3 +178,21 @@ export default function DMboxButton() {
     </Wrapper>
   );
 }
+
+const UnreadBadge = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-right: -11px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 100%;
+  background-color: ${Colors.red[3]};
+  color: ${Colors.white};
+  font-size: 12px;
+`;
