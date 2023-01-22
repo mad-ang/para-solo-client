@@ -14,7 +14,7 @@ import Colors from 'src/utils/Colors';
 
 export default function HeadAppBar() {
   const dispatch = useAppDispatch();
-  const friendId = useAppSelector((state) => state.dm.friendId);
+  const friendName = useAppSelector((state) => state.dm.friendName);
 
   return (
     <DMtop>
@@ -31,7 +31,7 @@ export default function HeadAppBar() {
         >
           <ArrowBackIosNewIcon />
         </IconButton>
-        <TitleText>{friendId}</TitleText>
+        <TitleText>{friendName}</TitleText>
       </DirtyTalk>
     </DMtop>
   );

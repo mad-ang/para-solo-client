@@ -7,6 +7,7 @@ import { blue } from '@mui/material/colors';
 import {
   DMSlice,
   setFriendId,
+  setFriendName,
   setRoomId,
   setNewMessageCnt,
   setdmProcess,
@@ -74,6 +75,7 @@ export const ConversationList = () => {
         dispatch(SetWhichModalActivated(ModalState.ChattingListAndRoom));
         // Response userId
         dispatch(setFriendId(room.friendInfo.userId));
+        dispatch(setFriendName(room.friendInfo.username));
         dispatch(setRoomId(room.roomId));
 
         // room의 unreadCount, room.status 설정해준다

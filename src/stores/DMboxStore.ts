@@ -16,6 +16,7 @@ export const DMSlice = createSlice({
     roomId: '',
     // listORroom: true, // true: list, false: room
     friendId: '',
+    friendName: '',
     requestFriendCnt: 0,
     newMessageCnt: 0,
     // status 추가
@@ -34,6 +35,9 @@ export const DMSlice = createSlice({
     setFriendId: (state, action: PayloadAction<string>) => {
       state.friendId = action.payload;
     },
+    setFriendName: (state, action: PayloadAction<string>) => {
+      state.friendName = action.payload;
+    },
     setRoomId: (state, action: PayloadAction<string>) => {
       state.roomId = action.payload;
     },
@@ -49,7 +53,7 @@ export const DMSlice = createSlice({
   },
 });
 
-export const { setFriendId, setShowDM, setRoomId, setRequestFriendCnt, setNewMessageCnt, setdmProcess } =
+export const { setFriendId, setFriendName, setShowDM, setRoomId, setRequestFriendCnt, setNewMessageCnt, setdmProcess } =
   DMSlice.actions;
 
 export default DMSlice.reducer;
