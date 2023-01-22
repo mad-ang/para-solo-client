@@ -33,7 +33,6 @@ export default class chatNetwork {
     });
 
     this.socketClient.on('accept-friend', (data) => {
-      console.log('fire!!! -> request-friend', data);
       fireNotification('[PARA-SOLO] 친구 요청 수락', {
         body: `짝짝짝, ${data}님이 친구 요청을 수락했습니다.`,
         icon: `${ParasolImg}`,
@@ -41,7 +40,6 @@ export default class chatNetwork {
     });
 
     this.socketClient.on('message', (data) => {
-      console.log('message와땅');
       data.id = 1;
       store.dispatch(setNewMessage(data));
       store.dispatch(setNewMessageCnt(1));
@@ -59,7 +57,6 @@ export default class chatNetwork {
     this.socketClient.on('old-messages', (data) => {
       const userId = store.getState().user.userId || cookies.get('userId');
       this.oldMessages = [];
-      console.log('old-messages', '받아왔다!', data);
       data.forEach((element: any) => {
         if (element.senderId) {
           if (element.senderId === userId) {

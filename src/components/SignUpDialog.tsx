@@ -110,10 +110,8 @@ export default function SignUpDialog() {
             .catch((error) => console.error(error));
           bootstrap.network2.whoAmI(payload.userId);
           dispatch(setStoreUserId(payload.userId));
-          console.log('200 로그인 성공인딩');
           return true;
         } else {
-          console.log('data.status가 200이 아닐 때', data.status);
           return false;
         }
       }

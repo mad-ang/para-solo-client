@@ -7,7 +7,7 @@ import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import { setUserCoin } from 'src/stores/UserStore';
-import {chargingCoinReq} from 'src/api/chargingCoin'
+import { chargingCoinReq } from 'src/api/chargingCoin';
 interface Props {
   message: string;
 }
@@ -23,55 +23,52 @@ export default function RequestFreindResultModal(props) {
       myInfo: {
         userId: userId,
       },
-    }
-    try{
+    };
+    try {
       const result = await chargingCoinReq(body);
-      if (result === 1){
-        console.log("코인 충전 성공(swipe.tsx)")
+      if (result === 1) {
+        console.log('코인 충전 성공(swipe.tsx)');
         dispatch(setUserCoin(userCoin + 3));
+      } else {
+        console.log('코인 충전 실패(swipe.tsx)');
       }
-      else{
-        console.log("코인 충전 실패(swipe.tsx)")
-      }
+    } catch (error) {
+      console.error('error(charging coin 하다가 에러, swipte.tsx참조)', error);
     }
-    catch(error){
-      console.error("error(charging coin 하다가 에러, swipte.tsx참조)", error);
-    }
-}
+  }
 
   const handleClick = () => {
-    console.log('clicked');
     props.setAddFriendResult(0);
   };
 
   const addfriendResult = props.addFriendResult;
 
-    switch (addfriendResult){
-      case 1: //친구요청을 성공했을 때
-        return (
-          <Wrapper className="requestResultWrapper">
-              <RequestResultHeader>
-                <TitleImage src={ParasolImg} width="30" />
-                <TitleText>친구 요청 성공</TitleText>
-                <ButtonWrapper onClick={handleClick}>
-                  <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
-                </ButtonWrapper>
-              </RequestResultHeader>
-    
-              <RequestResultBody>
-                <div>
-                  <div>친구요청을 보냈어요!👩‍❤️‍👨</div>
-                  <div>친구가 수락하면 채팅이 가능해요!</div>
-                </div>
-                <Buttons>
-                  <MyButton onClick={handleClick}>확인</MyButton>
-                </Buttons>
-              </RequestResultBody>
-            </Wrapper>
-        );
-      case 3 : //이미 친구이거나, 수락을 기다리고 있는 상태
-        return (
-          <Wrapper className="requestResultWrapper">
+  switch (addfriendResult) {
+    case 1: //친구요청을 성공했을 때
+      return (
+        <Wrapper className="requestResultWrapper">
+          <RequestResultHeader>
+            <TitleImage src={ParasolImg} width="30" />
+            <TitleText>친구 요청 성공</TitleText>
+            <ButtonWrapper onClick={handleClick}>
+              <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
+            </ButtonWrapper>
+          </RequestResultHeader>
+
+          <RequestResultBody>
+            <div>
+              <div>친구요청을 보냈어요!👩‍❤️‍👨</div>
+              <div>친구가 수락하면 채팅이 가능해요!</div>
+            </div>
+            <Buttons>
+              <MyButton onClick={handleClick}>확인</MyButton>
+            </Buttons>
+          </RequestResultBody>
+        </Wrapper>
+      );
+    case 3: //이미 친구이거나, 수락을 기다리고 있는 상태
+      return (
+        <Wrapper className="requestResultWrapper">
           <RequestResultHeader>
             <TitleImage src={ParasolImg} width="30" />
             <TitleText>친구 요청 실패</TitleText>
@@ -90,10 +87,10 @@ export default function RequestFreindResultModal(props) {
             </Buttons>
           </RequestResultBody>
         </Wrapper>
-        );
-      default: //코인이 부족할때(paypal결제모달 3항연산자로 포함)
-        return (
-          <>
+      );
+    default: //코인이 부족할때(paypal결제모달 3항연산자로 포함)
+      return (
+        <>
           {!charging ? (
             <Wrapper className="requestResultWrapper">
               <RequestResultHeader>
@@ -103,13 +100,13 @@ export default function RequestFreindResultModal(props) {
                   <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
                 </ButtonWrapper>
               </RequestResultHeader>
-    
+
               <RequestResultBody>
                 <div>
                   <div>앗... 코인이 없어요!!🥲</div>
                   <div>코인을 충전해주세요!</div>
                 </div>
-    
+
                 <Buttons>
                   <MyButton onClick={() => setcharging(true)}>코인충전</MyButton>
                   <MyRedButton onClick={handleClick}> 코인안충전</MyRedButton>
@@ -125,7 +122,7 @@ export default function RequestFreindResultModal(props) {
                   <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
                 </ButtonWrapper>
               </RequestResultHeader>
-    
+
               <RequestResultBody>
                 <div>코인 3개를 충전합니다</div>
                 <PayPalButtons
@@ -145,7 +142,7 @@ export default function RequestFreindResultModal(props) {
                       // const name = details.payer.name.given_name;
                       chargingCoin();
                       alert(` 코인충전 완료!!💰`);
-                        //서버로 3개올려달라고 말해주면 됨
+                      //서버로 3개올려달라고 말해주면 됨
                       handleClick();
                     });
                   }}
@@ -154,10 +151,8 @@ export default function RequestFreindResultModal(props) {
             </Wrapper>
           )}
         </>
-
-
-        );
-    }
+      );
+  }
 }
 
 const Wrapper = styled.div`
@@ -264,4 +259,4 @@ const Buttons = styled.div`
 
 const AlreadyFriendMessage = styled.div`
   font-size: 22px;
-  `
+`;
