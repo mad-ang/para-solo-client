@@ -5,13 +5,39 @@ import Colors from 'src/utils/Colors';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import { useAppSelector, useAppDispatch } from 'src/hooks';
+import { setUserCoin } from 'src/stores/UserStore';
+import {chargingCoinReq} from 'src/api/chargingCoin'
 interface Props {
   message: string;
 }
 
 export default function RequestFreindResultModal(props) {
   const [charging, setcharging] = useState(false);
+  const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.user.userId);
+  const userCoin = useAppSelector((state) => state.user.userCoin);
+
+  async function chargingCoin() {
+    let body = {
+      myInfo: {
+        userId: userId,
+      },
+    }
+    try{
+      const result = await chargingCoinReq(body);
+      if (result === 1){
+        console.log("코인 충전 성공(swipe.tsx)")
+        dispatch(setUserCoin(userCoin + 3));
+      }
+      else{
+        console.log("코인 충전 실패(swipe.tsx)")
+      }
+    }
+    catch(error){
+      console.error("error(charging coin 하다가 에러, swipte.tsx참조)", error);
+    }
+}
 
   const handleClick = () => {
     console.log('clicked');
@@ -117,8 +143,8 @@ export default function RequestFreindResultModal(props) {
                   onApprove={(data, actions) => {
                     return actions.order!.capture().then((details) => {
                       // const name = details.payer.name.given_name;
+                      chargingCoin();
                       alert(` 코인충전 완료!!💰`);
-                      // userCoin갯수를 +3해주는 함수 추가
                         //서버로 3개올려달라고 말해주면 됨
                       handleClick();
                     });

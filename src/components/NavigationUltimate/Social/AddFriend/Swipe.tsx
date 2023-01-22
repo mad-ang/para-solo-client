@@ -13,6 +13,7 @@ import { Navigation } from 'swiper';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import { addFriendReq } from 'src/api/friend';
+import {chargingCoinReq} from 'src/api/chargingCoin'
 import ClearIcon from '@mui/icons-material/Close';
 import CloseIcon from '@mui/icons-material/Close';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
