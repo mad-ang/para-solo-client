@@ -4,7 +4,7 @@ import DMboxSVG from '../../../assets/directmessage/DM.svg';
 import channelTalkPNG from '../../../assets/directmessage/channeltalk.png';
 import { useNavigate } from 'react-router-dom';
 import { blue } from '@mui/material/colors';
-import { DMSlice, setFriendId, setRoomId } from '../../../../../stores/DMboxStore';
+import { DMSlice, setFriendId, setRoomId, setNewMessageCnt, setdmProcess } from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import { SetWhichModalActivated, ModalState } from '../../../../../stores/NavbarStore';
 import { useQuery } from 'react-query';
@@ -22,6 +22,7 @@ import Colors from 'src/utils/Colors';
 /* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.friendId)에 친구의 userId를 넣어준다  */
 export const ConversationList = () => {
   const [rooms, setRooms] = useState<RoomListResponse[]>([]);
+  const [unreadCnt, setUnreadCnt] = useState(0);
   const [friendRequestModal, setFriendRequestModal] = useState(false);
   const [FriendRequestProps, setFriendRequestProps] = useState<UserResponseDto>(
     {} as UserResponseDto
@@ -51,19 +52,29 @@ export const ConversationList = () => {
     console.log('friendInfo..', room.friendInfo);
     console.log('roomId는..', room.roomId);
 
-    if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0) {
+    if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount == 0) {
       setFriendRequestProps(room.friendInfo);
-    } else if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 1) {
+
+    } else if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount == 1) {
       // 친구 요청 받음
       setFriendRequestModal(true);
       setFriendRequestProps(room.friendInfo);
+      
+      // 친구 수락, 거절 창 띄우고 -> dmProcess를 room.status(IChatRoomStatus.FRIEND_REQUEST) 로 바꿈 
+      dispatch(setdmProcess(room.status));
     } else {
+
       console.log("This room's status is... ", room.status);
       try {
         dispatch(SetWhichModalActivated(ModalState.ChattingListAndRoom));
         // Response userId
         dispatch(setFriendId(room.friendInfo.userId));
         dispatch(setRoomId(room.roomId));
+
+        // room의 unreadCount, room.status 설정해준다
+       dispatch(setNewMessageCnt(-1 * room.unreadCount));
+        dispatch(setdmProcess(room.status));
+
       } catch (error) {
         console.log('error', error);
       }
@@ -87,11 +98,14 @@ export const ConversationList = () => {
               />
               <IDwithLastmessage>
                 <UserID>{room.friendInfo.username}</UserID>
-                <LastMessage>
-                  {room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0
-                    ? (room.message = '친구 요청을 보냈어요')
-                    : room.message}
-                </LastMessage>
+                <LastMessageWithBadge>
+                  <LastMessage>
+                    {room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount === 0
+                      ? (room.message = '친구 요청을 보냈어요')
+                      : room.message}
+                  </LastMessage>
+                  {room.unreadCount! > 0 ? <UnreadCnt>{room.unreadCount}</UnreadCnt> : null}
+                </LastMessageWithBadge>
               </IDwithLastmessage>
             </ListTag>
           ))}
@@ -143,6 +157,14 @@ const UserID = styled.div`
   // color: ${Colors.skyblue[2]};
 `;
 
+const LastMessageWithBadge = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-size: 1em;
+  margin: 0px 0px 10px 0px;
+  width: 200px;
+  height: 20px;
+`;
 const LastMessage = styled.div`
   display: block;
   font-size: 1em;
@@ -153,6 +175,19 @@ const LastMessage = styled.div`
   width: 200px;
   height: 20px;
 `;
+const UnreadCnt = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 100%;
+  background-color: ${Colors.red[2]};
+  color: ${Colors.white};
+  font-size: 12px;
+`;
+
 const DMmessageList = styled.div`
   background: #ffffff;
   height: 520px;

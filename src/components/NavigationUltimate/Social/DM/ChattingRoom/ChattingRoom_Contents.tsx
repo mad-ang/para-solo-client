@@ -11,6 +11,7 @@ import phaserGame from 'src/PhaserGame';
 import { Colors } from 'src/utils/Colors';
 import { color } from '@mui/system';
 import { setNewMessageCnt, setRequestFriendCnt } from 'src/stores/DMboxStore';
+import { IChatRoomStatus } from 'src/api/chat';
 const Wrapper = styled.div`
   height: 450px;
   width: 370px;
@@ -25,6 +26,9 @@ export default function ChatBubbles(props) {
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userId = useAppSelector((state) => state.user.userId);
 
+  const roomStatus = useAppSelector((state) => state.dm.dmProcess);
+  // const unread = useAppSelector((state) => state.dm.newMessageCnt);
+
   // 기존 메세지 리스트 -> 삭제 예정
   const [messageList, setMessageList] = useState<any>([]);
 
@@ -35,8 +39,12 @@ export default function ChatBubbles(props) {
     };
     socketNetwork.joinRoom(roomId, userId, friendId, callback);
     
+    if (!roomStatus) dispatch(setRequestFriendCnt(-1));
+    // else dispatch(setNewMessageCnt(-1 * unread));
     // if 친구요청일 때는 dispatch(setRequestFriendCnt(-1))     
     // else : unread개수 카운트 dispatch(setNewMessageCnt(-1 * unread))
+
+
   }, []);
 
 
