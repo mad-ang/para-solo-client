@@ -144,7 +144,7 @@ export default function DMboxButton() {
   const ActivatedNav = useAppSelector((state) => state.nav.currentState);
   const requestFriendCnt = useAppSelector((state) => state.dm.requestFriendCnt);
   const newMessageCnt = useAppSelector((state) => state.dm.newMessageCnt);
-  const [alertCnt, setAlertCnt] = useState<number>(requestFriendCnt + newMessageCnt);
+
   // const NavControllerChattingRoomActivated = useAppSelector(
   //   (state) => state.nav.NavControllerChattingRoomActivated
   // );
@@ -158,14 +158,12 @@ export default function DMboxButton() {
     }
   }
 
-  useEffect(() => {
-    setAlertCnt(requestFriendCnt + newMessageCnt);
-  }, [requestFriendCnt, newMessageCnt]);
-
   return (
     <Wrapper>
       <StyledRedBox onClick={handleClick} pressed={ActivatedNav}>
-        {alertCnt > 0 && <UnreadBadge>{alertCnt}</UnreadBadge>}
+        {(requestFriendCnt > 0 || newMessageCnt > 0) && (
+          <UnreadBadge>{requestFriendCnt + newMessageCnt}</UnreadBadge>
+        )}
         <VolunteerActivismIcon fontSize="large" sx={{ color: '#fff' }} />
       </StyledRedBox>
       {(ActivatedNav == ModalState.ChattingList ||
