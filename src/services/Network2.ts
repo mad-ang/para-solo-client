@@ -24,11 +24,17 @@ export default class chatNetwork {
     this.oldMessages = [];
     this.socketClient.on('request-friend', (data) => {
       store.dispatch(setRequestFriendCnt(1));
-      fireNotification('[PARA-SOLO] 친구 요청 도착',{ body: `${data.username}님과 친구를 맺어보아요.` , icon: `${ParasolImg}`} );
+      fireNotification('[PARA-SOLO] 친구 요청 도착', {
+        body: `${data.username}님과 친구를 맺어보아요.`,
+        icon: `${ParasolImg}`,
+      });
       console.log('request-friend', data);
     });
     this.socketClient.on('accept-friend', (data) => {
-      fireNotification('[PARA-SOLO] 친구 요청 수락', { body: `짝짝짝, ${data}님이 친구 요청을 수락했습니다.` , icon: `${ParasolImg}`});
+      fireNotification('[PARA-SOLO] 친구 요청 수락', {
+        body: `짝짝짝, ${data}님이 친구 요청을 수락했습니다.`,
+        icon: `${ParasolImg}`,
+      });
       console.log('request-friend', data);
     });
     this.socketClient.on('update-room-id', (data) => {});
@@ -66,6 +72,7 @@ export default class chatNetwork {
     this.socketClient.on('message', (data) => {
       data.id = 1;
       callback(data);
+      store.dispatch(setRequestFriendCnt(1));
     });
   };
 
