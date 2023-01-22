@@ -70,12 +70,12 @@ function Swipe(props) {
       const result = await addFriendReq(body);
       console.log('여기... result:', result);
       //여기에서 setUserCoin 써야함 (동기화)
-      //서버에서 코인보내주면 여기 만들면 됨
-
+  
       //404 이면, setAddFriendResult(2)로 해주어야 함
       if (result === 1){
         console.log("친구 요청 성공(swipe.tsx)")
         setAddFriendResult(result!);
+        dispatch(setUserCoin(userCoin - 1));
       }
       else if (result === 2){
         console.log("코인 부족으로 인한 친구 요청 실패(swipe.tsx)")

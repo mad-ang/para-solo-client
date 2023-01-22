@@ -18,6 +18,7 @@ import { UserResponseDto } from 'src/api/chat';
 import { setUserProfile, setUserCoin } from 'src/stores/UserStore';
 import { getUserInfo } from 'src/api/auth';
 const cookies = new Cookies();
+import { useAppSelector, useAppDispatch } from 'src/hooks';
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
   private chairOnSit?: Chair;
@@ -52,6 +53,7 @@ export default class MyPlayer extends Player {
         const { userId, username, userProfile, userCoin, ...otherInfo } = response;
         store.dispatch(setUserProfile(userProfile));
         store.dispatch(setUserCoin(userCoin));
+        console.log("방금 받아온 유저코인:", response)
       })
       .catch((error) => {
         console.error(error);
