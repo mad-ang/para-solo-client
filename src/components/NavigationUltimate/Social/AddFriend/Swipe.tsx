@@ -19,16 +19,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
 import RequestFreindResultModal from './RequestFriendResultModal';
 
-const dummyImages = [
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/1.jpeg',
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/8.jpg',
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/3.png',
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/7.jpg',
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/4.jpeg',
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/5.png',
-  'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/6.jpg',
-];
-
 function Swipe(props) {
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
@@ -126,7 +116,7 @@ function Swipe(props) {
           // }}
         >
           {otherPlayers?.map((player, i: number) => {
-            return player.userId !== userId ? (
+            return player.userId !== myId ? (
               <SwiperSlide key={i}>
                 {/* <SwiperSlide key={player.id}> */}
                 <SwipeBody className="SwipeBody">
@@ -134,7 +124,7 @@ function Swipe(props) {
                     <div className="personal-image">
                       <ProfileAvatarImage
                         ref={imgRef}
-                        src={i <= 5 ? dummyImages[i] : DefaultAvatar}
+                        src={player?.userProfile?.profileImgUrl || DefaultAvatar}
                         // src={player.userInfo.profileImgUrl || DefaultAvatar}
                         className="personal-avatar"
                         alt="avatar"
