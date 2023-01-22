@@ -51,7 +51,7 @@ export default class MyPlayer extends Player {
         if (!response) return;
         const { userId, username, userProfile, userCoin, ...otherInfo } = response;
         store.dispatch(setUserProfile(userProfile));
-        // store.dispatch(setUserCoin(userCoin));
+        store.dispatch(setUserCoin(userCoin));
       })
       .catch((error) => {
         console.error(error);
