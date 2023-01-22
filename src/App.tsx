@@ -59,7 +59,7 @@ function App() {
       /* Render Chat or VideoConnectionDialog if no dialogs are opened. */
       <>
         <NavigationContainer />
-        <UserCoinDialog/>
+        <UserCoinDialog />
         {tableDialogOpen ? <TableDialog /> : null}
         {/* Render VideoConnectionDialog if user is not connected to a webcam. */}
         {!videoConnected && <VideoConnectionDialog />}
