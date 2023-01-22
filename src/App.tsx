@@ -27,6 +27,7 @@ import Cookies from 'universal-cookie';
 import store from './stores';
 import { Tab } from '@mui/material';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+import BgmSrc from 'src/assets/music/BGM1.mp3';
 
 const cookies = new Cookies();
 
@@ -81,10 +82,13 @@ function App() {
 
   return (
     <>
-      <PayPalScriptProvider options={{ "client-id": "Ac1EY6svD5f5jwXD7ZGGjFhKxCEy5ENuJcpGO1aA8W1GPtCrisR_hdcyeiXOKpUSoWCQtKzbI2sBNk5a" }}>
-        <Backdrop className="Backdrop">
-          {ui}
-        </Backdrop>
+      <PayPalScriptProvider
+        options={{
+          'client-id':
+            'Ac1EY6svD5f5jwXD7ZGGjFhKxCEy5ENuJcpGO1aA8W1GPtCrisR_hdcyeiXOKpUSoWCQtKzbI2sBNk5a',
+        }}
+      >
+        <Backdrop className="Backdrop">{ui}</Backdrop>
       </PayPalScriptProvider>
     </>
   );
