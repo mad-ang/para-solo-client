@@ -561,7 +561,7 @@ const ConnectionStatusWithSmallLight = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: ${Colors.greenlight};
+  background-color: ${Colors.greenlight[1]};
   margin-right: 5px;
   margin-left: 5px;
 `;
