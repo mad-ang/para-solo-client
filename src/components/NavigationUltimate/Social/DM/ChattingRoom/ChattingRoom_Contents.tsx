@@ -39,7 +39,6 @@ export default function ChatBubbles(props) {
     };
     socketNetwork.joinRoom(roomId, userId, friendId, callback);
     
-    if (!roomStatus) dispatch(setRequestFriendCnt(-1));
     // else dispatch(setNewMessageCnt(-1 * unread));
     // if 친구요청일 때는 dispatch(setRequestFriendCnt(-1))     
     // else : unread개수 카운트 dispatch(setNewMessageCnt(-1 * unread))

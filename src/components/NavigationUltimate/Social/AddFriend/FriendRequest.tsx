@@ -13,6 +13,7 @@ import axios from 'axios';
 import { fetchRoomList } from 'src/api/chat';
 import ClearIcon from '@mui/icons-material/Close';
 import Cookies from 'universal-cookie';
+import { setRequestFriendCnt } from 'src/stores/DMboxStore';
 const cookies = new Cookies();
 
 export default function FriendRequest(props) {
@@ -30,6 +31,7 @@ export default function FriendRequest(props) {
   const players = Array.from(game?.allOtherPlayers());
 
   async function AcceptRequest(friendId, friendName, status) {
+    const dispatch = useAppDispatch();
     let body = {
       myInfo: {
         userId: userId,
@@ -51,6 +53,10 @@ export default function FriendRequest(props) {
       console.log('error', error);
     }
   }
+
+  useEffect(() => {
+    dispatch(setRequestFriendCnt(-1));
+  }, []);
 
   function handleClick() {
     fetchRoomList(userId).then((data) => {
