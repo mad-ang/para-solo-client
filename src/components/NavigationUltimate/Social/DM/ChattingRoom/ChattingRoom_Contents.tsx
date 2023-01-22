@@ -25,31 +25,24 @@ export default function ChatBubbles(props) {
   const roomId = useAppSelector((state) => state.dm.roomId);
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userId = useAppSelector((state) => state.user.userId);
-
+  const newMessage = useAppSelector((state) => state.dm.newMessage);
   const roomStatus = useAppSelector((state) => state.dm.dmProcess);
   // const unread = useAppSelector((state) => state.dm.newMessageCnt);
 
   // 기존 메세지 리스트 -> 삭제 예정
   const [messageList, setMessageList] = useState<any>([]);
 
+  const callbackForJoinRoom = (oldMessages) => {
+    setMessageList(oldMessages);
+  };
   useEffect(() => {
     console.log('마운트');
-    const callback = (oldMessages) => {
-      setMessageList(oldMessages);
-    };
-    socketNetwork.joinRoom(roomId, userId, friendId, callback);
-    
-    // else dispatch(setNewMessageCnt(-1 * unread));
-    // if 친구요청일 때는 dispatch(setRequestFriendCnt(-1))     
-    // else : unread개수 카운트 dispatch(setNewMessageCnt(-1 * unread))
-
-
+    socketNetwork.joinRoom(roomId, userId, friendId, callbackForJoinRoom);
   }, []);
 
-
   useEffect(() => {
-    if (!props.newMessage || props.newMessage.length === 0) return;
-    
+    if (!props.newMessage || props.newMessage?.message.length === 0) return;
+
     const body = {
       // id : 0,
       roomId: roomId,
@@ -57,19 +50,17 @@ export default function ChatBubbles(props) {
       friendId: friendId,
       message: props.newMessage.message,
     };
-    
+
     // 내가 쓴 메세지 채팅 리스트에 추가
     setMessageList((messageList) => [...messageList, props.newMessage]);
-    
-    const callback = (data) => { 
-      console.log('메세지왔다 2');
-      // 실시간 메세지 받으면 채팅 리스트에 추가
-      setMessageList((messageList) => [...messageList, data]);
-    }
 
     // 내가 쓴 메세지 서버에 전송
-    game.networt2.sendMessage(body, callback);
-  }, [props.newMessage]);
+    game.networt2.sendMessage(body);
+  }, [props.newMessage?.message]);
+
+  useEffect(() => {
+    setMessageList((messageList) => [...messageList, newMessage]);
+  }, [newMessage]);
 
   return (
     <>
