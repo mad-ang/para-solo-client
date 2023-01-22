@@ -10,7 +10,7 @@ import Colors from 'src/utils/Colors';
 import InputBase from '@mui/material/InputBase';
 import Select from 'react-select';
 import { infoItemList, Option, genderOptions, ageOptions, heightOptions } from './data';
-import { authenticateUser, getUserInfo, updateUserInfo } from 'src/api/auth';
+import { authenticateUser, getUserInfo } from 'src/api/auth';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 import Game from 'src/scenes/Game';
@@ -80,14 +80,14 @@ function ProfileEditModal(props) {
     }
   };
 
-  const save = () => {
+  const save = async () => {
     let authFlag = 0;
     setEditable(false);
     // if (inputRefs?.current) {
     //   inputRefs.current.blur();
     // }
 
-    const isAuth = authenticateUser();
+    const isAuth = await authenticateUser();
     if (!isAuth) {
       alert('사용자 정보 인증 오류');
       return;

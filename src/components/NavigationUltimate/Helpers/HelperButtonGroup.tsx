@@ -19,7 +19,8 @@ import { BackgroundMode } from '../../../types/BackgroundMode';
 import { ENTERING_PROCESS, toggleBackgroundMode } from '../../../stores/UserStore';
 import { useAppSelector, useAppDispatch } from '../../../hooks';
 import { getAvatarString, getColorByString } from '../../../util';
-import Cookies from 'universal-cookie';
+
+import { logout } from 'src/api/auth';
 const Backdrop = styled.div`
   display: relative;
   display: flex;
@@ -232,13 +233,7 @@ export default function HelperButtonGroup() {
         </Tooltip>
         <StyledRedBox
           onClick={() => {
-            const cookies = new Cookies();
-            cookies.remove('refreshToken', { path: '/' });
-            cookies.remove('accessToken', { path: '/' });
-            cookies.remove('playerName', { path: '/' });
-            cookies.remove('playerTexture', { path: '/' });
-            cookies.remove('userId', { path: '/' });
-            window.location.href = '/';
+            logout();
           }}
         >
           <LogoutIcon fontSize="large" />

@@ -5,6 +5,15 @@ import Bootstrap from '../scenes/Bootstrap';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
+export const logout = () => {
+  cookies.remove('refreshToken', { path: '/' });
+  cookies.remove('accessToken', { path: '/' });
+  cookies.remove('playerName', { path: '/' });
+  cookies.remove('playerTexture', { path: '/' });
+  cookies.remove('userId', { path: '/' });
+  window.location.href = '/';
+};
+
 export const issueAccessToken = async (body: any): Promise<any> => {
   try {
     const response = await axios.post('/auth/issueAccessToken', body, {
@@ -21,24 +30,37 @@ export const issueAccessToken = async (body: any): Promise<any> => {
     return true;
   } catch (error) {
     console.log(error);
-    return null;
+    return false;
   }
 };
 
 // 사용자 정보 요청
 export const getUserInfo = async (next?: any): Promise<any> => {
-  const refreshToken = cookies.get('refreshToken');
-
-  if (refreshToken) {
-    const issuedResponse = await issueAccessToken({
-      refreshToken: refreshToken,
-    });
-  }
-
   const response = await axios.get('/auth/me');
   const { data } = response;
-  if (data.status == 200) {
+  if (response.status == 200) {
     return data.payload;
+  }
+
+  if (response.status === 401) {
+    const refreshToken = cookies.get('refreshToken');
+
+    if (refreshToken) {
+      const issuedResponse = await issueAccessToken({
+        refreshToken: refreshToken,
+      });
+
+      if (!issuedResponse) {
+        logout();
+        return;
+      }
+
+      const response2 = await axios.get('/auth/me');
+      const { data } = response2;
+      if (response2.status == 200) {
+        return data.payload;
+      }
+    }
   }
 
   return null;
@@ -65,43 +87,89 @@ export const login = async (body: any): Promise<any> => {
   }
 };
 
-export const authenticateUser = (): any => {
-  return axios
-    .get('/auth/isAuth', {
-      headers: {
-        'Content-type': 'application/json',
-      },
-    })
-    .then((response) => {
-      console.log('사용자 정보 인증 성공', response);
-      const { data } = response;
-      if (data.status == 200) {
+export const authenticateUser = async (): Promise<any> => {
+  const response = await axios.get('/auth/isAuth', {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+
+  if (response.status === 200) {
+    console.log('사용자 정보 인증 성공', response);
+    const { data } = response;
+    if (data.status == 200) {
+      return data.payload;
+    }
+  }
+
+  if (response.status === 401) {
+    const refreshToken = cookies.get('refreshToken');
+
+    if (refreshToken) {
+      const issuedResponse = await issueAccessToken({
+        refreshToken: refreshToken,
+      });
+
+      if (!issuedResponse) {
+        logout();
+        return;
+      }
+
+      const response2 = await axios.get('/auth/isAuth', {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      });
+      const { data } = response2;
+      if (response2.status == 200) {
         return data.payload;
       }
-    })
-    .catch((error) => {
-      console.log('사용자 정보 인증 실패', error);
-      return null;
-    });
+    }
+  }
+  return null;
 };
 
 // 사용자 정보 업데이트
-export const updateUserInfo = (body): any => {
-  return axios
-    .patch('/auth/update', body, {
-      headers: {
-        'Content-type': 'application/json',
-      },
-    })
-    .then((response) => {
-      console.log('사용자 정보 업데이트 성공', response);
-      const { data } = response;
-      if (data.status == 200) {
+export const updateUserInfo = async (body): Promise<any> => {
+  const response = await axios.patch('/auth/update', body, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+
+  if (response.status === 200) {
+    console.log('사용자 정보 업데이트 성공', response);
+    const { data } = response;
+    if (data.status == 200) {
+      return data.payload;
+    }
+  }
+
+  if (response.status === 401) {
+    const refreshToken = cookies.get('refreshToken');
+
+    if (refreshToken) {
+      const issuedResponse = await issueAccessToken({
+        refreshToken: refreshToken,
+      });
+
+      if (!issuedResponse) {
+        logout();
+        return;
+      }
+
+      const response2 = await axios.patch('/auth/update', body, {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      });
+
+      const { data } = response2;
+      if (response2.status == 200) {
         return data.payload;
       }
-    })
-    .catch((error) => {
-      console.log('사용자 정보 업데이트 실패', error);
-      return null;
-    });
+    }
+  }
+
+  return null;
 };
