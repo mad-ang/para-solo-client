@@ -92,33 +92,39 @@ export const ConversationList = () => {
     <DMmessageList>
       <UnorderedList>
         {rooms &&
-          rooms.map((room) => (
-            <ListTag
-              key={room._id}
-              onClick={() => {
-                handleClick(room);
-              }}
-            >
-              <ProfileAvatarImage
-                src={room.friendInfo.profileImgUrl || DefaultAvatar}
-                alt={room.friendInfo.username}
-                width="60"
-              />
-              <IDwithLastmessage>
-                <UserID>{room.friendInfo.username}</UserID>
-                <LastMessageWithBadge>
-                  <LastMessage>
-                    {newMessage?.message && newMessage?.userId === room.friendInfo?.userId
-                      ? newMessage?.message
-                      : room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount === 0
-                      ? (room.message = '친구 요청을 보냈어요')
-                      : room.message}
-                  </LastMessage>
-                  {room.unreadCount! > 0 ? <UnreadCnt>{room.unreadCount}</UnreadCnt> : null}
-                </LastMessageWithBadge>
-              </IDwithLastmessage>
-            </ListTag>
-          ))}
+          rooms.map((room) => {
+            if (newMessage?.message && newMessage?.userId === room.friendInfo?.userId) {
+              room.unreadCount! += 1;
+            }
+
+            return (
+              <ListTag
+                key={room._id}
+                onClick={() => {
+                  handleClick(room);
+                }}
+              >
+                <ProfileAvatarImage
+                  src={room.friendInfo.profileImgUrl || DefaultAvatar}
+                  alt={room.friendInfo.username}
+                  width="60"
+                />
+                <IDwithLastmessage>
+                  <UserID>{room.friendInfo.username}</UserID>
+                  <LastMessageWithBadge>
+                    <LastMessage>
+                      {newMessage?.message && newMessage?.userId === room.friendInfo?.userId
+                        ? newMessage?.message
+                        : room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount === 0
+                        ? (room.message = '친구 요청을 보냈어요')
+                        : room.message}
+                    </LastMessage>
+                    {room.unreadCount! > 0 ? <UnreadCnt>{room.unreadCount}</UnreadCnt> : null}
+                  </LastMessageWithBadge>
+                </IDwithLastmessage>
+              </ListTag>
+            );
+          })}
       </UnorderedList>
       {friendRequestModal ? (
         <FriendRequest
