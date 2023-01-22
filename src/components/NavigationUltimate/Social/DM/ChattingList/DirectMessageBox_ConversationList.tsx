@@ -4,7 +4,13 @@ import DMboxSVG from '../../../assets/directmessage/DM.svg';
 import channelTalkPNG from '../../../assets/directmessage/channeltalk.png';
 import { useNavigate } from 'react-router-dom';
 import { blue } from '@mui/material/colors';
-import { DMSlice, setFriendId, setRoomId, setNewMessageCnt, setdmProcess } from '../../../../../stores/DMboxStore';
+import {
+  DMSlice,
+  setFriendId,
+  setRoomId,
+  setNewMessageCnt,
+  setdmProcess,
+} from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import { SetWhichModalActivated, ModalState } from '../../../../../stores/NavbarStore';
 import { useQuery } from 'react-query';
@@ -18,6 +24,7 @@ import {
 import axios from 'axios';
 import FriendRequest from 'src/components/NavigationUltimate/Social/AddFriend/FriendRequest';
 import Colors from 'src/utils/Colors';
+import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 
 /* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.friendId)에 친구의 userId를 넣어준다  */
 export const ConversationList = () => {
@@ -54,16 +61,14 @@ export const ConversationList = () => {
 
     if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount == 0) {
       setFriendRequestProps(room.friendInfo);
-
     } else if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount == 1) {
       // 친구 요청 받음
       setFriendRequestModal(true);
       setFriendRequestProps(room.friendInfo);
-      
-      // // 친구 수락, 거절 창 띄우고 -> dmProcess를 room.status(IChatRoomStatus.FRIEND_REQUEST) 로 바꿈 
+
+      // // 친구 수락, 거절 창 띄우고 -> dmProcess를 room.status(IChatRoomStatus.FRIEND_REQUEST) 로 바꿈
       // dispatch(setdmProcess(room.status));
     } else {
-
       console.log("This room's status is... ", room.status);
       try {
         dispatch(SetWhichModalActivated(ModalState.ChattingListAndRoom));
@@ -72,9 +77,8 @@ export const ConversationList = () => {
         dispatch(setRoomId(room.roomId));
 
         // room의 unreadCount, room.status 설정해준다
-       dispatch(setNewMessageCnt(-1 * room.unreadCount));
+        dispatch(setNewMessageCnt(-1 * room.unreadCount));
         dispatch(setdmProcess(room.status));
-
       } catch (error) {
         console.log('error', error);
       }
@@ -92,7 +96,7 @@ export const ConversationList = () => {
               }}
             >
               <ProfileAvatarImage
-                src={room.friendInfo.profileImgUrl}
+                src={room.friendInfo.profileImgUrl || DefaultAvatar}
                 alt={room.friendInfo.username}
                 width="60"
               />

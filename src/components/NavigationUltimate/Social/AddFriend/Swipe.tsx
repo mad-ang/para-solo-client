@@ -137,7 +137,8 @@ function Swipe(props) {
                   <Name>{player.name}</Name>
                   <Message>좋은 만남 가져봐요</Message>
                   <MyButton
-                    onClick={() => {
+                    onClick={(event) => {
+                      event.preventDefault();
                       requestFriend(
                         player.userId,
                         player.name,
