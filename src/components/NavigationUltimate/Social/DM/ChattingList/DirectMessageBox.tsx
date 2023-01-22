@@ -166,13 +166,17 @@ export default function DMboxButton() {
         )}
         <VolunteerActivismIcon fontSize="large" sx={{ color: '#fff' }} />
       </StyledRedBox>
-      {(ActivatedNav == ModalState.ChattingList ||
-        ActivatedNav == ModalState.ChattingListAndRoom) && (
+      
+      {ActivatedNav === ModalState.ChattingList ? <DMbox /> : null}
+      {ActivatedNav === ModalState.ChattingListAndRoom ? <InsideChattingRoom /> : null}
+
+      {/* {(ActivatedNav === ModalState.ChattingList ||
+        ActivatedNav === ModalState.ChattingListAndRoom) && (
         <div className="DMpopup">
           <DMbox />
-          {ActivatedNav == ModalState.ChattingListAndRoom ? <InsideChattingRoom /> : null}
+          {ActivatedNav === ModalState.ChattingListAndRoom ? <InsideChattingRoom /> : null}
         </div>
-      )}
+      )} */}
     </Wrapper>
   );
 }
