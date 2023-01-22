@@ -178,7 +178,7 @@ export default function HelperButtonGroup() {
                 <strong>E</strong> 키를 눌러 의자에 앉을 수 있습니다.
               </li>
               <li>
-                테이블 근처에서는 <strong>R</strong> 키를 눌러 대화에 참여해 보세요.
+                파라솔 근처에서는 <strong>R</strong> 키를 눌러 대화에 참여해 보세요.
               </li>
               <li>
                 <strong>Enter</strong> 키를 누르면 마을내에 전체 채팅이 가능합니다.
