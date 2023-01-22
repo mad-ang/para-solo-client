@@ -70,6 +70,7 @@ export default class chatNetwork {
     this.socketClient.emit('message', message);
 
     this.socketClient.on('message', (data) => {
+      console.log('message와땅');
       data.id = 1;
       callback(data);
       store.dispatch(setNewMessageCnt(1));

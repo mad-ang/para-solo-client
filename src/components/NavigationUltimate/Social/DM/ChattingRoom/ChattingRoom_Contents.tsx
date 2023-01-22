@@ -62,6 +62,7 @@ export default function ChatBubbles(props) {
     setMessageList((messageList) => [...messageList, props.newMessage]);
     
     const callback = (data) => { 
+      console.log('메세지왔다 2');
       // 실시간 메세지 받으면 채팅 리스트에 추가
       setMessageList((messageList) => [...messageList, data]);
     }
