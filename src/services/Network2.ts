@@ -41,6 +41,7 @@ export default class chatNetwork {
 
     this.socketClient.on('message', (data) => {
       data.id = 1;
+      // console.log('새 메시지 ', data);
       store.dispatch(setNewMessage(data));
       store.dispatch(setNewMessageCnt(1));
     });

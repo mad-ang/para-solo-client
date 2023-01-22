@@ -19,7 +19,13 @@ export const DMSlice = createSlice({
     friendName: '',
     requestFriendCnt: 0,
     newMessageCnt: 0,
-    newMessage: '',
+    newMessage: {
+      friendId: '',
+      id: 0,
+      message: '',
+      roomId: '',
+      userId: '',
+    },
     // status 추가
   },
   reducers: {
@@ -43,11 +49,13 @@ export const DMSlice = createSlice({
     },
     setRequestFriendCnt: (state, action: PayloadAction<number>) => {
       state.requestFriendCnt += action.payload;
+      if (state.requestFriendCnt < 0) state.requestFriendCnt = 0;
     },
     setNewMessageCnt: (state, action: PayloadAction<number>) => {
       state.newMessageCnt += action.payload;
+      if (state.newMessageCnt < 0) state.newMessageCnt = 0;
     },
-    setNewMessage: (state, action: PayloadAction<string>) => {
+    setNewMessage: (state, action: PayloadAction<any>) => {
       state.newMessage = action.payload;
     },
     setdmProcess: (state, action: PayloadAction<any>) => {

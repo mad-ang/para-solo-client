@@ -38,6 +38,8 @@ export const ConversationList = () => {
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.userId);
   const friendId = useAppSelector((state) => state.dm.friendId);
+  const newMessage = useAppSelector((state) => state.dm.newMessage);
+  const newMessageCnt = useAppSelector((state) => state.dm.newMessageCnt);
 
   useEffect(() => {
     fetchRoomList(userId).then((data) => {
@@ -106,7 +108,9 @@ export const ConversationList = () => {
                 <UserID>{room.friendInfo.username}</UserID>
                 <LastMessageWithBadge>
                   <LastMessage>
-                    {room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount === 0
+                    {newMessage?.message && newMessage?.userId === room.friendInfo?.userId
+                      ? newMessage?.message
+                      : room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount === 0
                       ? (room.message = '친구 요청을 보냈어요')
                       : room.message}
                   </LastMessage>
