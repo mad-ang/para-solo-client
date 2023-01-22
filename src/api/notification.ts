@@ -40,6 +40,7 @@ export const fireNotification = (title: string, options?: any) => {
 
   const newOption = {
     badge: '',
+   body: '',
     icon: '',
     ...options,
   };
