@@ -9,19 +9,31 @@ import { truncate } from 'fs';
 import BgmSrc from 'src/assets/music/BGM1.mp3';
 
 export default function () {
-  const [BGMstate, setBGMstate] = useState(true);
-  const audioRef = useRef(new Audio());
+  const [BGMstate, setBGMstate] = useState<boolean>(true);
+  // const audioRef = useRef(new Audio());
+  const [audio] = useState<HTMLAudioElement | null>(
+    typeof Audio === 'undefined' ? null : new Audio(BgmSrc)
+  );
 
   useEffect(() => {
-    const audio = audioRef.current;
-    audio.src = BgmSrc;
-    audio.loop = true;
-    if (BGMstate) audio.play();
+    if (!audio) return;
+    audio.addEventListener(
+      'ended',
+      function () {
+        audio.currentTime = 0;
+        audio.play();
+      },
+      false
+    );
+  }, []);
+
+  useEffect(() => {
+    BGMstate ? audio?.play() : audio?.pause();
+    // if (audio) audio?.loop = true;
   }, [BGMstate]);
 
   const handleBGM = () => {
     setBGMstate(!BGMstate);
-    if (!BGMstate) audioRef.current.pause();
   };
 
   return (
