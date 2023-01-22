@@ -12,6 +12,8 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import { fetchRoomList } from 'src/api/chat';
 import ClearIcon from '@mui/icons-material/Close';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 export default function FriendRequest(props) {
   const dispatch = useAppDispatch();
@@ -20,16 +22,23 @@ export default function FriendRequest(props) {
   const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
-  const userId = useAppSelector((state) => state.user.userId);
+  const userId = useAppSelector((state) => state.user.userId) || cookies.get('userId');
+  const username = useAppSelector((state) => state.user.username) || cookies.get('playerName');
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userCnt = useAppSelector((state) => state.room.userCnt);
   const game = phaserGame.scene.keys.game as Game;
   const players = Array.from(game?.allOtherPlayers());
 
-  async function AcceptRequest(id, name, status) {
+  async function AcceptRequest(friendId, friendName, status) {
     let body = {
-      myId: userId,
-      friendId: id,
+      myInfo: {
+        userId: userId,
+        username: username,
+      },
+      friendInfo: {
+        userId: friendId,
+        username: friendName,
+      },
       isAccept: status,
     };
 

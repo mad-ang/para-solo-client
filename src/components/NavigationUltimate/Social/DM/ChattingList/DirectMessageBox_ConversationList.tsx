@@ -48,7 +48,7 @@ export const ConversationList = () => {
   // };
 
   const handleClick = async (room) => {
-    console.log('friendId는..', room.friendInfo.userId);
+    console.log('friendInfo..', room.friendInfo);
     console.log('roomId는..', room.roomId);
 
     if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unread == 0) {
