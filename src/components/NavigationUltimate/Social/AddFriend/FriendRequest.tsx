@@ -90,7 +90,8 @@ export default function FriendRequest(props) {
         <Message>좋은 만남 가져봐요</Message>
         <Buttons>
           <MyButton
-            onClick={() => {
+            onClick={(event) => {
+              event.preventDefault();
               AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 1);
               handleClick();
             }}
@@ -100,7 +101,8 @@ export default function FriendRequest(props) {
           <MyButton
             color={`${Colors.pink[2]}`}
             hoverColor={`${Colors.red[1]}`}
-            onClick={() => {
+            onClick={(event) => {
+              event.preventDefault();
               AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0);
               handleClick();
             }}
