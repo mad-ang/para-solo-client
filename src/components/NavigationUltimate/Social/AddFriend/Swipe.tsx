@@ -35,7 +35,7 @@ function Swipe(props) {
   const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
-  const [addFriendResult, setAddFriendResult] = useState<number>(0); //0: 친구 요청 전, 1: 친구 요청 성공, 2: 친구 요청 실패(코인충전)
+  const [addFriendResult, setAddFriendResult] = useState<number>(0); //0: 친구 요청 전, 1: 친구 요청 성공,  2: 친구 요청 실패(코인충전) 3:이미친구 
 
   const userId = useAppSelector((state) => state.user.userId);
   const username = useAppSelector((state) => state.user.username);
@@ -82,6 +82,7 @@ function Swipe(props) {
         setAddFriendResult(result!);
       }
       else if (result === 3){
+        setAddFriendResult(result!);
         console.log("이미 친구이거나 친구요청을 보낸 상태입니다(swipe.tsx)")
       }
       //여기에서 localstate인 UserCoin의 개수를 통해, addFriendResult 를 업데이트 해주어야 함
@@ -163,9 +164,9 @@ function Swipe(props) {
           })}
         </Swiper>
       )}
-      {addFriendResult === 2 ? (
-        <RequestFreindResultModal setAddFriendResult={setAddFriendResult} />
-      ): null }
+      {addFriendResult === 0 ? null :(
+        <RequestFreindResultModal setAddFriendResult={setAddFriendResult}  addFriendResult={addFriendResult}/>
+      )}
     </Wrapper>
   );
 }

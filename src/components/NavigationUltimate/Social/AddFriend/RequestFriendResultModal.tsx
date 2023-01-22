@@ -13,26 +13,42 @@ interface Props {
 export default function RequestFreindResultModal(props) {
   const [charging, setcharging] = useState(false);
 
-  // const handleOpen = () => {
-  //   props.setIsOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setIsOpen(false);
-  // };
-
   const handleClick = () => {
     console.log('clicked');
     props.setAddFriendResult(0);
   };
 
-  return (
-    <>
-      {!charging ? (
-        <Wrapper className="requestResultWrapper">
+  const addfriendResult = props.addFriendResult;
+
+    switch (addfriendResult){
+      case 1: //친구요청을 성공했을 때
+        return (
+          <Wrapper className="requestResultWrapper">
+              <RequestResultHeader>
+                <TitleImage src={ParasolImg} width="30" />
+                <TitleText>친구 요청 성공</TitleText>
+                <ButtonWrapper onClick={handleClick}>
+                  <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
+                </ButtonWrapper>
+              </RequestResultHeader>
+    
+              <RequestResultBody>
+                <div>
+                  <div>친구요청을 보냈어요!👩‍❤️‍👨</div>
+                  <div>친구가 수락하면 채팅이 가능해요!</div>
+                </div>
+                <Buttons>
+                  <MyButton onClick={handleClick}>확인</MyButton>
+                </Buttons>
+              </RequestResultBody>
+            </Wrapper>
+        );
+      case 3 : //이미 친구이거나, 수락을 기다리고 있는 상태
+        return (
+          <Wrapper className="requestResultWrapper">
           <RequestResultHeader>
             <TitleImage src={ParasolImg} width="30" />
-            <TitleText>친구 요청 결과</TitleText>
+            <TitleText>친구 요청 실패</TitleText>
             <ButtonWrapper onClick={handleClick}>
               <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
             </ButtonWrapper>
@@ -40,53 +56,82 @@ export default function RequestFreindResultModal(props) {
 
           <RequestResultBody>
             <div>
-              <div>앗... 코인이 없어요!!🥲</div>
-              <div>코인을 충전해주세요!</div>
+              <div> 이미 친구요청을 보낸적이 있어요😀 </div>
+              <div>친구가 수락하면 채팅이 가능해요!</div>
             </div>
-
             <Buttons>
-              <MyButton onClick={() => setcharging(true)}>코인충전</MyButton>
-              <MyRedButton onClick={handleClick}> 코인안충전</MyRedButton>
+              <MyButton onClick={handleClick}>확인</MyButton>
             </Buttons>
           </RequestResultBody>
         </Wrapper>
-      ) : (
-        <Wrapper className="requestResultWrapper">
-          <RequestResultHeader>
-            <ArrowBackIcon onClick={() => setcharging(false)} fontSize="large" />
-            <TitleText>코인충전</TitleText>
-            <ButtonWrapper onClick={handleClick}>
-              <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
-            </ButtonWrapper>
-          </RequestResultHeader>
+        );
+      default: //코인이 부족할때(paypal결제모달 3항연산자로 포함)
+        return (
+          <>
+          {!charging ? (
+            <Wrapper className="requestResultWrapper">
+              <RequestResultHeader>
+                <TitleImage src={ParasolImg} width="30" />
+                <TitleText>친구 요청 결과</TitleText>
+                <ButtonWrapper onClick={handleClick}>
+                  <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
+                </ButtonWrapper>
+              </RequestResultHeader>
+    
+              <RequestResultBody>
+                <div>
+                  <div>앗... 코인이 없어요!!🥲</div>
+                  <div>코인을 충전해주세요!</div>
+                </div>
+    
+                <Buttons>
+                  <MyButton onClick={() => setcharging(true)}>코인충전</MyButton>
+                  <MyRedButton onClick={handleClick}> 코인안충전</MyRedButton>
+                </Buttons>
+              </RequestResultBody>
+            </Wrapper>
+          ) : (
+            <Wrapper className="requestResultWrapper">
+              <RequestResultHeader>
+                <ArrowBackIcon onClick={() => setcharging(false)} fontSize="large" />
+                <TitleText>코인충전</TitleText>
+                <ButtonWrapper onClick={handleClick}>
+                  <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
+                </ButtonWrapper>
+              </RequestResultHeader>
+    
+              <RequestResultBody>
+                <div>코인 3개를 충전합니다</div>
+                <PayPalButtons
+                  createOrder={(data, actions) => {
+                    return actions.order.create({
+                      purchase_units: [
+                        {
+                          amount: {
+                            value: '0.01',
+                          },
+                        },
+                      ],
+                    });
+                  }}
+                  onApprove={(data, actions) => {
+                    return actions.order!.capture().then((details) => {
+                      // const name = details.payer.name.given_name;
+                      alert(` 코인충전 완료!!💰`);
+                      // userCoin갯수를 +3해주는 함수 추가
+                        //서버로 3개올려달라고 말해주면 됨
+                      handleClick();
+                    });
+                  }}
+                />
+              </RequestResultBody>
+            </Wrapper>
+          )}
+        </>
 
-          <RequestResultBody>
-            <div>코인 3개를 충전합니다</div>
-            <PayPalButtons
-              createOrder={(data, actions) => {
-                return actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: {
-                        value: '0.01',
-                      },
-                    },
-                  ],
-                });
-              }}
-              onApprove={(data, actions) => {
-                return actions.order!.capture().then((details) => {
-                  // const name = details.payer.name.given_name;
-                  alert(` 코인충전 완료!!💰`);
-                  handleClick();
-                });
-              }}
-            />
-          </RequestResultBody>
-        </Wrapper>
-      )}
-    </>
-  );
+
+        );
+    }
 }
 
 const Wrapper = styled.div`
