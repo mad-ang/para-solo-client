@@ -81,10 +81,10 @@ export default function RequestFreindResultModal(props) {
           </RequestResultHeader>
 
           <RequestResultBody>
-            <div>
+            <AlreadyFriendMessage>
               <div> 이미 친구요청을 보낸적이 있어요😀 </div>
               <div>친구가 수락하면 채팅이 가능해요!</div>
-            </div>
+            </AlreadyFriendMessage>
             <Buttons>
               <MyButton onClick={handleClick}>확인</MyButton>
             </Buttons>
@@ -261,3 +261,7 @@ const Buttons = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+const AlreadyFriendMessage = styled.div`
+  font-size: 22px;
+  `
