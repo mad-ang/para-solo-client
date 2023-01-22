@@ -18,7 +18,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
 import RequestFreindResultModal from './RequestFriendResultModal';
 
-
 const dummyImages = [
   'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/1.jpeg',
   'https://momstown-images.s3.ap-northeast-2.amazonaws.com/dummy/8.jpg',
@@ -42,11 +41,11 @@ function Swipe(props) {
   const username = useAppSelector((state) => state.user.username);
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userCnt = useAppSelector((state) => state.room.userCnt);
-  const noMoreCoin = useAppSelector((state) => state.user.noMoreCoin);
+  // const noMoreCoin = useAppSelector((state) => state.user.noMoreCoin);
+  const userCoin = useAppSelector((state) => state.user.userCoin);
   // const game = phaserGame.scene.keys.game as Game;
   // const players = Array.from(game?.allOtherPlayers());
   const players = useAppSelector((state) => state.room.players);
-
 
   async function requestFriend(id, name, targetImgUrl) {
     let body = {
@@ -70,10 +69,9 @@ function Swipe(props) {
 
     try {
       addFriendReq(body);
-      
+
       //여기에서 setUserCoin 써야함
       //여기에서 localstate인 UserCoin의 개수를 통해, addFriendResult 를 업데이트 해주어야 함
-
     } catch (error) {
       console.log('error', error);
     }
@@ -139,9 +137,8 @@ function Swipe(props) {
                   <Name>{player.name}</Name>
                   <Message>좋은 만남 가져봐요</Message>
                   <MyButton
-                    onClick={() =>
-                      {
-                      requestFriend(player.userId, player.name, i <= 5 ? dummyImages[i] : null)
+                    onClick={() => {
+                      requestFriend(player.userId, player.name, i <= 5 ? dummyImages[i] : null);
                       setAddFriendResult(1);
                     }}
                   >
@@ -153,9 +150,9 @@ function Swipe(props) {
           })}
         </Swiper>
       )}
-    {addFriendResult == 0 ? (null):(
-      <RequestFreindResultModal setAddFriendResult={setAddFriendResult}/>
-    )}
+      {addFriendResult == 0 ? null : (
+        <RequestFreindResultModal setAddFriendResult={setAddFriendResult} />
+      )}
     </Wrapper>
   );
 }

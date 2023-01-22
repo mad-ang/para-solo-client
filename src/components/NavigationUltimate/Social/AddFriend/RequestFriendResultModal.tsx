@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ClearIcon from '@mui/icons-material/Close';
 import Colors from 'src/utils/Colors';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 interface Props {
@@ -22,77 +22,72 @@ export default function RequestFreindResultModal(props) {
   // };
 
   const handleClick = () => {
-    console.log("clicked")
+    console.log('clicked');
     props.setAddFriendResult(0);
   };
 
   return (
     <>
-    {!charging ? (
-      <Wrapper className='requestResultWrapper'>
-        <RequestResultHeader>
-          <TitleImage src={ParasolImg} width="30" />
-          <TitleText>친구 요청 결과</TitleText>
-          <ButtonWrapper onClick={handleClick}>
-            <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
-          </ButtonWrapper>
-        </RequestResultHeader>
+      {!charging ? (
+        <Wrapper className="requestResultWrapper">
+          <RequestResultHeader>
+            <TitleImage src={ParasolImg} width="30" />
+            <TitleText>친구 요청 결과</TitleText>
+            <ButtonWrapper onClick={handleClick}>
+              <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
+            </ButtonWrapper>
+          </RequestResultHeader>
 
-        <RequestResultBody>
-          <div>
-            <div>앗... 코인이 없어요!!🥲</div>
-            <div>코인을 충전해주세요!</div>
-          </div>
+          <RequestResultBody>
+            <div>
+              <div>앗... 코인이 없어요!!🥲</div>
+              <div>코인을 충전해주세요!</div>
+            </div>
 
-          <Buttons>
-            <MyButton onClick={() => setcharging(true)} >코인충전</MyButton>
-            <MyRedButton onClick={handleClick} > 코인안충전</MyRedButton>
-          </Buttons>
+            <Buttons>
+              <MyButton onClick={() => setcharging(true)}>코인충전</MyButton>
+              <MyRedButton onClick={handleClick}> 코인안충전</MyRedButton>
+            </Buttons>
+          </RequestResultBody>
+        </Wrapper>
+      ) : (
+        <Wrapper className="requestResultWrapper">
+          <RequestResultHeader>
+            <ArrowBackIcon onClick={() => setcharging(false)} fontSize="large" />
+            <TitleText>코인충전</TitleText>
+            <ButtonWrapper onClick={handleClick}>
+              <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
+            </ButtonWrapper>
+          </RequestResultHeader>
 
-        </RequestResultBody>
-      </Wrapper>
-    ) : (
-      <Wrapper className='requestResultWrapper'>
-        <RequestResultHeader>
-          <ArrowBackIcon onClick={() => setcharging(false)}  fontSize = "large"/>
-          <TitleText>코인충전</TitleText>
-          <ButtonWrapper onClick={handleClick}>
-            <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
-          </ButtonWrapper>
-        </RequestResultHeader>
-        
-        <RequestResultBody>
-          <div>
-          코인 3개를 충전합니다
-          </div>
+          <RequestResultBody>
+            <div>코인 3개를 충전합니다</div>
             <PayPalButtons
-                  createOrder={(data, actions) => {
-                      return actions.order.create({
-                          purchase_units: [
-                              {
-                                  amount: {
-                                      value: "0.01",
-                                  },
-                              },
-                          ],
-                      });
-                  }}
-                  onApprove={(data, actions) => {
-                      return actions.order.capture().then((details) => {
-                          // const name = details.payer.name.given_name;
-                          alert(` 코인충전 완료!!💰`);
-                          handleClick();
-                      });
-                  }}
-              />
-        </RequestResultBody>
-
-      </Wrapper>
-    )}
+              createOrder={(data, actions) => {
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: '0.01',
+                      },
+                    },
+                  ],
+                });
+              }}
+              onApprove={(data, actions) => {
+                return actions.order!.capture().then((details) => {
+                  // const name = details.payer.name.given_name;
+                  alert(` 코인충전 완료!!💰`);
+                  handleClick();
+                });
+              }}
+            />
+          </RequestResultBody>
+        </Wrapper>
+      )}
     </>
   );
-};
-
+}
 
 const Wrapper = styled.div`
   position: fixed;
@@ -111,19 +106,19 @@ const Wrapper = styled.div`
 `;
 
 const RequestResultHeader = styled.div`
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 10px 0px 10px 10px;
-width: 100%;
-height: 60px;
-position: relative;
-// display: grid;
-grid-template-columns: 90% 10%;
-background-color: ${Colors.skyblue[1]};
-border-top-left-radius: 25px;
-border-top-right-radius: 25px;
-align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0px 10px 10px;
+  width: 100%;
+  height: 60px;
+  position: relative;
+  // display: grid;
+  grid-template-columns: 90% 10%;
+  background-color: ${Colors.skyblue[1]};
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  align-items: center;
 `;
 
 const TitleText = styled.div`
@@ -143,20 +138,19 @@ const ButtonWrapper = styled.button`
 `;
 
 const RequestResultBody = styled.div`
-
-font-weight: 600;
-font-size: 24px;
-font-size: 1.5rem;
-background-color: ${Colors.white};
-padding: 30px 15px 20px 15px;
-display: flex;
-justify-content: center;
-flex-direction: column;
-justify-content: space-between;
-align-items: center;
-height: 190px;
-border-bottom-left-radius: 25px;
-border-bottom-right-radius: 25px;
+  font-weight: 600;
+  font-size: 24px;
+  font-size: 1.5rem;
+  background-color: ${Colors.white};
+  padding: 30px 15px 20px 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 190px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
 `;
 
 const MyButton = styled.button`
