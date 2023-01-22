@@ -61,6 +61,15 @@ export interface UserResponseDto {
   gender?: string;
   age?: string;
   height?: string;
+  weight?: string;
+}
+export interface IUserProfile {
+  profileImgUrl: string;
+  height: string;
+  weight: string;
+  region: string;
+  gender: string;
+  age: string;
 }
 
 // 채팅방 만들기 요청
