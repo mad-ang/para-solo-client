@@ -30,7 +30,7 @@ export default function FriendRequest(props) {
   const game = phaserGame.scene.keys.game as Game;
   const players = Array.from(game?.allOtherPlayers());
 
-  async function AcceptRequest(friendId, friendName, status) {
+  async function AcceptRequest(friendId, friendName, status): Promise<any> {
     let body = {
       myInfo: {
         userId: userId,
@@ -45,22 +45,32 @@ export default function FriendRequest(props) {
 
     try {
       const response = await axios.post('/chat/acceptFriend', body);
-      // if (response.data.status === 200) {
-      console.log('친구 요청 수락/거절 결과', response.data);
-      // }
+      const { status, data } = response;
+      if (status === 200) {
+        console.log('친구 요청 수락/거절 결과', data.payload);
+        return data.payload;
+      }
     } catch (error) {
       console.log('error', error);
     }
+    return null;
   }
 
   useEffect(() => {
     dispatch(setRequestFriendCnt(-1));
   }, []);
 
-  function handleClick() {
-    fetchRoomList(userId).then((data) => {
-      props.setRooms(data);
-    });
+  async function handleClick(status?: number) {
+    const response = await AcceptRequest(
+      props.friendInfo.userId,
+      props.friendInfo.username,
+      status
+    );
+    if (response) {
+      fetchRoomList(userId).then((data) => {
+        props.setRooms(data);
+      });
+    }
     props.setFriendRequestModal(false);
   }
 
@@ -68,7 +78,7 @@ export default function FriendRequest(props) {
     <Wrapper>
       <SwipeHeader>
         <TitleText>친구 요청</TitleText>
-        <ButtonWrapper onClick={handleClick}>
+        <ButtonWrapper>
           <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
         </ButtonWrapper>
       </SwipeHeader>
@@ -92,8 +102,7 @@ export default function FriendRequest(props) {
           <MyButton
             onClick={(event) => {
               event.preventDefault();
-              AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 1);
-              handleClick();
+              handleClick(1);
             }}
           >
             수락
@@ -103,8 +112,7 @@ export default function FriendRequest(props) {
             hoverColor={`${Colors.red[1]}`}
             onClick={(event) => {
               event.preventDefault();
-              AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0);
-              handleClick();
+              handleClick(0);
             }}
           >
             거절
