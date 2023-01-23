@@ -28,7 +28,7 @@ export default function RequestFreindResultModal(props) {
       const result = await chargingCoinReq(body);
       if (result === 1) {
         console.log('코인 충전 성공(swipe.tsx)');
-        dispatch(setUserCoin(userCoin + 3));
+        dispatch(setUserCoin(userCoin + 100));
       } else {
         console.log('코인 충전 실패(swipe.tsx)');
       }
@@ -131,7 +131,7 @@ export default function RequestFreindResultModal(props) {
                       purchase_units: [
                         {
                           amount: {
-                            value: '0.01',
+                            value: '30.00',
                           },
                         },
                       ],
