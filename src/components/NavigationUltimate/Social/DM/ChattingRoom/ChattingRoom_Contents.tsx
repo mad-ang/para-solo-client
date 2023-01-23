@@ -10,7 +10,7 @@ import phaserGame from 'src/PhaserGame';
 // import {DMSlice} from 'src/stores/DMboxStore';
 import { Colors } from 'src/utils/Colors';
 import { color } from '@mui/system';
-import { setNewMessageCnt } from 'src/stores/DMboxStore';
+import { setNewMessage, setNewMessageCnt } from 'src/stores/DMboxStore';
 import { IChatRoomStatus } from 'src/api/chat';
 const Wrapper = styled.div`
   height: 450px;

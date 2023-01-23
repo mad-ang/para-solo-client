@@ -11,6 +11,7 @@ import {
   setRoomId,
   setNewMessageCnt,
   setdmProcess,
+  setNewMessage,
 } from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import { SetWhichModalActivated, ModalState } from '../../../../../stores/NavbarStore';
@@ -82,6 +83,7 @@ export const ConversationList = () => {
 
         // room의 unreadCount, room.status 설정해준다
         dispatch(setNewMessageCnt(-1 * room.unreadCount));
+        dispatch(setNewMessage({ message: '' }));
         dispatch(setdmProcess(room.status));
       } catch (error) {
         console.log('error', error);
@@ -93,8 +95,15 @@ export const ConversationList = () => {
       <UnorderedList>
         {rooms &&
           rooms.map((room) => {
-            if (newMessage?.message && newMessage?.userId === room.friendInfo?.userId) {
+            if (
+              newMessage?.message &&
+              newMessage?.userId === room.friendInfo?.userId &&
+              room.unreadCount === 0
+            ) {
               room.unreadCount! += 1;
+            }
+            if (newMessageCnt === 0) {
+              room.unreadCount = 0;
             }
 
             return (
