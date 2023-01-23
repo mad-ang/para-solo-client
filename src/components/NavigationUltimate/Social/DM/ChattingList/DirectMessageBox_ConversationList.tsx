@@ -102,7 +102,7 @@ export const ConversationList = () => {
             ) {
               room.unreadCount! += 1;
             }
-            if (newMessageCnt === 0) {
+            if (room.status !== IChatRoomStatus.FRIEND_REQUEST && newMessageCnt === 0) {
               room.unreadCount = 0;
             }
 
