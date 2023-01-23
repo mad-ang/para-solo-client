@@ -103,7 +103,7 @@ export default function RequestFreindResultModal(props) {
 
               <RequestResultBody>
                 <div>
-                  <Textbox>앗... 코인이 없어요!!🥲</Textbox>
+                  <Textbox>앗... 코인이 없어요!! 🥲</Textbox>
                   <Textbox>코인을 충전해주세요!</Textbox>
                 </div>
 
