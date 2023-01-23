@@ -124,7 +124,7 @@ export default function RequestFreindResultModal(props) {
               </RequestResultHeader>
 
               <RequestResultBody>
-                <Textbox>코인 3개를 충전합니다</Textbox>
+                <Textbox>코인 100개를 충전합니다</Textbox>
                 <PayPalButtons
                   createOrder={(data, actions) => {
                     return actions.order.create({
