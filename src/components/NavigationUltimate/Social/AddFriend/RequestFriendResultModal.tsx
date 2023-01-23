@@ -57,8 +57,8 @@ export default function RequestFreindResultModal(props) {
 
           <RequestResultBody>
             <div>
-              <div>친구요청을 보냈어요!👩‍❤️‍👨</div>
-              <div>친구가 수락하면 채팅이 가능해요!</div>
+              <Textbox>친구요청을 보냈어요!👩‍❤️‍👨</Textbox>
+              <Textbox>친구가 수락하면 채팅이 가능해요!</Textbox>
             </div>
             <Buttons>
               <MyButton onClick={handleClick}>확인</MyButton>
@@ -78,10 +78,10 @@ export default function RequestFreindResultModal(props) {
           </RequestResultHeader>
 
           <RequestResultBody>
-            <AlreadyFriendMessage>
-              <div> 이미 친구요청을 보낸적이 있어요😀 </div>
-              <div>친구가 수락하면 채팅이 가능해요!</div>
-            </AlreadyFriendMessage>
+            <div>
+              <Textbox> 이미 친구요청을 보낸 적이 있어요 😀 </Textbox>
+              <Textbox>친구가 수락하면 채팅이 가능해요!</Textbox>
+            </div>
             <Buttons>
               <MyButton onClick={handleClick}>확인</MyButton>
             </Buttons>
@@ -103,8 +103,8 @@ export default function RequestFreindResultModal(props) {
 
               <RequestResultBody>
                 <div>
-                  <div>앗... 코인이 없어요!!🥲</div>
-                  <div>코인을 충전해주세요!</div>
+                  <Textbox>앗... 코인이 없어요!!🥲</Textbox>
+                  <Textbox>코인을 충전해주세요!</Textbox>
                 </div>
 
                 <Buttons>
@@ -124,7 +124,7 @@ export default function RequestFreindResultModal(props) {
               </RequestResultHeader>
 
               <RequestResultBody>
-                <div>코인 3개를 충전합니다</div>
+                <Textbox>코인 3개를 충전합니다</Textbox>
                 <PayPalButtons
                   createOrder={(data, actions) => {
                     return actions.order.create({
@@ -257,6 +257,9 @@ const Buttons = styled.div`
   justify-content: center;
 `;
 
-const AlreadyFriendMessage = styled.div`
-  font-size: 22px;
-`;
+
+const Textbox= styled.div`
+font-size: 20px;
+text-align: center;
+margin: 5px;
+`
