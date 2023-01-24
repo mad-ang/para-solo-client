@@ -39,7 +39,7 @@ export default class Network {
     const endpoint =
       process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
         ? `wss://${import.meta.env.VITE_SERVER_URL}`
-        : `ws://${window.location.hostname}:8080`;
+        : `ws://${window.location.hostname}:8000`;
 
     console.log(process.env.NODE_ENV);
     this.client = new Client(endpoint);

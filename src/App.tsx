@@ -35,7 +35,7 @@ const cookies = new Cookies();
 axios.defaults.baseURL =
   process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
     ? `https://${import.meta.env.VITE_SERVER_URL}`
-    : `http://${window.location.hostname}:8080`;
+    : `http://${window.location.hostname}:8000`;
 
 console.log('axios.defaults.baseURL ', axios.defaults.baseURL);
 
