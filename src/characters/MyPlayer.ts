@@ -53,7 +53,7 @@ export default class MyPlayer extends Player {
         const { userId, username, userProfile, userCoin, ...otherInfo } = response;
         store.dispatch(setUserProfile(userProfile));
         store.dispatch(setUserCoin(userCoin));
-        console.log("방금 받아온 유저코인:", response)
+        console.log('방금 받아온 유저코인:', response);
       })
       .catch((error) => {
         console.error(error);
@@ -174,7 +174,7 @@ export default class MyPlayer extends Player {
           // if press R in front of another player
           console.log(closePlayer);
 
-          network.sendPrivateMessage(this.userId, closePlayer.userId, '안녕하세요');
+          // network?.sendPrivateMessage(this.userId, closePlayer.userId, '안녕하세요');
           return;
         } else {
           const speed = cursors.shift?.isDown ? 240 : 120;
