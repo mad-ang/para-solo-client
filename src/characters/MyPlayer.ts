@@ -18,6 +18,7 @@ import { UserResponseDto } from 'src/api/chat';
 import { setUserProfile, setUserCoin } from 'src/stores/UserStore';
 import { getUserInfo } from 'src/api/auth';
 const cookies = new Cookies();
+import { useAppSelector, useAppDispatch } from 'src/hooks';
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
   private chairOnSit?: Chair;
@@ -51,7 +52,8 @@ export default class MyPlayer extends Player {
         if (!response) return;
         const { userId, username, userProfile, userCoin, ...otherInfo } = response;
         store.dispatch(setUserProfile(userProfile));
-        // store.dispatch(setUserCoin(userCoin));
+        store.dispatch(setUserCoin(userCoin));
+        console.log('방금 받아온 유저코인:', response);
       })
       .catch((error) => {
         console.error(error);
@@ -172,7 +174,7 @@ export default class MyPlayer extends Player {
           // if press R in front of another player
           console.log(closePlayer);
 
-          network.sendPrivateMessage(this.userId, closePlayer.userId, '안녕하세요');
+          // network?.sendPrivateMessage(this.userId, closePlayer.userId, '안녕하세요');
           return;
         } else {
           const speed = cursors.shift?.isDown ? 240 : 120;

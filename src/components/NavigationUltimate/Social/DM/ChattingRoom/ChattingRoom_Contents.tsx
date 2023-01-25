@@ -10,35 +10,39 @@ import phaserGame from 'src/PhaserGame';
 // import {DMSlice} from 'src/stores/DMboxStore';
 import { Colors } from 'src/utils/Colors';
 import { color } from '@mui/system';
+import { setNewMessage, setNewMessageCnt } from 'src/stores/DMboxStore';
+import { IChatRoomStatus } from 'src/api/chat';
 const Wrapper = styled.div`
   height: 450px;
   width: 370px;
 `;
 
 export default function ChatBubbles(props) {
+  const dispatch = useAppDispatch();
   const game = phaserGame.scene.keys.game as Game;
   const socketNetwork = game.networt2;
-
   // 채팅 시작 시 저장되어 있던 채팅 리스트 보여줌
   const roomId = useAppSelector((state) => state.dm.roomId);
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userId = useAppSelector((state) => state.user.userId);
+  const newMessage = useAppSelector((state) => state.dm.newMessage);
+  const roomStatus = useAppSelector((state) => state.dm.dmProcess);
+  // const unread = useAppSelector((state) => state.dm.newMessageCnt);
 
   // 기존 메세지 리스트 -> 삭제 예정
   const [messageList, setMessageList] = useState<any>([]);
 
+  const callbackForJoinRoom = (oldMessages) => {
+    setMessageList(oldMessages);
+  };
   useEffect(() => {
     console.log('마운트');
-    const callback = (oldMessages) => {
-      setMessageList(oldMessages);
-    };
-    socketNetwork.joinRoom(roomId, userId, friendId, callback);
+    socketNetwork.joinRoom(roomId, userId, friendId, callbackForJoinRoom);
   }, []);
 
-
   useEffect(() => {
-    if (!props.newMessage || props.newMessage.length === 0) return;
-    
+    if (!props.newMessage || props.newMessage?.message.length === 0) return;
+
     const body = {
       // id : 0,
       roomId: roomId,
@@ -46,18 +50,18 @@ export default function ChatBubbles(props) {
       friendId: friendId,
       message: props.newMessage.message,
     };
-    
+
     // 내가 쓴 메세지 채팅 리스트에 추가
     setMessageList((messageList) => [...messageList, props.newMessage]);
-    
-    const callback = (data) => { 
-      // 실시간 메세지 받으면 채팅 리스트에 추가
-      setMessageList((messageList) => [...messageList, data]);
-    }
 
     // 내가 쓴 메세지 서버에 전송
-    game.networt2.sendMessage(body, callback);
-  }, [props.newMessage]);
+    game.networt2.sendMessage(body);
+  }, [props.newMessage?.message]);
+
+  useEffect(() => {
+    setMessageList((messageList) => [...messageList, newMessage]);
+    dispatch(setNewMessageCnt(-1));
+  }, [newMessage]);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { Schema, ArraySchema, SetSchema, MapSchema } from '@colyseus/schema';
-import { UserResponseDto } from 'src/api/chat';
+import { IUserProfile, UserResponseDto } from 'src/api/chat';
 
 export interface IPlayer extends Schema {
   name: string; // 일단 유지
@@ -9,7 +9,7 @@ export interface IPlayer extends Schema {
   readyToConnect: boolean;
   videoConnected: boolean;
   userId: string; // 일단 유지
-  userProfile: UserResponseDto;
+  userProfile: IUserProfile;
 }
 export interface IChair extends Schema {
   occupied: boolean;

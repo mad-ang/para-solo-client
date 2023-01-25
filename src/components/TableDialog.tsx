@@ -115,7 +115,7 @@ export default function TableDialog() {
               }
             }}
           >
-            {tableTalkManager?.myStream ? '테이블톡 나가기' : '테이블톡 입장하기'}
+            {tableTalkManager?.myStream ? '파라솔톡 나가기' : '파라솔톡 입장하기'}
           </Button>
         </div>
 

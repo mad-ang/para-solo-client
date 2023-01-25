@@ -28,6 +28,7 @@ import store from './stores';
 import { Tab } from '@mui/material';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import BgmSrc from 'src/assets/music/BGM1.mp3';
+import UserCoinDialog from './components/UserCoinDialog';
 
 const cookies = new Cookies();
 
@@ -58,6 +59,7 @@ function App() {
       /* Render Chat or VideoConnectionDialog if no dialogs are opened. */
       <>
         <NavigationContainer />
+        <UserCoinDialog />
         {tableDialogOpen ? <TableDialog /> : null}
         {/* Render VideoConnectionDialog if user is not connected to a webcam. */}
         {!videoConnected && <VideoConnectionDialog />}

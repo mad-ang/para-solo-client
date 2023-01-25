@@ -39,12 +39,11 @@ export const fireNotification = (title: string, options?: any) => {
   }
 
   const newOption = {
-    badge: '',
-   body: '',
+    body: '',
     icon: '',
     ...options,
   };
-  console.log('fired?');
+
   // notificationRef에 Notification을 넣어준다. 이 친구는 이렇게 할당만해도 바로 실행된다.
   //@ts-ignore
   notificationRef.current = new Notification(title, newOption);

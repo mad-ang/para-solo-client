@@ -19,7 +19,8 @@ import { BackgroundMode } from '../../../types/BackgroundMode';
 import { ENTERING_PROCESS, toggleBackgroundMode } from '../../../stores/UserStore';
 import { useAppSelector, useAppDispatch } from '../../../hooks';
 import { getAvatarString, getColorByString } from '../../../util';
-import Cookies from 'universal-cookie';
+
+import { logout } from 'src/api/auth';
 const Backdrop = styled.div`
   display: relative;
   display: flex;
@@ -177,7 +178,7 @@ export default function HelperButtonGroup() {
                 <strong>E</strong> 키를 눌러 의자에 앉을 수 있습니다.
               </li>
               <li>
-                테이블 근처에서는 <strong>R</strong> 키를 눌러 대화에 참여해 보세요.
+                파라솔 근처에서는 <strong>R</strong> 키를 눌러 대화에 참여해 보세요.
               </li>
               <li>
                 <strong>Enter</strong> 키를 누르면 마을내에 전체 채팅이 가능합니다.
@@ -232,13 +233,7 @@ export default function HelperButtonGroup() {
         </Tooltip>
         <StyledRedBox
           onClick={() => {
-            const cookies = new Cookies();
-            cookies.remove('refreshToken', { path: '/' });
-            cookies.remove('accessToken', { path: '/' });
-            cookies.remove('playerName', { path: '/' });
-            cookies.remove('playerTexture', { path: '/' });
-            cookies.remove('userId', { path: '/' });
-            window.location.href = '/';
+            logout();
           }}
         >
           <LogoutIcon fontSize="large" />

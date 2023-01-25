@@ -12,6 +12,9 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import { fetchRoomList } from 'src/api/chat';
 import ClearIcon from '@mui/icons-material/Close';
+import Cookies from 'universal-cookie';
+import { setRequestFriendCnt } from 'src/stores/DMboxStore';
+const cookies = new Cookies();
 
 export default function FriendRequest(props) {
   const dispatch = useAppDispatch();
@@ -20,33 +23,54 @@ export default function FriendRequest(props) {
   const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
   const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
-  const userId = useAppSelector((state) => state.user.userId);
+  const userId = useAppSelector((state) => state.user.userId) || cookies.get('userId');
+  const username = useAppSelector((state) => state.user.username) || cookies.get('playerName');
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userCnt = useAppSelector((state) => state.room.userCnt);
   const game = phaserGame.scene.keys.game as Game;
   const players = Array.from(game?.allOtherPlayers());
 
-  async function AcceptRequest(id, name, status) {
+  async function AcceptRequest(friendId, friendName, status): Promise<any> {
     let body = {
-      myId: userId,
-      friendId: id,
+      myInfo: {
+        userId: userId,
+        username: username,
+      },
+      friendInfo: {
+        userId: friendId,
+        username: friendName,
+      },
       isAccept: status,
     };
 
     try {
       const response = await axios.post('/chat/acceptFriend', body);
-      // if (response.data.status === 200) {
-      console.log('친구 요청 수락/거절 결과', response.data);
-      // }
+      const { status, data } = response;
+      if (status === 200) {
+        console.log('친구 요청 수락/거절 결과', data.payload);
+        return data.payload;
+      }
     } catch (error) {
       console.log('error', error);
     }
+    return null;
   }
 
-  function handleClick() {
-    fetchRoomList(userId).then((data) => {
-      props.setRooms(data);
-    });
+  useEffect(() => {
+    dispatch(setRequestFriendCnt(-1));
+  }, []);
+
+  async function handleClick(status?: number) {
+    const response = await AcceptRequest(
+      props.friendInfo.userId,
+      props.friendInfo.username,
+      status
+    );
+    if (response) {
+      fetchRoomList(userId).then((data) => {
+        props.setRooms(data);
+      });
+    }
     props.setFriendRequestModal(false);
   }
 
@@ -54,7 +78,7 @@ export default function FriendRequest(props) {
     <Wrapper>
       <SwipeHeader>
         <TitleText>친구 요청</TitleText>
-        <ButtonWrapper onClick={handleClick}>
+        <ButtonWrapper>
           <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
         </ButtonWrapper>
       </SwipeHeader>
@@ -76,9 +100,9 @@ export default function FriendRequest(props) {
         <Message>좋은 만남 가져봐요</Message>
         <Buttons>
           <MyButton
-            onClick={() => {
-              AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 1);
-              handleClick();
+            onClick={(event) => {
+              event.preventDefault();
+              handleClick(1);
             }}
           >
             수락
@@ -86,9 +110,9 @@ export default function FriendRequest(props) {
           <MyButton
             color={`${Colors.pink[2]}`}
             hoverColor={`${Colors.red[1]}`}
-            onClick={() => {
-              AcceptRequest(props.friendInfo.userId, props.friendInfo.username, 0);
-              handleClick();
+            onClick={(event) => {
+              event.preventDefault();
+              handleClick(0);
             }}
           >
             거절

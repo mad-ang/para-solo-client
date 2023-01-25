@@ -5,34 +5,51 @@ import Colors from 'src/utils/Colors';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import { useAppSelector, useAppDispatch } from 'src/hooks';
+import { setUserCoin } from 'src/stores/UserStore';
+import { chargingCoinReq } from 'src/api/chargingCoin';
 interface Props {
   message: string;
 }
 
 export default function RequestFreindResultModal(props) {
   const [charging, setcharging] = useState(false);
+  const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.user.userId);
+  const userCoin = useAppSelector((state) => state.user.userCoin);
 
-  // const handleOpen = () => {
-  //   props.setIsOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setIsOpen(false);
-  // };
+  async function chargingCoin() {
+    let body = {
+      myInfo: {
+        userId: userId,
+      },
+    };
+    try {
+      const result = await chargingCoinReq(body);
+      if (result === 1) {
+        console.log('코인 충전 성공(swipe.tsx)');
+        dispatch(setUserCoin(userCoin + 100));
+      } else {
+        console.log('코인 충전 실패(swipe.tsx)');
+      }
+    } catch (error) {
+      console.error('error(charging coin 하다가 에러, swipte.tsx참조)', error);
+    }
+  }
 
   const handleClick = () => {
-    console.log('clicked');
     props.setAddFriendResult(0);
   };
 
-  return (
-    <>
-      {!charging ? (
+  const addfriendResult = props.addFriendResult;
+
+  switch (addfriendResult) {
+    case 1: //친구요청을 성공했을 때
+      return (
         <Wrapper className="requestResultWrapper">
           <RequestResultHeader>
             <TitleImage src={ParasolImg} width="30" />
-            <TitleText>친구 요청 결과</TitleText>
+            <TitleText>친구 요청 성공</TitleText>
             <ButtonWrapper onClick={handleClick}>
               <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
             </ButtonWrapper>
@@ -40,53 +57,102 @@ export default function RequestFreindResultModal(props) {
 
           <RequestResultBody>
             <div>
-              <div>앗... 코인이 없어요!!🥲</div>
-              <div>코인을 충전해주세요!</div>
+              <Textbox>친구요청을 보냈어요!👩‍❤️‍👨</Textbox>
+              <Textbox>친구가 수락하면 채팅이 가능해요!</Textbox>
             </div>
-
             <Buttons>
-              <MyButton onClick={() => setcharging(true)}>코인충전</MyButton>
-              <MyRedButton onClick={handleClick}> 코인안충전</MyRedButton>
+              <MyButton onClick={handleClick}>확인</MyButton>
             </Buttons>
           </RequestResultBody>
         </Wrapper>
-      ) : (
+      );
+    case 3: //이미 친구이거나, 수락을 기다리고 있는 상태
+      return (
         <Wrapper className="requestResultWrapper">
           <RequestResultHeader>
-            <ArrowBackIcon onClick={() => setcharging(false)} fontSize="large" />
-            <TitleText>코인충전</TitleText>
+            <TitleImage src={ParasolImg} width="30" />
+            <TitleText>친구 요청 실패</TitleText>
             <ButtonWrapper onClick={handleClick}>
               <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
             </ButtonWrapper>
           </RequestResultHeader>
 
           <RequestResultBody>
-            <div>코인 3개를 충전합니다</div>
-            <PayPalButtons
-              createOrder={(data, actions) => {
-                return actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: {
-                        value: '0.01',
-                      },
-                    },
-                  ],
-                });
-              }}
-              onApprove={(data, actions) => {
-                return actions.order!.capture().then((details) => {
-                  // const name = details.payer.name.given_name;
-                  alert(` 코인충전 완료!!💰`);
-                  handleClick();
-                });
-              }}
-            />
+            <div>
+              <Textbox> 이미 친구요청을 보낸 적이 있어요 😀 </Textbox>
+              <Textbox>친구가 수락하면 채팅이 가능해요!</Textbox>
+            </div>
+            <Buttons>
+              <MyButton onClick={handleClick}>확인</MyButton>
+            </Buttons>
           </RequestResultBody>
         </Wrapper>
-      )}
-    </>
-  );
+      );
+    default: //코인이 부족할때(paypal결제모달 3항연산자로 포함)
+      return (
+        <>
+          {!charging ? (
+            <Wrapper className="requestResultWrapper">
+              <RequestResultHeader>
+                <TitleImage src={ParasolImg} width="30" />
+                <TitleText>친구 요청 결과</TitleText>
+                <ButtonWrapper onClick={handleClick}>
+                  <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
+                </ButtonWrapper>
+              </RequestResultHeader>
+
+              <RequestResultBody>
+                <div>
+                  <Textbox>앗... 코인이 없어요!! 🥲</Textbox>
+                  <Textbox>코인을 충전해주세요!</Textbox>
+                </div>
+
+                <Buttons>
+                  <MyButton onClick={() => setcharging(true)}>코인충전</MyButton>
+                  <MyRedButton onClick={handleClick}> 코인안충전</MyRedButton>
+                </Buttons>
+              </RequestResultBody>
+            </Wrapper>
+          ) : (
+            <Wrapper className="requestResultWrapper">
+              <RequestResultHeader>
+                <ArrowBackIcon onClick={() => setcharging(false)} fontSize="large" />
+                <TitleText>코인충전</TitleText>
+                <ButtonWrapper onClick={handleClick}>
+                  <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
+                </ButtonWrapper>
+              </RequestResultHeader>
+
+              <RequestResultBody>
+                <Textbox>코인 100개를 충전합니다</Textbox>
+                <PayPalButtons
+                  createOrder={(data, actions) => {
+                    return actions.order.create({
+                      purchase_units: [
+                        {
+                          amount: {
+                            value: '30.00',
+                          },
+                        },
+                      ],
+                    });
+                  }}
+                  onApprove={(data, actions) => {
+                    return actions.order!.capture().then((details) => {
+                      // const name = details.payer.name.given_name;
+                      chargingCoin();
+                      alert(` 코인충전 완료!!💰`);
+                      //서버로 3개올려달라고 말해주면 됨
+                      handleClick();
+                    });
+                  }}
+                />
+              </RequestResultBody>
+            </Wrapper>
+          )}
+        </>
+      );
+  }
 }
 
 const Wrapper = styled.div`
@@ -190,3 +256,10 @@ const Buttons = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+
+const Textbox= styled.div`
+font-size: 20px;
+text-align: center;
+margin: 5px;
+`

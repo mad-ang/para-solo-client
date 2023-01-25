@@ -73,18 +73,6 @@ export default class Network {
     this.initialize();
   }
 
-  // method to create a custom room
-  async createCustom(roomData: IRoomData) {
-    const { name, description, password, autoDispose } = roomData;
-    this.room = await this.client.create(RoomType.CUSTOM, {
-      name,
-      description,
-      password,
-      autoDispose,
-    });
-    this.initialize();
-  }
-
   // set up all network listeners before the game starts
   initialize() {
     if (!this.room) return;
@@ -158,9 +146,6 @@ export default class Network {
     this.room.onMessage(Message.STOP_TABLE_TALK, (clientId: string) => {
       const tableState = store.getState().table;
       tableState.tableTalkManager?.onUserLeft(clientId);
-    });
-    this.room.onMessage(Message.CHECK_PRIVATE_MESSAGE, (content) => {
-      console.log(content);
     });
     this.room.onStateChange((state) => {
       const playerSize = this.room?.state.players.size;
@@ -293,17 +278,5 @@ export default class Network {
 
   addChatMessage(content: string) {
     this.room?.send(Message.ADD_CHAT_MESSAGE, { content: content });
-  }
-
-  sendPrivateMessage(senderId: string, receiverId: string, content: string) {
-    this.room?.send(Message.SEND_PRIVATE_MESSAGE, {
-      senderId: senderId,
-      receiverId: receiverId,
-      content: content,
-    });
-    this.checkPrivateMessage(senderId, receiverId);
-  }
-  checkPrivateMessage(requestId: string, targetId: string) {
-    this.room?.send(Message.CHECK_PRIVATE_MESSAGE, { requestId: requestId, targetId: targetId });
   }
 }

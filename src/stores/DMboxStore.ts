@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Message } from 'react-chat-ui';
-
+import { IChatRoomStatus } from 'src/api/chat';
 export enum DMProcess {
   JOINED_DM,
   SEND_DM,
@@ -10,13 +10,22 @@ export enum DMProcess {
 export const DMSlice = createSlice({
   name: 'dm',
   initialState: {
-    dmProcess: DMProcess,
+    dmProcess: IChatRoomStatus,
     directMessages: Message,
     showDM: true,
     roomId: '',
     // listORroom: true, // true: list, false: room
     friendId: '',
+    friendName: '',
     requestFriendCnt: 0,
+    newMessageCnt: 0,
+    newMessage: {
+      friendId: '',
+      id: 0,
+      message: '',
+      roomId: '',
+      userId: '',
+    },
     // status 추가
   },
   reducers: {
@@ -32,15 +41,38 @@ export const DMSlice = createSlice({
     setFriendId: (state, action: PayloadAction<string>) => {
       state.friendId = action.payload;
     },
+    setFriendName: (state, action: PayloadAction<string>) => {
+      state.friendName = action.payload;
+    },
     setRoomId: (state, action: PayloadAction<string>) => {
       state.roomId = action.payload;
     },
     setRequestFriendCnt: (state, action: PayloadAction<number>) => {
       state.requestFriendCnt += action.payload;
+      if (state.requestFriendCnt < 0) state.requestFriendCnt = 0;
+    },
+    setNewMessageCnt: (state, action: PayloadAction<number>) => {
+      state.newMessageCnt += action.payload;
+      if (state.newMessageCnt < 0) state.newMessageCnt = 0;
+    },
+    setNewMessage: (state, action: PayloadAction<any>) => {
+      state.newMessage = action.payload;
+    },
+    setdmProcess: (state, action: PayloadAction<any>) => {
+      state.dmProcess = action.payload;
     },
   },
 });
 
-export const { setFriendId, setShowDM, setRoomId, setRequestFriendCnt } = DMSlice.actions;
+export const {
+  setFriendId,
+  setFriendName,
+  setShowDM,
+  setRoomId,
+  setRequestFriendCnt,
+  setNewMessageCnt,
+  setNewMessage,
+  setdmProcess,
+} = DMSlice.actions;
 
 export default DMSlice.reducer;
