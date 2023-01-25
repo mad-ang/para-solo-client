@@ -17,10 +17,13 @@ export default class chatNetwork {
   constructor() {
     const socketUrl =
       process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
-        ? `http://43.201.32.156:5002`
+        ? `https://${import.meta.env.VITE_SOCKET_SERVER_URL}`
         : `http://${window.location.hostname}:5002`;
 
-    this.socketClient = io(`${socketUrl}`);
+    this.socketClient = io(socketUrl, {
+      transports: ['websocket', 'polling', 'flashsocket'],
+      withCredentials: true,
+    });
     this.oldMessages = [];
 
     this.socketClient.on('request-friend', (data) => {
