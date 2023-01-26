@@ -124,6 +124,9 @@ function Swipe(props) {
                 {/* <SwiperSlide key={player.id}> */}
                 <SwipeBody className="SwipeBody">
                   <ImageWrapper>
+                    <HoverCover>
+                      <div className="see-more">프로필 더보기</div>
+                    </HoverCover>
                     <div className="personal-image">
                       <ProfileAvatarImage
                         ref={imgRef}
@@ -273,20 +276,7 @@ const ImageWrapper = styled.div`
   .personal-avatar:hover {
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
   }
-  .personal-figcaption {
-    cursor: pointer;
-    position: absolute;
-    top: 0px;
-    width: 160px;
-    height: 160px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 100%;
-    opacity: 0;
-    background-color: rgba(0, 0, 0, 0);
-    transition: all ease-in-out 0.3s;
-  }
+
   .personal-figcaption:hover {
     opacity: 1;
     background-color: rgba(0, 0, 0, 0.5);
@@ -344,3 +334,31 @@ const ZeroMessage = styled.div`
   height: 340px;
 `;
 export default Swipe;
+
+const HoverCover = styled.div`
+  position: absolute;
+  cursor: pointer;
+  width: 160px;
+  height: 160px;
+  border-radius: 100%;
+  transition: all ease-in-out 0.3s;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${Colors.white};
+  font-size: 18px;
+
+  .see-more {
+    opacity: 0;
+    transition: all ease-in-out 0.3s;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    .see-more {
+      opacity: 100;
+      transition: all ease-in-out 0.3s;
+    }
+  }
+`;
