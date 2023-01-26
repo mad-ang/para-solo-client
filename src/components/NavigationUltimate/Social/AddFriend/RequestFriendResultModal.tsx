@@ -7,7 +7,8 @@ import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import { setUserCoin } from 'src/stores/UserStore';
-import { chargingCoinReq } from 'src/api/chargingCoin';
+import { chargingCoinReq, paypalReq } from 'src/api/chargingCoin';
+import CustomizedPaypalButton from './CustomizedPaypalButton';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 interface Props {
@@ -29,13 +30,26 @@ export default function RequestFreindResultModal(props) {
     try {
       const result = await chargingCoinReq(body);
       if (result === 1) {
-        console.log('코인 충전 성공(swipe.tsx)');
+        console.log('코인 충전 성공(requestFriendResultModal.tsx)');
         dispatch(setUserCoin(userCoin + 100));
+      } else {
+        console.log('코인 충전 실패(requestFriendResultModal.tsx)');
+      }
+    } catch (error) {
+      console.error('error(charging coin 하다가 에러, requestFriendResultModal.tsx참조)', error);
+    }
+  }
+
+  async function paypalModalReq() {
+    try {
+      const result = await paypalReq();
+      if (result === 1) {
+        console.log('paypal transaction불러');
       } else {
         console.log('코인 충전 실패(swipe.tsx)');
       }
     } catch (error) {
-      console.error('error(charging coin 하다가 에러, swipte.tsx참조)', error);
+      console.error('페이팔 모달창 요청 실패 참조)', error);
     }
   }
 
@@ -124,16 +138,11 @@ export default function RequestFreindResultModal(props) {
                   <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
                 </ButtonWrapper>
               </RequestResultHeader>
-
               <RequestResultBodyCharging>
                 <Textbox>코인 100개를 충전합니다</Textbox>
-                      <PayPalScriptProvider
-        options={{
-          'client-id':
-            'Ac1EY6svD5f5jwXD7ZGGjFhKxCEy5ENuJcpGO1aA8W1GPtCrisR_hdcyeiXOKpUSoWCQtKzbI2sBNk5a',
-        }}
-      >
-                <PayPalButtons
+                <CustomizedPaypalButton/>
+                
+                {/* <PayPalButtons
                   createOrder={(data, actions) => {
                     return actions.order.create({
                       purchase_units: [
@@ -154,8 +163,7 @@ export default function RequestFreindResultModal(props) {
                       handleClick();
                     });
                   }}
-                />
-                </PayPalScriptProvider>
+                /> */}
               </RequestResultBodyCharging>
             </Wrapper>
           )}
