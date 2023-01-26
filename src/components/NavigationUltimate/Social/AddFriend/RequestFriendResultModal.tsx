@@ -8,7 +8,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import { setUserCoin } from 'src/stores/UserStore';
 import { chargingCoinReq, paypalReq } from 'src/api/chargingCoin';
-import CustomizedPaypalButton from './CustomizedPaypalButton';
+// import CustomizedPaypalButton from './CustomizedPaypalButton';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 interface Props {
@@ -141,7 +141,7 @@ export default function RequestFreindResultModal(props) {
               </RequestResultHeader>
               <RequestResultBodyCharging>
                 <Textbox>코인 100개를 충전합니다</Textbox>
-                <CustomizedPaypalButton/>
+                {/* <CustomizedPaypalButton/> */}
                 
                 {/* <PayPalButtons
                   createOrder={(data, actions) => {
@@ -165,6 +165,45 @@ export default function RequestFreindResultModal(props) {
                     });
                   }}
                 /> */}
+                 <PayPalButtons
+                  createOrder={(data, actions) => {
+                    return fetch("http://localhost:8080/api/orders", {
+        
+                      method: "post",
+                    })
+                      .then((response) => {
+                        response.json()
+                        console.log("===DEBUG000===")
+                      })
+                      // .then((response) => {
+                      //   console.log(response);
+                      //   return response.id;
+                      // });
+                      // .then((order) => order.id );
+                  }}
+                  onApprove={(data, actions) => {
+                    return fetch(`http://localhost:8080/api/orders/${data.orderID}/capture`, {
+                      method: "post",
+                    })
+                      .then((response) => response.json())
+                      .then(function (orderData) {
+                        // Successful capture! For dev/demo purposes:
+                        console.log(
+                          "Capture result",
+                          orderData,
+                          JSON.stringify(orderData, null, 2)
+                        );
+                        var transaction = orderData.purchase_units[0].payments.captures[0];
+                        alert(
+                          "Transaction " +
+                            transaction.status +
+                            ": " +
+                            transaction.id +
+                            "\n\nSee console for all available details"
+                        );
+                      });
+                  }}
+                />
               </RequestResultBodyCharging>
             </Wrapper>
           )}
