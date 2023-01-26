@@ -230,9 +230,7 @@ function ProfileEditModal(props) {
                       ? { value: age, label: age || '-' }
                       : item.id === 3
                       ? { value: height, label: height || '-' }
-                      : item.id === 4
-                      ? '요소4'
-                      : '요소5'
+                      : null
                   }
                   placeholder={item.label}
                   onChange={(choice: any) => {
