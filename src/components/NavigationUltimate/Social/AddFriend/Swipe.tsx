@@ -19,6 +19,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
 import RequestFreindResultModal from './RequestFriendResultModal';
 import Cookies from 'universal-cookie';
+import { IPlayer } from 'src/types/ITownState';
+import MoreInfoModal from './moreInfo';
 const cookies = new Cookies();
 
 function Swipe(props) {
@@ -40,6 +42,7 @@ function Swipe(props) {
   const game = phaserGame.scene.keys.game as Game;
   // const players = Array.from(game?.allOtherPlayers());
   const players = useAppSelector((state) => state.room.players);
+  const [selectedPlayer, setSelectedPlayer] = useState<IPlayer | null>(null);
 
   async function requestFriend(id, name, targetImgUrl) {
     let body = {
@@ -124,7 +127,7 @@ function Swipe(props) {
                 {/* <SwiperSlide key={player.id}> */}
                 <SwipeBody className="SwipeBody">
                   <ImageWrapper>
-                    <HoverCover>
+                    <HoverCover onClick={() => setSelectedPlayer(player)}>
                       <div className="see-more">프로필 더보기</div>
                     </HoverCover>
                     <div className="personal-image">
@@ -171,6 +174,7 @@ function Swipe(props) {
           addFriendResult={addFriendResult}
         />
       )}
+      {selectedPlayer && <MoreInfoModal player={selectedPlayer} />}
     </Wrapper>
   );
 }
