@@ -35,6 +35,7 @@ function ProfileEditModal(props) {
   const [gender, setGender] = useState<string>(originalUserProfile.gender);
   const [age, setAge] = useState<string>(originalUserProfile.age);
   const [height, setHeight] = useState<string>(originalUserProfile.height);
+  const [statusMessage, setStatusMessage] = useState<string>(originalUserProfile.statusMessage);
   const dispatch = useAppDispatch();
   let refIndex = 0;
   const focused = useAppSelector((state) => state.chat.focused);
@@ -54,7 +55,12 @@ function ProfileEditModal(props) {
 
   const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!editable) return;
-    setUsername(event.target.value); //colyseus에서의 유저이름 변경
+    setUsername(event.target.value);
+  };
+
+  const handleChangeStatusMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!editable) return;
+    setStatusMessage(event.target.value);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -105,6 +111,7 @@ function ProfileEditModal(props) {
       gender: gender,
       age: age,
       height: height,
+      statusMessage: statusMessage,
     };
 
     game.myPlayer.setPlayerInfo(newUserInfo, authFlag);
@@ -117,6 +124,7 @@ function ProfileEditModal(props) {
     setGender(additionalInfo.gender);
     setAge(additionalInfo.age);
     setHeight(additionalInfo.height);
+    setStatusMessage(additionalInfo.statusMessage);
   };
 
   useEffect(() => {
@@ -138,7 +146,6 @@ function ProfileEditModal(props) {
       <ProfileHeader>
         <DirtyTalk>
           <TitleImage src={ParasolImg} width="30" />
-
           <TitleText>프로필 수정</TitleText>
         </DirtyTalk>
         <ButtonWrapper onClick={handleClick}>
@@ -211,6 +218,27 @@ function ProfileEditModal(props) {
             />
           </InputWrapper>
         </ProfileUserName>
+        <ProfileStatusMessage editable={editable}>
+          <InputWrapper>
+            <InputTextField
+              inputRef={(el) => (inputRefs.current[0] = el)}
+              readOnly={!editable}
+              value={statusMessage}
+              placeholder={'상태메시지'}
+              autoFocus={editable}
+              onKeyDown={handleKeyDown}
+              onChange={handleChangeStatusMessage}
+              onFocus={() => {
+                if (!focused) {
+                  dispatch(setFocused(true));
+                }
+              }}
+              onBlur={() => {
+                dispatch(setFocused(false));
+              }}
+            />
+          </InputWrapper>
+        </ProfileStatusMessage>
         <InfoContainer editable={editable}>
           {infoItemList?.map((item, index) => (
             <InfoItem key={item.id}>
@@ -486,6 +514,16 @@ const ProfileUserName = styled.div<EditableProps>`
   cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
 `;
 
+const ProfileStatusMessage = styled.div<EditableProps>`
+  margin-top: 6px;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: ${(props) =>
+    props.editable ? `1px solid ${Colors.skyblue[2]}` : '1px solid transparent'};
+  cursor: ${(props) => (props.editable ? 'pointer' : 'default')};
+`;
+
 const InfoContainer = styled.div<EditableProps>`
   padding: 5px;
   margin-top: 14px;
@@ -546,13 +584,20 @@ const ProfileEditButton = styled.button`
 const InputWrapper = styled.form`
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  width: 300px;
 `;
 const InputTextField = styled(InputBase)`
   border-radius: 0px 0px 10px 10px;
   input {
     padding: 5px;
     color: #000;
+    text-align: center;
   }
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 `;
 
 const ConnectionStatusWithSmallLight = styled.div`
