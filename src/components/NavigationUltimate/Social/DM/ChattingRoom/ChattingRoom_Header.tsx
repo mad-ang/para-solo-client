@@ -42,7 +42,7 @@ export default function HeadAppBar() {
         </IconButton>
 
         <TitleText>{friendName}</TitleText>
-
+        </DirtyTalk>
         <MyButton
           color={`${Colors.pink[2]}`}
           hoverColor={`${Colors.red[1]}`}
@@ -54,7 +54,7 @@ export default function HeadAppBar() {
         >
           친구삭제
         </MyButton>
-      </DirtyTalk>
+      
     </DMtop>
   );
 }
@@ -106,7 +106,7 @@ const MyButton = styled.button<MyButtonProps>`
   border-radius: 10px;
   border: none;
   background-color: ${(props) => (props.color ? props.color : `${Colors.skyblue[1]}`)};
-  margin: 15px 0px 10px 180px;
+  margin: 10px 5px 10px 10px;
 
   &:hover {
     background-color: ${(props) => (props.hoverColor ? props.hoverColor : `${Colors.skyblue[2]}`)};
