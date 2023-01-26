@@ -202,7 +202,7 @@ function ProfileEditModal(props) {
               inputRef={(el) => (inputRefs.current[0] = el)}
               readOnly={!editable}
               value={username}
-              placeholder={'사용자 이름'}
+              placeholder={'이름'}
               autoFocus={editable}
               onKeyDown={handleKeyDown}
               onChange={handleChangeUsername}
