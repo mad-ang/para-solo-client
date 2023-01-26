@@ -14,7 +14,7 @@ import Colors from 'src/utils/Colors';
 import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
 import Cookies from 'universal-cookie';
-
+const cookies = new Cookies();
 
 export default function HeadAppBar() {
   const game = phaserGame.scene.keys.game as Game;
@@ -43,21 +43,17 @@ export default function HeadAppBar() {
 
         <TitleText>{friendName}</TitleText>
 
-
-
- <MyButton
-            color={`${Colors.pink[2]}`}
-            hoverColor={`${Colors.red[1]}`}
-            onClick={(event) => {
-              event.preventDefault();
+        <MyButton
+          color={`${Colors.pink[2]}`}
+          hoverColor={`${Colors.red[1]}`}
+          onClick={(event) => {
+            event.preventDefault();
             game.networt2.deleteFriend(userId, friendId);
             dispatch(SetWhichModalActivated(ModalState.ChattingList));
-          }
-        }
-          >
-            친구삭제      
-</MyButton>
-        
+          }}
+        >
+          친구삭제
+        </MyButton>
       </DirtyTalk>
     </DMtop>
   );
@@ -102,7 +98,7 @@ interface MyButtonProps {
 }
 
 const MyButton = styled.button<MyButtonProps>`
-  width: 120px;
+  width: auto;
   height: 40px;
   font-size: 1.2rem;
   font-weight: 500;
@@ -110,7 +106,7 @@ const MyButton = styled.button<MyButtonProps>`
   border-radius: 10px;
   border: none;
   background-color: ${(props) => (props.color ? props.color : `${Colors.skyblue[1]}`)};
-  margin: 15px 10px 10px 10px;
+  margin: 15px 0px 10px 180px;
 
   &:hover {
     background-color: ${(props) => (props.hoverColor ? props.hoverColor : `${Colors.skyblue[2]}`)};

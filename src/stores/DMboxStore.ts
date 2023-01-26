@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Message } from 'react-chat-ui';
 import { IChatRoomStatus } from 'src/api/chat';
-export enum DMProcess {
-  JOINED_DM,
-  SEND_DM,
-  RECEIVE_DM,
-}
+// export enum DMProcess {
+//   JOINED_DM,
+//   SEND_DM,
+//   RECEIVE_DM,
+// }
 
 export const DMSlice = createSlice({
   name: 'dm',
   initialState: {
-    dmProcess: IChatRoomStatus,
+    dmProcess: 2,
     directMessages: Message,
     showDM: true,
     roomId: '',

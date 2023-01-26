@@ -28,6 +28,7 @@ import FriendRequest from 'src/components/NavigationUltimate/Social/AddFriend/Fr
 import Colors from 'src/utils/Colors';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import Cookies from 'universal-cookie';
+import { LeftToast } from 'src/components/ToastNotification';
 const cookies = new Cookies();
 /* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.friendId)에 친구의 userId를 넣어준다  */
 export const ConversationList = () => {
@@ -42,7 +43,7 @@ export const ConversationList = () => {
   const friendId = useAppSelector((state) => state.dm.friendId);
   const newMessage = useAppSelector((state) => state.dm.newMessage);
   const newMessageCnt = useAppSelector((state) => state.dm.newMessageCnt);
-
+  const [showAlert, setShowAlert] = useState<boolean>(false);
   useEffect(() => {
     fetchRoomList(userId).then((data) => {
       setRooms(data);
@@ -57,7 +58,9 @@ export const ConversationList = () => {
   // };
 
   const handleClick = async (room) => {
+    console.log(3333, room.status);
     if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount == 0) {
+      setShowAlert(true);
       setFriendRequestProps(room.friendInfo);
     } else if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount == 1) {
       // 친구 요청 받음
@@ -65,7 +68,9 @@ export const ConversationList = () => {
       setFriendRequestProps(room.friendInfo);
 
       // dispatch(setdmProcess(room.status));
+
     } else {
+
       try {
         dispatch(SetWhichModalActivated(ModalState.ChattingListAndRoom));
         // Response userId
@@ -84,6 +89,7 @@ export const ConversationList = () => {
   };
   return (
     <DMmessageList>
+      {showAlert && <LeftToast text={'친구의 수락을 기다리고 있어요!'} />}
       <UnorderedList>
         {rooms.length !== 0 ? (
           rooms.map((room) => {
@@ -101,7 +107,8 @@ export const ConversationList = () => {
             return (
               <ListTag
                 key={room._id}
-                onClick={() => {
+                onClick={async () => {
+                  await setShowAlert(false);
                   handleClick(room);
                 }}
               >
