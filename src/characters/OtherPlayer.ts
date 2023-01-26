@@ -99,7 +99,7 @@ export default class OtherPlayer extends Player {
           this.userId = value;
         }
         break;
-      case 'userInfo':
+      case 'userProfile':
         this.userProfile.profileImgUrl = value?.profileImgUrl || '';
         this.userProfile.gender = value?.gender || '';
         this.userProfile.age = value?.age || '';

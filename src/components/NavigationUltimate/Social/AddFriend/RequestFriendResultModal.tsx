@@ -125,8 +125,14 @@ export default function RequestFreindResultModal(props) {
                 </ButtonWrapper>
               </RequestResultHeader>
 
-              <RequestResultBody>
+              <RequestResultBodyCharging>
                 <Textbox>코인 100개를 충전합니다</Textbox>
+                      <PayPalScriptProvider
+        options={{
+          'client-id':
+            'Ac1EY6svD5f5jwXD7ZGGjFhKxCEy5ENuJcpGO1aA8W1GPtCrisR_hdcyeiXOKpUSoWCQtKzbI2sBNk5a',
+        }}
+      >
                 <PayPalButtons
                   createOrder={(data, actions) => {
                     return actions.order.create({
@@ -149,7 +155,8 @@ export default function RequestFreindResultModal(props) {
                     });
                   }}
                 />
-              </RequestResultBody>
+                </PayPalScriptProvider>
+              </RequestResultBodyCharging>
             </Wrapper>
           )}
         </>
@@ -220,6 +227,24 @@ const RequestResultBody = styled.div`
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
 `;
+
+const RequestResultBodyCharging = styled.div`
+  font-weight: 600;
+  font-size: 24px;
+  font-size: 1.5rem;
+  background-color: ${Colors.white};
+  padding: 30px 15px 20px 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 190px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  overflow-y: auto;
+`;
+
 
 const MyButton = styled.button`
   width: 120px;
