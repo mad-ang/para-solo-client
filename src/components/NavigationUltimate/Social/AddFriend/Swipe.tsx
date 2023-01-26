@@ -131,6 +131,7 @@ function Swipe(props) {
           // }}
         >
           {otherPlayers?.map((player, i: number) => {
+            console.log(player.userProfile.statusMessage);
             return player.userId !== myId ? (
               <SwiperSlide key={i}>
                 {/* <SwiperSlide key={player.id}> */}
@@ -151,8 +152,8 @@ function Swipe(props) {
                   </ImageWrapper>
                   <Name>{player.name}</Name>
                   <Message>
-                    {player.statusMessage
-                      ? player.statusMessage
+                    {player.userProfile.statusMessage
+                      ? player.userProfile.statusMessage
                       : i <= dummyMessages.length - 1
                       ? dummyMessages[i]
                       : '반가워요'}

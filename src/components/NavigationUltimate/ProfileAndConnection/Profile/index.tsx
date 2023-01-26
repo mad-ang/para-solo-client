@@ -236,6 +236,7 @@ function ProfileEditModal(props) {
               onBlur={() => {
                 dispatch(setFocused(false));
               }}
+              inputProps={{ maxLength: 20 }}
             />
           </InputWrapper>
         </ProfileStatusMessage>
