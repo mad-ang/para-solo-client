@@ -48,6 +48,7 @@ export default function FriendRequest(props) {
       const { status, data } = response;
       if (status === 200) {
         console.log('친구 요청 수락/거절 결과', data.payload);
+        if (body.isAccept) game.networt2.acceptFriend(body);
         return data.payload;
       }
     } catch (error) {

@@ -35,7 +35,7 @@ export default class chatNetwork {
       console.log('request-friend', data);
     });
 
-    this.socketClient.on('accept-friend', (data) => {
+    this.socketClient.on('accept-friend-res', (data) => {
       fireNotification('[PARA-SOLO] 친구 요청 수락', {
         body: `짝짝짝, ${data}님이 친구 요청을 수락했습니다.`,
         icon: `${ParasolImg}`,
@@ -77,6 +77,10 @@ export default class chatNetwork {
 
   requestFriend = (obj: object) => {
     this.socketClient.emit('request-friend-req', obj);
+  };
+
+  acceptFriend = (obj: object) => {
+    this.socketClient.emit('accept-friend-req', obj);
   };
 
   sendMessage = (message: object) => {
