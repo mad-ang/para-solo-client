@@ -72,6 +72,34 @@ export const AlertToast: React.FC<ToastProps> = (props: ToastProps) => {
   return null;
 };
 
+export const LeftToast: React.FC<ToastProps> = (props: ToastProps) => {
+  const { text } = props;
+  const [toastState, setToastState] = useState<boolean>(true);
+  const [toastAnimationClass, setToastAnimationClass] = useState<string>('open');
+
+  useEffect(() => {
+    console.log('toastAnimationClass', toastAnimationClass);
+    let timer = setTimeout(() => {
+      setToastAnimationClass('close');
+      // setToastState(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  if (toastState) {
+    return (
+      <LeftToastContainer animation={toastAnimationClass} color={Colors.pink[1]}>
+        <p>{text}</p>
+      </LeftToastContainer>
+    );
+  }
+
+  return null;
+};
+
 const boxFade = keyframes`
     0% {
       opacity: 1;
@@ -114,13 +142,14 @@ const Msg = styled.div`
 
 type AnimationProps = {
   animation: string;
+  color?: string;
 };
 
 const AlertToastContainer = styled.div<AnimationProps>`
   position: fixed;
   top: 10%;
   right: 0;
-  background: ${Colors.skyblue[3]};
+  background: ${(props) => (props.color ? props.color : Colors.blue[3])};
   border-radius: 10px;
   font-size: 20px;
   display: flex;
@@ -151,6 +180,52 @@ const AlertToastContainer = styled.div<AnimationProps>`
     }
     to {
       right: -100%;
+    }
+  }
+
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+
+  animation: ${(props) =>
+    props.animation === 'open' ? 'slideIn 0.5s forwards' : 'slideOut 0.5s forwards'};
+
+  -webkit-animation: ${(props) =>
+    props.animation === 'open' ? 'slideIn 0.5s forwards' : 'slideOut 0.5s forwards'};
+`;
+
+const LeftToastContainer = styled.div<AnimationProps>`
+  position: fixed;
+  top: 2%;
+  left: 0;
+  background: ${(props) => (props.color ? props.color : Colors.blue[3])};
+  border-radius: 10px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  justify-content: center;
+  text-align: center;
+  min-width: 200px;
+  height: 100px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  @keyframes slideIn {
+    from {
+      left: -100%;
+    }
+    to {
+      left: 5%;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      left: 5%;
+    }
+    to {
+      left: -100%;
     }
   }
 
