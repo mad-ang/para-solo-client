@@ -65,7 +65,9 @@ export const ConversationList = () => {
       setFriendRequestProps(room.friendInfo);
 
       // dispatch(setdmProcess(room.status));
+
     } else {
+
       try {
         dispatch(SetWhichModalActivated(ModalState.ChattingListAndRoom));
         // Response userId
