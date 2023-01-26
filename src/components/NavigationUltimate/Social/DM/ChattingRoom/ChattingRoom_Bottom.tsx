@@ -23,11 +23,12 @@ export default function BottomAppBar(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const Rvalue = value.trim()
+    const Rvalue = value.trim();
     if (Rvalue === '') {
       setValue('');
-      return;}
-      console.log('보냄');
+      return;
+    }
+
     const newMessage = new Message({
       id: 0,
       message: Rvalue,
@@ -43,12 +44,10 @@ export default function BottomAppBar(props) {
   };
 
   return (
-   <DMbottom>
-
-{/* <Input placeholder="메세지 보내기"  onKeyDown={handleOnKeyDown} onChange={(event) => {
+    <DMbottom>
+      {/* <Input placeholder="메세지 보내기"  onKeyDown={handleOnKeyDown} onChange={(event) => {
           setValue(event.target.value);
         }}/> */}
-
 
       <TextField
         onFocus={() => {
@@ -59,7 +58,6 @@ export default function BottomAppBar(props) {
         onBlur={() => {
           dispatch(setFocused(false));
         }}
-        
         value={value}
         fullWidth
         margin="dense"
@@ -71,7 +69,8 @@ export default function BottomAppBar(props) {
           setValue(event.target.value);
         }}
         onKeyDown={handleOnKeyDown}
-        InputProps={{style: {fontFamily: 'Ycomputer-Regular', color: 'black'},
+        InputProps={{
+          style: { fontFamily: 'Ycomputer-Regular', color: 'black' },
           endAdornment: (
             <InputAdornment position="end">
               <IconButton color="primary" sx={{ p: '10px' }} onClick={handleSubmit} edge="end">
@@ -80,9 +79,8 @@ export default function BottomAppBar(props) {
             </InputAdornment>
           ),
         }}
-        />
-  
-        </DMbottom>
+      />
+    </DMbottom>
   );
 }
 
@@ -101,10 +99,7 @@ export default function BottomAppBar(props) {
 //   width: 100%;
 //   background: transparent;
 
-
 // `;
-
-
 
 const DirtyTalk = styled.div`
   display: flex;
@@ -121,7 +116,6 @@ const DMbottom = styled.div`
   flex-direction: row;
   alsign-items: center;
   justify-content: space-between;
-  
 `;
 
 const ButtonWrapper = styled.button`

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import {
   ENTERING_PROCESS,
@@ -18,6 +18,7 @@ import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
 import { login } from 'src/api/auth';
 import Cookies from 'universal-cookie';
+import { AlertToast } from './ToastNotification';
 const cookies = new Cookies();
 
 const Wrapper = styled.form`
@@ -47,6 +48,10 @@ const Content = styled.div`
   justify-content: center;
 `;
 
+const EntryButton = styled(Button)`
+  width: 120px;
+`;
+
 export default function SignUpDialog() {
   const dispatch = useAppDispatch();
 
@@ -64,7 +69,8 @@ export default function SignUpDialog() {
 
   const [userIdFieldEmpty, setUserIdFieldEmpty] = useState<boolean>(false);
   const [userIdFieldWrong, setUserIdFieldWrong] = useState<boolean>(false);
-
+  const [failSignup, setFailSignup] = useState<boolean>(false);
+  const [failMessage, setFailMessage] = useState<string>('회원가입에 실패했습니다');
   // const onUserIdHandler = (event) => {
   //   setUserId(event.currentTarget.value);
   // }
@@ -79,6 +85,7 @@ export default function SignUpDialog() {
   };
 
   const handleSubmit = async (): Promise<boolean> => {
+    setFailSignup(false);
     try {
       if (!userId || userId.length === 0) {
         setUserIdFieldEmpty(true);
@@ -112,11 +119,15 @@ export default function SignUpDialog() {
           dispatch(setStoreUserId(payload.userId));
           return true;
         } else {
+          setFailSignup(true);
           return false;
         }
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      setFailSignup(true);
+      if (error?.response?.status === 409) {
+        setFailMessage('이미 존재하는 회원입니다');
+      }
     }
     return false;
   };
@@ -139,6 +150,7 @@ export default function SignUpDialog() {
 
   return (
     <>
+      {failSignup && <AlertToast text={failMessage} />}
       <Wrapper>
         <Title>회원가입</Title>
         <TextField
@@ -188,12 +200,17 @@ export default function SignUpDialog() {
           }}
         />
         <Content>
-          <Button variant="contained" color="secondary" onClick={onSubmitHandler} sx={{ mx: 2 }}>
+          <EntryButton
+            variant="contained"
+            color="secondary"
+            onClick={onSubmitHandler}
+            sx={{ mx: 2 }}
+          >
             회원가입 완료
-          </Button>
-          <Button variant="contained" color="secondary" onClick={goToEntry} sx={{ mx: 2 }}>
+          </EntryButton>
+          <EntryButton variant="contained" color="secondary" onClick={goToEntry} sx={{ mx: 2 }}>
             뒤로 가기
-          </Button>
+          </EntryButton>
         </Content>
       </Wrapper>
     </>

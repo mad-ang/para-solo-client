@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import CloseIcon from '@mui/icons-material/Close'
+import React from 'react';
+import styled from 'styled-components';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
-import { useAppSelector, useAppDispatch } from '../hooks'
-import { closeTableDialog } from '../stores/tableStore'
-import Video from './Video'
+import { useAppSelector, useAppDispatch } from '../hooks';
+import { closeTableDialog } from '../stores/tableStore';
+import Video from './Video';
 
 const Backdrop = styled.div`
   position: fixed;
@@ -16,7 +16,7 @@ const Backdrop = styled.div`
   height: 100%;
   overflow: hidden;
   padding: 16px 180px 16px 16px;
-`
+`;
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -34,7 +34,7 @@ const Wrapper = styled.div`
     top: 16px;
     right: 16px;
   }
-`
+`;
 
 const VideoGrid = styled.div`
   flex: 1;
@@ -71,27 +71,26 @@ const VideoGrid = styled.div`
       white-space: nowrap;
     }
   }
-`
+`;
 
-function VideoContainer({ playerName, stream, muted}) {
-  let is_me = false
-  if (muted === "true")
-    is_me = true
+function VideoContainer({ playerName, stream, muted }) {
+  let is_me = false;
+  if (muted === 'true') is_me = true;
   return (
     <div className="video-container">
       <Video srcObject={stream} autoPlay muted={is_me}></Video>
       {playerName && <div className="player-name">{playerName}</div>}
     </div>
-  )
+  );
 }
 
 export default function TableDialog() {
-  const dispatch = useAppDispatch()
-  const playerNameMap = useAppSelector((state) => state.user.playerNameMap)
-  const tableTalkManager = useAppSelector((state) => state.table.tableTalkManager)
-  const myStream = useAppSelector((state) => state.table.myStream)
-  const peerStreams = useAppSelector((state) => state.table.peerStreams)
-  console.log(peerStreams.entries());
+  const dispatch = useAppDispatch();
+  const playerNameMap = useAppSelector((state) => state.user.playerNameMap);
+  const tableTalkManager = useAppSelector((state) => state.table.tableTalkManager);
+  const myStream = useAppSelector((state) => state.table.myStream);
+  const peerStreams = useAppSelector((state) => state.table.peerStreams);
+
   return (
     <Backdrop>
       <Wrapper>
@@ -109,9 +108,9 @@ export default function TableDialog() {
             color="secondary"
             onClick={() => {
               if (tableTalkManager?.myStream) {
-                tableTalkManager?.stopTableTalk()
+                tableTalkManager?.stopTableTalk();
               } else {
-                tableTalkManager?.startTableTalk()
+                tableTalkManager?.startTableTalk();
               }
             }}
           >
@@ -120,14 +119,16 @@ export default function TableDialog() {
         </div>
 
         <VideoGrid>
-          {myStream && <VideoContainer stream={myStream} playerName="You" muted="true"/>}
+          {myStream && <VideoContainer stream={myStream} playerName="You" muted="true" />}
 
           {[...peerStreams.entries()].map(([id, { stream }]) => {
-            const playerName = playerNameMap.get(id)
-            return <VideoContainer key={id} playerName={playerName} stream={stream} muted="false" />
+            const playerName = playerNameMap.get(id);
+            return (
+              <VideoContainer key={id} playerName={playerName} stream={stream} muted="false" />
+            );
           })}
         </VideoGrid>
       </Wrapper>
     </Backdrop>
-  )
+  );
 }

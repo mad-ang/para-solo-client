@@ -21,10 +21,9 @@ export const fetchRoomList = async (userId: string): Promise<any> => {
   try {
     const cookieUserId = cookies.get('userId');
     const response = await axios.post(`/chat/roomList`, { userId: userId || cookieUserId });
-    console.log('fetchRoom=====>', response.data.payload);
     return response.data.payload;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -119,6 +118,7 @@ export enum IChatRoomStatus {
   SOCKET_ON,
   SOCKET_OFF,
   REJECTED,
+  TERMINATED,
 }
 
 // 서버에 채팅 가져오기

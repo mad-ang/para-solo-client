@@ -14,7 +14,7 @@ import EntryDialog from './components/EntryDialog';
 import CharacterSelectionDialog from './components/CharacterSelectionDialog';
 import VideoConnectionDialog from './components/VideoConnectionDialog';
 import TableDialog from './components/TableDialog';
-import WelcomeToast from './components/ToastNotification';
+import { WelcomeToast } from './components/ToastNotification';
 import SignUpDialog from './components/SignUpDialog';
 import SignInDialog from './components/SignInDialog';
 import axios from 'axios';
@@ -63,7 +63,7 @@ function App() {
         {tableDialogOpen ? <TableDialog /> : null}
         {/* Render VideoConnectionDialog if user is not connected to a webcam. */}
         {!videoConnected && <VideoConnectionDialog />}
-        {!cookies.get('refreshToken') && <WelcomeToast />}
+        <WelcomeToast />
       </>
     );
   } else if (enteringProcess === ENTERING_PROCESS.ENTRY) {
@@ -87,7 +87,8 @@ function App() {
       <PayPalScriptProvider
         options={{
           'client-id':
-            'Ac1EY6svD5f5jwXD7ZGGjFhKxCEy5ENuJcpGO1aA8W1GPtCrisR_hdcyeiXOKpUSoWCQtKzbI2sBNk5a',
+            // 'Ac1EY6svD5f5jwXD7ZGGjFhKxCEy5ENuJcpGO1aA8W1GPtCrisR_hdcyeiXOKpUSoWCQtKzbI2sBNk5a',
+            'AWF7ro3lBMbGFWEmc3Z_kI7M2M-KCBhH_1wCTWL3F7HZvVFbbgGUIglqVS_9qgCSQEJWwaRxHkBIYUAl',
         }}
       >
         <Backdrop className="Backdrop">{ui}</Backdrop>

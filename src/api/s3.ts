@@ -35,27 +35,10 @@ export const addImage = async (albumName: string, files: any) => {
     );
 
     const targetFileName = `https://momstown-images.s3.ap-northeast-2.amazonaws.com/${photoKey}`;
-    console.log(targetFileName);
+
     return targetFileName;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };
-// const params = {
-//   Key: photoKey,
-//   Bucket: bucketName,
-//   Body: file,
-//   ContentType: 'image/jpeg',
-//   ACL: 'public-read',
-// };
-
-// s3.upload(params, function (err, data): void {
-//   if (err) {
-//     console.log(err);
-//     alert(`이미지 업로드에 실패했습니다. ${err.message}`);
-//   }
-//   console.log('이미지 업로드에 성공했습니다.', data);
-//   const url = data.Location;
-//   next(url);
-// });

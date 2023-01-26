@@ -37,18 +37,15 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-
     this.load.spritesheet('chairs', 'assets/tileset/chairs.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
 
-
     this.load.spritesheet('logo', 'assets/tileset/logo.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
-
 
     this.load.spritesheet('camping', 'assets/tileset/camping.png', {
       frameWidth: 16,
@@ -151,13 +148,11 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 16,
     });
 
-    
-
     this.load.spritesheet('clothes', 'assets/animate/clothes.png', {
       frameWidth: 16,
       frameHeight: 16,
     });
-    
+
     this.load.spritesheet('ball1', 'assets/animate/ball1.png', {
       frameWidth: 16,
       frameHeight: 16,
@@ -223,12 +218,11 @@ export default class Bootstrap extends Phaser.Scene {
     this.network.webRTC?.checkPreviousPermission();
     this.scene.launch('game', {
       network: this.network,
-      network2 : this.network2
+      network2: this.network2,
     });
 
     // update Redux state
     store.dispatch(setEnteringProcess(ENTERING_PROCESS.CHARACTER_SELECTION));
-    console.log('launchGame');
   }
 
   changeBackgroundMode(backgroundMode: BackgroundMode) {

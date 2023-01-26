@@ -25,6 +25,7 @@ import { constants } from 'buffer';
 import { login } from 'src/api/auth';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
+import { AlertToast } from './ToastNotification';
 
 const Wrapper = styled.form`
   position: fixed;
@@ -68,6 +69,10 @@ function SignedUpToast() {
   );
 }
 
+const EntryButton = styled(Button)`
+  width: 100px;
+`;
+
 export default function SignInDialog() {
   const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
 
@@ -92,6 +97,8 @@ export default function SignInDialog() {
   const [userIdFieldWrong, setUserIdFieldWrong] = useState<boolean>(false);
   const [pwFieldWrong, setPwFieldWrong] = useState<boolean>(false);
   const [failLogin, setFailLogin] = useState<boolean>(false);
+  const [failMessage, setFailMessage] = useState<string>('아이디와 비밀번호를 다시 확인해주세요');
+
   const game = phaserGame.scene.keys.game as Game;
   const goToEntry = (event) => {
     event.preventDefault();
@@ -99,6 +106,7 @@ export default function SignInDialog() {
   };
 
   const handleSubmit = async (): Promise<boolean> => {
+    setFailLogin(false);
     try {
       if (userId === '' || password === '') {
         if (userId === '') setUserIdFieldEmpty(true);
@@ -112,7 +120,7 @@ export default function SignInDialog() {
 
         const data = await login(body);
 
-        if (data.status == 200) {
+        if (data?.status == 200) {
           const { payload } = data;
           const token = payload.accessToken;
           if (token) {
@@ -126,7 +134,7 @@ export default function SignInDialog() {
             .catch((error) => console.error(error));
           bootstrap.network2.whoAmI(payload.userId);
           dispatch(setStoreUserId(payload.userId));
-          console.log('200 로그인 성공인딩');
+
           return true;
         } else {
           setFailLogin(true);
@@ -134,20 +142,18 @@ export default function SignInDialog() {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      setFailLogin(true);
     }
     return false;
   };
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-
     setUserIdFieldEmpty(false);
     setUserIdFieldWrong(false);
     setPwFieldEmpty(false);
     setPwFieldWrong(false);
-
-    console.log(userId);
     handleSubmit();
   };
 
@@ -160,21 +166,7 @@ export default function SignInDialog() {
 
   return (
     <>
-      {/* {signedUp === true
-        ? toast('회원가입이 완료되었어요! 로그인해주세요', {
-            position: 'top-center',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'light',
-          })
-        : null} */}
-
-      {/* <ToastContainer /> */}
-
+      {failLogin && <AlertToast text={failMessage} />}
       <Wrapper>
         <Title>로그인</Title>
         <TextField
@@ -227,13 +219,13 @@ export default function SignInDialog() {
           }}
         />
         <Content>
-          <Button variant="contained" color="secondary" onClick={onSubmitHandler}>
+          <EntryButton variant="contained" color="secondary" onClick={onSubmitHandler}>
             로그인 완료
-          </Button>
+          </EntryButton>
 
-          <Button variant="contained" color="secondary" onClick={goToEntry} sx={{ mx: 2 }}>
+          <EntryButton variant="contained" color="secondary" onClick={goToEntry} sx={{ mx: 2 }}>
             뒤로 가기
-          </Button>
+          </EntryButton>
         </Content>
       </Wrapper>
     </>

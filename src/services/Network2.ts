@@ -32,7 +32,6 @@ export default class chatNetwork {
         body: `${data}님과 친구를 맺어보아요.`,
         icon: `${ParasolImg}`,
       });
-      console.log('request-friend', data);
     });
 
     this.socketClient.on('accept-friend-res', (data) => {
@@ -44,10 +43,11 @@ export default class chatNetwork {
 
     this.socketClient.on('message', (data) => {
       data.id = 1;
-      // console.log('새 메시지 ', data);
+
       store.dispatch(setNewMessage(data));
       store.dispatch(setNewMessageCnt(1));
     });
+
   }
 
   getSocket = () => {
@@ -55,7 +55,6 @@ export default class chatNetwork {
   };
 
   joinRoom = (roomId: string, userId: string, friendId: string, callback: any) => {
-    console.log('join!');
     this.socketClient.emit('join-room', { roomId: roomId, userId: userId, friendId: friendId });
 
     this.socketClient.on('old-messages', (data) => {
@@ -90,4 +89,17 @@ export default class chatNetwork {
   whoAmI = (userId: string) => {
     this.socketClient.emit('whoAmI', userId);
   };
+
+  deleteFriend = ( userId: string, friendId: string) => {
+    console.log('친구 삭제');
+    this.socketClient.emit('delete-friend', { userId: userId, friendId: friendId });
+
+  };
+
+  moreFriendInfo = ( friendId: string) => {
+   
+    this.socketClient.emit('more-friendInfo', { friendId: friendId });
+
+  };
+
 }
