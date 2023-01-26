@@ -18,6 +18,7 @@ import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
 import { login } from 'src/api/auth';
 import Cookies from 'universal-cookie';
+import { AlertToast } from './ToastNotification';
 const cookies = new Cookies();
 
 const Wrapper = styled.form`
@@ -68,7 +69,8 @@ export default function SignUpDialog() {
 
   const [userIdFieldEmpty, setUserIdFieldEmpty] = useState<boolean>(false);
   const [userIdFieldWrong, setUserIdFieldWrong] = useState<boolean>(false);
-
+  const [failSignup, setFailSignup] = useState<boolean>(false);
+  const [failMessage, setFailMessage] = useState<string>('회원가입에 실패했습니다');
   // const onUserIdHandler = (event) => {
   //   setUserId(event.currentTarget.value);
   // }
@@ -83,6 +85,7 @@ export default function SignUpDialog() {
   };
 
   const handleSubmit = async (): Promise<boolean> => {
+    setFailSignup(false);
     try {
       if (!userId || userId.length === 0) {
         setUserIdFieldEmpty(true);
@@ -116,11 +119,13 @@ export default function SignUpDialog() {
           dispatch(setStoreUserId(payload.userId));
           return true;
         } else {
+          setFailSignup(true);
           return false;
         }
       }
     } catch (error) {
       console.log(error);
+      setFailSignup(true);
     }
     return false;
   };
@@ -143,6 +148,7 @@ export default function SignUpDialog() {
 
   return (
     <>
+      {failSignup && <AlertToast text={failMessage} />}
       <Wrapper>
         <Title>회원가입</Title>
         <TextField
