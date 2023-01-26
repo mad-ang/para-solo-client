@@ -26,7 +26,7 @@ export default class chatNetwork {
     });
     this.oldMessages = [];
 
-    this.socketClient.on('request-friend', (data) => {
+    this.socketClient.on('request-friend-res', (data) => {
       store.dispatch(setRequestFriendCnt(1));
       fireNotification('[PARA-SOLO] 친구 요청 도착', {
         body: `${data.username}님과 친구를 맺어보아요.`,
@@ -73,6 +73,10 @@ export default class chatNetwork {
       });
       callback(this.oldMessages);
     });
+  };
+
+  requestFriend = (obj: object) => {
+    this.socketClient.emit('request-friend-req', obj);
   };
 
   sendMessage = (message: object) => {
