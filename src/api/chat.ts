@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
 import { Message, ChatInput } from 'react-chat-ui';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 // 채팅방 입장 시, 채팅방 정보를 얻음
 export const createRoom = (param: CreateRoomRequest) => {
   return axios
@@ -17,7 +19,8 @@ export const createRoom = (param: CreateRoomRequest) => {
 // 현재 채팅방 목록을 가져옴
 export const fetchRoomList = async (userId: string): Promise<any> => {
   try {
-    const response = await axios.post(`/chat/roomList`, { userId: userId });
+    const cookieUserId = cookies.get('userId');
+    const response = await axios.post(`/chat/roomList`, { userId: userId || cookieUserId });
     console.log('fetchRoom=====>', response.data.payload);
     return response.data.payload;
   } catch (error) {
