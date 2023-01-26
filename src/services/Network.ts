@@ -90,16 +90,15 @@ export default class Network {
       player.onChange = (changes) => {
         changes.forEach((change) => {
           const { field, value } = change;
-          //  TODO: 다른 사용자 정보 업데이트 감지
-          if (value != undefined) {
-            phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
-          }
 
           // when a new player finished setting up player name
           if (field === 'name' && value !== '') {
             phaserEvents.emit(Event.PLAYER_JOINED, player, key);
             store.dispatch(setPlayerNameMap({ id: key, name: value }));
             store.dispatch(pushPlayerJoinedMessage(value));
+          }
+          if (value != undefined) {
+            phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
           }
         });
       };
