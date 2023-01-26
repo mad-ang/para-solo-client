@@ -98,7 +98,7 @@ interface MyButtonProps {
 }
 
 const MyButton = styled.button<MyButtonProps>`
-  width: 120px;
+  width: auto;
   height: 40px;
   font-size: 1.2rem;
   font-weight: 500;
@@ -106,7 +106,7 @@ const MyButton = styled.button<MyButtonProps>`
   border-radius: 10px;
   border: none;
   background-color: ${(props) => (props.color ? props.color : `${Colors.skyblue[1]}`)};
-  margin: 15px 10px 10px 10px;
+  margin: 15px 0px 10px 180px;
 
   &:hover {
     background-color: ${(props) => (props.hoverColor ? props.hoverColor : `${Colors.skyblue[2]}`)};
