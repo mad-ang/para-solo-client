@@ -10,7 +10,6 @@ export const addFriendReq = async (body: any) => {
     if (response) {
       const { status, payload } = response.data;
       if (response.status === 200) {
-        console.log('status', status, 'payload', payload);
         if (status === 200) {
           console.log('친구 요청 성공');
           const game = phaserGame.scene.keys.game as Game;
@@ -24,36 +23,12 @@ export const addFriendReq = async (body: any) => {
           return 3;
         }
       } else {
-        console.log('오잉...', response);
       }
     }
   } catch (error) {
     console.error('여기로 와버렸다', error);
   }
 };
-
-// .then((response) => {
-//   const { status, payload } = response.data;
-//   if (response.status === 200) {
-//     console.log('status', status, 'payload', payload);
-//     if (status === 200){
-//       console.log('친구 요청 성공');
-//       return 1;
-//     }
-//     else if (status === 404) {
-//       console.log('코인 부족으로 인한 친구 요청 실패');
-//       return 2;
-//     }
-//   }
-//   else {
-//     console.log("오잉...", response)
-//   }
-// })
-// .catch((error) => {
-//   console.log("여기로 와버렸다");
-//   console.log(error);
-// });
-// };
 
 // 현재서버에 있는 유저들의 리스트를 가져옴
 export const fetchFriendsReq = (id: number) => {
@@ -63,7 +38,7 @@ export const fetchFriendsReq = (id: number) => {
       const { payload } = response.data;
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     });
 };
 

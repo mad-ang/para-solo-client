@@ -29,7 +29,6 @@ export const issueAccessToken = async (body: any): Promise<any> => {
     }
     return true;
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -82,7 +81,6 @@ export const login = async (body: any): Promise<any> => {
     }
     return response.data;
   } catch (error) {
-    console.log(error);
     return null;
   }
 };
@@ -95,7 +93,6 @@ export const authenticateUser = async (): Promise<any> => {
   });
 
   if (response.status === 200) {
-    console.log('사용자 정보 인증 성공', response);
     const { data } = response;
     if (data.status == 200) {
       return data.payload;
@@ -138,7 +135,6 @@ export const updateUserInfo = async (body): Promise<any> => {
   });
 
   if (response.status === 200) {
-    console.log('사용자 정보 업데이트 성공', response);
     const { data } = response;
     if (data.status == 200) {
       return data.payload;

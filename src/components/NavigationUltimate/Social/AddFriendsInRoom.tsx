@@ -7,7 +7,7 @@ import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Colors from 'src/utils/Colors';
 import Swipe from 'src/components/NavigationUltimate/Social/AddFriend/Swipe';
-const StyledRedBox = styled.button<{pressed:ModalState}>`
+const StyledRedBox = styled.button<{ pressed: ModalState }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,7 +15,8 @@ const StyledRedBox = styled.button<{pressed:ModalState}>`
   height: 44px;
   border: none;
   border-radius: 30%;
-  background-color: ${(props) => (props.pressed == ModalState.AddFriends ? Colors.skyblue[1] : Colors.indigo)};
+  background-color: ${(props) =>
+    props.pressed == ModalState.AddFriends ? Colors.skyblue[1] : Colors.indigo};
   font-size: 1rem;
   font-weight: 900;
 
@@ -47,10 +48,8 @@ function ShowUsersInRoomModal(props) {
     const game = phaserGame.scene.keys.game as Game;
     const players = Array.from(game?.allOtherPlayers());
     setOtherPlayers(players);
-    console.log(players);
   }, []);
 
-  console.log('otherPlayers: ', otherPlayers);
   return (
     <ShowUsersInRoom>
       <button
@@ -74,17 +73,16 @@ export default function AddFriendsInRoom() {
   const ActivatedNav = useAppSelector((state) => state.nav.currentState);
 
   function handleClick() {
-    if (ActivatedNav == ModalState.AddFriends){
+    if (ActivatedNav == ModalState.AddFriends) {
       dispatch(SetWhichModalActivated(ModalState.None));
-    }
-    else{
+    } else {
       dispatch(SetWhichModalActivated(ModalState.AddFriends));
     }
   }
 
   return (
     <>
-      <StyledRedBox pressed = {ActivatedNav}>
+      <StyledRedBox pressed={ActivatedNav}>
         <GroupAddIcon
           sx={{ color: '#fff' }}
           fontSize="large"

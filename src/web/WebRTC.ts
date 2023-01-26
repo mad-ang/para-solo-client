@@ -21,7 +21,6 @@ export default class WebRTC {
     this.myPeer = new Peer(sanitizedId);
     this.network = network;
     this.myPeer.on('error', (err) => {
-      console.log(err.type);
       console.error(err);
     });
     // mute your own video stream (you don't want to hear yourself)
@@ -86,7 +85,6 @@ export default class WebRTC {
     if (this.myStream) {
       const sanitizedId = this.replaceInvalidId(userId);
       if (!this.peers.has(sanitizedId)) {
-        console.log('calling', sanitizedId);
         const call = this.myPeer.call(sanitizedId, this.myStream);
         const video = document.createElement('video');
         this.peers.set(sanitizedId, { call, video });
@@ -197,5 +195,4 @@ export default class WebRTC {
       }
     }
   }
-
 }

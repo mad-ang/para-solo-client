@@ -12,7 +12,6 @@ import ParasolImg from 'src/assets/directmessage/parasol.png';
 export function DMboxHeader() {
   const dispatch = useAppDispatch();
   function handleClick() {
-    console.log('clicked!!!! I want back to the chatting list');
     dispatch(SetWhichModalActivated(ModalState.None));
   }
 

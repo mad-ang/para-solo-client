@@ -172,7 +172,6 @@ export default class MyPlayer extends Player {
           return;
         } else if (Phaser.Input.Keyboard.JustDown(keyR) && closePlayer) {
           // if press R in front of another player
-          console.log(closePlayer);
 
           // network?.sendPrivateMessage(this.userId, closePlayer.userId, '안녕하세요');
           return;

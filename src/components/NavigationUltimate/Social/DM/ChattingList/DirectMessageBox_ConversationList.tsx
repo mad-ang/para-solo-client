@@ -49,10 +49,6 @@ export const ConversationList = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log('rooms', rooms);
-  }, [rooms]);
-
   // let roomId = '';
   // let body = {
   //   userId: userId,
@@ -61,9 +57,6 @@ export const ConversationList = () => {
   // };
 
   const handleClick = async (room) => {
-    console.log('friendInfo..', room.friendInfo);
-    console.log('roomId는..', room.roomId);
-
     if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount == 0) {
       setFriendRequestProps(room.friendInfo);
     } else if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount == 1) {
@@ -71,10 +64,8 @@ export const ConversationList = () => {
       setFriendRequestModal(true);
       setFriendRequestProps(room.friendInfo);
 
-      // // 친구 수락, 거절 창 띄우고 -> dmProcess를 room.status(IChatRoomStatus.FRIEND_REQUEST) 로 바꿈
       // dispatch(setdmProcess(room.status));
     } else {
-      console.log("This room's status is... ", room.status);
       try {
         dispatch(SetWhichModalActivated(ModalState.ChattingListAndRoom));
         // Response userId
