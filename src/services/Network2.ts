@@ -29,13 +29,13 @@ export default class chatNetwork {
     this.socketClient.on('request-friend-res', (data) => {
       store.dispatch(setRequestFriendCnt(1));
       fireNotification('[PARA-SOLO] 친구 요청 도착', {
-        body: `${data.username}님과 친구를 맺어보아요.`,
+        body: `${data}님과 친구를 맺어보아요.`,
         icon: `${ParasolImg}`,
       });
       console.log('request-friend', data);
     });
 
-    this.socketClient.on('accept-friend', (data) => {
+    this.socketClient.on('accept-friend-res', (data) => {
       fireNotification('[PARA-SOLO] 친구 요청 수락', {
         body: `짝짝짝, ${data}님이 친구 요청을 수락했습니다.`,
         icon: `${ParasolImg}`,
@@ -75,8 +75,12 @@ export default class chatNetwork {
     });
   };
 
-  requestFriend = (obj: object) => {
+  requestFriendReq = (obj: object) => {
     this.socketClient.emit('request-friend-req', obj);
+  };
+
+  acceptFriendReq = (obj: object) => {
+    this.socketClient.emit('accept-friend-req', obj);
   };
 
   sendMessage = (message: object) => {

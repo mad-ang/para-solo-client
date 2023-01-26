@@ -67,7 +67,7 @@ function App() {
       </>
     );
   } else if (enteringProcess === ENTERING_PROCESS.ENTRY) {
-    ui = <EntryDialog hasToken={cookies.get('refreshToken') ? true : false} />;
+    ui = <EntryDialog hasToken={false} />;
   } else if (enteringProcess === ENTERING_PROCESS.SIGNUP) {
     ui = <SignUpDialog />;
   } else if (enteringProcess === ENTERING_PROCESS.LOGIN) {
@@ -75,7 +75,7 @@ function App() {
   } else {
     ui = (
       <CharacterSelectionDialog
-        hasToken={cookies.get('refreshToken') ? true : false}
+        hasToken={false}
         playerName={cookies.get('playerName') || null}
         playerTexture={cookies.get('playerTexture') || null}
       />

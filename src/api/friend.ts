@@ -14,10 +14,7 @@ export const addFriendReq = async (body: any) => {
         if (status === 200) {
           console.log('친구 요청 성공');
           const game = phaserGame.scene.keys.game as Game;
-          game.networt2.requestFriend({
-            userId: body.myInfo.userId,
-            friendId: body.friendInfo.userId,
-          });
+          game.networt2.requestFriendReq(body);
           return 1;
         } else if (status === 404) {
           console.log('코인 부족으로 인한 친구 요청 실패');

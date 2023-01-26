@@ -50,7 +50,7 @@ function Swipe(props) {
   const userCnt = useAppSelector((state) => state.room.userCnt);
   // const noMoreCoin = useAppSelector((state) => state.user.noMoreCoin);
   const userCoin = useAppSelector((state) => state.user.userCoin);
-  // const game = phaserGame.scene.keys.game as Game;
+  const game = phaserGame.scene.keys.game as Game;
   // const players = Array.from(game?.allOtherPlayers());
   const players = useAppSelector((state) => state.room.players);
 
