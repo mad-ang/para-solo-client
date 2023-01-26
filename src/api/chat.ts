@@ -118,6 +118,7 @@ export enum IChatRoomStatus {
   SOCKET_ON,
   SOCKET_OFF,
   REJECTED,
+  TERMINATED,
 }
 
 // 서버에 채팅 가져오기
