@@ -21,19 +21,6 @@ import RequestFreindResultModal from './RequestFriendResultModal';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-const dummyMessages = [
-  '좋은 만남 가져봐요',
-  '저랑 친구하실래요?😀',
-  '심심해요',
-  '극강의 EEEE',
-  '운동 좋아하시는 분 환영해요😝',
-  '편한 사람 찾아요',
-  '산책하러 가실래요?',
-  '확신의 ENTP',
-  '커피한잔 하실분',
-  '맛집 투어 가요><',
-];
-
 function Swipe(props) {
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
@@ -131,11 +118,15 @@ function Swipe(props) {
           // }}
         >
           {otherPlayers?.map((player, i: number) => {
+            console.log(player.userProfile.statusMessage);
             return player.userId !== myId ? (
               <SwiperSlide key={i}>
                 {/* <SwiperSlide key={player.id}> */}
                 <SwipeBody className="SwipeBody">
                   <ImageWrapper>
+                    <HoverCover>
+                      <div className="see-more">프로필 더보기</div>
+                    </HoverCover>
                     <div className="personal-image">
                       <ProfileAvatarImage
                         ref={imgRef}
@@ -150,7 +141,11 @@ function Swipe(props) {
                     </div>
                   </ImageWrapper>
                   <Name>{player.name}</Name>
-                  <Message>{i <= dummyMessages.length - 1 ? dummyMessages[i] : '반가워요'}</Message>
+                  <Message>
+                    {player.userProfile.statusMessage
+                      ? player.userProfile.statusMessage
+                      : '상태 메시지가 없습니다'}
+                  </Message>
                   <MyButton
                     onClick={(event) => {
                       event.preventDefault();
@@ -281,20 +276,7 @@ const ImageWrapper = styled.div`
   .personal-avatar:hover {
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
   }
-  .personal-figcaption {
-    cursor: pointer;
-    position: absolute;
-    top: 0px;
-    width: 160px;
-    height: 160px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 100%;
-    opacity: 0;
-    background-color: rgba(0, 0, 0, 0);
-    transition: all ease-in-out 0.3s;
-  }
+
   .personal-figcaption:hover {
     opacity: 1;
     background-color: rgba(0, 0, 0, 0.5);
@@ -352,3 +334,31 @@ const ZeroMessage = styled.div`
   height: 340px;
 `;
 export default Swipe;
+
+const HoverCover = styled.div`
+  position: absolute;
+  cursor: pointer;
+  width: 160px;
+  height: 160px;
+  border-radius: 100%;
+  transition: all ease-in-out 0.3s;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${Colors.white};
+  font-size: 18px;
+
+  .see-more {
+    opacity: 0;
+    transition: all ease-in-out 0.3s;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    .see-more {
+      opacity: 100;
+      transition: all ease-in-out 0.3s;
+    }
+  }
+`;

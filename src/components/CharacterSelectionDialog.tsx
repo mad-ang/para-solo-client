@@ -164,7 +164,6 @@ export default function CharacterSelectionDialog(props) {
     if (name === '') {
       setNameFieldEmpty(true);
     } else if (enteringProcess === ENTERING_PROCESS.CHARACTER_SELECTION) {
-      console.log('Join! Name:', name, 'Avatar:', avatars[avatarIndex].name);
       game.registerKeys();
       game.myPlayer.setPlayerName(name);
       game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);

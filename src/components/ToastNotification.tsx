@@ -50,7 +50,6 @@ export const AlertToast: React.FC<ToastProps> = (props: ToastProps) => {
   const [toastAnimationClass, setToastAnimationClass] = useState<string>('open');
 
   useEffect(() => {
-    console.log('toastAnimationClass', toastAnimationClass);
     let timer = setTimeout(() => {
       setToastAnimationClass('close');
       // setToastState(false);
@@ -78,7 +77,6 @@ export const LeftToast: React.FC<ToastProps> = (props: ToastProps) => {
   const [toastAnimationClass, setToastAnimationClass] = useState<string>('open');
 
   useEffect(() => {
-    console.log('toastAnimationClass', toastAnimationClass);
     let timer = setTimeout(() => {
       setToastAnimationClass('close');
       // setToastState(false);
@@ -149,7 +147,7 @@ const AlertToastContainer = styled.div<AnimationProps>`
   position: fixed;
   top: 10%;
   right: 0;
-  background: ${(props) => (props.color ? props.color : Colors.blue[3])};
+  background: ${(props) => (props.color ? props.color : Colors.blue[2])};
   border-radius: 10px;
   font-size: 20px;
   display: flex;
