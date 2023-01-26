@@ -29,7 +29,7 @@ export default class chatNetwork {
     this.socketClient.on('request-friend-res', (data) => {
       store.dispatch(setRequestFriendCnt(1));
       fireNotification('[PARA-SOLO] 친구 요청 도착', {
-        body: `${data.username}님과 친구를 맺어보아요.`,
+        body: `${data}님과 친구를 맺어보아요.`,
         icon: `${ParasolImg}`,
       });
       console.log('request-friend', data);
