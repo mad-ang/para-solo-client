@@ -78,7 +78,11 @@ export default function FriendRequest(props) {
     <Wrapper>
       <SwipeHeader>
         <TitleText>친구 요청</TitleText>
-        <ButtonWrapper>
+        <ButtonWrapper
+          onClick={() => {
+            props.setFriendRequestModal(false);
+          }}
+        >
           <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
         </ButtonWrapper>
       </SwipeHeader>
