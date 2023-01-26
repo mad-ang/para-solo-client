@@ -150,7 +150,13 @@ function Swipe(props) {
                     </div>
                   </ImageWrapper>
                   <Name>{player.name}</Name>
-                  <Message>{i <= dummyMessages.length - 1 ? dummyMessages[i] : '반가워요'}</Message>
+                  <Message>
+                    {player.statusMessage
+                      ? player.statusMessage
+                      : i <= dummyMessages.length - 1
+                      ? dummyMessages[i]
+                      : '반가워요'}
+                  </Message>
                   <MyButton
                     onClick={(event) => {
                       event.preventDefault();

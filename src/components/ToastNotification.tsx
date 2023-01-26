@@ -147,7 +147,7 @@ const AlertToastContainer = styled.div<AnimationProps>`
   position: fixed;
   top: 10%;
   right: 0;
-  background: ${(props) => (props.color ? props.color : Colors.blue[3])};
+  background: ${(props) => (props.color ? props.color : Colors.blue[2])};
   border-radius: 10px;
   font-size: 20px;
   display: flex;
