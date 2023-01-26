@@ -73,7 +73,8 @@ export const ConversationList = () => {
 
       // // 친구 수락, 거절 창 띄우고 -> dmProcess를 room.status(IChatRoomStatus.FRIEND_REQUEST) 로 바꿈
       // dispatch(setdmProcess(room.status));
-    } else {
+    } 
+    else {
       console.log("This room's status is... ", room.status);
       try {
         dispatch(SetWhichModalActivated(ModalState.ChattingListAndRoom));
