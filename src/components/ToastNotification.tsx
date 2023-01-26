@@ -119,8 +119,8 @@ type AnimationProps = {
 const AlertToastContainer = styled.div<AnimationProps>`
   position: fixed;
   top: 10%;
-  left: 0;
-  background: ${Colors.skyblue[1]};
+  right: 0;
+  background: ${Colors.blue[2]};
   border-radius: 10px;
   font-size: 20px;
   display: flex;
@@ -136,21 +136,30 @@ const AlertToastContainer = styled.div<AnimationProps>`
 
   @keyframes slideIn {
     from {
-      transform: translateX(-100%);
+      right: -100%;
     }
     to {
-      transform: translate(200%);
+      right: 50%;
+      transform: translate(50%);
     }
   }
 
   @keyframes slideOut {
+    from {
+      right: 50%;
+      transform: translate(50%);
+    }
     to {
-      transform: translateX(-100%);
+      right: -100%;
     }
   }
 
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+
   animation: ${(props) =>
-    props.animation === 'open'
-      ? 'slideIn 0.5s ease-in-out 0s 0.5 normal forwards'
-      : 'slideOut 0.5s ease-in-out 0s 1 normal forwards'};
+    props.animation === 'open' ? 'slideIn 0.5s forwards' : 'slideOut 0.5s forwards'};
+
+  -webkit-animation: ${(props) =>
+    props.animation === 'open' ? 'slideIn 0.5s forwards' : 'slideOut 0.5s forwards'};
 `;

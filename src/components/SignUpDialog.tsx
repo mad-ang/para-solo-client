@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import {
   ENTERING_PROCESS,
@@ -123,9 +123,11 @@ export default function SignUpDialog() {
           return false;
         }
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
       setFailSignup(true);
+      if (error?.response?.status === 409) {
+        setFailMessage('이미 존재하는 회원입니다');
+      }
     }
     return false;
   };
