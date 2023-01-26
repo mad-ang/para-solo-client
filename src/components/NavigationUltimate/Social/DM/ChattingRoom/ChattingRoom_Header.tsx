@@ -11,10 +11,19 @@ import { setShowDM } from 'src/stores/DMboxStore';
 import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
 import styled from 'styled-components';
 import Colors from 'src/utils/Colors';
+import Game from 'src/scenes/Game';
+import phaserGame from 'src/PhaserGame';
+import Cookies from 'universal-cookie';
+
 
 export default function HeadAppBar() {
+  const game = phaserGame.scene.keys.game as Game;
   const dispatch = useAppDispatch();
   const friendName = useAppSelector((state) => state.dm.friendName);
+  const socketNetwork = game.networt2;
+  const roomId = useAppSelector((state) => state.dm.roomId);
+  const friendId = useAppSelector((state) => state.dm.friendId);
+  const userId = useAppSelector((state) => state.user.userId) || cookies.get('userId');
 
   return (
     <DMtop>
@@ -31,7 +40,24 @@ export default function HeadAppBar() {
         >
           <ArrowBackIosNewIcon />
         </IconButton>
+
         <TitleText>{friendName}</TitleText>
+
+
+
+ <MyButton
+            color={`${Colors.pink[2]}`}
+            hoverColor={`${Colors.red[1]}`}
+            onClick={(event) => {
+              event.preventDefault();
+            game.networt2.deleteFriend(userId, friendId);
+            dispatch(SetWhichModalActivated(ModalState.ChattingList));
+          }
+        }
+          >
+            친구삭제      
+</MyButton>
+        
       </DirtyTalk>
     </DMtop>
   );
@@ -68,4 +94,25 @@ const TitleImage = styled.img`
 
 const TitleText = styled.div`
   font-size: 23px;
+`;
+
+interface MyButtonProps {
+  color?: string;
+  hoverColor?: string;
+}
+
+const MyButton = styled.button<MyButtonProps>`
+  width: 120px;
+  height: 40px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-family: 'Ycomputer-Regular';
+  border-radius: 10px;
+  border: none;
+  background-color: ${(props) => (props.color ? props.color : `${Colors.skyblue[1]}`)};
+  margin: 15px 10px 10px 10px;
+
+  &:hover {
+    background-color: ${(props) => (props.hoverColor ? props.hoverColor : `${Colors.skyblue[2]}`)};
+  }
 `;

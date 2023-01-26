@@ -90,4 +90,17 @@ export default class chatNetwork {
   whoAmI = (userId: string) => {
     this.socketClient.emit('whoAmI', userId);
   };
+
+  deleteFriend = ( userId: string, friendId: string) => {
+    console.log('친구 삭제');
+    this.socketClient.emit('delete-friend', { userId: userId, friendId: friendId });
+
+  };
+
+  moreFriendInfo = ( friendId: string) => {
+    console.log('친구 삭제');
+    this.socketClient.emit('more-friendInfo', { friendId: friendId });
+
+  };
+
 }
