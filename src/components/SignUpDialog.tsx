@@ -47,6 +47,10 @@ const Content = styled.div`
   justify-content: center;
 `;
 
+const EntryButton = styled(Button)`
+  width: 120px;
+`;
+
 export default function SignUpDialog() {
   const dispatch = useAppDispatch();
 
@@ -188,12 +192,17 @@ export default function SignUpDialog() {
           }}
         />
         <Content>
-          <Button variant="contained" color="secondary" onClick={onSubmitHandler} sx={{ mx: 2 }}>
+          <EntryButton
+            variant="contained"
+            color="secondary"
+            onClick={onSubmitHandler}
+            sx={{ mx: 2 }}
+          >
             회원가입 완료
-          </Button>
-          <Button variant="contained" color="secondary" onClick={goToEntry} sx={{ mx: 2 }}>
+          </EntryButton>
+          <EntryButton variant="contained" color="secondary" onClick={goToEntry} sx={{ mx: 2 }}>
             뒤로 가기
-          </Button>
+          </EntryButton>
         </Content>
       </Wrapper>
     </>
