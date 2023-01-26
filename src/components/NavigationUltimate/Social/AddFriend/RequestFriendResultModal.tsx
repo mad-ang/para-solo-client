@@ -14,6 +14,7 @@ interface Props {
   message: string;
 }
 
+
 export default function RequestFreindResultModal(props) {
   const [charging, setcharging] = useState(false);
   const dispatch = useAppDispatch();
