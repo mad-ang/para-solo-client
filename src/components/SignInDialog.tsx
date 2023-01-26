@@ -68,6 +68,10 @@ function SignedUpToast() {
   );
 }
 
+const EntryButton = styled(Button)`
+  width: 100px;
+`;
+
 export default function SignInDialog() {
   const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
 
@@ -126,7 +130,7 @@ export default function SignInDialog() {
             .catch((error) => console.error(error));
           bootstrap.network2.whoAmI(payload.userId);
           dispatch(setStoreUserId(payload.userId));
-          console.log('200 로그인 성공인딩');
+
           return true;
         } else {
           setFailLogin(true);
@@ -141,13 +145,10 @@ export default function SignInDialog() {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-
     setUserIdFieldEmpty(false);
     setUserIdFieldWrong(false);
     setPwFieldEmpty(false);
     setPwFieldWrong(false);
-
-    console.log(userId);
     handleSubmit();
   };
 
@@ -160,21 +161,6 @@ export default function SignInDialog() {
 
   return (
     <>
-      {/* {signedUp === true
-        ? toast('회원가입이 완료되었어요! 로그인해주세요', {
-            position: 'top-center',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'light',
-          })
-        : null} */}
-
-      {/* <ToastContainer /> */}
-
       <Wrapper>
         <Title>로그인</Title>
         <TextField
@@ -227,13 +213,13 @@ export default function SignInDialog() {
           }}
         />
         <Content>
-          <Button variant="contained" color="secondary" onClick={onSubmitHandler}>
+          <EntryButton variant="contained" color="secondary" onClick={onSubmitHandler}>
             로그인 완료
-          </Button>
+          </EntryButton>
 
-          <Button variant="contained" color="secondary" onClick={goToEntry} sx={{ mx: 2 }}>
+          <EntryButton variant="contained" color="secondary" onClick={goToEntry} sx={{ mx: 2 }}>
             뒤로 가기
-          </Button>
+          </EntryButton>
         </Content>
       </Wrapper>
     </>

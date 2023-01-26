@@ -29,7 +29,7 @@ const ToastBox = styled.div`
   animation: ${boxFade} 2s 1s;
 `;
 
-const WelcomeMsg = styled.div`
+const Msg = styled.div`
   background: ${Colors.skyblue[1]};
   border-radius: 16px;
   padding: 15px 35px 15px 15px;
@@ -42,7 +42,28 @@ const WelcomeMsg = styled.div`
   text-align: center;
 `;
 
-export default function WelcomeToast() {
+type ToastProps = {
+  toastAnimation: string;
+  text: string;
+};
+
+export const Toast: React.FC<ToastProps> = (props: ToastProps) => {
+  const { toastAnimation, text } = props;
+
+  return (
+    <div className={toastAnimation}>
+      <Wrapper>
+        <ToastBox>
+          <Msg>
+            <p>{text}</p>
+          </Msg>
+        </ToastBox>
+      </Wrapper>
+    </div>
+  );
+};
+
+export const WelcomeToast: React.FC = () => {
   let [toastState, setToastState] = useState(true);
   let [toastAnimation, setToastAnimation] = useState('toast-alert');
 
@@ -56,16 +77,9 @@ export default function WelcomeToast() {
       clearTimeout(timer);
     };
   }, []);
-
-  return toastState === true ? (
-    <div className={toastAnimation}>
-      <Wrapper>
-        <ToastBox>
-          <WelcomeMsg>
-            <p>Welcome to 🏖ParaSolo🏖</p>
-          </WelcomeMsg>
-        </ToastBox>
-      </Wrapper>
-    </div>
-  ) : null;
-}
+  if (toastState) {
+    const text = 'Welcome to 🏖ParaSolo🏖';
+    return <Toast toastAnimation={toastAnimation} text={text} />;
+  }
+  return null;
+};

@@ -1,8 +1,8 @@
-import { ItemType } from "../types/Items";
-import store from "../stores";
-import Item from "./Item";
-import Network from "../services/Network";
-import { openTableDialog } from "../stores/tableStore";
+import { ItemType } from '../types/Items';
+import store from '../stores';
+import Item from './Item';
+import Network from '../services/Network';
+import { openTableDialog } from '../stores/tableStore';
 
 export default class Chair extends Item {
   chairId?: string;
@@ -10,13 +10,7 @@ export default class Chair extends Item {
   currentUsers = new Set<string>();
   itemDirection?: string;
 
-  constructor(
-    scene: Phaser.Scene,
-    x: number,
-    y: number,
-    texture: string,
-    frame?: string | number
-  ) {
+  constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number) {
     super(scene, x, y, texture, frame);
 
     this.itemType = ItemType.CHAIR;
@@ -34,12 +28,10 @@ export default class Chair extends Item {
   }
 
   onOverlapDialog() {
-      this.setDialogBox("E 키를 눌러 대화를 시작하세요!")
+    this.setDialogBox('E 키를 눌러 대화를 시작하세요!');
   }
 
   addCurrentUser(userId: string) {
-    console.log("calling addCurrentUser");
-
     if (!this.currentUsers || this.currentUsers.has(userId)) return;
     this.currentUsers.add(userId);
     const tableState = store.getState().table;

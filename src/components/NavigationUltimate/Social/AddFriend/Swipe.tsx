@@ -71,7 +71,7 @@ function Swipe(props) {
     };
     try {
       const result = await addFriendReq(body);
-      console.log('여기... result:', result);
+
       //여기에서 setUserCoin 써야함 (동기화)
 
       //404 이면, setAddFriendResult(2)로 해주어야 함

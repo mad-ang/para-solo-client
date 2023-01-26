@@ -1,9 +1,9 @@
-import Peer from 'peerjs'
-import store from '../stores'
-import { setMyStream, addVideoStream, removeVideoStream } from '../stores/tableStore'
-import phaserGame from '../PhaserGame'
-import Game from '../scenes/Game'
-import Network from 'src/services/Network'
+import Peer from 'peerjs';
+import store from '../stores';
+import { setMyStream, addVideoStream, removeVideoStream } from '../stores/tableStore';
+import phaserGame from '../PhaserGame';
+import Game from '../scenes/Game';
+import Network from 'src/services/Network';
 
 export default class TableTalkManager {
   private myPeer: Peer;
@@ -13,7 +13,6 @@ export default class TableTalkManager {
     const sanatizedId = this.makeId(userId);
     this.myPeer = new Peer(sanatizedId);
     this.myPeer.on('error', (err) => {
-      console.log('tableTalk WebRTC err.type', err.type);
       console.error('tableTalk WebRTC', err);
     });
 
@@ -47,7 +46,7 @@ export default class TableTalkManager {
 
   startTableTalk() {
     // @ts-ignore
-    const game = phaserGame.scene.keys.game as Game
+    const game = phaserGame.scene.keys.game as Game;
     game.network.connectToTable(store.getState().table.tableId!);
 
     navigator.mediaDevices
@@ -61,7 +60,6 @@ export default class TableTalkManager {
         const track = stream.getVideoTracks()[0];
         if (track) {
           track.onended = () => {
-            console.log(track);
             this.stopTableTalk();
           };
         }

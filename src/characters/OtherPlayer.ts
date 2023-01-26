@@ -52,7 +52,6 @@ export default class OtherPlayer extends Player {
       webRTC.connectToNewUser(this.playerId);
       this.connected = true;
       this.connectionBufferTime = 0;
-      console.log(myPlayer.userId, this.userId);
     }
   }
 
@@ -99,7 +98,7 @@ export default class OtherPlayer extends Player {
           this.userId = value;
         }
         break;
-      case 'userInfo':
+      case 'userProfile':
         this.userProfile.profileImgUrl = value?.profileImgUrl || '';
         this.userProfile.gender = value?.gender || '';
         this.userProfile.age = value?.age || '';
@@ -239,7 +238,7 @@ Phaser.GameObjects.GameObjectFactory.register(
       .setSize(sprite.width * collisionScale[0], sprite.height * collisionScale[1])
       .setOffset(
         sprite.width * (1 - collisionScale[0]) * 0.5,
-        sprite.height * (1 - collisionScale[1]) * 0.5 +2
+        sprite.height * (1 - collisionScale[1]) * 0.5 + 2
       );
 
     return sprite;

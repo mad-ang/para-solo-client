@@ -77,6 +77,10 @@ const ProgressBar = styled(LinearProgress)`
   width: 360px;
 `;
 
+const EntryButton = styled(Button)`
+  width: 100px;
+`;
+
 export default function EntryDialog(props) {
   // const [showCustomRoom, setShowCustomRoom] = useState(false)
   // const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
@@ -147,26 +151,14 @@ export default function EntryDialog(props) {
               <Content>
                 <img src={logo} alt="logo" />
                 {lobbyJoined && (
-                  <Button
-                    disabled={enabled}
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => {
-                      handleConnect();
-                    }}
-                  >
-                    파라솔로로
-                  </Button>
-                )}
-                {lobbyJoined && (
-                  <Button variant="contained" color="secondary" onClick={signUpConnect}>
-                    회원가입
-                  </Button>
-                )}
-                {lobbyJoined && (
-                  <Button variant="contained" color="secondary" onClick={signInConnect}>
+                  <EntryButton variant="contained" color="secondary" onClick={signInConnect}>
                     로그인
-                  </Button>
+                  </EntryButton>
+                )}
+                {lobbyJoined && (
+                  <EntryButton variant="contained" color="secondary" onClick={signUpConnect}>
+                    회원가입
+                  </EntryButton>
                 )}
               </Content>
             </>

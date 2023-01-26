@@ -39,7 +39,6 @@ export default class Game extends Phaser.Scene {
 
   constructor() {
     super('game');
-
   }
 
   init() {
@@ -243,7 +242,7 @@ export default class Game extends Phaser.Scene {
         });
       }
     });
-    console.log('animate loop i', i);
+
     const ForegroundLayer = this.map.createLayer('foreground', [
       villasImage,
       interiorImage,
@@ -278,7 +277,6 @@ export default class Game extends Phaser.Scene {
         });
       }
     });
-    console.log('billboardImage', j);
 
     const secondGroundLayer = this.map.createLayer('secondGround', [
       ModernExteriorsCompleteImage,
@@ -515,8 +513,6 @@ export default class Game extends Phaser.Scene {
   }
 
   private handleItemUserAdded(playerId: string, itemId: string, itemType: ItemType) {
-    console.log('handleItemUserAdded');
-
     if (itemType === ItemType.CHAIR) {
       const table = this.tableMap.get(itemId);
       table?.addCurrentUser(playerId);
