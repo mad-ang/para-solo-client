@@ -21,7 +21,8 @@ import RequestFreindResultModal from './RequestFriendResultModal';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-function Swipe(props) {
+function MoreInfoModal(props) {
+    console.log("프로필더보기")
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
   const imgRef = useRef<any>(null);
@@ -41,43 +42,6 @@ function Swipe(props) {
   // const players = Array.from(game?.allOtherPlayers());
   const players = useAppSelector((state) => state.room.players);
 
-  async function requestFriend(id, name, targetImgUrl) {
-    let body = {
-      myInfo: {
-        userId: myId,
-        username: myName,
-        profileImgUrl: myProfile.profileImgUrl || '',
-      },
-      friendInfo: {
-        userId: id,
-        username: name,
-        profileImgUrl: targetImgUrl,
-      },
-      status: 0,
-      message: '친구 요청이 왔습니다',
-    };
-    try {
-      const result = await addFriendReq(body);
-      console.log('여기... result:', result);
-      //여기에서 setUserCoin 써야함 (동기화)
-
-      //404 이면, setAddFriendResult(2)로 해주어야 함
-      if (result === 1) {
-        console.log('친구 요청 성공(swipe.tsx)');
-        setAddFriendResult(result!);
-        dispatch(setUserCoin(userCoin - 1));
-      } else if (result === 2) {
-        console.log('코인 부족으로 인한 친구 요청 실패(swipe.tsx)');
-        setAddFriendResult(result!);
-      } else if (result === 3) {
-        setAddFriendResult(result!);
-        console.log('이미 친구이거나 친구요청을 보낸 상태입니다(swipe.tsx)');
-      }
-      //여기에서 localstate인 UserCoin의 개수를 통해, addFriendResult 를 업데이트 해주어야 함
-    } catch (error) {
-      console.error('error(swipte.tsx 보세요...)', error);
-    }
-  }
 
   function handleClick() {
     dispatch(SetWhichModalActivated(ModalState.None));
@@ -91,93 +55,38 @@ function Swipe(props) {
   return (
     <Wrapper>
       <SwipeHeader className="Swipe-Header">
-        <DirtyTalk>
-          <TitleImage src={ParasolImg} width="30" />
-
-          <TitleText>현재 {players.length - 1}명이 접속해있어요</TitleText>
-        </DirtyTalk>
         <ButtonWrapper onClick={handleClick}>
           <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
         </ButtonWrapper>{' '}
       </SwipeHeader>
-      {players.length - 1 === 0 ? (
-        <ZeroMessage>
-          <p>현재 접속해 있는 친구가 없어요</p>
-          <p>🥲</p>
-        </ZeroMessage>
-      ) : (
-        <Swiper
-          className="Swiper"
-          modules={[Navigation]}
-          navigation
-          spaceBetween={10}
-          slidesPerView={1}
-          loop={true}
-          // onSlideChange={(swiper) => {
-          //   setPlayerIndex(swiper.activeIndex);
-          // }}
-        >
-          {otherPlayers?.map((player, i: number) => {
-            console.log(player.userProfile.statusMessage);
-            return player.userId !== myId ? (
-              <SwiperSlide key={i}>
-                {/* <SwiperSlide key={player.id}> */}
-                <SwipeBody className="SwipeBody">
-                  <ImageWrapper>
-                    <HoverCover>
-                      <div className="see-more">프로필 더보기</div>
-                    </HoverCover>
-                    <div className="personal-image">
-                      <ProfileAvatarImage
-                        ref={imgRef}
-                        src={player?.userProfile?.profileImgUrl || DefaultAvatar}
-                        // src={player.userInfo.profileImgUrl || DefaultAvatar}
-                        className="personal-avatar"
-                        alt="avatar"
-                        onError={() => {
-                          if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
-                        }}
-                      />
-                    </div>
-                  </ImageWrapper>
-                  <Name>{player.name}</Name>
-                  <Message>
-                    {player.userProfile.statusMessage
-                      ? player.userProfile.statusMessage
-                      : '상태 메시지가 없습니다'}
-                  </Message>
-                  <MyButton
-                    onClick={(event) => {
-                      event.preventDefault();
-                      requestFriend(
-                        player.userId,
-                        player.name,
-                        player.userProfile.profileImgUrl || ''
-                      );
-                      setAddFriendResult(1);
-                    }}
-                  >
-                    친구 요청{' '}
-                  </MyButton>
-                </SwipeBody>
-              </SwiperSlide>
-            ) : null;
-          })}
-        </Swiper>
-      )}
-      {addFriendResult === 0 ? null : (
-        <RequestFreindResultModal
-          setAddFriendResult={setAddFriendResult}
-          addFriendResult={addFriendResult}
-        />
-      )}
+
+      <SwipeBody className="SwipeBody">
+        <ImageWrapper>
+          <div className="personal-image">
+            <ProfileAvatarImage
+              ref={imgRef}
+              src={props.player.userProfile?.profileImgUrl || DefaultAvatar}
+              className="personal-avatar"
+              alt="avatar"
+              onError={() => {
+                if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
+              }}
+            />
+          </div>
+        </ImageWrapper>
+        <Name>이름 : {props.player.name}</Name>
+        <Message>반가워요</Message>
+        <Message>성별 : {props.player.userProfile?.gender}</Message>
+        <Message>나이 : {props.player.userProfile?.age}</Message>
+        <Message>키 : {props.player.userProfile?.height}</Message>
+      </SwipeBody>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
   position: fixed;
-  left: 0px;
+  left: 371px;
   background-color: white;
   gap: 10px;
   bottom: 60px;
@@ -187,8 +96,8 @@ const Wrapper = styled.div`
   border-top-right-radius: 25px;
   // box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
 
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  // -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  // -moz-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
   font-style: normal;
   font-weight: 400;
 `;
@@ -203,7 +112,7 @@ const SwipeHeader = styled.div`
   position: relative;
   // display: grid;
   grid-template-columns: 90% 10%;
-  background-color: ${Colors.skyblue[1]};
+
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   align-items: center;
@@ -276,7 +185,20 @@ const ImageWrapper = styled.div`
   .personal-avatar:hover {
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
   }
-
+  .personal-figcaption {
+    cursor: pointer;
+    position: absolute;
+    top: 0px;
+    width: 160px;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0);
+    transition: all ease-in-out 0.3s;
+  }
   .personal-figcaption:hover {
     opacity: 1;
     background-color: rgba(0, 0, 0, 0.5);
@@ -333,32 +255,5 @@ const ZeroMessage = styled.div`
   overflow-y: auto;
   height: 340px;
 `;
-export default Swipe;
 
-const HoverCover = styled.div`
-  position: absolute;
-  cursor: pointer;
-  width: 160px;
-  height: 160px;
-  border-radius: 100%;
-  transition: all ease-in-out 0.3s;
-  z-index: 999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: ${Colors.white};
-  font-size: 18px;
-
-  .see-more {
-    opacity: 0;
-    transition: all ease-in-out 0.3s;
-  }
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-    .see-more {
-      opacity: 100;
-      transition: all ease-in-out 0.3s;
-    }
-  }
-`;
+export default MoreInfoModal;
