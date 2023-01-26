@@ -21,19 +21,6 @@ import RequestFreindResultModal from './RequestFriendResultModal';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-const dummyMessages = [
-  '좋은 만남 가져봐요',
-  '저랑 친구하실래요?😀',
-  '심심해요',
-  '극강의 EEEE',
-  '운동 좋아하시는 분 환영해요😝',
-  '편한 사람 찾아요',
-  '산책하러 가실래요?',
-  '확신의 ENTP',
-  '커피한잔 하실분',
-  '맛집 투어 가요><',
-];
-
 function Swipe(props) {
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
@@ -154,9 +141,7 @@ function Swipe(props) {
                   <Message>
                     {player.userProfile.statusMessage
                       ? player.userProfile.statusMessage
-                      : i <= dummyMessages.length - 1
-                      ? dummyMessages[i]
-                      : '반가워요'}
+                      : '상태 메시지가 없습니다'}
                   </Message>
                   <MyButton
                     onClick={(event) => {
