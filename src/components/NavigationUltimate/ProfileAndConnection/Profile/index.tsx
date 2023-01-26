@@ -374,9 +374,9 @@ const ProfileSettingEditor = styled.div`
   height: 400px;
   width: 370px;
   border-radius: 25px;
-  box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
   font-style: normal;
   font-weight: 400;
 `;

@@ -137,9 +137,9 @@ const Wrapper = styled.div`
   width: 370px;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
-  box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
   font-style: normal;
   font-weight: 400;
 `;

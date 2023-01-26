@@ -11,7 +11,6 @@ import phaserGame from 'src/PhaserGame';
 import io from 'socket.io-client';
 import axios from 'axios';
 
-
 const Wrapper = styled.div`
   position: fixed;
   bottom: 100px;
@@ -22,16 +21,13 @@ const Wrapper = styled.div`
   height: 580px;
   width: 370px;
   border-radius: 25px;
-  box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
 `;
 
 export function InsideChattingRoom() {
-
-
   const [newMessage, setNewMessage] = useState<any>(null);
-
 
   return (
     <Wrapper>

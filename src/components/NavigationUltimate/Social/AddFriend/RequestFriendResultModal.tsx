@@ -15,7 +15,6 @@ interface Props {
   message: string;
 }
 
-
 export default function RequestFreindResultModal(props) {
   const [charging, setcharging] = useState(false);
   const dispatch = useAppDispatch();
@@ -142,7 +141,7 @@ export default function RequestFreindResultModal(props) {
               <RequestResultBodyCharging>
                 <Textbox>코인 100개를 충전합니다</Textbox>
                 {/* <CustomizedPaypalButton/> */}
-                
+
                 {/* <PayPalButtons
                   createOrder={(data, actions) => {
                     return actions.order.create({
@@ -165,41 +164,41 @@ export default function RequestFreindResultModal(props) {
                     });
                   }}
                 /> */}
-                 <PayPalButtons
+                <PayPalButtons
                   createOrder={(data, actions) => {
-                    return fetch("http://localhost:8080/api/orders", {
-                      method: "post",
+                    return fetch('http://localhost:8080/api/orders', {
+                      method: 'post',
                     })
                       .then((response) => {
-                        response.json()
-                        console.log("===DEBUG000===")
+                        response.json();
+                        console.log('===DEBUG000===');
                       })
                       .then((response) => {
                         console.log(response);
-                        
+
                         return response.id;
                       });
-                      // .then((order) => order.id );
+                    // .then((order) => order.id );
                   }}
                   onApprove={(data, actions) => {
                     return fetch(`http://localhost:8080/api/orders/${data.orderID}/capture`, {
-                      method: "post",
+                      method: 'post',
                     })
                       .then((response) => response.json())
                       .then(function (orderData) {
                         // Successful capture! For dev/demo purposes:
                         console.log(
-                          "Capture result",
+                          'Capture result',
                           orderData,
                           JSON.stringify(orderData, null, 2)
                         );
                         var transaction = orderData.purchase_units[0].payments.captures[0];
                         alert(
-                          "Transaction " +
+                          'Transaction ' +
                             transaction.status +
-                            ": " +
+                            ': ' +
                             transaction.id +
-                            "\n\nSee console for all available details"
+                            '\n\nSee console for all available details'
                         );
                       });
                   }}
@@ -221,9 +220,9 @@ const Wrapper = styled.div`
   height: 250px;
   width: 370px;
   border-radius: 25px;
-  box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
   font-style: normal;
   font-weight: 400;
 `;
@@ -292,7 +291,6 @@ const RequestResultBodyCharging = styled.div`
   border-bottom-right-radius: 25px;
   overflow-y: auto;
 `;
-
 
 const MyButton = styled.button`
   width: 120px;
