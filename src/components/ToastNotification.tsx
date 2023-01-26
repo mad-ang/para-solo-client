@@ -50,7 +50,6 @@ export const AlertToast: React.FC<ToastProps> = (props: ToastProps) => {
   const [toastAnimationClass, setToastAnimationClass] = useState<string>('open');
 
   useEffect(() => {
-    console.log('toastAnimationClass', toastAnimationClass);
     let timer = setTimeout(() => {
       setToastAnimationClass('close');
       // setToastState(false);
@@ -78,7 +77,6 @@ export const LeftToast: React.FC<ToastProps> = (props: ToastProps) => {
   const [toastAnimationClass, setToastAnimationClass] = useState<string>('open');
 
   useEffect(() => {
-    console.log('toastAnimationClass', toastAnimationClass);
     let timer = setTimeout(() => {
       setToastAnimationClass('close');
       // setToastState(false);
