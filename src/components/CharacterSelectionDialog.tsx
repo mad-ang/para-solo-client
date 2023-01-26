@@ -27,6 +27,7 @@ import { getAvatarString, getColorByString } from '../util';
 import Cookies from 'universal-cookie';
 import phaserGame from '../PhaserGame';
 import Game from '../scenes/Game';
+import { getUserInfo } from 'src/api/auth';
 const cookies = new Cookies();
 
 const Wrapper = styled.form`
@@ -170,6 +171,12 @@ export default function CharacterSelectionDialog(props) {
       game.network.readyToConnect();
       dispatch(setUsername(name));
       dispatch(setCharacterSelected(true));
+
+      getUserInfo().then((response) => {
+        if (!response) return;
+        const { userId, username, userProfile, ...otherInfo } = response;
+        game.myPlayer.setPlayerInfo(userProfile, 1);
+      });
     }
   };
 
