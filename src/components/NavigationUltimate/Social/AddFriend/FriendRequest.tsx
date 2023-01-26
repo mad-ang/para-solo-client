@@ -51,7 +51,7 @@ export default function FriendRequest(props) {
         return data.payload;
       }
     } catch (error) {
-      console.log('error', error);
+      console.error(error);
     }
     return null;
   }

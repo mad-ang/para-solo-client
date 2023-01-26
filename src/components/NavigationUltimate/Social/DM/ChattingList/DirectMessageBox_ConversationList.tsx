@@ -50,15 +50,7 @@ export const ConversationList = () => {
     });
   }, []);
 
-  // let roomId = '';
-  // let body = {
-  //   userId: userId,
-  //   friendId: friendId,
-  //   roomId: roomId,
-  // };
-
   const handleClick = async (room) => {
-    console.log(3333, room.status);
     if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount == 0) {
       setShowAlert(true);
       setFriendRequestProps(room.friendInfo);
@@ -68,9 +60,7 @@ export const ConversationList = () => {
       setFriendRequestProps(room.friendInfo);
 
       // dispatch(setdmProcess(room.status));
-
     } else {
-
       try {
         dispatch(SetWhichModalActivated(ModalState.ChattingListAndRoom));
         // Response userId
@@ -83,7 +73,7 @@ export const ConversationList = () => {
         dispatch(setNewMessage({ message: '' }));
         dispatch(setdmProcess(room.status));
       } catch (error) {
-        console.log('error', error);
+        console.error('error', error);
       }
     }
   };
