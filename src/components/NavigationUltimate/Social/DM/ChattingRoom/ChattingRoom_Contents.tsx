@@ -12,6 +12,8 @@ import { Colors } from 'src/utils/Colors';
 import { color } from '@mui/system';
 import { setNewMessage, setNewMessageCnt } from 'src/stores/DMboxStore';
 import { IChatRoomStatus } from 'src/api/chat';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 const Wrapper = styled.div`
   height: 450px;
   width: 370px;
@@ -24,7 +26,7 @@ export default function ChatBubbles(props) {
   // 채팅 시작 시 저장되어 있던 채팅 리스트 보여줌
   const roomId = useAppSelector((state) => state.dm.roomId);
   const friendId = useAppSelector((state) => state.dm.friendId);
-  const userId = useAppSelector((state) => state.user.userId);
+  const userId = useAppSelector((state) => state.user.userId) || cookies.get('userId');
   const newMessage = useAppSelector((state) => state.dm.newMessage);
   const roomStatus = useAppSelector((state) => state.dm.dmProcess);
   // const unread = useAppSelector((state) => state.dm.newMessageCnt);

@@ -1,5 +1,5 @@
 // Welcome to our source code!
-// Project: 동물의왕국
+// Project: Para-solo
 // Contributed by: 윤중선 <https://github.com/Joong-Sunny> (FE,TL)
 //                 이송희 <https://github.com/soneelee> (FE)
 //                 우수연 <https://github.com/yeonwooz> (BE)
