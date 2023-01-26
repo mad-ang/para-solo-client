@@ -18,6 +18,8 @@ import ClearIcon from '@mui/icons-material/Close';
 import CloseIcon from '@mui/icons-material/Close';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
 import RequestFreindResultModal from './RequestFriendResultModal';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const dummyMessages = [
   '좋은 만남 가져봐요',
@@ -41,7 +43,7 @@ function Swipe(props) {
   const [playerNum, setPlayerNum] = useState<number>(0);
   const [addFriendResult, setAddFriendResult] = useState<number>(0); //0: 친구 요청 전, 1: 친구 요청 성공,  2: 친구 요청 실패(코인충전) 3:이미친구
 
-  const myId = useAppSelector((state) => state.user.userId);
+  const myId = useAppSelector((state) => state.user.userId) || cookies.get('userId');
   const myName = useAppSelector((state) => state.user.username);
   const myProfile = useAppSelector((state) => state.user.userProfile);
   const friendId = useAppSelector((state) => state.dm.friendId);

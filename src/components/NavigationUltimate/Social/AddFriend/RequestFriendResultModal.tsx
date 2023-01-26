@@ -8,6 +8,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import { setUserCoin } from 'src/stores/UserStore';
 import { chargingCoinReq } from 'src/api/chargingCoin';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 interface Props {
   message: string;
 }
@@ -15,7 +17,7 @@ interface Props {
 export default function RequestFreindResultModal(props) {
   const [charging, setcharging] = useState(false);
   const dispatch = useAppDispatch();
-  const userId = useAppSelector((state) => state.user.userId);
+  const userId = useAppSelector((state) => state.user.userId) || cookies.get('userId');
   const userCoin = useAppSelector((state) => state.user.userCoin);
 
   async function chargingCoin() {
@@ -257,9 +259,8 @@ const Buttons = styled.div`
   justify-content: center;
 `;
 
-
-const Textbox= styled.div`
-font-size: 20px;
-text-align: center;
-margin: 5px;
-`
+const Textbox = styled.div`
+  font-size: 20px;
+  text-align: center;
+  margin: 5px;
+`;
