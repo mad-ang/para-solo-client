@@ -120,7 +120,7 @@ const AlertToastContainer = styled.div<AnimationProps>`
   position: fixed;
   top: 10%;
   right: 0;
-  background: ${Colors.blue[2]};
+  background: ${Colors.skyblue[3]};
   border-radius: 10px;
   font-size: 20px;
   display: flex;
