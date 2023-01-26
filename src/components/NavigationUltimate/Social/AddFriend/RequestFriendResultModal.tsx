@@ -168,17 +168,17 @@ export default function RequestFreindResultModal(props) {
                  <PayPalButtons
                   createOrder={(data, actions) => {
                     return fetch("http://localhost:8080/api/orders", {
-        
                       method: "post",
                     })
                       .then((response) => {
                         response.json()
                         console.log("===DEBUG000===")
                       })
-                      // .then((response) => {
-                      //   console.log(response);
-                      //   return response.id;
-                      // });
+                      .then((response) => {
+                        console.log(response);
+                        
+                        return response.id;
+                      });
                       // .then((order) => order.id );
                   }}
                   onApprove={(data, actions) => {
