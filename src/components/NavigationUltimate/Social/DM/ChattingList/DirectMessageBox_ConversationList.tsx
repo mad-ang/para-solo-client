@@ -27,7 +27,8 @@ import axios from 'axios';
 import FriendRequest from 'src/components/NavigationUltimate/Social/AddFriend/FriendRequest';
 import Colors from 'src/utils/Colors';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
-
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 /* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.friendId)에 친구의 userId를 넣어준다  */
 export const ConversationList = () => {
   const [rooms, setRooms] = useState<RoomListResponse[]>([]);
@@ -37,7 +38,7 @@ export const ConversationList = () => {
     {} as UserResponseDto
   );
   const dispatch = useAppDispatch();
-  const userId = useAppSelector((state) => state.user.userId);
+  const userId = useAppSelector((state) => state.user.userId) || cookies.get('userId');
   const friendId = useAppSelector((state) => state.dm.friendId);
   const newMessage = useAppSelector((state) => state.dm.newMessage);
   const newMessageCnt = useAppSelector((state) => state.dm.newMessageCnt);
@@ -93,7 +94,7 @@ export const ConversationList = () => {
   return (
     <DMmessageList>
       <UnorderedList>
-        {rooms.length !==0 ?
+        {rooms.length !== 0 ? (
           rooms.map((room) => {
             if (
               newMessage?.message &&
@@ -134,9 +135,12 @@ export const ConversationList = () => {
               </ListTag>
             );
           })
-        : <><Textbox> 채팅방에 아무도 없어요 🥲 </Textbox>
-        <Textbox> 친구 신청을 보내보아요 </Textbox></>
-          }
+        ) : (
+          <>
+            <Textbox> 채팅방에 아무도 없어요 🥲 </Textbox>
+            <Textbox> 친구 신청을 보내보아요 </Textbox>
+          </>
+        )}
       </UnorderedList>
       {friendRequestModal ? (
         <FriendRequest
@@ -157,7 +161,6 @@ const ProfileAvatarImage = styled.img`
 
 const UnorderedList = styled.ul`
   padding: 0px 5px 5px 5px;
-
 `;
 
 const ListTag = styled.li`
@@ -227,7 +230,7 @@ const DMmessageList = styled.div`
 `;
 
 const Textbox = styled.div`
-font-size: 20px;
-text-align: center;
-margin: 5px;
-`
+  font-size: 20px;
+  text-align: center;
+  margin: 5px;
+`;
