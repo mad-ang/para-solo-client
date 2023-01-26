@@ -14,7 +14,7 @@ import EntryDialog from './components/EntryDialog';
 import CharacterSelectionDialog from './components/CharacterSelectionDialog';
 import VideoConnectionDialog from './components/VideoConnectionDialog';
 import TableDialog from './components/TableDialog';
-import WelcomeToast from './components/ToastNotification';
+import { WelcomeToast } from './components/ToastNotification';
 import SignUpDialog from './components/SignUpDialog';
 import SignInDialog from './components/SignInDialog';
 import axios from 'axios';
@@ -63,7 +63,7 @@ function App() {
         {tableDialogOpen ? <TableDialog /> : null}
         {/* Render VideoConnectionDialog if user is not connected to a webcam. */}
         {!videoConnected && <VideoConnectionDialog />}
-        {!cookies.get('refreshToken') && <WelcomeToast />}
+        <WelcomeToast />
       </>
     );
   } else if (enteringProcess === ENTERING_PROCESS.ENTRY) {

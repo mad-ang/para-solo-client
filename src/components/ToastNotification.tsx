@@ -42,7 +42,21 @@ const WelcomeMsg = styled.div`
   text-align: center;
 `;
 
-export default function WelcomeToast() {
+export function Toast(toastAnimation: any, text: string) {
+  return (
+    <div className={toastAnimation}>
+      <Wrapper>
+        <ToastBox>
+          <WelcomeMsg>
+            <p>Welcome to 🏖ParaSolo🏖</p>
+          </WelcomeMsg>
+        </ToastBox>
+      </Wrapper>
+    </div>
+  );
+}
+
+export function WelcomeToast() {
   let [toastState, setToastState] = useState(true);
   let [toastAnimation, setToastAnimation] = useState('toast-alert');
 
@@ -58,14 +72,6 @@ export default function WelcomeToast() {
   }, []);
 
   return toastState === true ? (
-    <div className={toastAnimation}>
-      <Wrapper>
-        <ToastBox>
-          <WelcomeMsg>
-            <p>Welcome to 🏖ParaSolo🏖</p>
-          </WelcomeMsg>
-        </ToastBox>
-      </Wrapper>
-    </div>
+    <Toast toastAnimation={toastAnimation} text={'Welcome to 🏖ParaSolo🏖'} />
   ) : null;
 }
