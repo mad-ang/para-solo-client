@@ -110,5 +110,6 @@ const MyButton = styled.button<MyButtonProps>`
 
   &:hover {
     background-color: ${(props) => (props.hoverColor ? props.hoverColor : `${Colors.skyblue[2]}`)};
+    color: ${Colors.white}
   }
 `;
