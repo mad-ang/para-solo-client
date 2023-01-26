@@ -125,6 +125,8 @@ export const ConversationList = () => {
                     <LastMessage>
                       {newMessage?.message && newMessage?.userId === room.friendInfo?.userId
                         ? newMessage?.message
+                        : room.status == IChatRoomStatus.TERMINATED
+                        ? (room.message = '친구가 채팅방을 나갔어요')
                         : room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount === 0
                         ? (room.message = '친구 요청을 보냈어요')
                         : room.message}

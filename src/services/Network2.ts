@@ -48,6 +48,7 @@ export default class chatNetwork {
       store.dispatch(setNewMessage(data));
       store.dispatch(setNewMessageCnt(1));
     });
+
   }
 
   getSocket = () => {
@@ -98,7 +99,7 @@ export default class chatNetwork {
   };
 
   moreFriendInfo = ( friendId: string) => {
-    console.log('친구 삭제');
+   
     this.socketClient.emit('more-friendInfo', { friendId: friendId });
 
   };
