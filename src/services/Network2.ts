@@ -75,11 +75,11 @@ export default class chatNetwork {
     });
   };
 
-  requestFriend = (obj: object) => {
+  requestFriendReq = (obj: object) => {
     this.socketClient.emit('request-friend-req', obj);
   };
 
-  acceptFriend = (obj: object) => {
+  acceptFriendReq = (obj: object) => {
     this.socketClient.emit('accept-friend-req', obj);
   };
 
