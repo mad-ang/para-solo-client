@@ -1,58 +1,61 @@
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
 import { UserResponseDto } from './chat';
-
+import phaserGame from 'src/PhaserGame';
+import Game from 'src/scenes/Game';
 // 친구 추가 요청
 export const addFriendReq = async (body: any) => {
   try {
-    const response = await axios.post(`/chat/addFriend`, body)
+    const response = await axios.post(`/chat/addFriend`, body);
     if (response) {
       const { status, payload } = response.data;
       if (response.status === 200) {
         console.log('status', status, 'payload', payload);
-        if (status === 200){
+        if (status === 200) {
           console.log('친구 요청 성공');
+          const game = phaserGame.scene.keys.game as Game;
+          game.networt2.requestFriend({
+            userId: body.myInfo.userId,
+            friendId: body.friendInfo.userId,
+          });
           return 1;
-        }
-        else if (status === 404) {
+        } else if (status === 404) {
           console.log('코인 부족으로 인한 친구 요청 실패');
           return 2;
-        }
-        else if (status === 409) {
+        } else if (status === 409) {
           console.log('이미 친구 요청을 보냈거나 친구 상태입니다.');
           return 3;
         }
-      }
-      else {
-        console.log("오잉...", response)
+      } else {
+        console.log('오잉...', response);
       }
     }
-  } catch(error) {
-    console.error("여기로 와버렸다", error);
+  } catch (error) {
+    console.error('여기로 와버렸다', error);
   }
-  }
+};
 
-    // .then((response) => {
-    //   const { status, payload } = response.data;
-    //   if (response.status === 200) {
-    //     console.log('status', status, 'payload', payload);
-    //     if (status === 200){
-    //       console.log('친구 요청 성공');
-    //       return 1;
-    //     }
-    //     else if (status === 404) {
-    //       console.log('코인 부족으로 인한 친구 요청 실패');
-    //       return 2;
-    //     }
-    //   }
-    //   else {
-    //     console.log("오잉...", response)
-    //   }
-    // })
-    // .catch((error) => {
-    //   console.log("여기로 와버렸다");
-    //   console.log(error);
-    // });
+// .then((response) => {
+//   const { status, payload } = response.data;
+//   if (response.status === 200) {
+//     console.log('status', status, 'payload', payload);
+//     if (status === 200){
+//       console.log('친구 요청 성공');
+//       return 1;
+//     }
+//     else if (status === 404) {
+//       console.log('코인 부족으로 인한 친구 요청 실패');
+//       return 2;
+//     }
+//   }
+//   else {
+//     console.log("오잉...", response)
+//   }
+// })
+// .catch((error) => {
+//   console.log("여기로 와버렸다");
+//   console.log(error);
+// });
 // };
 
 // 현재서버에 있는 유저들의 리스트를 가져옴

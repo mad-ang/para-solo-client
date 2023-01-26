@@ -61,7 +61,10 @@ const Message = ({ chatMessage, messageType }) => {
               color: getColorByString(chatMessage.author),
             }}
           >
-            {chatMessage.author}: <span>{chatMessage.content}</span>
+            {chatMessage.author}: 
+            <span style={{
+              color: 'black',
+            }} >{chatMessage.content}</span>
           </p>
         ) : (
           <p className="notification">
