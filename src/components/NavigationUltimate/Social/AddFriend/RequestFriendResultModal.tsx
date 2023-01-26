@@ -127,6 +127,12 @@ export default function RequestFreindResultModal(props) {
 
               <RequestResultBodyCharging>
                 <Textbox>코인 100개를 충전합니다</Textbox>
+                      <PayPalScriptProvider
+        options={{
+          'client-id':
+            'Ac1EY6svD5f5jwXD7ZGGjFhKxCEy5ENuJcpGO1aA8W1GPtCrisR_hdcyeiXOKpUSoWCQtKzbI2sBNk5a',
+        }}
+      >
                 <PayPalButtons
                   createOrder={(data, actions) => {
                     return actions.order.create({
@@ -149,6 +155,7 @@ export default function RequestFreindResultModal(props) {
                     });
                   }}
                 />
+                </PayPalScriptProvider>
               </RequestResultBodyCharging>
             </Wrapper>
           )}
