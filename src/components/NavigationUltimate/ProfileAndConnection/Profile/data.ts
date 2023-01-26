@@ -10,13 +10,13 @@ export const ageOptions: any = Array.from({ length: 21 }, (_, i) => ({
   label: `${i + 20}`,
 }));
 
-export let heightOptions: any = Array.from({ length: 30 }, (_, i) => ({
-  value: `${i + 160}`,
-  label: `${i + 160}`,
+export let heightOptions: any = Array.from({ length: 35 }, (_, i) => ({
+  value: `${i + 155}`,
+  label: `${i + 155}`,
 }));
 
 heightOptions = [
-  { value: '160미만', label: '160미만' },
+  { value: '155미만', label: '155미만' },
   ...heightOptions,
   { value: '190이상', label: '190이상' },
 ];
