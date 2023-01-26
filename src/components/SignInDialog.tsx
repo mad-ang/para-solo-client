@@ -25,6 +25,7 @@ import { constants } from 'buffer';
 import { login } from 'src/api/auth';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
+import { AlertToast } from './ToastNotification';
 
 const Wrapper = styled.form`
   position: fixed;
@@ -96,6 +97,8 @@ export default function SignInDialog() {
   const [userIdFieldWrong, setUserIdFieldWrong] = useState<boolean>(false);
   const [pwFieldWrong, setPwFieldWrong] = useState<boolean>(false);
   const [failLogin, setFailLogin] = useState<boolean>(false);
+  const [failMessage, setFailMessage] = useState<string>('아이디와 비밀번호를 다시 확인해주세요');
+
   const game = phaserGame.scene.keys.game as Game;
   const goToEntry = (event) => {
     event.preventDefault();
@@ -103,6 +106,7 @@ export default function SignInDialog() {
   };
 
   const handleSubmit = async (): Promise<boolean> => {
+    setFailLogin(false);
     try {
       if (userId === '' || password === '') {
         if (userId === '') setUserIdFieldEmpty(true);
@@ -116,7 +120,7 @@ export default function SignInDialog() {
 
         const data = await login(body);
 
-        if (data.status == 200) {
+        if (data?.status == 200) {
           const { payload } = data;
           const token = payload.accessToken;
           if (token) {
@@ -138,7 +142,8 @@ export default function SignInDialog() {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      setFailLogin(true);
     }
     return false;
   };
@@ -161,6 +166,7 @@ export default function SignInDialog() {
 
   return (
     <>
+      {failLogin && <AlertToast text={failMessage} />}
       <Wrapper>
         <Title>로그인</Title>
         <TextField
