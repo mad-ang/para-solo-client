@@ -2,15 +2,14 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/63194662/215085258-9b000e84-7255-4c2c-97da-d6248741c2ce.png"  height="30%" width="30%"></p>
 
 
-### 📚Demo
-[파라솔로 접속하기](https://www.para-solo.site)
-### 📚Project Archiving
-[데모영상](https://www.youtube.com/watch?v=GIqwV3EVYGA)
 
-### 📚Team notion
-[노션링크](https://axiomatic-door-0e4.notion.site/MAD-ANG-bb54dbd01cdb442d8a4475358efc41c4)
+## 📚Archiving
 
-## Install
+- Demo: [파라솔로 접속하기](https://www.para-solo.site)
+- Project Archiving: [데모영상](https://www.youtube.com/watch?v=GIqwV3EVYGA)
+- Team notion: [노션링크](https://axiomatic-door-0e4.notion.site/MAD-ANG-bb54dbd01cdb442d8a4475358efc41c4)
+
+## 🤓Install
 
 클라이언트와 서버에서 각각 다음 커맨드 입력
 
