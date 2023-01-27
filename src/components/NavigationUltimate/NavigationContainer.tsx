@@ -11,12 +11,19 @@ import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
 
 export default function NavigationContainer() {
   const dispatch = useAppDispatch();
+  const ActivatedNav = useAppSelector((state) => state.nav.currentState);
   const [width, setWidth] = useState(window.innerWidth);
   const inputRef = useRef<HTMLInputElement>(null);
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Escape') {
       inputRef.current?.blur();
       dispatch(SetWhichModalActivated(ModalState.None));
+    }
+    if (event.key === 'Enter') {
+      if (ActivatedNav == ModalState.None){
+        inputRef.current?.blur();
+        dispatch(SetWhichModalActivated(ModalState.PublicChat));
+      }
     }
   };
 
