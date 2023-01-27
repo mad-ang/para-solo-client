@@ -142,7 +142,7 @@ export default function RequestFreindResultModal(props) {
                 <Textbox>코인 100개를 충전합니다</Textbox>
                 {/* <CustomizedPaypalButton/> */}
 
-                {/* <PayPalButtons
+                <PayPalButtons
                   createOrder={(data, actions) => {
                     return actions.order.create({
                       purchase_units: [
@@ -163,8 +163,8 @@ export default function RequestFreindResultModal(props) {
                       handleClick();
                     });
                   }}
-                /> */}
-                <PayPalButtons
+                />
+                {/* <PayPalButtons
                   createOrder={(data, actions) => {
                     return fetch('http://localhost:8080/api/orders', {
                       method: 'post',
@@ -176,7 +176,7 @@ export default function RequestFreindResultModal(props) {
                       .then((response) => {
                         console.log(response);
 
-                        return response.id;
+                        return response?.id;
                       });
                     // .then((order) => order.id );
                   }}
@@ -202,7 +202,7 @@ export default function RequestFreindResultModal(props) {
                         );
                       });
                   }}
-                />
+                /> */}
               </RequestResultBodyCharging>
             </Wrapper>
           )}
