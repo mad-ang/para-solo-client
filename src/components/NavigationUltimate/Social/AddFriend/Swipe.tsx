@@ -174,7 +174,7 @@ function Swipe(props) {
           addFriendResult={addFriendResult}
         />
       )}
-      {selectedPlayer && <MoreInfoModal player={selectedPlayer} />}
+      {selectedPlayer && <MoreInfoModal player={selectedPlayer} setSelectedPlayer={setSelectedPlayer} />}
     </Wrapper>
   );
 }

@@ -22,7 +22,7 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 function MoreInfoModal(props) {
-    console.log("프로필더보기")
+  console.log('프로필더보기');
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
   const imgRef = useRef<any>(null);
@@ -42,9 +42,9 @@ function MoreInfoModal(props) {
   // const players = Array.from(game?.allOtherPlayers());
   const players = useAppSelector((state) => state.room.players);
 
-
   function handleClick() {
-    dispatch(SetWhichModalActivated(ModalState.None));
+    console.log(props.player);
+    props.setSelectedPlayer(null);
   }
 
   useEffect(() => {
