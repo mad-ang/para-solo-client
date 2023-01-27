@@ -20,7 +20,7 @@ import ParasolImg from 'src/assets/directmessage/parasol.png';
 import RequestFreindResultModal from './RequestFriendResultModal';
 import Cookies from 'universal-cookie';
 import { IPlayer } from 'src/types/ITownState';
-import MoreInfoModal from './moreInfo';
+import MoreInfoModal from './MoreInfo';
 const cookies = new Cookies();
 
 function Swipe(props) {
