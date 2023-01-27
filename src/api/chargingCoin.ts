@@ -9,7 +9,6 @@ export const paypalReq = async () => {
     if (response) {
       const { status, payload } = response.data;
       if (response.status === 200) {
-        console.log('페이팔 로드 완료');
         return 1;
       }
     } else {
@@ -20,9 +19,6 @@ export const paypalReq = async () => {
   }
 };
 
-
-
-
 // 친구 추가 요청
 export const chargingCoinReq = async (body: any) => {
   try {
@@ -30,7 +26,6 @@ export const chargingCoinReq = async (body: any) => {
     if (response) {
       const { status, payload } = response.data;
       if (response.status === 200) {
-        console.log('코인충전 성공');
         return 1;
       }
     } else {

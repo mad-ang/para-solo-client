@@ -11,7 +11,6 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 function MoreInfoModal(props) {
-  console.log('프로필더보기');
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
   const imgRef = useRef<any>(null);
@@ -22,7 +21,6 @@ function MoreInfoModal(props) {
   const players = useAppSelector((state) => state.room.players);
 
   function handleClick() {
-    console.log(props.player);
     props.setSelectedPlayer(null);
   }
 

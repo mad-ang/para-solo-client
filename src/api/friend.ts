@@ -11,15 +11,12 @@ export const addFriendReq = async (body: any) => {
       const { status, payload } = response.data;
       if (response.status === 200) {
         if (status === 200) {
-          console.log('친구 요청 성공');
           const game = phaserGame.scene.keys.game as Game;
           game.networt2.requestFriendReq(body);
           return 1;
         } else if (status === 404) {
-          console.log('코인 부족으로 인한 친구 요청 실패');
           return 2;
         } else if (status === 409) {
-          console.log('이미 친구 요청을 보냈거나 친구 상태입니다.');
           return 3;
         }
       } else {

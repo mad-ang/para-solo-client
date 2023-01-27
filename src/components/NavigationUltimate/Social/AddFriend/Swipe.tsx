@@ -61,20 +61,17 @@ function Swipe(props) {
     };
     try {
       const result = await addFriendReq(body);
-      console.log('여기... result:', result);
+
       //여기에서 setUserCoin 써야함 (동기화)
 
       //404 이면, setAddFriendResult(2)로 해주어야 함
       if (result === 1) {
-        console.log('친구 요청 성공(swipe.tsx)');
         setAddFriendResult(result!);
         dispatch(setUserCoin(userCoin - 1));
       } else if (result === 2) {
-        console.log('코인 부족으로 인한 친구 요청 실패(swipe.tsx)');
         setAddFriendResult(result!);
       } else if (result === 3) {
         setAddFriendResult(result!);
-        console.log('이미 친구이거나 친구요청을 보낸 상태입니다(swipe.tsx)');
       }
       //여기에서 localstate인 UserCoin의 개수를 통해, addFriendResult 를 업데이트 해주어야 함
     } catch (error) {
@@ -122,7 +119,6 @@ function Swipe(props) {
           // }}
         >
           {otherPlayers?.map((player, i: number) => {
-            console.log(player.userProfile.statusMessage);
             return player.userId !== myId ? (
               <SwiperSlide key={i}>
                 {/* <SwiperSlide key={player.id}> */}
@@ -175,7 +171,9 @@ function Swipe(props) {
           addFriendResult={addFriendResult}
         />
       )}
-      {selectedPlayer && <MoreInfoModal player={selectedPlayer} setSelectedPlayer={setSelectedPlayer} />}
+      {selectedPlayer && (
+        <MoreInfoModal player={selectedPlayer} setSelectedPlayer={setSelectedPlayer} />
+      )}
     </Wrapper>
   );
 }

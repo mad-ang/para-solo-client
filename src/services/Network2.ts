@@ -47,7 +47,6 @@ export default class chatNetwork {
       store.dispatch(setNewMessage(data));
       store.dispatch(setNewMessageCnt(1));
     });
-
   }
 
   getSocket = () => {
@@ -90,16 +89,11 @@ export default class chatNetwork {
     this.socketClient.emit('whoAmI', userId);
   };
 
-  deleteFriend = ( userId: string, friendId: string) => {
-    console.log('친구 삭제');
+  deleteFriend = (userId: string, friendId: string) => {
     this.socketClient.emit('delete-friend', { userId: userId, friendId: friendId });
-
   };
 
-  moreFriendInfo = ( friendId: string) => {
-   
+  moreFriendInfo = (friendId: string) => {
     this.socketClient.emit('more-friendInfo', { friendId: friendId });
-
   };
-
 }

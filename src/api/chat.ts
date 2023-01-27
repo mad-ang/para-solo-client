@@ -12,7 +12,7 @@ export const createRoom = (param: CreateRoomRequest) => {
       return data as ApiResponse<CreateRoomResponse>;
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     });
 };
 
@@ -44,7 +44,7 @@ export const fetchChatting = (param: FetchChattingRequest) => {
       return data as ApiResponse<Array<ChatDto>>;
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     });
 };
 

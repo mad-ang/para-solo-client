@@ -41,7 +41,7 @@ export default class Network {
         ? `wss://${import.meta.env.VITE_SERVER_URL}`
         : `ws://${window.location.hostname}:8080`;
 
-    console.log(process.env.NODE_ENV);
+
     this.client = new Client(endpoint);
     this.joinLobbyRoom().then(() => {
       store.dispatch(setLobbyJoined(true));
