@@ -1,23 +1,12 @@
 import react, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
-import { setUserCoin } from 'src/stores/UserStore';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Colors from 'src/utils/Colors';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper';
-import { Button } from '@mui/material';
-import axios from 'axios';
-import { addFriendReq } from 'src/api/friend';
-import { chargingCoinReq } from 'src/api/chargingCoin';
 import ClearIcon from '@mui/icons-material/Close';
-import CloseIcon from '@mui/icons-material/Close';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
-import RequestFreindResultModal from './RequestFriendResultModal';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -26,20 +15,10 @@ function MoreInfoModal(props) {
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
   const imgRef = useRef<any>(null);
-  const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
-  const [playerIndex, setPlayerIndex] = useState<number>(0);
-  const [playerNum, setPlayerNum] = useState<number>(0);
-  const [addFriendResult, setAddFriendResult] = useState<number>(0); //0: 친구 요청 전, 1: 친구 요청 성공,  2: 친구 요청 실패(코인충전) 3:이미친구
 
-  const myId = useAppSelector((state) => state.user.userId) || cookies.get('userId');
-  const myName = useAppSelector((state) => state.user.username);
-  const myProfile = useAppSelector((state) => state.user.userProfile);
-  const friendId = useAppSelector((state) => state.dm.friendId);
-  const userCnt = useAppSelector((state) => state.room.userCnt);
-  // const noMoreCoin = useAppSelector((state) => state.user.noMoreCoin);
-  const userCoin = useAppSelector((state) => state.user.userCoin);
+  const [playerNum, setPlayerNum] = useState<number>(0);
+
   const game = phaserGame.scene.keys.game as Game;
-  // const players = Array.from(game?.allOtherPlayers());
   const players = useAppSelector((state) => state.room.players);
 
   function handleClick() {
@@ -74,8 +53,8 @@ function MoreInfoModal(props) {
             />
           </div>
         </ImageWrapper>
-        <Name>이름 : {props.player.name}</Name>
-        <Message>반가워요</Message>
+        <Name>{props.player.name}</Name>
+        <StatusMessage>{props.player.userProfile?.statusMessage}</StatusMessage>
         <Message>성별 : {props.player.userProfile?.gender}</Message>
         <Message>나이 : {props.player.userProfile?.age}</Message>
         <Message>키 : {props.player.userProfile?.height}</Message>
@@ -151,10 +130,10 @@ const SwipeBody = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  margin-top: 25px;
-  width: 160px;
-  height: 160px;
-  border-radius: 100%;
+  margin-top: 10px;
+  width: 80px;
+  height: 80px;
+  border-radius: 20%;
 
   display: flex;
   justify-content: center;
@@ -177,7 +156,7 @@ const ImageWrapper = styled.div`
 
   .personal-avatar {
     box-sizing: border-box;
-    border-radius: 100%;
+    border-radius: 20%;
     border: 2px solid transparent;
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
     transition: all ease-in-out 0.3s;
@@ -189,12 +168,12 @@ const ImageWrapper = styled.div`
     cursor: pointer;
     position: absolute;
     top: 0px;
-    width: 160px;
-    height: 160px;
+    width: 80px;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 100%;
+    border-radius: 20%;
     opacity: 0;
     background-color: rgba(0, 0, 0, 0);
     transition: all ease-in-out 0.3s;
@@ -210,8 +189,8 @@ const ImageWrapper = styled.div`
 `;
 
 const ProfileAvatarImage = styled.img`
-  width: 160px;
-  height: 160px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
 `;
 
@@ -226,6 +205,13 @@ const Message = styled.div`
   font-weight: 400;
   font-size: 10px;
   font-size: 1.4rem;
+  margin: 5px 0;
+`;
+const StatusMessage = styled.div`
+  font-weight: 400;
+  font-size: 10px;
+  font-size: 1.4rem;
+  margin: 10px;
 `;
 
 const MyButton = styled.button`
