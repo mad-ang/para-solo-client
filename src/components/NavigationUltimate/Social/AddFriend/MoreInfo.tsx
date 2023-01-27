@@ -73,44 +73,24 @@ const Wrapper = styled.div`
   width: 370px;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
-  // box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
-
   -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
-  // -moz-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
   font-style: normal;
   font-weight: 400;
 `;
 
 const SwipeHeader = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding: 10px 0px 10px 10px;
   width: 100%;
   height: 60px;
   position: relative;
-  // display: grid;
   grid-template-columns: 90% 10%;
 
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   align-items: center;
-`;
-
-const DirtyTalk = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-`;
-const TitleImage = styled.img`
-  margin-left: 3px;
-  margin-right: 13px;
-  width: 28px;
-`;
-
-const TitleText = styled.div`
-  font-size: 23px;
-  font-weight: 600;
 `;
 
 const ButtonWrapper = styled.button`
@@ -212,34 +192,6 @@ const StatusMessage = styled.div`
   font-size: 10px;
   font-size: 1.4rem;
   margin: 10px;
-`;
-
-const MyButton = styled.button`
-  width: 180px;
-  height: 40px;
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-top: 12px;
-  font-family: 'Ycomputer-Regular';
-  border-radius: 10px;
-  border: none;
-  background-color: ${Colors.skyblue[1]};
-  &:hover {
-    background-color: ${Colors.skyblue[2]};
-  }
-`;
-
-const ZeroMessage = styled.div`
-  font-weight: 600;
-  font-size: 24px;
-  font-size: 1.5rem;
-  background-color: ${Colors.white};
-  padding: 70px 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-y: auto;
-  height: 340px;
 `;
 
 export default MoreInfoModal;
