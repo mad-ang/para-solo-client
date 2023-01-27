@@ -83,40 +83,25 @@ const Wrapper = styled.div`
 
 const SwipeHeader = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  padding: 10px 0px 10px 10px;
+  padding: 10px;
   width: 100%;
   height: 60px;
   position: relative;
-  // display: grid;
   grid-template-columns: 90% 10%;
-
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
-  align-items: center;
+
 `;
 
-const DirtyTalk = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-`;
-const TitleImage = styled.img`
-  margin-left: 3px;
-  margin-right: 13px;
-  width: 28px;
-`;
 
-const TitleText = styled.div`
-  font-size: 23px;
-  font-weight: 600;
-`;
+
 
 const ButtonWrapper = styled.button`
   background: none;
   border: none;
-  padding: 0px 10px 0px 0px;
+  
 `;
 
 const SwipeBody = styled.div`

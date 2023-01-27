@@ -1,6 +1,5 @@
 import react, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
 import { setUserCoin } from 'src/stores/UserStore';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
@@ -10,41 +9,31 @@ import Colors from 'src/utils/Colors';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
-import { Button } from '@mui/material';
-import axios from 'axios';
 import { addFriendReq } from 'src/api/friend';
-import { chargingCoinReq } from 'src/api/chargingCoin';
 import ClearIcon from '@mui/icons-material/Close';
-import CloseIcon from '@mui/icons-material/Close';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
 import RequestFreindResultModal from './RequestFriendResultModal';
 import Cookies from 'universal-cookie';
 import { IPlayer } from 'src/types/ITownState';
-import MoreInfoModal from './moreInfo';
+import MoreInfoModal from './MoreInfo';
 const cookies = new Cookies();
 
 function Swipe(props) {
   const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
   const imgRef = useRef<any>(null);
-  const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
-  const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
   const [addFriendResult, setAddFriendResult] = useState<number>(0); //0: 친구 요청 전, 1: 친구 요청 성공,  2: 친구 요청 실패(코인충전) 3:이미친구
 
   const myId = useAppSelector((state) => state.user.userId) || cookies.get('userId');
   const myName = useAppSelector((state) => state.user.username);
   const myProfile = useAppSelector((state) => state.user.userProfile);
-  const friendId = useAppSelector((state) => state.dm.friendId);
-  const userCnt = useAppSelector((state) => state.room.userCnt);
-  // const noMoreCoin = useAppSelector((state) => state.user.noMoreCoin);
   const userCoin = useAppSelector((state) => state.user.userCoin);
   const game = phaserGame.scene.keys.game as Game;
-  // const players = Array.from(game?.allOtherPlayers());
   const players = useAppSelector((state) => state.room.players);
   const [selectedPlayer, setSelectedPlayer] = useState<IPlayer | null>(null);
 
-  async function requestFriend(id, name, targetImgUrl) {
+  async function requestFriend(id: string, name: string, targetImgUrl: string) {
     let body = {
       myInfo: {
         userId: myId,
@@ -61,7 +50,6 @@ function Swipe(props) {
     };
     try {
       const result = await addFriendReq(body);
-      console.log('여기... result:', result);
       //여기에서 setUserCoin 써야함 (동기화)
 
       //404 이면, setAddFriendResult(2)로 해주어야 함
@@ -96,7 +84,6 @@ function Swipe(props) {
       <SwipeHeader className="Swipe-Header">
         <DirtyTalk>
           <TitleImage src={ParasolImg} width="30" />
-
           <TitleText>현재 {players.length - 1}명이 접속해있어요</TitleText>
         </DirtyTalk>
         <ButtonWrapper onClick={handleClick}>
@@ -116,11 +103,8 @@ function Swipe(props) {
           spaceBetween={10}
           slidesPerView={1}
           loop={true}
-          // onSlideChange={(swiper) => {
-          //   setPlayerIndex(swiper.activeIndex);
-          // }}
         >
-          {otherPlayers?.map((player, i: number) => {
+          {otherPlayers?.map((player: any, i: number) => {
             console.log(player.userProfile.statusMessage);
             return player.userId !== myId ? (
               <SwiperSlide key={i}>
@@ -134,7 +118,6 @@ function Swipe(props) {
                       <ProfileAvatarImage
                         ref={imgRef}
                         src={player?.userProfile?.profileImgUrl || DefaultAvatar}
-                        // src={player.userInfo.profileImgUrl || DefaultAvatar}
                         className="personal-avatar"
                         alt="avatar"
                         onError={() => {
@@ -205,7 +188,6 @@ const SwipeHeader = styled.div`
   width: 100%;
   height: 60px;
   position: relative;
-  // display: grid;
   grid-template-columns: 90% 10%;
   background-color: ${Colors.skyblue[1]};
   border-top-left-radius: 25px;
