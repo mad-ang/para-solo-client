@@ -576,7 +576,7 @@ const ProfileEditButton = styled.button`
   font-weight: 600;
   font-size: 20px;
   background: none;
-
+  font-family: 'Ycomputer-Regular';
   outline: none;
   &:focus {
     outline: none;
@@ -595,6 +595,7 @@ const InputTextField = styled(InputBase)`
     padding: 5px;
     color: #000;
     text-align: center;
+    font-family: 'Ycomputer-Regular';
   }
   width: 100%;
   display: flex;
