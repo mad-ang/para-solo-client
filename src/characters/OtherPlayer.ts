@@ -103,6 +103,7 @@ export default class OtherPlayer extends Player {
         this.userProfile.gender = value?.gender || '';
         this.userProfile.age = value?.age || '';
         this.userProfile.height = value?.height || '';
+        this.userProfile.statusMessage = value?.statusMessage || '';
         break;
     }
   }

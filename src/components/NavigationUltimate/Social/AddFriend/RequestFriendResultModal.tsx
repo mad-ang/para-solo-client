@@ -7,7 +7,8 @@ import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import { setUserCoin } from 'src/stores/UserStore';
-import { chargingCoinReq } from 'src/api/chargingCoin';
+import { chargingCoinReq, paypalReq } from 'src/api/chargingCoin';
+// import CustomizedPaypalButton from './CustomizedPaypalButton';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 interface Props {
@@ -29,13 +30,26 @@ export default function RequestFreindResultModal(props) {
     try {
       const result = await chargingCoinReq(body);
       if (result === 1) {
-        console.log('코인 충전 성공(swipe.tsx)');
+        console.log('코인 충전 성공(requestFriendResultModal.tsx)');
         dispatch(setUserCoin(userCoin + 100));
+      } else {
+        console.log('코인 충전 실패(requestFriendResultModal.tsx)');
+      }
+    } catch (error) {
+      console.error('error(charging coin 하다가 에러, requestFriendResultModal.tsx참조)', error);
+    }
+  }
+
+  async function paypalModalReq() {
+    try {
+      const result = await paypalReq();
+      if (result === 1) {
+        console.log('paypal transaction불러');
       } else {
         console.log('코인 충전 실패(swipe.tsx)');
       }
     } catch (error) {
-      console.error('error(charging coin 하다가 에러, swipte.tsx참조)', error);
+      console.error('페이팔 모달창 요청 실패 참조)', error);
     }
   }
 
@@ -124,15 +138,10 @@ export default function RequestFreindResultModal(props) {
                   <ClearIcon fontSize="large" sx={{ color: Colors.skyblue[2] }} />
                 </ButtonWrapper>
               </RequestResultHeader>
-
               <RequestResultBodyCharging>
                 <Textbox>코인 100개를 충전합니다</Textbox>
-                      <PayPalScriptProvider
-        options={{
-          'client-id':
-            'Ac1EY6svD5f5jwXD7ZGGjFhKxCEy5ENuJcpGO1aA8W1GPtCrisR_hdcyeiXOKpUSoWCQtKzbI2sBNk5a',
-        }}
-      >
+                {/* <CustomizedPaypalButton/> */}
+
                 <PayPalButtons
                   createOrder={(data, actions) => {
                     return actions.order.create({
@@ -155,7 +164,45 @@ export default function RequestFreindResultModal(props) {
                     });
                   }}
                 />
-                </PayPalScriptProvider>
+                {/* <PayPalButtons
+                  createOrder={(data, actions) => {
+                    return fetch('http://localhost:8080/api/orders', {
+                      method: 'post',
+                    })
+                      .then((response) => {
+                        response.json();
+                        console.log('===DEBUG000===');
+                      })
+                      .then((response) => {
+                        console.log(response);
+
+                        return response?.id;
+                      });
+                    // .then((order) => order.id );
+                  }}
+                  onApprove={(data, actions) => {
+                    return fetch(`http://localhost:8080/api/orders/${data.orderID}/capture`, {
+                      method: 'post',
+                    })
+                      .then((response) => response.json())
+                      .then(function (orderData) {
+                        // Successful capture! For dev/demo purposes:
+                        console.log(
+                          'Capture result',
+                          orderData,
+                          JSON.stringify(orderData, null, 2)
+                        );
+                        var transaction = orderData.purchase_units[0].payments.captures[0];
+                        alert(
+                          'Transaction ' +
+                            transaction.status +
+                            ': ' +
+                            transaction.id +
+                            '\n\nSee console for all available details'
+                        );
+                      });
+                  }}
+                /> */}
               </RequestResultBodyCharging>
             </Wrapper>
           )}
@@ -173,9 +220,9 @@ const Wrapper = styled.div`
   height: 250px;
   width: 370px;
   border-radius: 25px;
-  box-shadow: 20px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
   font-style: normal;
   font-weight: 400;
 `;
@@ -244,7 +291,6 @@ const RequestResultBodyCharging = styled.div`
   border-bottom-right-radius: 25px;
   overflow-y: auto;
 `;
-
 
 const MyButton = styled.button`
   width: 120px;

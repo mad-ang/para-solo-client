@@ -43,6 +43,7 @@ export const userSlice = createSlice({
       region: '',
       gender: '',
       age: '',
+      statusMessage: '',
     },
   },
   reducers: {
