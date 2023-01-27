@@ -30,10 +30,7 @@ export default function RequestFreindResultModal(props) {
     try {
       const result = await chargingCoinReq(body);
       if (result === 1) {
-        console.log('코인 충전 성공(requestFriendResultModal.tsx)');
         dispatch(setUserCoin(userCoin + 100));
-      } else {
-        console.log('코인 충전 실패(requestFriendResultModal.tsx)');
       }
     } catch (error) {
       console.error('error(charging coin 하다가 에러, requestFriendResultModal.tsx참조)', error);
@@ -44,9 +41,7 @@ export default function RequestFreindResultModal(props) {
     try {
       const result = await paypalReq();
       if (result === 1) {
-        console.log('paypal transaction불러');
       } else {
-        console.log('코인 충전 실패(swipe.tsx)');
       }
     } catch (error) {
       console.error('페이팔 모달창 요청 실패 참조)', error);
@@ -164,45 +159,6 @@ export default function RequestFreindResultModal(props) {
                     });
                   }}
                 />
-                {/* <PayPalButtons
-                  createOrder={(data, actions) => {
-                    return fetch('http://localhost:8080/api/orders', {
-                      method: 'post',
-                    })
-                      .then((response) => {
-                        response.json();
-                        console.log('===DEBUG000===');
-                      })
-                      .then((response) => {
-                        console.log(response);
-
-                        return response?.id;
-                      });
-                    // .then((order) => order.id );
-                  }}
-                  onApprove={(data, actions) => {
-                    return fetch(`http://localhost:8080/api/orders/${data.orderID}/capture`, {
-                      method: 'post',
-                    })
-                      .then((response) => response.json())
-                      .then(function (orderData) {
-                        // Successful capture! For dev/demo purposes:
-                        console.log(
-                          'Capture result',
-                          orderData,
-                          JSON.stringify(orderData, null, 2)
-                        );
-                        var transaction = orderData.purchase_units[0].payments.captures[0];
-                        alert(
-                          'Transaction ' +
-                            transaction.status +
-                            ': ' +
-                            transaction.id +
-                            '\n\nSee console for all available details'
-                        );
-                      });
-                  }}
-                /> */}
               </RequestResultBodyCharging>
             </Wrapper>
           )}

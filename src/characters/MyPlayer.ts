@@ -53,7 +53,6 @@ export default class MyPlayer extends Player {
         const { userId, username, userProfile, userCoin, ...otherInfo } = response;
         store.dispatch(setUserProfile(userProfile));
         store.dispatch(setUserCoin(userCoin));
-        console.log('방금 받아온 유저코인:', response);
       })
       .catch((error) => {
         console.error(error);
