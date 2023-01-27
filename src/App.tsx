@@ -87,8 +87,8 @@ function App() {
       <PayPalScriptProvider
         options={{
           'client-id':
-            // 'Ac1EY6svD5f5jwXD7ZGGjFhKxCEy5ENuJcpGO1aA8W1GPtCrisR_hdcyeiXOKpUSoWCQtKzbI2sBNk5a',
-            'AWF7ro3lBMbGFWEmc3Z_kI7M2M-KCBhH_1wCTWL3F7HZvVFbbgGUIglqVS_9qgCSQEJWwaRxHkBIYUAl',
+            'Ac1EY6svD5f5jwXD7ZGGjFhKxCEy5ENuJcpGO1aA8W1GPtCrisR_hdcyeiXOKpUSoWCQtKzbI2sBNk5a',
+            // 'AWF7ro3lBMbGFWEmc3Z_kI7M2M-KCBhH_1wCTWL3F7HZvVFbbgGUIglqVS_9qgCSQEJWwaRxHkBIYUAl',
         }}
       >
         <Backdrop className="Backdrop">{ui}</Backdrop>

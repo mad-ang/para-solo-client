@@ -526,7 +526,8 @@ const ProfileStatusMessage = styled.div<EditableProps>`
 `;
 
 const InfoContainer = styled.div<EditableProps>`
-  padding: 5px;
+  padding-top: 5px;
+  padding-bottom: 20px;
   margin-top: 14px;
   width: 100%;
   border-radius: 6px;
