@@ -21,29 +21,37 @@ yarn && yarn start
 yarn && yarn dev
 ```
 ## 기능
+<p align="center"><img src="https://user-images.githubusercontent.com/63194662/215079766-a7fc0048-8232-4198-a955-e43576daa1a1.png"  height="80%" width="80%"></p>
 
-![Total](https://user-images.githubusercontent.com/63194662/215079766-a7fc0048-8232-4198-a955-e43576daa1a1.png){: width="60%" height="60%"){: .center}
 
 ### Friend Request
-![친구추가img]()
+
+<div align="center">
+  <img src=" https://user-images.githubusercontent.com/63194662/215083536-3ab279b0-5d29-4bba-88c3-1678a352d0a6.png "  height="30%" width="30%">
+  <img src=" https://user-images.githubusercontent.com/63194662/215083449-f50f9c8d-63d0-45c1-bcbb-9802749ddafe.png "  height="30%" width="30%">
+</div>
 
 ### DM(Direct Message)
-![DMimg](https://user-images.githubusercontent.com/63194662/215078972-5de05f30-9de0-4348-828b-848765d804ed.png){: width="60%" height="60%"){: .center}
+<p align="center"><img src="https://user-images.githubusercontent.com/63194662/215083337-3df4e87d-23a5-456d-8367-57c2613b9cd4.png"  height="50%" width="50%"></p>
+
 ### Media Control
 ![mediaControllImg]()
 
 ### Public Chat
-![PublicChatImg](https://user-images.githubusercontent.com/63194662/215080673-9f0e33fe-5204-4a61-a390-a22d3a4c56d3.png){: width="60%" height="60%"){: .center}
+<p align="center"><img src="https://user-images.githubusercontent.com/63194662/215084245-1ad026de-dc5b-41dd-b328-93afebab8476.png"  height="50%" width="50%"></p>
+
 
 ### Interactive Object
-![InteractiveObj](https://user-images.githubusercontent.com/63194662/215080967-5d58d381-379e-4f91-8c48-5649ed2ca8f5.png){: width="60%" height="60%"){: .center}
+
+<p align="center"><img src=" https://user-images.githubusercontent.com/63194662/215080967-5d58d381-379e-4f91-8c48-5649ed2ca8f5.png "  height="50%" width="50%"></p>
+
 
 ### Talk
-![WebRTC](https://user-images.githubusercontent.com/63194662/215080351-ae944864-f08a-49c5-8467-df3826abe527.png){: width="60%" height="60%"){: .center}
+
+<p align="center"><img src=" https://user-images.githubusercontent.com/63194662/215080351-ae944864-f08a-49c5-8467-df3826abe527.png "  height="50%" width="50%"></p>
 
 ### Payment
-![paypal](https://user-images.githubusercontent.com/63194662/215080560-ccd8ca4c-e617-4430-bde3-7118fd8e60b5.png){: width="60%" height="60%"){: .center}
-
+<p align="center"><img src="  https://user-images.githubusercontent.com/63194662/215080560-ccd8ca4c-e617-4430-bde3-7118fd8e60b5.png"  height="50%" width="50%"></p>
 
 ## How to use
 
@@ -58,5 +66,7 @@ yarn && yarn dev
 - 다른 유저와 접촉하면 화상채팅이 가능합니다!
 ## 팀
 
-(팀원 이미지 넣기)
+<p align="center"><img src="  https://user-images.githubusercontent.com/63194662/215084230-363623f1-af5d-4648-8813-3084ca4339fb.png "  height="80%" width="80%"></p>
+
+
 
