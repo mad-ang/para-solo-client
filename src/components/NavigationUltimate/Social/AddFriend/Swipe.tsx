@@ -116,6 +116,7 @@ function Swipe(props) {
           spaceBetween={10}
           slidesPerView={1}
           loop={true}
+          allowTouchMove={false}
           // onSlideChange={(swiper) => {
           //   setPlayerIndex(swiper.activeIndex);
           // }}
