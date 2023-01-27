@@ -1,22 +1,22 @@
-# Parasoslo
-## Team notion
+## Parasoslo
+<p align="center"><img src="https://user-images.githubusercontent.com/63194662/215085258-9b000e84-7255-4c2c-97da-d6248741c2ce.png"  height="80%" width="80%"></p>
 
+### Team notion
 [노션링크](https://axiomatic-door-0e4.notion.site/MAD-ANG-bb54dbd01cdb442d8a4475358efc41c4)
 
-## Project Archiving
+### Project Archiving
 [데모영상](https://www.youtube.com/watch?v=GIqwV3EVYGA)
 
-<br>
 
 ## Install
 
 클라이언트와 서버에서 각각 다음 커맨드 입력
 
-### Server
+#### Server
 ```
 yarn && yarn start
 ```
-### Client
+#### Client
 ```
 yarn && yarn dev
 ```
@@ -26,31 +26,33 @@ yarn && yarn dev
 
 ### Friend Request
 
+파라솔로에서 새로운 친구를 사귀어보세요
+
 <div align="center">
   <img src=" https://user-images.githubusercontent.com/63194662/215083536-3ab279b0-5d29-4bba-88c3-1678a352d0a6.png "  height="30%" width="30%">
   <img src=" https://user-images.githubusercontent.com/63194662/215083449-f50f9c8d-63d0-45c1-bcbb-9802749ddafe.png "  height="30%" width="30%">
 </div>
 
 ### DM(Direct Message)
+파라솔로에서 1:1 다이렉트 메시지를 보내보세요
 <p align="center"><img src="https://user-images.githubusercontent.com/63194662/215083337-3df4e87d-23a5-456d-8367-57c2613b9cd4.png"  height="50%" width="50%"></p>
 
-### Media Control
-![mediaControllImg]()
-
 ### Public Chat
+마을에서 친구를 찾아보세요
 <p align="center"><img src="https://user-images.githubusercontent.com/63194662/215084245-1ad026de-dc5b-41dd-b328-93afebab8476.png"  height="50%" width="50%"></p>
 
 
 ### Interactive Object
-
+의자나 파라솔 아래에 앉아보세요
 <p align="center"><img src=" https://user-images.githubusercontent.com/63194662/215080967-5d58d381-379e-4f91-8c48-5649ed2ca8f5.png "  height="50%" width="50%"></p>
 
 
 ### Talk
-
-<p align="center"><img src=" https://user-images.githubusercontent.com/63194662/215080351-ae944864-f08a-49c5-8467-df3826abe527.png "  height="50%" width="50%"></p>
+파라솔 아래 Private한 화상채팅을 즐겨보세요
+<p align="center"><img src=" https://user-images.githubusercontent.com/63194662/215080351-ae944864-f08a-49c5-8467-df3826abe527.png "  height="70%" width="70%"></p>
 
 ### Payment
+부족한 코인을 충전 해 보세요
 <p align="center"><img src="  https://user-images.githubusercontent.com/63194662/215080560-ccd8ca4c-e617-4430-bde3-7118fd8e60b5.png"  height="50%" width="50%"></p>
 
 ## How to use
