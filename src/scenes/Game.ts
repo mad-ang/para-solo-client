@@ -210,6 +210,7 @@ export default class Game extends Phaser.Scene {
       indoorsImage,
     ]);
 
+    // 애니메이션 이미지만 따로 배열에 담아서 forEach로 돌림
     const buildingAnimationImages = [
       boat1Image,
       campfire2Image,
