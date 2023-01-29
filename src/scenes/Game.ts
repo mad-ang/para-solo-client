@@ -180,6 +180,10 @@ export default class Game extends Phaser.Scene {
     const fencesLayer = this.map.createLayer('fences', interiorImage);
 
     const logoLayer = this.map.createLayer('logo', logoImage);
+
+    // 버전 3.x 이후 createDynamicLayer 함수가 deprecated
+    // createLayer 함수가 Dynamic 렌더링도 모두 지원
+    // 따라서 createLayer에 애니메이션 속성을 가진 이미지를 추가하면 애니메이션 레이어가 생성됨
     const buildingsLayer = this.map.createLayer('buildings', [
       boat1Image,
       ModernExteriorsCompleteImage,
@@ -223,7 +227,7 @@ export default class Game extends Phaser.Scene {
       clothesImage,
       busDoorImage,
     ];
-    let i = 0;
+    // let i = 0;
     buildingAnimationImages.forEach((imageSet) => {
       const tileData = imageSet.tileData as any;
       for (let tileid in tileData) {
@@ -236,7 +240,7 @@ export default class Game extends Phaser.Scene {
                   new AnimatedTile(tile, tileData[tileid].animation, imageSet.firstgid)
                 );
               }
-              i++;
+              // i++;
             });
           });
         });
@@ -256,11 +260,13 @@ export default class Game extends Phaser.Scene {
       modernExteriorsImage,
       clothesImage,
     ]);
-    let j = 0;
+    // let j = 0;
     const foregroundAnimationImage = [billboardImage];
+
+
     foregroundAnimationImage.forEach((imageSet) => {
       const tileData = imageSet.tileData as any;
-
+      
       for (let tileid in tileData) {
         this.map.layers.forEach((layer) => {
           if (layer.tilemapLayer?.type === 'StaticTilemapLayer') return;
@@ -271,7 +277,7 @@ export default class Game extends Phaser.Scene {
                   new AnimatedTile(tile, tileData[tileid].animation, imageSet.firstgid)
                 );
               }
-              j++;
+              // j++;
             });
           });
         });
