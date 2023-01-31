@@ -22,7 +22,7 @@ yarn && yarn start
 yarn && yarn dev
 ```
 ## 🚀포스터
-<p align="center"><img src= "https://user-images.githubusercontent.com/75322004/215857927-53c3f7e4-b285-4823-a472-4cdcc657bfd7.png"  height="50%" width="50%"></p>
+<p align="center"><img src= "https://user-images.githubusercontent.com/75322004/215859985-a55243e5-cbf7-4121-8767-c883d0da010e.jpeg"  height="50%" width="50%"></p>
 
 ## 🚀기능
 <p align="center"><img src="https://user-images.githubusercontent.com/63194662/215079766-a7fc0048-8232-4198-a955-e43576daa1a1.png"  height="80%" width="80%"></p>
