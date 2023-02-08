@@ -17,7 +17,7 @@ export default class chatNetwork {
   constructor() {
     const socketUrl =
       process.env.NODE_ENV === 'production' || import.meta.env.VITE_SERVER === 'PRO'
-        ? `https://${import.meta.env.VITE_SOCKET_SERVER_URL}/sockets/`
+        ? `https://${import.meta.env.VITE_SOCKET_SERVER_URL}`
         : `http://${window.location.hostname}:5002`;
 
     this.socketClient = io(socketUrl, {
