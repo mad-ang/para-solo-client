@@ -34,6 +34,22 @@ export default class chatNetwork {
       });
     });
 
+    this.socketClient.on('updata-room-id', (data) => {
+      console.log('updata-room-id!!!');
+    });
+
+    this.socketClient.on('delete-friend-res', (data) => {
+      console.log('delete-friend-res!!!');
+    });
+
+    this.socketClient.on('request-friend', (data) => {
+      console.log('request-friend!!!');
+    });
+
+    this.socketClient.on('accept-friend', (data) => {
+      console.log('accept-friend!!!');
+    });
+
     this.socketClient.on('accept-friend-res', (data) => {
       fireNotification('[PARA-SOLO] 친구 요청 수락', {
         body: `짝짝짝, ${data}님이 친구 요청을 수락했습니다.`,
