@@ -33,8 +33,8 @@ yarn && yarn dev
 파라솔로에서 새로운 친구를 사귀어보세요
 
 <div align="center">
-  <img src=" https://user-images.githubusercontent.com/63194662/215083536-3ab279b0-5d29-4bba-88c3-1678a352d0a6.png "  height="30%" width="30%">
-  <img src=" https://user-images.githubusercontent.com/63194662/215083449-f50f9c8d-63d0-45c1-bcbb-9802749ddafe.png "  height="30%" width="30%">
+  <img src="https://user-images.githubusercontent.com/63194662/215083536-3ab279b0-5d29-4bba-88c3-1678a352d0a6.png"  height="30%" width="30%">
+  <img src="https://user-images.githubusercontent.com/63194662/215083449-f50f9c8d-63d0-45c1-bcbb-9802749ddafe.png"  height="30%" width="30%">
 </div>
 
 ### 🚀DM(Direct Message)
