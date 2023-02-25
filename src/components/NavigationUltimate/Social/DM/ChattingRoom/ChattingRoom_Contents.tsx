@@ -48,7 +48,6 @@ export default function ChatBubbles(props) {
   useEffect(() => {
     setMessageList((messageList) => [...messageList, newMessage]);
     dispatch(setNewMessageCnt(-1));
-    console.log('messageList', messageList);
   }, [newMessage]);
 
   return (

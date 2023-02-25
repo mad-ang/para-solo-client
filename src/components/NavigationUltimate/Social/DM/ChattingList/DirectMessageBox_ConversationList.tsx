@@ -39,7 +39,7 @@ export const ConversationList = () => {
   
   useEffect(() => {
     fetchRoomList(userId).then((data) => {
-      setRooms(data);
+      data && setRooms(data);
     });
   }, []);
 
@@ -57,8 +57,8 @@ export const ConversationList = () => {
       try {
         dispatch(SetWhichModalActivated(ModalState.ChattingListAndRoom));
         // Response userId
-        dispatch(setFriendId(room.friendInfo.userId));
-        dispatch(setFriendName(room.friendInfo.username));
+        room.friendInfo.userId && dispatch(setFriendId(room.friendInfo.userId));
+        room.friendInfo.username && dispatch(setFriendName(room.friendInfo.username));
         dispatch(setRoomId(room.roomId));
 
         // room의 unreadCount, room.status 설정해준다

@@ -19,44 +19,10 @@ import Bootstrap from '../scenes/Bootstrap';
 import { login } from 'src/api/auth';
 import { AlertToast } from './ToastNotification';
 
-const Wrapper = styled.form`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #222639;
-  border-radius: 16px;
-  padding: 36px 60px;
-  box-shadow: 0px 0px 5px #0000006f;
-`;
-
-const Title = styled.h3`
-  margin: 5px;
-  text-align: center;
-  font-size: 24px;
-  color: #eee;
-`;
-
-const Content = styled.div`
-  display: flex;
-
-  gap: 20px;
-  margin: 20px 0;
-  align-items: center;
-  justify-content: center;
-`;
-
-const EntryButton = styled(Button)`
-  width: 120px;
-`;
-
 export default function SignUpDialog() {
   const dispatch = useAppDispatch();
-
   const [showPassword, setShowPassword] = React.useState(false);
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
@@ -64,7 +30,6 @@ export default function SignUpDialog() {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [pwFieldEmpty, setPwFieldEmpty] = useState<boolean>(false);
-
   const [userIdFieldEmpty, setUserIdFieldEmpty] = useState<boolean>(false);
   const [userIdFieldWrong, setUserIdFieldWrong] = useState<boolean>(false);
   const [failSignup, setFailSignup] = useState<boolean>(false);
@@ -214,3 +179,36 @@ export default function SignUpDialog() {
     </>
   );
 }
+
+
+const Wrapper = styled.form`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #222639;
+  border-radius: 16px;
+  padding: 36px 60px;
+  box-shadow: 0px 0px 5px #0000006f;
+`;
+
+const Title = styled.h3`
+  margin: 5px;
+  text-align: center;
+  font-size: 24px;
+  color: #eee;
+`;
+
+const Content = styled.div`
+  display: flex;
+
+  gap: 20px;
+  margin: 20px 0;
+  align-items: center;
+  justify-content: center;
+`;
+
+const EntryButton = styled(Button)`
+  width: 120px;
+`;
+

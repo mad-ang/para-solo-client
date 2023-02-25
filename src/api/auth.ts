@@ -11,7 +11,7 @@ export const logout = () => {
   window.location.href = '/';
 };
 
-export const issueAccessToken = async (body: any): Promise<any> => {
+export const issueAccessToken = async (body: object) => {
   try {
     const response = await axios.post('/auth/issueAccessToken', body, {
       withCredentials: true,
@@ -31,7 +31,7 @@ export const issueAccessToken = async (body: any): Promise<any> => {
 };
 
 // 사용자 정보 요청
-export const getUserInfo = async (next?: any): Promise<any> => {
+export const getUserInfo = async (): Promise<any> => {
   const response = await axios.get('/auth/me');
   const { data } = response;
   if (response.status == 200) {
@@ -63,7 +63,7 @@ export const getUserInfo = async (next?: any): Promise<any> => {
 };
 
 // 로그인
-export const login = async (body: any): Promise<any> => {
+export const login = async (body: LoginRequest): Promise<any> => {
   try {
     const response = await axios.post('/auth/login', body, {
       withCredentials: true,
@@ -78,7 +78,7 @@ export const login = async (body: any): Promise<any> => {
     }
     return response.data;
   } catch (error) {
-    return null;
+    console.error(error);
   }
 };
 
@@ -114,6 +114,7 @@ export const authenticateUser = async (): Promise<any> => {
           'Content-type': 'application/json',
         },
       });
+
       const { data } = response2;
       if (response2.status == 200) {
         return data.payload;
@@ -166,3 +167,8 @@ export const updateUserInfo = async (body): Promise<any> => {
 
   return null;
 };
+
+export interface LoginRequest {
+  userId: string;
+  password: string;
+}

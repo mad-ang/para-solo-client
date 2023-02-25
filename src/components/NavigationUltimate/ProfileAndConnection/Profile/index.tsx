@@ -41,8 +41,7 @@ function ProfileEditModal() {
   const dispatch = useAppDispatch();
   let refIndex = 0;
   const focused = useAppSelector((state) => state.chat.focused);
-
-  const inputRefs = useRef<any>([]);
+  const inputRefs = useRef<any[]>([]);
   const imgRef = useRef<HTMLImageElement>(null);
   function handleClick() {
     dispatch(SetWhichModalActivated(ModalState.None));
@@ -109,8 +108,6 @@ function ProfileEditModal() {
     }
 
     const newUserInfo :UserResponseDto = {
-      userId: '', //unused
-      username: '', //unused
       profileImgUrl: userProfileImg === DefaultAvatar ? '' : userProfileImg,
       gender: gender,
       age: age,
@@ -187,13 +184,14 @@ function ProfileEditModal() {
           ) : (
             <div className="personal-image">
               <ProfileAvatarImage
+                //@ts-ignore
                 crossorigin={'use-credentials'}
                 ref={imgRef}
                 src={userProfileImg}
                 className="personal-avatar"
                 alt="avatar"
                 onError={() => {
-                  if (imgRef.current) return (imgRef.current.src! = DefaultAvatar);
+                  if (imgRef.current) return (imgRef.current.src = DefaultAvatar);
                 }}
               />
             </div>

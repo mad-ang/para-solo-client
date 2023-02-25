@@ -1,91 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
-import { useAppSelector, useAppDispatch } from '../hooks';
-import { ToastContainer, toast } from 'react-toastify';
+import { useAppDispatch } from '../hooks';
+import {LoginRequest} from 'src/api/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '@mui/material/Button';
-import axios from 'axios';
 import {
   ENTERING_PROCESS,
   setEnteringProcess,
   setAccessToken,
   setUserId as setStoreUserId,
 } from '../stores/UserStore';
-
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import phaserGame from '../PhaserGame';
-import Game from 'src/scenes/Game';
-
 import Bootstrap from '../scenes/Bootstrap';
-import { constants } from 'buffer';
 import { login } from 'src/api/auth';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
 import { AlertToast } from './ToastNotification';
 
-const Wrapper = styled.form`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #222639;
-  border-radius: 16px;
-  padding: 36px 60px;
-  box-shadow: 0px 0px 5px #0000006f;
-`;
 
-const Title = styled.h3`
-  margin: 5px;
-  text-align: center;
-  font-size: 24px;
-  color: #eee;
-`;
-const Content = styled.div`
-  display: flex;
-  gap: 20px;
-  margin: 20px 0;
-  align-items: center;
-  justify-content: center;
-`;
-
-function SignedUpToast() {
-  return (
-    <ToastContainer
-      position="top-center"
-      autoClose={3000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light"
-    />
-  );
-}
-
-const EntryButton = styled(Button)`
-  width: 100px;
-`;
 
 export default function SignInDialog() {
-  const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
-
-  // useEffect(() => {
-  //   dispatch(setSignedUp(false));
-  // }, []);
-
   const dispatch = useAppDispatch();
-
   const [showPassword, setShowPassword] = React.useState(false);
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
@@ -98,8 +38,6 @@ export default function SignInDialog() {
   const [pwFieldWrong, setPwFieldWrong] = useState<boolean>(false);
   const [failLogin, setFailLogin] = useState<boolean>(false);
   const [failMessage, setFailMessage] = useState<string>('아이디와 비밀번호를 다시 확인해주세요');
-
-  const game = phaserGame.scene.keys.game as Game;
   const goToEntry = (event) => {
     event.preventDefault();
     dispatch(setEnteringProcess(ENTERING_PROCESS.ENTRY));
@@ -113,11 +51,10 @@ export default function SignInDialog() {
         if (password === '') setPwFieldEmpty(true);
         return false;
       } else {
-        const body = {
+        const body: LoginRequest = {
           userId: userId,
           password: password,
         };
-
         const data = await login(body);
 
         if (data?.status == 200) {
@@ -231,3 +168,32 @@ export default function SignInDialog() {
     </>
   );
 }
+
+const EntryButton = styled(Button)`
+  width: 100px;
+`;
+
+const Wrapper = styled.form`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #222639;
+  border-radius: 16px;
+  padding: 36px 60px;
+  box-shadow: 0px 0px 5px #0000006f;
+`;
+
+const Title = styled.h3`
+  margin: 5px;
+  text-align: center;
+  font-size: 24px;
+  color: #eee;
+`;
+const Content = styled.div`
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+  align-items: center;
+  justify-content: center;
+`;

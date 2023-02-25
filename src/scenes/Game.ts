@@ -258,10 +258,6 @@ export default class Game extends Phaser.Scene {
     const foregroundAnimationImage = [billboardImage];
     foregroundAnimationImage.forEach((imageSet) => {
       const tileData = imageSet.tileData;
-
-      console.log("debugging27....")
-      console.log(typeof tileData)
-      console.log(tileData)
       
       for (const tileId in tileData) {
         this.map.layers.forEach((layer) => {

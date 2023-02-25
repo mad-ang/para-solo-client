@@ -1,16 +1,13 @@
 import react from 'react';
-import Connection from './Connection';
 import styled from 'styled-components';
 import Colors from 'src/utils/Colors';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import MusicOffIcon from '@mui/icons-material/MusicOff';
-import React, { useRef, useState, useEffect } from 'react';
-import { truncate } from 'fs';
+import React, { useState, useEffect } from 'react';
 import BgmSrc from 'src/assets/music/BGM1.mp3';
 
 export default function () {
   const [BGMstate, setBGMstate] = useState<boolean>(true);
-  // const audioRef = useRef(new Audio());
   const [audio] = useState<HTMLAudioElement | null>(
     typeof Audio === 'undefined' ? null : new Audio(BgmSrc)
   );

@@ -14,6 +14,7 @@ export default function NavigationContainer() {
   const ActivatedNav = useAppSelector((state) => state.nav.currentState);
   const [width, setWidth] = useState(window.innerWidth);
   const inputRef = useRef<HTMLInputElement>(null);
+  
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Escape') {
       inputRef.current?.blur();
@@ -27,6 +28,7 @@ export default function NavigationContainer() {
     }
   };
 
+  //hook for calculating window size(for responsive)
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
