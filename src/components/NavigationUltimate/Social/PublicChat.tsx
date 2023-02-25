@@ -118,8 +118,7 @@ function Chat() {
     // move focus back to the game
     inputRef.current?.blur();
 
-    let val = inputValue.trim();
-    val = censor(val);
+    const val = censor(inputValue.trim());
     setInputValue('');
     if (val) {
       game.network.addChatMessage(val);

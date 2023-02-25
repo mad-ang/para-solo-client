@@ -11,7 +11,7 @@ import { io, Socket } from 'socket.io-client';
 import { ServerToClientEvents, ClientToServerEvents, IChatRoomStatus } from 'src/api/chat';
 import styled from 'styled-components';
 import Colors from 'src/utils/Colors';
-
+import { censor } from 'src/utils/censor';
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
 
@@ -25,7 +25,8 @@ export default function BottomAppBar(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const Rvalue = value.trim();
+    const Rvalue = censor(value.trim());
+
     if (Rvalue === '') {
       setValue('');
       return;
@@ -47,74 +48,77 @@ export default function BottomAppBar(props) {
 
   return (
     <DMbottom>
-
-{roomStatus === IChatRoomStatus.TERMINATED ? <TextField
-        onFocus={() => {
-          if (!focused) {
-            dispatch(setFocused(true));
-          }
-        }}
-        onBlur={() => {
-          dispatch(setFocused(false));
-        }}
-        
-        value={value}
-        fullWidth
-        margin="dense"
-        id="outlined-multiline-static"
-        label="메시지를 보낼 수 없어요"
-        multiline
-        maxRows={2}
-        onChange={(event) => {
-          setValue(event.target.value);
-        }}
-        onKeyDown={handleOnKeyDown}
-        InputProps={{style: {fontFamily: 'Ycomputer-Regular', color: 'black', backgroundColor: `${Colors.skyblue[2]}`},
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton color="primary" sx={{ p: '10px' }} onClick={handleSubmit} edge="end">
-                <SendIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-        disabled/> :  <TextField
-
-        onFocus={() => {
-          if (!focused) {
-            dispatch(setFocused(true));
-          }
-        }}
-        onBlur={() => {
-          dispatch(setFocused(false));
-        }}
-        value={value}
-        fullWidth
-        margin="dense"
-        id="outlined-multiline-static"
-        label="메세지 보내기"
-        multiline
-        maxRows={2}
-        onChange={(event) => {
-          setValue(event.target.value);
-        }}
-        onKeyDown={handleOnKeyDown}
-        InputProps={{
-          style: { fontFamily: 'Ycomputer-Regular', color: 'black' },
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton color="primary" sx={{ p: '10px' }} onClick={handleSubmit} edge="end">
-                <SendIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-
-        />}
-     
-  
-        </DMbottom>
-
+      {roomStatus === IChatRoomStatus.TERMINATED ? (
+        <TextField
+          onFocus={() => {
+            if (!focused) {
+              dispatch(setFocused(true));
+            }
+          }}
+          onBlur={() => {
+            dispatch(setFocused(false));
+          }}
+          value={value}
+          fullWidth
+          margin="dense"
+          id="outlined-multiline-static"
+          label="메시지를 보낼 수 없어요"
+          multiline
+          maxRows={2}
+          onChange={(event) => {
+            setValue(event.target.value);
+          }}
+          onKeyDown={handleOnKeyDown}
+          InputProps={{
+            style: {
+              fontFamily: 'Ycomputer-Regular',
+              color: 'black',
+              backgroundColor: `${Colors.skyblue[2]}`,
+            },
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton color="primary" sx={{ p: '10px' }} onClick={handleSubmit} edge="end">
+                  <SendIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          disabled
+        />
+      ) : (
+        <TextField
+          onFocus={() => {
+            if (!focused) {
+              dispatch(setFocused(true));
+            }
+          }}
+          onBlur={() => {
+            dispatch(setFocused(false));
+          }}
+          value={value}
+          fullWidth
+          margin="dense"
+          id="outlined-multiline-static"
+          label="메세지 보내기"
+          multiline
+          maxRows={2}
+          onChange={(event) => {
+            setValue(event.target.value);
+          }}
+          onKeyDown={handleOnKeyDown}
+          InputProps={{
+            style: { fontFamily: 'Ycomputer-Regular', color: 'black' },
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton color="primary" sx={{ p: '10px' }} onClick={handleSubmit} edge="end">
+                  <SendIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      )}
+    </DMbottom>
   );
 }
 
