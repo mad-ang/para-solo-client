@@ -1,15 +1,10 @@
-import react, { useEffect } from 'react';
+import react from 'react';
 import styled from 'styled-components';
 import MicIcon from '@mui/icons-material/Mic';
 import MicOffIcon from '@mui/icons-material/MicOff';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
-import store from 'src/stores';
-import { setVideoConnected } from 'src/stores/UserStore';
 import { useAppSelector } from 'src/hooks';
-import { Audiotrack } from '@mui/icons-material';
-import WebRTC from 'src/web/WebRTC';
-import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
 import Bootstrap from 'src/scenes/Bootstrap';
 import Colors from 'src/utils/Colors';

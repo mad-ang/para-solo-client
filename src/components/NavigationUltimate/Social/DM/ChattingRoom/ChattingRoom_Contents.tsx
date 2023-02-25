@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ChatFeed, Message } from 'react-chat-ui';
+import { ChatFeed } from 'react-chat-ui';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import styled from 'styled-components';
-import { io, Socket } from 'socket.io-client';
-import { ServerToClientEvents, ClientToServerEvents } from 'src/api/chat';
-import chatNetwork from 'src/services/Network2';
 import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
-// import {DMSlice} from 'src/stores/DMboxStore';
 import { Colors } from 'src/utils/Colors';
-import { color } from '@mui/system';
-import { setNewMessage, setNewMessageCnt } from 'src/stores/DMboxStore';
-import { IChatRoomStatus } from 'src/api/chat';
+import { setNewMessageCnt } from 'src/stores/DMboxStore';
 const Wrapper = styled.div`
   height: 450px;
   width: 370px;
@@ -26,7 +20,6 @@ export default function ChatBubbles(props) {
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userId = useAppSelector((state) => state.user.userId);
   const newMessage = useAppSelector((state) => state.dm.newMessage);
-  const roomStatus = useAppSelector((state) => state.dm.dmProcess);
   // const unread = useAppSelector((state) => state.dm.newMessageCnt);
 
   // 기존 메세지 리스트 -> 삭제 예정

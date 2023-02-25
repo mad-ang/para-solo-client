@@ -6,7 +6,7 @@ import {
   // IWhiteboard,
 } from '../types/ITownState';
 import { Message } from '../types/Messages';
-import { IRoomData, RoomType } from '../types/Rooms';
+import { RoomType } from '../types/Rooms';
 import { ItemType } from '../types/Items';
 import WebRTC from '../web/WebRTC';
 import { phaserEvents, Event } from '../events/EventCenter';
@@ -23,7 +23,6 @@ import {
   pushPlayerJoinedMessage,
   pushPlayerLeftMessage,
 } from '../stores/ChatStore';
-import { useAppSelector } from '../hooks';
 import Cookies from 'universal-cookie';
 import { UserResponseDto } from 'src/api/chat';
 const cookies = new Cookies();

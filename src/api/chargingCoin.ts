@@ -1,7 +1,4 @@
 import axios from 'axios';
-import { AxiosResponse } from 'axios';
-import { UserResponseDto } from './chat';
-
 // 친구 추가 요청
 export const paypalReq = async () => {
   try {

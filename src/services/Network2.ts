@@ -1,10 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { io, Socket } from 'socket.io-client';
-import { phaserEvents, Event } from 'src/events/EventCenter';
-import { ServerToClientEvents, ClientToServerEvents } from 'src/api/chat';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
-
-import { ChatFeed, Message } from 'react-chat-ui';
 import store from '../stores';
 import { setNewMessageCnt, setNewMessage, setRequestFriendCnt } from 'src/stores/DMboxStore';
 import Cookies from 'universal-cookie';

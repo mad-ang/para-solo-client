@@ -1,7 +1,4 @@
 import axios from 'axios';
-import { AxiosResponse } from 'axios';
-import phaserGame from '../PhaserGame';
-import Bootstrap from '../scenes/Bootstrap';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 

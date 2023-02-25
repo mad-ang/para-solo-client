@@ -20,6 +20,7 @@ export const addFriendReq = async (body: any) => {
           return 3;
         }
       } else {
+        console.log('서버에러');
       }
     }
   } catch (error) {

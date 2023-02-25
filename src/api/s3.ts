@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { AxiosResponse } from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 // 이미지 한개 업로드
 
@@ -10,7 +9,6 @@ export const addImage = async (albumName: string, files: any) => {
 
   try {
     const file = files[0];
-    const originalFileName = file.name;
     const originalFiletype = file.type.split('/')[1];
     const fileName = uuidv4();
     const albumPhotoKey = encodeURIComponent(albumName);

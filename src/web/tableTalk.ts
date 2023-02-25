@@ -3,7 +3,6 @@ import store from '../stores';
 import { setMyStream, addVideoStream, removeVideoStream } from '../stores/tableStore';
 import phaserGame from '../PhaserGame';
 import Game from '../scenes/Game';
-import Network from 'src/services/Network';
 
 export default class TableTalkManager {
   private myPeer: Peer;

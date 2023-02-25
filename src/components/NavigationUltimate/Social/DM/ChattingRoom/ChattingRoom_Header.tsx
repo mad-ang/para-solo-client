@@ -1,13 +1,7 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
-import CloseIcon from '@mui/icons-material/Close';
-import { setShowDM } from 'src/stores/DMboxStore';
 import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
 import styled from 'styled-components';
 import Colors from 'src/utils/Colors';
@@ -20,8 +14,6 @@ export default function HeadAppBar() {
   const game = phaserGame.scene.keys.game as Game;
   const dispatch = useAppDispatch();
   const friendName = useAppSelector((state) => state.dm.friendName);
-  const socketNetwork = game.networt2;
-  const roomId = useAppSelector((state) => state.dm.roomId);
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userId = useAppSelector((state) => state.user.userId) || cookies.get('userId');
 
@@ -76,16 +68,6 @@ const DMtop = styled.div`
   flex-direction: row;
   alsign-items: center;
   justify-content: space-between;
-`;
-const ButtonWrapper = styled.button`
-  background: none;
-  border: none;
-`;
-
-const TitleImage = styled.img`
-  margin-left: 3px;
-  margin-right: 13px;
-  width: 28px;
 `;
 
 const TitleText = styled.div`

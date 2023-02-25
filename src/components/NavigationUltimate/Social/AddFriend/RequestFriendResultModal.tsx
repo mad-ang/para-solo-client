@@ -1,9 +1,9 @@
-import react, { useEffect, useState, useRef } from 'react';
+import react, { useState } from 'react';
 import styled from 'styled-components';
 import ClearIcon from '@mui/icons-material/Close';
 import Colors from 'src/utils/Colors';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { PayPalButtons } from '@paypal/react-paypal-js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import { setUserCoin } from 'src/stores/UserStore';

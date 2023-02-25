@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import DMboxSVG from '../../../assets/directmessage/DM.svg';
+import React from 'react';
+import styled from 'styled-components';
 import ClearIcon from '@mui/icons-material/Clear';
-import { useNavigate } from 'react-router-dom';
 import Colors from 'src/utils/Colors';
-import { InsideChattingRoom } from '../ChattingRoom/ChattingRoom';
-import { useAppSelector, useAppDispatch } from '../../../../../hooks';
+import { useAppDispatch } from '../../../../../hooks';
 import { ModalState, SetWhichModalActivated } from '../../../../../stores/NavbarStore';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
 
@@ -38,16 +35,6 @@ const TitleText = styled.div`
   font-size: 23px;
 `;
 
-const TopController = styled.div`
-  background: ${Colors.skyblue[1]};
-  display: flex;
-  height: 60px;
-  flex-direction: row;
-  alsign-items: center;
-  justify-content: space-between;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
-`;
 const DirtyTalk = styled.div`
   display: flex;
   justify-content: flex-start;

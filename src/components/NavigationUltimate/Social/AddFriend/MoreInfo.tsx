@@ -1,17 +1,15 @@
 import react, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import { useAppSelector, useAppDispatch } from 'src/hooks';
+import { useAppSelector } from 'src/hooks';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Colors from 'src/utils/Colors';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import ClearIcon from '@mui/icons-material/Close';
-import ParasolImg from 'src/assets/directmessage/parasol.png';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 function MoreInfoModal(props) {
-  const dispatch = useAppDispatch();
   const [otherPlayers, setOtherPlayers] = useState<any>();
   const imgRef = useRef<any>(null);
 
