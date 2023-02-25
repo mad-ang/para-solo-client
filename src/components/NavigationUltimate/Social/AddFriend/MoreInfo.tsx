@@ -1,21 +1,17 @@
 import react, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useAppSelector } from 'src/hooks';
-import phaserGame from 'src/PhaserGame';
-import Game from 'scenes/Game';
 import Colors from 'src/utils/Colors';
+import { IPlayer } from 'src/types/ITownState';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import ClearIcon from '@mui/icons-material/Close';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 function MoreInfoModal(props) {
-  const [otherPlayers, setOtherPlayers] = useState<any>();
+  const [otherPlayers, setOtherPlayers] = useState<IPlayer[]>();
   const imgRef = useRef<any>(null);
 
   const [playerNum, setPlayerNum] = useState<number>(0);
-
-  const game = phaserGame.scene.keys.game as Game;
   const players = useAppSelector((state) => state.room.players);
 
   function handleClick() {

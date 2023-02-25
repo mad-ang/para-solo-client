@@ -10,7 +10,6 @@ import { pushPlayerJoinedMessage } from '../stores/ChatStore';
 import { ItemType } from '../types/Items';
 import { NavKeys } from '../types/KeyboardState';
 import Chair from '../items/Chair';
-import OtherPlayer from './OtherPlayer';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Cookies from 'universal-cookie';

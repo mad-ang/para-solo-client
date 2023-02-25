@@ -14,12 +14,11 @@ export const createRoom = (param: CreateRoomRequest) => {
       console.error(error);
     });
 };
-
 // 현재 채팅방 목록을 가져옴
-export const fetchRoomList = async (userId: string): Promise<any> => {
+export const fetchRoomList = async (userId: string) => {
   try {
     const cookieUserId = cookies.get('userId');
-    const response = await axios.post(`/chat/roomList`, { userId: userId || cookieUserId });
+    const response = await axios.post<RoomListResponseWithStatus>(`/chat/roomList`, { userId: userId || cookieUserId });
     return response.data.payload;
   } catch (error) {
     console.error(error);
@@ -47,10 +46,15 @@ interface Response<T> {
 }
 export type ApiResponse<T> = AxiosResponse<Response<T>>;
 
+interface RoomListResponseWithStatus{
+  status: number;
+  payload: Array<RoomListResponse>;
+}
+
 // 플레이어에게 매핑되는 유저 정보 타입
 export interface UserResponseDto {
-  userId?: string;
-  username?: string;
+  userId: string;
+  username: string;
   profileImgUrl?: string;
   height?: string;
   gender?: string;
@@ -87,13 +91,13 @@ export interface CreateRoomResponse {
 }
 
 export interface RoomListResponse {
-  _id?: string;
+  _id: string;
   myInfo: UserResponseDto;
   friendInfo: UserResponseDto;
   message: string;
   status: IChatRoomStatus;
   roomId: string;
-  unreadCount?: number;
+  unreadCount: number;
   updatedAt: Date | null;
 }
 

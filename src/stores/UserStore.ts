@@ -1,10 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { sanitizeId } from '../util';
 import { BackgroundMode } from '../types/BackgroundMode';
-
 import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
-import { StreamTwoTone } from '@mui/icons-material';
 import Cookies from 'universal-cookie';
 import { UserResponseDto } from 'src/api/chat';
 const cookies = new Cookies();

@@ -37,7 +37,7 @@ export default function FriendRequest(props) {
       const response = await axios.post('/chat/acceptFriend', body);
       const { status, data } = response;
       if (status === 200) {
-        if (body.isAccept) game.networt2.acceptFriendReq(body);
+        if (body.isAccept) game.network2.acceptFriendReq(body);
         return data.payload;
       }
     } catch (error) {

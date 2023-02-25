@@ -9,14 +9,14 @@ import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import Colors from 'src/utils/Colors';
 import InputBase from '@mui/material/InputBase';
 import Select from 'react-select';
-import { infoItemList, Option, genderOptions, ageOptions, heightOptions } from './data';
+import { infoItemList} from './data';
 import { authenticateUser, getUserInfo } from 'src/api/auth';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 import Game from 'src/scenes/Game';
+import { UserResponseDto } from 'src/api/chat';
 import phaserGame from 'src/PhaserGame';
 import {
-  setUserProfile as setStoreUserProfile,
   setUsername as setStoreUsername,
   setUserProfile,
 } from 'src/stores/UserStore';
@@ -24,10 +24,12 @@ import { addImage } from 'src/api/s3';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
 const CameraImg =
   'https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png';
-function ProfileEditModal(props) {
+
+
+function ProfileEditModal() {
   const originalUsername = useAppSelector((state) => state.user.username);
   const originalUserProfile = useAppSelector((state) => state.user.userProfile);
-  const [userProfileImg, setUserProfileImg] = useState<any>(
+  const [userProfileImg, setUserProfileImg] = useState<string>(
     originalUserProfile?.profileImgUrl || DefaultAvatar
   );
   const [editable, setEditable] = useState(false);
@@ -41,7 +43,7 @@ function ProfileEditModal(props) {
   const focused = useAppSelector((state) => state.chat.focused);
 
   const inputRefs = useRef<any>([]);
-  const imgRef = useRef<any>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
   function handleClick() {
     dispatch(SetWhichModalActivated(ModalState.None));
   }
@@ -50,7 +52,7 @@ function ProfileEditModal(props) {
     const files = event?.target?.files;
     if (!files) return;
     const imgUrl = await addImage('profile', files);
-    setUserProfileImg(imgUrl);
+    imgUrl && setUserProfileImg(imgUrl);
   };
 
   const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +108,9 @@ function ProfileEditModal(props) {
       dispatch(setStoreUsername(username));
     }
 
-    let newUserInfo = {
+    const newUserInfo :UserResponseDto = {
+      userId: '', //unused
+      username: '', //unused
       profileImgUrl: userProfileImg === DefaultAvatar ? '' : userProfileImg,
       gender: gender,
       age: age,
@@ -183,7 +187,6 @@ function ProfileEditModal(props) {
           ) : (
             <div className="personal-image">
               <ProfileAvatarImage
-                //@ts-ignore
                 crossorigin={'use-credentials'}
                 ref={imgRef}
                 src={userProfileImg}
@@ -318,7 +321,6 @@ export default function ConnectionStatus() {
     <div>
       <StyledRedBox onClick={openProfile} pressed={ActivatedNav}>
         <BottomProfileImg
-          // src="https://user-images.githubusercontent.com/63194662/211139459-96aa37f8-fcd9-4126-9a6b-52296fc3236c.png"
           src={userprofileImgUrl || DefaultAvatar}
         />
         <ConnectionStatusWithSmallLight /> {/* 유저의 접속상태에 따라 green/gray로 변경 */}

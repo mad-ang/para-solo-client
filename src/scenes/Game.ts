@@ -1,5 +1,4 @@
 import { createCharacterAnims } from '../anims/CharacterAnims';
-
 import Item from '../items/Item';
 import Chair from '../items/Chair';
 import '../characters/MyPlayer';
@@ -20,7 +19,7 @@ import { AnimatedTile } from 'src/anims/AnimatedTile';
 
 export default class Game extends Phaser.Scene {
   network!: Network;
-  networt2!: Network2;
+  network2!: Network2;
   private cursors!: NavKeys;
   private keyE!: Phaser.Input.Keyboard.Key;
   private keyR!: Phaser.Input.Keyboard.Key;
@@ -53,11 +52,11 @@ export default class Game extends Phaser.Scene {
     this.keyR = this.input.keyboard.addKey('R');
     this.keySpace = this.input.keyboard.addKey('Space');
     this.input.keyboard.disableGlobalCapture();
-    this.input.keyboard.on('keydown-ENTER', (event) => {
+    this.input.keyboard.on('keydown-ENTER', () => {
       store.dispatch(setShowChat(true));
       store.dispatch(setFocused(true));
     });
-    this.input.keyboard.on('keydown-ESC', (event) => {
+    this.input.keyboard.on('keydown-ESC', () => {
       store.dispatch(setShowChat(false));
     });
   }
@@ -76,12 +75,12 @@ export default class Game extends Phaser.Scene {
     chairLayer: Phaser.Tilemaps.ObjectLayer,
     lastChairIdx: number,
     lastTableIdx: number,
-    talbePerChair: number
+    tablePerChair: number
   ) => {
     let currentChairIdx = lastChairIdx;
     chairLayer.objects.forEach((obj, i) => {
       const item = this.addObjectFromTiled(chairs, obj, 'chairs', 'chairs') as Chair;
-      const tableId = `${Math.floor(i / talbePerChair) + lastTableIdx}`;
+      const tableId = `${Math.floor(i / tablePerChair) + lastTableIdx}`;
       const chairId = `${currentChairIdx++}`;
 
       // item.setDepth(item.y + item.height * 0.27);
@@ -91,7 +90,7 @@ export default class Game extends Phaser.Scene {
       this.tableMap.set(tableId, item);
       this.chairMap.set(chairId, item);
     });
-    lastTableIdx = lastTableIdx + Math.floor((currentChairIdx - lastChairIdx) / talbePerChair);
+    lastTableIdx = lastTableIdx + Math.floor((currentChairIdx - lastChairIdx) / tablePerChair);
     lastChairIdx = currentChairIdx;
     return { lastChairIdx, lastTableIdx };
   };
@@ -101,14 +100,12 @@ export default class Game extends Phaser.Scene {
       throw new Error('server instance missing');
     } else {
       this.network = data.network;
-      this.networt2 = data.network2;
+      this.network2 = data.network2;
     }
 
     createCharacterAnims(this.anims);
 
     this.map = this.make.tilemap({ key: 'tilemap' });
-
-    const logoImage = this.map.addTilesetImage('logo', 'logo');
 
     const interiorImage = this.map.addTilesetImage('interior', 'interior');
 
@@ -167,7 +164,7 @@ export default class Game extends Phaser.Scene {
     const birdImage = this.map.addTilesetImage('bird', 'bird');
     const flowersImage = this.map.addTilesetImage('flowers', 'flowers');
 
-    const GroundLayer = this.map.createLayer('ground', [
+    this.map.createLayer('ground', [
       modernExteriorsImage,
       waterToyImage,
       tileImage,
@@ -176,12 +173,10 @@ export default class Game extends Phaser.Scene {
     ]);
     const fencesLayer = this.map.createLayer('fences', interiorImage);
 
-    const logoLayer = this.map.createLayer('logo', logoImage);
-
     // 버전 3.x 이후 createDynamicLayer 함수가 deprecated
     // createLayer 함수가 Dynamic 렌더링도 모두 지원
     // 따라서 createLayer에 애니메이션 속성을 가진 이미지를 추가하면 애니메이션 레이어가 생성됨
-    const buildingsLayer = this.map.createLayer('buildings', [
+    this.map.createLayer('buildings', [
       boat1Image,
       ModernExteriorsCompleteImage,
       clothesImage,
@@ -227,15 +222,15 @@ export default class Game extends Phaser.Scene {
     ];
     // let i = 0;
     buildingAnimationImages.forEach((imageSet) => {
-      const tileData = imageSet.tileData as any;
-      for (let tileid in tileData) {
+      const tileData = imageSet.tileData;
+      for (const tileId in tileData) {
         this.map.layers.forEach((layer) => {
           if (layer.tilemapLayer?.type === 'StaticTilemapLayer') return;
           layer.data.forEach((tileRow) => {
             tileRow.forEach((tile) => {
-              if (tile.index - imageSet.firstgid === parseInt(tileid, 10)) {
+              if (tile.index - imageSet.firstgid === parseInt(tileId, 10)) {
                 this.animatedTiles.push(
-                  new AnimatedTile(tile, tileData[tileid].animation, imageSet.firstgid)
+                  new AnimatedTile(tile, tileData[tileId].animation, imageSet.firstgid)
                 );
               }
               // i++;
@@ -258,21 +253,24 @@ export default class Game extends Phaser.Scene {
       modernExteriorsImage,
       clothesImage,
     ]);
+    
     // let j = 0;
     const foregroundAnimationImage = [billboardImage];
-
-
     foregroundAnimationImage.forEach((imageSet) => {
-      const tileData = imageSet.tileData as any;
+      const tileData = imageSet.tileData;
+
+      console.log("debugging27....")
+      console.log(typeof tileData)
+      console.log(tileData)
       
-      for (let tileid in tileData) {
+      for (const tileId in tileData) {
         this.map.layers.forEach((layer) => {
           if (layer.tilemapLayer?.type === 'StaticTilemapLayer') return;
           layer.data.forEach((tileRow) => {
             tileRow.forEach((tile) => {
-              if (tile.index - imageSet.firstgid === parseInt(tileid, 10)) {
+              if (tile.index - imageSet.firstgid === parseInt(tileId, 10)) {
                 this.animatedTiles.push(
-                  new AnimatedTile(tile, tileData[tileid].animation, imageSet.firstgid)
+                  new AnimatedTile(tile, tileData[tileId].animation, imageSet.firstgid)
                 );
               }
               // j++;
@@ -295,7 +293,6 @@ export default class Game extends Phaser.Scene {
     ]);
 
     const chairs = this.physics.add.staticGroup({ classType: Chair });
-
     const chairs2Layer = this.map.getObjectLayer('object2');
     const chairs3Layer = this.map.getObjectLayer('object3');
     const chairs4Layer = this.map.getObjectLayer('object4');

@@ -16,11 +16,7 @@ export const NavControllerSlice = createSlice({
   initialState: {currentState: ModalState.PublicChat},
   reducers: {
     SetWhichModalActivated : (state, action: PayloadAction<ModalState>) => {
-      // state = action.payload;
-      // return;
-      // return { ...state, currentState: action.payload };
       state.currentState = action.payload;
-
     }
   },
 });

@@ -1,5 +1,5 @@
 import { Schema, ArraySchema, SetSchema, MapSchema } from '@colyseus/schema';
-import { IUserProfile, UserResponseDto } from 'src/api/chat';
+import { IUserProfile } from 'src/api/chat';
 
 export interface IPlayer extends Schema {
   name: string; // 일단 유지

@@ -6,25 +6,20 @@ import Game from 'src/scenes/Game';
 import phaserGame from 'src/PhaserGame';
 import { Colors } from 'src/utils/Colors';
 import { setNewMessageCnt } from 'src/stores/DMboxStore';
-const Wrapper = styled.div`
-  height: 450px;
-  width: 370px;
-`;
+
 
 export default function ChatBubbles(props) {
   const dispatch = useAppDispatch();
   const game = phaserGame.scene.keys.game as Game;
-  const socketNetwork = game.networt2;
-  // 채팅 시작 시 저장되어 있던 채팅 리스트 보여줌
+  const socketNetwork = game.network2;
   const roomId = useAppSelector((state) => state.dm.roomId);
   const friendId = useAppSelector((state) => state.dm.friendId);
   const userId = useAppSelector((state) => state.user.userId);
   const newMessage = useAppSelector((state) => state.dm.newMessage);
-  // const unread = useAppSelector((state) => state.dm.newMessageCnt);
+
 
   // 기존 메세지 리스트 -> 삭제 예정
   const [messageList, setMessageList] = useState<any>([]);
-
   const callbackForJoinRoom = (oldMessages) => {
     setMessageList(oldMessages);
   };
@@ -47,12 +42,13 @@ export default function ChatBubbles(props) {
     setMessageList((messageList) => [...messageList, props.newMessage]);
 
     // 내가 쓴 메세지 서버에 전송
-    game.networt2.sendMessage(body);
+    game.network2.sendMessage(body);
   }, [props.newMessage?.message]);
 
   useEffect(() => {
     setMessageList((messageList) => [...messageList, newMessage]);
     dispatch(setNewMessageCnt(-1));
+    console.log('messageList', messageList);
   }, [newMessage]);
 
   return (
@@ -93,3 +89,8 @@ export default function ChatBubbles(props) {
     </>
   );
 }
+
+const Wrapper = styled.div`
+  height: 450px;
+  width: 370px;
+`;

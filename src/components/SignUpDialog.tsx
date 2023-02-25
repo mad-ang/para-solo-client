@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import axios, { AxiosError } from 'axios';
-import { useAppSelector, useAppDispatch } from '../hooks';
+import axios from 'axios';
+import { useAppDispatch } from '../hooks';
 import {
   ENTERING_PROCESS,
   setEnteringProcess,
@@ -17,9 +17,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
 import { login } from 'src/api/auth';
-import Cookies from 'universal-cookie';
 import { AlertToast } from './ToastNotification';
-const cookies = new Cookies();
 
 const Wrapper = styled.form`
   position: fixed;
@@ -95,7 +93,7 @@ export default function SignUpDialog() {
         setPwFieldEmpty(true);
         return false;
       }
-      let body = {
+      const body = {
         userId: userId,
         password: password,
       };

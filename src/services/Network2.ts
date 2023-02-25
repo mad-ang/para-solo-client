@@ -6,9 +6,19 @@ import { setNewMessageCnt, setNewMessage, setRequestFriendCnt } from 'src/stores
 import Cookies from 'universal-cookie';
 import { fireNotification } from 'src/api/notification';
 const cookies = new Cookies();
+
+interface OldMessage{
+  _id: string;
+  createdAt: number;
+  message: string;
+  receiverId: string;
+  senderId: string;
+  id: number;
+}
+
 export default class chatNetwork {
   private socketClient: Socket;
-  public oldMessages: any[];
+  public oldMessages: OldMessage[];
 
   constructor() {
     const socketUrl =
@@ -39,7 +49,6 @@ export default class chatNetwork {
 
     this.socketClient.on('message', (data) => {
       data.id = 1;
-
       store.dispatch(setNewMessage(data));
       store.dispatch(setNewMessageCnt(1));
     });
@@ -55,7 +64,7 @@ export default class chatNetwork {
     this.socketClient.on('old-messages', (data) => {
       const userId = store.getState().user.userId || cookies.get('userId');
       this.oldMessages = [];
-      data.forEach((element: any) => {
+      data.forEach((element: OldMessage) => {
         if (element.senderId) {
           if (element.senderId === userId) {
             element.id = 0;

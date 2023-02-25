@@ -40,7 +40,7 @@ export default function HeadAppBar() {
           hoverColor={`${Colors.red[1]}`}
           onClick={(event) => {
             event.preventDefault();
-            game.networt2.deleteFriend(userId, friendId);
+            game.network2.deleteFriend(userId, friendId);
             dispatch(SetWhichModalActivated(ModalState.ChattingList));
           }}
         >
