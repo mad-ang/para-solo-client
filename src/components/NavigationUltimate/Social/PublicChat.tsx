@@ -14,14 +14,13 @@ import ChatIcon from '@mui/icons-material/Chat';
 import { Picker } from 'emoji-mart';
 import phaserGame from '../../../PhaserGame';
 import Game from '../../../scenes/Game';
-
 import { getColorByString } from '../../../util';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { MessageType, setFocused, setShowChat, chatSlice } from '../../../stores/ChatStore';
 import { roomSlice } from '../../../stores/RoomStore';
 import { ModalState, SetWhichModalActivated } from '../../../stores/NavbarStore';
 import Colors from 'src/utils/Colors';
-
+import { censor } from 'src/utils/censor';
 const dateFormatter = new Intl.DateTimeFormat('en', {
   timeStyle: 'short',
   dateStyle: 'short',
@@ -61,10 +60,14 @@ const Message = ({ chatMessage, messageType }) => {
               color: getColorByString(chatMessage.author),
             }}
           >
-            {chatMessage.author}: 
-            <span style={{
-              color: 'black',
-            }} >{chatMessage.content}</span>
+            {chatMessage.author}:
+            <span
+              style={{
+                color: 'black',
+              }}
+            >
+              {chatMessage.content}
+            </span>
           </p>
         ) : (
           <p className="notification">
@@ -115,7 +118,8 @@ function Chat() {
     // move focus back to the game
     inputRef.current?.blur();
 
-    const val = inputValue.trim();
+    let val = inputValue.trim();
+    val = censor(val);
     setInputValue('');
     if (val) {
       game.network.addChatMessage(val);
@@ -138,7 +142,7 @@ function Chat() {
   }, [chatMessages, showChat]);
 
   return (
-    <Backdrop className = "PublicChat">
+    <Backdrop className="PublicChat">
       <Wrapper className="wrapper777">
         <ChatHeader>
           <Showusercnt />
@@ -151,7 +155,7 @@ function Chat() {
             }}
             size="small"
           >
-            <CloseIcon sx={{ color: `${Colors.skyblue[2]}` }}/>
+            <CloseIcon sx={{ color: `${Colors.skyblue[2]}` }} />
           </IconButton>
         </ChatHeader>
         <ChatBox>
@@ -196,7 +200,7 @@ function Chat() {
             }}
           />
           <IconButton aria-label="emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-            <InsertEmoticonIcon sx={{ color: `${Colors.skyblue[2]}` }}/>
+            <InsertEmoticonIcon sx={{ color: `${Colors.skyblue[2]}` }} />
           </IconButton>
         </InputWrapper>
       </Wrapper>
@@ -206,22 +210,20 @@ function Chat() {
 
 export default function PublicChat() {
   const dispatch = useAppDispatch();
-  const ActivatedNav = useAppSelector(
-    (state) => state.nav.currentState
-  );
-  
+  const ActivatedNav = useAppSelector((state) => state.nav.currentState);
+
   function handleClick() {
-    if (ActivatedNav == ModalState.PublicChat){
+    if (ActivatedNav == ModalState.PublicChat) {
       dispatch(SetWhichModalActivated(ModalState.None));
-    }
-    else{
+    } else {
       dispatch(SetWhichModalActivated(ModalState.PublicChat));
     }
   }
 
   return (
     <div>
-      <StyledRedBox pressed={ActivatedNav}
+      <StyledRedBox
+        pressed={ActivatedNav}
         onClick={() => {
           handleClick();
         }}
@@ -233,7 +235,6 @@ export default function PublicChat() {
   );
 }
 
-
 /***** CSS *****/
 const Backdrop = styled.div`
   position: fixed;
@@ -243,16 +244,12 @@ const Backdrop = styled.div`
   width: 370px;
   max-height: 50%;
   max-width: 50%;
-  
 `;
 const Wrapper = styled.div`
-
   height: 100%;
   padding: 16px;
   display: flex;
-  flex-direction: column;  
-
-
+  flex-direction: column;
 `;
 const FabWrapper = styled.div`
   margin-top: auto;
@@ -322,16 +319,14 @@ const InputTextField = styled(InputBase)`
   input {
     padding: 5px;
     color: ${Colors.black};
-    
   }
 `;
 const EmojiPickerWrapper = styled.div`
   position: absolute;
   bottom: 54px;
   right: 16px;
-  
 `;
-const StyledRedBox = styled.button<{pressed:ModalState}>`
+const StyledRedBox = styled.button<{ pressed: ModalState }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -339,7 +334,8 @@ const StyledRedBox = styled.button<{pressed:ModalState}>`
   height: 44px;
   border: none;
   border-radius: 30%;
-  background-color: ${(props) => (props.pressed == ModalState.PublicChat ? Colors.skyblue[1] : Colors.indigo)};
+  background-color: ${(props) =>
+    props.pressed == ModalState.PublicChat ? Colors.skyblue[1] : Colors.indigo};
   font-size: 1rem;
   font-weight: 900;
 
