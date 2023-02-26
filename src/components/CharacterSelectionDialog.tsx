@@ -17,15 +17,12 @@ import Kevin from '../images/login/Kevin_login.png';
 import Zoey from '../images/login/Zoey_login.png';
 import Emma from '../images/login/Emma_login.png';
 import { useAppSelector, useAppDispatch } from '../hooks';
-import {
-  ENTERING_PROCESS,
-  setCharacterSelected,
-  setUsername,
-} from '../stores/UserStore';
+import { ENTERING_PROCESS, setCharacterSelected, setUsername } from '../stores/UserStore';
 import { getAvatarString, getColorByString } from '../util';
 import phaserGame from '../PhaserGame';
 import Game from '../scenes/Game';
 import { getUserInfo } from 'src/api/auth';
+import { isCensored } from 'src/utils/censor';
 
 const Wrapper = styled.form`
   position: fixed;
@@ -147,7 +144,7 @@ for (let i = avatars.length - 1; i > 0; i--) {
 export default function CharacterSelectionDialog(props) {
   const [name, setName] = useState<string>(props.player || '');
   const [avatarIndex, setAvatarIndex] = useState<number>(0);
-  const [nameFieldEmpty, setNameFieldEmpty] = useState<boolean>(false);
+  const [nameFieldErrorMsg, setNameFieldErrorMsg] = useState<string>('');
   const dispatch = useAppDispatch();
   const videoConnected = useAppSelector((state) => state.user.videoConnected);
   const enteringProcess = useAppSelector((state) => state.user.enteringProcess);
@@ -158,8 +155,15 @@ export default function CharacterSelectionDialog(props) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (name === '') {
-      setNameFieldEmpty(true);
-    } else if (enteringProcess === ENTERING_PROCESS.CHARACTER_SELECTION) {
+      setNameFieldErrorMsg('이름이 필요해요');
+      return;
+    }
+    if (isCensored(name)) {
+      setNameFieldErrorMsg('적절하지 않은 문자가 포함되어 있습니다');
+      return;
+    }
+
+    if (enteringProcess === ENTERING_PROCESS.CHARACTER_SELECTION) {
       game.registerKeys();
       game.myPlayer.setPlayerName(name);
       game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
@@ -224,8 +228,8 @@ export default function CharacterSelectionDialog(props) {
             label="나의이름"
             variant="outlined"
             color="secondary"
-            error={nameFieldEmpty}
-            helperText={nameFieldEmpty && '이름이 필요해요'}
+            error={!!nameFieldErrorMsg}
+            helperText={nameFieldErrorMsg}
             value={name}
             inputProps={{ maxLength: 10 }}
             onInput={(e) => {
