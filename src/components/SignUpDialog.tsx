@@ -18,6 +18,7 @@ import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
 import { login } from 'src/api/auth';
 import { AlertToast } from './ToastNotification';
+import { isCensored } from 'src/utils/censor';
 
 export default function SignUpDialog() {
   const dispatch = useAppDispatch();
@@ -29,18 +30,35 @@ export default function SignUpDialog() {
 
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
-  const [pwFieldEmpty, setPwFieldEmpty] = useState<boolean>(false);
-  const [userIdFieldEmpty, setUserIdFieldEmpty] = useState<boolean>(false);
-  const [userIdFieldWrong, setUserIdFieldWrong] = useState<boolean>(false);
+  const [pwErrorMsg, setPwErrorMsg] = useState<string>('');
+  const [userIdErrorMsg, setUserIdErrorMsg] = useState<string>('');
+
   const [failSignup, setFailSignup] = useState<boolean>(false);
   const [failMessage, setFailMessage] = useState<string>('회원가입에 실패했습니다');
-  // const onUserIdHandler = (event) => {
-  //   setUserId(event.currentTarget.value);
-  // }
 
-  // const onPasswordHandler = (event) => {
-  //       setPassword(event.currentTarget.value);
-  // }
+  const checkUserId = (userId: string): boolean => {
+    let success = true;
+    setUserIdErrorMsg('');
+    if (!userId || userId.length === 0) {
+      setUserIdErrorMsg('아이디가 필요해요');
+      success = false;
+    } else if (isCensored(userId)) {
+      setUserIdErrorMsg('적절하지 않은 문자가 포함되어 있습니다');
+      success = false;
+    }
+
+    return success;
+  };
+
+  const checkPassword = (password): boolean => {
+    setPwErrorMsg('');
+    if (!password || password.length === 0) {
+      setPwErrorMsg('비밀번호가 필요해요');
+      return false;
+    }
+
+    return true;
+  };
 
   const goToEntry = (event) => {
     event.preventDefault();
@@ -49,15 +67,10 @@ export default function SignUpDialog() {
 
   const handleSubmit = async (): Promise<boolean> => {
     setFailSignup(false);
+
     try {
-      if (!userId || userId.length === 0) {
-        setUserIdFieldEmpty(true);
-        return false;
-      }
-      if (!password || password.length === 0) {
-        setPwFieldEmpty(true);
-        return false;
-      }
+      if (!checkUserId(userId) || !checkPassword(password)) return false;
+
       const body = {
         userId: userId,
         password: password,
@@ -97,10 +110,8 @@ export default function SignUpDialog() {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    setUserIdFieldEmpty(false);
-    setUserIdFieldWrong(false);
-    setPwFieldEmpty(false);
-
+    checkUserId(userId);
+    checkPassword(password);
     handleSubmit();
   };
 
@@ -123,15 +134,18 @@ export default function SignUpDialog() {
           variant="outlined"
           color="secondary"
           margin="normal"
-          error={userIdFieldEmpty || userIdFieldWrong}
-          helperText={
-            (userIdFieldEmpty && '아이디가 필요해요') ||
-            (userIdFieldWrong && '이미 존재하는 아이디입니다.')
-          }
+          error={!!userIdErrorMsg}
+          helperText={userIdErrorMsg}
           inputProps={{ maxLength: 20 }}
           value={userId}
           onInput={(e) => {
             setUserId((e.target as HTMLInputElement).value?.trim());
+          }}
+          onFocus={(e) => {
+            checkUserId((e.target as HTMLInputElement).value?.trim());
+          }}
+          onBlur={(e) => {
+            checkUserId((e.target as HTMLInputElement).value?.trim());
           }}
         />
         <TextField
@@ -140,10 +154,16 @@ export default function SignUpDialog() {
           variant="outlined"
           color="secondary"
           margin="normal"
-          error={pwFieldEmpty}
-          helperText={pwFieldEmpty && '비밀번호가 필요해요'}
+          error={!!pwErrorMsg}
+          helperText={pwErrorMsg}
           onInput={(e) => {
             setPassword((e.target as HTMLInputElement).value);
+          }}
+          onFocus={(e) => {
+            checkPassword((e.target as HTMLInputElement).value?.trim());
+          }}
+          onBlur={(e) => {
+            checkPassword((e.target as HTMLInputElement).value?.trim());
           }}
           onKeyDown={handleKeyDown}
           type={showPassword ? 'text' : 'password'}
@@ -180,7 +200,6 @@ export default function SignUpDialog() {
   );
 }
 
-
 const Wrapper = styled.form`
   position: fixed;
   top: 50%;
@@ -211,4 +230,3 @@ const Content = styled.div`
 const EntryButton = styled(Button)`
   width: 120px;
 `;
-
