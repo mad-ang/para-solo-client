@@ -34,13 +34,6 @@ export const ConversationList = () => {
   const { isLoading, isError, data, error } = useQuery('fetchRoomList', () =>
     fetchRoomList(userId)
   );
-  console.log(isLoading, isError, data, error);
-
-  // useEffect(() => {
-  //   fetchRoomList(userId).then((data) => {
-  //     data && setRooms(data);
-  //   });
-  // }, []);
 
   const handleClick = async (room: RoomListResponse) => {
     if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount == 0) {
