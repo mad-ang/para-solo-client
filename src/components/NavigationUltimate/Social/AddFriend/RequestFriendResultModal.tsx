@@ -1,13 +1,13 @@
-import react, { useEffect, useState, useRef } from 'react';
+import react, { useState } from 'react';
 import styled from 'styled-components';
 import ClearIcon from '@mui/icons-material/Close';
 import Colors from 'src/utils/Colors';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { PayPalButtons } from '@paypal/react-paypal-js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import { setUserCoin } from 'src/stores/UserStore';
-import { chargingCoinReq, paypalReq } from 'src/api/chargingCoin';
+import { chargingCoinReq } from 'src/api/chargingCoin';
 // import CustomizedPaypalButton from './CustomizedPaypalButton';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -22,7 +22,7 @@ export default function RequestFreindResultModal(props) {
   const userCoin = useAppSelector((state) => state.user.userCoin);
 
   async function chargingCoin() {
-    let body = {
+    const body = {
       myInfo: {
         userId: userId,
       },
@@ -37,24 +37,13 @@ export default function RequestFreindResultModal(props) {
     }
   }
 
-  async function paypalModalReq() {
-    try {
-      const result = await paypalReq();
-      if (result === 1) {
-      } else {
-      }
-    } catch (error) {
-      console.error('페이팔 모달창 요청 실패 참조)', error);
-    }
-  }
-
   const handleClick = () => {
     props.setAddFriendResult(0);
   };
 
-  const addfriendResult = props.addFriendResult;
+  const addFriendResult = props.addFriendResult;
 
-  switch (addfriendResult) {
+  switch (addFriendResult) {
     case 1: //친구요청을 성공했을 때
       return (
         <Wrapper className="requestResultWrapper">

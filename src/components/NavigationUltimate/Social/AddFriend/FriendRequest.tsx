@@ -1,4 +1,4 @@
-import react, { useEffect, useState, useRef } from 'react';
+import react, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 // import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
@@ -6,9 +6,6 @@ import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Colors from 'src/utils/Colors';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper';
-import { Button } from '@mui/material';
 import axios from 'axios';
 import { fetchRoomList } from 'src/api/chat';
 import ClearIcon from '@mui/icons-material/Close';
@@ -18,17 +15,10 @@ const cookies = new Cookies();
 
 export default function FriendRequest(props) {
   const dispatch = useAppDispatch();
-  const [otherPlayers, setOtherPlayers] = useState<any>();
   const imgRef = useRef<any>(null);
-  const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
-  const [playerIndex, setPlayerIndex] = useState<number>(0);
-  const [playerNum, setPlayerNum] = useState<number>(0);
   const userId = useAppSelector((state) => state.user.userId) || cookies.get('userId');
   const username = useAppSelector((state) => state.user.username) || cookies.get('playerName');
-  const friendId = useAppSelector((state) => state.dm.friendId);
-  const userCnt = useAppSelector((state) => state.room.userCnt);
   const game = phaserGame.scene.keys.game as Game;
-  const players = Array.from(game?.allOtherPlayers());
 
   async function AcceptRequest(friendId, friendName, status): Promise<any> {
     let body = {
@@ -47,7 +37,7 @@ export default function FriendRequest(props) {
       const response = await axios.post('/chat/acceptFriend', body);
       const { status, data } = response;
       if (status === 200) {
-        if (body.isAccept) game.networt2.acceptFriendReq(body);
+        if (body.isAccept) game.network2.acceptFriendReq(body);
         return data.payload;
       }
     } catch (error) {

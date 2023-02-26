@@ -2,7 +2,7 @@ import react from 'react';
 import styled from 'styled-components';
 import CoinIMG from 'src/assets/navbar/Coin.png';
 import Colors from 'src/utils/Colors';
-import { useAppSelector, useAppDispatch } from 'src/hooks';
+import { useAppSelector} from 'src/hooks';
 
 const UserCoinDialog = () => {
   const userCoin = useAppSelector((state) => state.user.userCoin);

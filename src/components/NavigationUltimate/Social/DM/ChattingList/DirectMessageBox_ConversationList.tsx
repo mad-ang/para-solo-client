@@ -1,56 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import DMboxSVG from '../../../assets/directmessage/DM.svg';
-import channelTalkPNG from '../../../assets/directmessage/channeltalk.png';
-import { useNavigate } from 'react-router-dom';
-import { blue } from '@mui/material/colors';
+import styled from 'styled-components';
 import {
-  DMSlice,
   setFriendId,
   setFriendName,
   setRoomId,
   setNewMessageCnt,
-  setdmProcess,
+  setDmProcess,
   setNewMessage,
 } from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import { SetWhichModalActivated, ModalState } from '../../../../../stores/NavbarStore';
-import { useQuery } from 'react-query';
 import {
-  ApiResponse,
   fetchRoomList,
   RoomListResponse,
   IChatRoomStatus,
   UserResponseDto,
 } from 'src/api/chat';
-import axios from 'axios';
 import FriendRequest from 'src/components/NavigationUltimate/Social/AddFriend/FriendRequest';
 import Colors from 'src/utils/Colors';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import Cookies from 'universal-cookie';
 import { LeftToast } from 'src/components/ToastNotification';
 const cookies = new Cookies();
+
+
 /* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.friendId)에 친구의 userId를 넣어준다  */
 export const ConversationList = () => {
   const [rooms, setRooms] = useState<RoomListResponse[]>([]);
-  const [unreadCnt, setUnreadCnt] = useState(0);
   const [friendRequestModal, setFriendRequestModal] = useState(false);
   const [FriendRequestProps, setFriendRequestProps] = useState<UserResponseDto>(
     {} as UserResponseDto
   );
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.userId) || cookies.get('userId');
-  const friendId = useAppSelector((state) => state.dm.friendId);
   const newMessage = useAppSelector((state) => state.dm.newMessage);
   const newMessageCnt = useAppSelector((state) => state.dm.newMessageCnt);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  
   useEffect(() => {
     fetchRoomList(userId).then((data) => {
-      setRooms(data);
+      data && setRooms(data);
     });
   }, []);
 
-  const handleClick = async (room) => {
+  const handleClick = async (room: RoomListResponse) => {
     if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount == 0) {
       setShowAlert(true);
       setFriendRequestProps(room.friendInfo);
@@ -59,24 +52,25 @@ export const ConversationList = () => {
       setFriendRequestModal(true);
       setFriendRequestProps(room.friendInfo);
 
-      // dispatch(setdmProcess(room.status));
+      // dispatch(setDmProcess(room.status));
     } else {
       try {
         dispatch(SetWhichModalActivated(ModalState.ChattingListAndRoom));
         // Response userId
-        dispatch(setFriendId(room.friendInfo.userId));
-        dispatch(setFriendName(room.friendInfo.username));
+        room.friendInfo.userId && dispatch(setFriendId(room.friendInfo.userId));
+        room.friendInfo.username && dispatch(setFriendName(room.friendInfo.username));
         dispatch(setRoomId(room.roomId));
 
         // room의 unreadCount, room.status 설정해준다
         dispatch(setNewMessageCnt(-1 * room.unreadCount));
         dispatch(setNewMessage({ message: '' }));
-        dispatch(setdmProcess(room.status));
+        dispatch(setDmProcess(room.status));
       } catch (error) {
         console.error('error', error);
       }
     }
   };
+
   return (
     <DMmessageList>
       {showAlert && <LeftToast text={'친구의 수락을 기다리고 있어요!'} />}
@@ -107,7 +101,7 @@ export const ConversationList = () => {
                   alt={room.friendInfo.username}
                   width="60"
                 />
-                <IDwithLastmessage>
+                <IDwithLastMessage>
                   <UserID>{room.friendInfo.username}</UserID>
                   <LastMessageWithBadge>
                     <LastMessage>
@@ -121,7 +115,7 @@ export const ConversationList = () => {
                     </LastMessage>
                     {room.unreadCount! > 0 ? <UnreadCnt>{room.unreadCount}</UnreadCnt> : null}
                   </LastMessageWithBadge>
-                </IDwithLastmessage>
+                </IDwithLastMessage>
               </ListTag>
             );
           })
@@ -162,7 +156,7 @@ const ListTag = styled.li`
   cursor: pointer;
   padding: 5px;
 `;
-const IDwithLastmessage = styled.div`
+const IDwithLastMessage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;

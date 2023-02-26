@@ -1,18 +1,17 @@
 import axios from 'axios';
-import { AxiosResponse } from 'axios';
 import { UserResponseDto } from './chat';
 import phaserGame from 'src/PhaserGame';
 import Game from 'src/scenes/Game';
 // 친구 추가 요청
-export const addFriendReq = async (body: any) => {
+export const addFriendReq = async (body: AddFriendRequestDto) => {
   try {
     const response = await axios.post(`/chat/addFriend`, body);
     if (response) {
-      const { status, payload } = response.data;
+      const {status} = response.data;
       if (response.status === 200) {
         if (status === 200) {
           const game = phaserGame.scene.keys.game as Game;
-          game.networt2.requestFriendReq(body);
+          game.network2.requestFriendReq(body);
           return 1;
         } else if (status === 404) {
           return 2;
@@ -20,6 +19,7 @@ export const addFriendReq = async (body: any) => {
           return 3;
         }
       } else {
+        console.log('서버에러');
       }
     }
   } catch (error) {
@@ -27,29 +27,11 @@ export const addFriendReq = async (body: any) => {
   }
 };
 
-// 현재서버에 있는 유저들의 리스트를 가져옴
-export const fetchFriendsReq = (id: number) => {
-  return axios
-    .get(`/friend/${id}`)
-    .then((response) => {
-      const { payload } = response.data;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
-
-interface Response<T> {
-  data: T;
-  count?: number;
-  msg?: string;
-}
-type ApiResponse<T> = AxiosResponse<Response<T>>;
-
-interface AddFriendRequestDto {
-  my_id: number;
-  friend_id: number;
-  friend_name: string;
+export interface AddFriendRequestDto {
+  myInfo: UserResponseDto;
+  friendInfo: UserResponseDto;
+  status: number;
+  message: string;
 }
 
 // 프로필 변경 요청 시
@@ -71,14 +53,6 @@ export interface UserData {
   friends_list: Array<UserResponseDto>;
   room_list: Array<RoomListResponse>;
 }
-
-// export interface UserResponseDto {
-//   id: number;
-//   user_id: string;
-//   name: string;
-//   status_msg: string;
-//   profile_img_url: string;
-// }
 
 // 서버에서 채팅방 리스트에 대한 정보를 받아올 때
 export interface RoomListResponse {

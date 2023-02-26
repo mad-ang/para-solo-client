@@ -2,12 +2,10 @@ import react from 'react';
 import styled from 'styled-components';
 import React, { useRef, useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import 'emoji-mart/css/emoji-mart.css';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -16,8 +14,7 @@ import phaserGame from '../../../PhaserGame';
 import Game from '../../../scenes/Game';
 import { getColorByString } from '../../../util';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { MessageType, setFocused, setShowChat, chatSlice } from '../../../stores/ChatStore';
-import { roomSlice } from '../../../stores/RoomStore';
+import { MessageType, setFocused } from '../../../stores/ChatStore';
 import { ModalState, SetWhichModalActivated } from '../../../stores/NavbarStore';
 import Colors from 'src/utils/Colors';
 import { censor } from 'src/utils/censor';
@@ -26,12 +23,12 @@ const dateFormatter = new Intl.DateTimeFormat('en', {
   dateStyle: 'short',
 });
 
-function Showusercnt() {
-  const userCnt_fromserver = useAppSelector((state) => state.room.userCnt);
+function ShowUserCnt() {
+  const userCntFromServer = useAppSelector((state) => state.room.userCnt);
 
   return (
     <div>
-      <h3>대화창 (현재 마을에 {userCnt_fromserver} 명이 있어요)</h3>
+      <h3>대화창 (현재 마을에 {userCntFromServer} 명이 있어요)</h3>
     </div>
   );
 }
@@ -99,7 +96,6 @@ function Chat() {
     if (event.key === 'Escape') {
       // move focus back to the game
       inputRef.current?.blur();
-      // dispatch(setShowChat(false));
       dispatch(SetWhichModalActivated(ModalState.None));
     }
   };
@@ -144,13 +140,12 @@ function Chat() {
     <Backdrop className="PublicChat">
       <Wrapper className="wrapper777">
         <ChatHeader>
-          <Showusercnt />
+          <ShowUserCnt />
           <IconButton
             aria-label="close dialog"
             className="close"
             onClick={() => {
               dispatch(SetWhichModalActivated(ModalState.None));
-              // dispatch(setShowChat(false));
             }}
             size="small"
           >
@@ -249,9 +244,6 @@ const Wrapper = styled.div`
   padding: 16px;
   display: flex;
   flex-direction: column;
-`;
-const FabWrapper = styled.div`
-  margin-top: auto;
 `;
 const ChatHeader = styled.div`
   position: relative;

@@ -1,51 +1,38 @@
 import react, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { SetWhichModalActivated, ModalState } from 'src/stores/NavbarStore';
 import { setUserCoin } from 'src/stores/UserStore';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
-import phaserGame from 'src/PhaserGame';
-import Game from 'scenes/Game';
 import Colors from 'src/utils/Colors';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
-import { Button } from '@mui/material';
-import axios from 'axios';
 import { addFriendReq } from 'src/api/friend';
-import { chargingCoinReq } from 'src/api/chargingCoin';
 import ClearIcon from '@mui/icons-material/Close';
-import CloseIcon from '@mui/icons-material/Close';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
 import RequestFreindResultModal from './RequestFriendResultModal';
 import Cookies from 'universal-cookie';
+import {AddFriendRequestDto} from 'src/api/friend';
 import { IPlayer } from 'src/types/ITownState';
 import MoreInfoModal from './MoreInfo';
 const cookies = new Cookies();
 
-function Swipe(props) {
+function Swipe() {
   const dispatch = useAppDispatch();
-  const [otherPlayers, setOtherPlayers] = useState<any>();
+  const [otherPlayers, setOtherPlayers] = useState<IPlayer[]>();
   const imgRef = useRef<any>(null);
-  const [userProfile, setUserProfile] = useState<any>(DefaultAvatar);
-  const [playerIndex, setPlayerIndex] = useState<number>(0);
   const [playerNum, setPlayerNum] = useState<number>(0);
   const [addFriendResult, setAddFriendResult] = useState<number>(0); //0: 친구 요청 전, 1: 친구 요청 성공,  2: 친구 요청 실패(코인충전) 3:이미친구
 
   const myId = useAppSelector((state) => state.user.userId) || cookies.get('userId');
   const myName = useAppSelector((state) => state.user.username);
   const myProfile = useAppSelector((state) => state.user.userProfile);
-  const friendId = useAppSelector((state) => state.dm.friendId);
-  const userCnt = useAppSelector((state) => state.room.userCnt);
-  // const noMoreCoin = useAppSelector((state) => state.user.noMoreCoin);
   const userCoin = useAppSelector((state) => state.user.userCoin);
-  const game = phaserGame.scene.keys.game as Game;
-  // const players = Array.from(game?.allOtherPlayers());
   const players = useAppSelector((state) => state.room.players);
   const [selectedPlayer, setSelectedPlayer] = useState<IPlayer | null>(null);
 
-  async function requestFriend(id, name, targetImgUrl) {
-    let body = {
+  async function requestFriend(id: string, name: string, targetImgUrl: string) {
+    const body:AddFriendRequestDto = {
       myInfo: {
         userId: myId,
         username: myName,

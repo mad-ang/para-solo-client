@@ -4,10 +4,6 @@ import MyPlayer from './MyPlayer';
 import { sittingShiftData } from './Player';
 import WebRTC from '../web/WebRTC';
 import { Event, phaserEvents } from '../events/EventCenter';
-import { PlayerBehavior } from '../types/PlayerBehavior';
-import PlayerSelector from './PlayerSelector';
-import store from '../stores';
-import Item from '../items/Item';
 import { UserResponseDto } from 'src/api/chat';
 
 export default class OtherPlayer extends Player {

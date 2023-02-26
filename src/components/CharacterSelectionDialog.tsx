@@ -20,15 +20,12 @@ import { useAppSelector, useAppDispatch } from '../hooks';
 import {
   ENTERING_PROCESS,
   setCharacterSelected,
-  setUserId,
   setUsername,
 } from '../stores/UserStore';
 import { getAvatarString, getColorByString } from '../util';
-import Cookies from 'universal-cookie';
 import phaserGame from '../PhaserGame';
 import Game from '../scenes/Game';
 import { getUserInfo } from 'src/api/auth';
-const cookies = new Cookies();
 
 const Wrapper = styled.form`
   position: fixed;
@@ -157,7 +154,6 @@ export default function CharacterSelectionDialog(props) {
   const roomName = useAppSelector((state) => state.room.roomName);
   const roomDescription = useAppSelector((state) => state.room.roomDescription);
   const game = phaserGame.scene.keys.game as Game;
-  const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

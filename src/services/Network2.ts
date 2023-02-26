@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { io, Socket } from 'socket.io-client';
-import { phaserEvents, Event } from 'src/events/EventCenter';
-import { ServerToClientEvents, ClientToServerEvents } from 'src/api/chat';
 import ParasolImg from 'src/assets/directmessage/parasol.png';
-
-import { ChatFeed, Message } from 'react-chat-ui';
 import store from '../stores';
 import { setNewMessageCnt, setNewMessage, setRequestFriendCnt } from 'src/stores/DMboxStore';
 import Cookies from 'universal-cookie';
 import { fireNotification } from 'src/api/notification';
 const cookies = new Cookies();
+
+interface OldMessage{
+  _id: string;
+  createdAt: number;
+  message: string;
+  receiverId: string;
+  senderId: string;
+  id: number;
+}
+
 export default class chatNetwork {
   private socketClient: Socket;
-  public oldMessages: any[];
+  public oldMessages: OldMessage[];
 
   constructor() {
     const socketUrl =
@@ -43,7 +49,6 @@ export default class chatNetwork {
 
     this.socketClient.on('message', (data) => {
       data.id = 1;
-
       store.dispatch(setNewMessage(data));
       store.dispatch(setNewMessageCnt(1));
     });
@@ -59,7 +64,7 @@ export default class chatNetwork {
     this.socketClient.on('old-messages', (data) => {
       const userId = store.getState().user.userId || cookies.get('userId');
       this.oldMessages = [];
-      data.forEach((element: any) => {
+      data.forEach((element: OldMessage) => {
         if (element.senderId) {
           if (element.senderId === userId) {
             element.id = 0;

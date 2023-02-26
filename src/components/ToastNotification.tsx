@@ -24,11 +24,11 @@ export const FadeToast: React.FC<ToastProps> = (props: ToastProps) => {
 };
 
 export const WelcomeToast: React.FC = () => {
-  let [toastState, setToastState] = useState(true);
-  let [toastAnimation, setToastAnimation] = useState('toast-alert');
+  const [toastState, setToastState] = useState(true);
+  const [toastAnimation, setToastAnimation] = useState('toast-alert');
 
   useEffect(() => {
-    let timer = setTimeout(() => {
+    const timer = setTimeout(() => {
       setToastAnimation('toast-alert');
       setToastState(false);
     }, 2000);
@@ -50,7 +50,7 @@ export const AlertToast: React.FC<ToastProps> = (props: ToastProps) => {
   const [toastAnimationClass, setToastAnimationClass] = useState<string>('open');
 
   useEffect(() => {
-    let timer = setTimeout(() => {
+    const timer = setTimeout(() => {
       setToastAnimationClass('close');
       // setToastState(false);
     }, 2000);
@@ -77,7 +77,7 @@ export const LeftToast: React.FC<ToastProps> = (props: ToastProps) => {
   const [toastAnimationClass, setToastAnimationClass] = useState<string>('open');
 
   useEffect(() => {
-    let timer = setTimeout(() => {
+    const timer = setTimeout(() => {
       setToastAnimationClass('close');
       // setToastState(false);
     }, 2000);

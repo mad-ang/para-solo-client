@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
-import { Message, ChatInput } from 'react-chat-ui';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 // 채팅방 입장 시, 채팅방 정보를 얻음
@@ -15,24 +14,16 @@ export const createRoom = (param: CreateRoomRequest) => {
       console.error(error);
     });
 };
-
 // 현재 채팅방 목록을 가져옴
-export const fetchRoomList = async (userId: string): Promise<any> => {
+export const fetchRoomList = async (userId: string) => {
   try {
     const cookieUserId = cookies.get('userId');
-    const response = await axios.post(`/chat/roomList`, { userId: userId || cookieUserId });
+    const response = await axios.post<RoomListResponseWithStatus>(`/chat/roomList`, { userId: userId || cookieUserId });
     return response.data.payload;
   } catch (error) {
     console.error(error);
   }
 };
-
-// export const fetchRoomList = async (userId: string, next: any) => {
-//   const roomList: ApiResponse<Array<RoomListResponse>> = await axios.post(
-//     `/chat/roomList/`, { userId: userId }
-//   );
-//   return roomList.data.data;
-// };
 
 // 스크롤시 채팅방의 채팅 데이터를 가져옴(옛날 채팅 리스트)
 export const fetchChatting = (param: FetchChattingRequest) => {
@@ -54,6 +45,11 @@ interface Response<T> {
   msg?: string;
 }
 export type ApiResponse<T> = AxiosResponse<Response<T>>;
+
+interface RoomListResponseWithStatus{
+  status: number;
+  payload: Array<RoomListResponse>;
+}
 
 // 플레이어에게 매핑되는 유저 정보 타입
 export interface UserResponseDto {
@@ -94,24 +90,14 @@ export interface CreateRoomResponse {
   // lastReadChatId: number;
 }
 
-// 서버에서 채팅방 리스트에 대한 정보를 받아올 때
-// export interface RoomListResponse {
-//   friend: UserResponseDto;
-//   message: string; //친구와 나눈마지막 메세지
-//   roomId: number;
-//   unreadCount?: number;
-//   status: IChatRoomStatus; //0, 1, 2세가지가 들어옴
-//   updatedAt: Date;
-// }
-
 export interface RoomListResponse {
-  _id?: string;
+  _id: string;
   myInfo: UserResponseDto;
   friendInfo: UserResponseDto;
   message: string;
   status: IChatRoomStatus;
   roomId: string;
-  unreadCount?: number;
+  unreadCount: number;
   updatedAt: Date | null;
 }
 

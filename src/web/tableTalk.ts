@@ -3,15 +3,14 @@ import store from '../stores';
 import { setMyStream, addVideoStream, removeVideoStream } from '../stores/tableStore';
 import phaserGame from '../PhaserGame';
 import Game from '../scenes/Game';
-import Network from 'src/services/Network';
 
 export default class TableTalkManager {
   private myPeer: Peer;
   myStream?: MediaStream;
 
   constructor(private userId: string) {
-    const sanatizedId = this.makeId(userId);
-    this.myPeer = new Peer(sanatizedId);
+    const sanitizedId = this.makeId(userId);
+    this.myPeer = new Peer(sanitizedId);
     this.myPeer.on('error', (err) => {
       console.error('tableTalk WebRTC', err);
     });
@@ -45,7 +44,6 @@ export default class TableTalkManager {
   }
 
   startTableTalk() {
-    // @ts-ignore
     const game = phaserGame.scene.keys.game as Game;
     game.network.connectToTable(store.getState().table.tableId!);
 

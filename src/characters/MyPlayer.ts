@@ -10,7 +10,6 @@ import { pushPlayerJoinedMessage } from '../stores/ChatStore';
 import { ItemType } from '../types/Items';
 import { NavKeys } from '../types/KeyboardState';
 import Chair from '../items/Chair';
-import OtherPlayer from './OtherPlayer';
 import phaserGame from 'src/PhaserGame';
 import Game from 'scenes/Game';
 import Cookies from 'universal-cookie';
@@ -18,7 +17,6 @@ import { UserResponseDto } from 'src/api/chat';
 import { setUserProfile, setUserCoin } from 'src/stores/UserStore';
 import { getUserInfo } from 'src/api/auth';
 const cookies = new Cookies();
-import { useAppSelector, useAppDispatch } from 'src/hooks';
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body;
   private chairOnSit?: Chair;
@@ -88,23 +86,6 @@ export default class MyPlayer extends Player {
     const item = playerSelector.selectedItem;
     const closePlayer = playerSelector.closePlayer;
     const game = phaserGame.scene.keys.game as Game;
-    //  쓰일수 있어서 주석처리.
-    // if (Phaser.Input.Keyboard.JustDown(keyE)) {
-    //   switch (item?.itemType) {
-    //     case ItemType.TABLE:
-    //       const table = item as Table;
-
-    // break;
-    // case ItemType.WHITEBOARD:
-    //   const whiteboard = item as Whiteboard;
-    //   whiteboard.openDialog(network);
-    //   break;
-    // case ItemType.VENDINGMACHINE:
-    //   // hacky and hard-coded, but leaving it as is for now
-    //   window.open("https://www.buymeacoffee.com/skyoffice", "_blank");
-    //   break;
-    // }
-    // }
 
     switch (this.playerBehavior) {
       case PlayerBehavior.IDLE:

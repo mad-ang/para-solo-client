@@ -1,10 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RoomAvailable } from 'colyseus.js';
-import { RoomType } from '../types/Rooms';
 import { IPlayer } from '../types/ITownState';
-interface RoomInterface extends RoomAvailable {
-  name?: string;
-}
 
 /**
  * Colyseus' real time room list always includes the public lobby so we have to remove it manually.

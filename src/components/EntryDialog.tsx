@@ -2,27 +2,15 @@ import React, { useEffect, useState } from 'react';
 import logo from '../images/logo.png';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import LinearProgress from '@mui/material/LinearProgress';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-// import { CustomRoomTable } from './CustomRoomTable'
-// import { CreateRoomForm } from './CreateRoomForm'
 import { useAppSelector, useAppDispatch } from '../hooks';
-
 import phaserGame from '../PhaserGame';
 import Bootstrap from '../scenes/Bootstrap';
 import { ENTERING_PROCESS, setEnteringProcess } from '../stores/UserStore';
-import { EnergySavingsLeaf } from '@mui/icons-material';
-import store from 'src/stores';
-import { setLobbyJoined } from 'src/stores/RoomStore';
-import { issueAccessToken, login } from 'src/api/auth';
+import { issueAccessToken } from 'src/api/auth';
 import Cookies from 'universal-cookie';
-import axios from 'axios';
 const cookies = new Cookies();
 
 const Backdrop = styled.div`
@@ -82,8 +70,6 @@ const EntryButton = styled(Button)`
 `;
 
 export default function EntryDialog(props) {
-  // const [showCustomRoom, setShowCustomRoom] = useState(false)
-  // const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
   const [showSnackbar, setShowSnackbar] = useState(false);
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
   // 입장하기 버튼시 발동.
@@ -116,7 +102,6 @@ export default function EntryDialog(props) {
   useEffect(() => {
     if (props.hasToken && lobbyJoined) {
       issueAccessToken({ refreshToken: cookies.get('refreshToken') });
-
       handleConnect();
     }
   }, [lobbyJoined]);

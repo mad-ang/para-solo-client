@@ -6,9 +6,8 @@
 //                 김희산 <https://github.com/heesankim> (BE)
 //                 김기운 <https://github.com/KiwoonKim> (BE)
 // Thanks to SWJungle & KAIST where we made this project.
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { HashRouter } from 'react-router-dom';
 import { useAppSelector } from './hooks';
 import EntryDialog from './components/EntryDialog';
 import CharacterSelectionDialog from './components/CharacterSelectionDialog';
@@ -19,15 +18,9 @@ import SignUpDialog from './components/SignUpDialog';
 import SignInDialog from './components/SignInDialog';
 import axios from 'axios';
 import NavigationContainer from './components/NavigationUltimate/NavigationContainer';
-import { ENTERING_PROCESS, setCharacterSelected, setEnteringProcess } from './stores/UserStore';
-import phaserGame from './PhaserGame';
-import Game from './scenes/Game';
-import Bootstrap from 'scenes/Bootstrap';
+import { ENTERING_PROCESS} from './stores/UserStore';
 import Cookies from 'universal-cookie';
-import store from './stores';
-import { Tab } from '@mui/material';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
-import BgmSrc from 'src/assets/music/BGM1.mp3';
 import UserCoinDialog from './components/UserCoinDialog';
 
 const cookies = new Cookies();
