@@ -61,7 +61,7 @@ export default function SignUpDialog() {
         setPwErrorMsg('비밀번호가 필요해요');
         return false;
       }
-      console.log(userId, isCensored(userId));
+
       if (isCensored(userId)) {
         setUserIdErrorMsg('적절하지 않은 문자가 포함되어 있습니다');
         return false;
