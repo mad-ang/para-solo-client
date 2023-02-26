@@ -10,23 +10,17 @@ import {
 } from '../../../../../stores/DMboxStore';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 import { SetWhichModalActivated, ModalState } from '../../../../../stores/NavbarStore';
-import {
-  fetchRoomList,
-  RoomListResponse,
-  IChatRoomStatus,
-  UserResponseDto,
-} from 'src/api/chat';
+import { fetchRoomList, RoomListResponse, IChatRoomStatus, UserResponseDto } from 'src/api/chat';
 import FriendRequest from 'src/components/NavigationUltimate/Social/AddFriend/FriendRequest';
 import Colors from 'src/utils/Colors';
 import DefaultAvatar from 'src/assets/profiles/DefaultAvatar.png';
 import Cookies from 'universal-cookie';
 import { LeftToast } from 'src/components/ToastNotification';
+import { useQuery } from 'react-query';
 const cookies = new Cookies();
-
 
 /* 채팅목록을 불러온다. 클릭시, 채팅상대(state.dm.friendId)에 친구의 userId를 넣어준다  */
 export const ConversationList = () => {
-  const [rooms, setRooms] = useState<RoomListResponse[]>([]);
   const [friendRequestModal, setFriendRequestModal] = useState(false);
   const [FriendRequestProps, setFriendRequestProps] = useState<UserResponseDto>(
     {} as UserResponseDto
@@ -36,12 +30,10 @@ export const ConversationList = () => {
   const newMessage = useAppSelector((state) => state.dm.newMessage);
   const newMessageCnt = useAppSelector((state) => state.dm.newMessageCnt);
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  
-  useEffect(() => {
-    fetchRoomList(userId).then((data) => {
-      data && setRooms(data);
-    });
-  }, []);
+
+  const { isLoading, isError, data, error } = useQuery('fetchRoomList', () =>
+    fetchRoomList(userId)
+  );
 
   const handleClick = async (room: RoomListResponse) => {
     if (room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount == 0) {
@@ -75,60 +67,66 @@ export const ConversationList = () => {
     <DMmessageList>
       {showAlert && <LeftToast text={'친구의 수락을 기다리고 있어요!'} />}
       <UnorderedList>
-        {rooms.length !== 0 ? (
-          rooms.map((room) => {
-            if (
-              newMessage?.message &&
-              newMessage?.userId === room.friendInfo?.userId &&
-              room.unreadCount === 0
-            ) {
-              room.unreadCount! += 1;
-            }
-            if (room.status !== IChatRoomStatus.FRIEND_REQUEST && newMessageCnt === 0) {
-              room.unreadCount = 0;
-            }
-
-            return (
-              <ListTag
-                key={room._id}
-                onClick={async () => {
-                  await setShowAlert(false);
-                  handleClick(room);
-                }}
-              >
-                <ProfileAvatarImage
-                  src={room.friendInfo.profileImgUrl || DefaultAvatar}
-                  alt={room.friendInfo.username}
-                  width="60"
-                />
-                <IDwithLastMessage>
-                  <UserID>{room.friendInfo.username}</UserID>
-                  <LastMessageWithBadge>
-                    <LastMessage>
-                      {newMessage?.message && newMessage?.userId === room.friendInfo?.userId
-                        ? newMessage?.message
-                        : room.status == IChatRoomStatus.TERMINATED
-                        ? (room.message = '친구가 채팅방을 나갔어요')
-                        : room.status == IChatRoomStatus.FRIEND_REQUEST && room.unreadCount === 0
-                        ? (room.message = '친구 요청을 보냈어요')
-                        : room.message}
-                    </LastMessage>
-                    {room.unreadCount! > 0 ? <UnreadCnt>{room.unreadCount}</UnreadCnt> : null}
-                  </LastMessageWithBadge>
-                </IDwithLastMessage>
-              </ListTag>
-            );
-          })
+        {isLoading || !data ? (
+          <>불러오는 중입니다 </>
         ) : (
           <>
-            <Textbox> 채팅방에 아무도 없어요 🥲 </Textbox>
-            <Textbox> 친구 신청을 보내보아요 </Textbox>
+            {data.length !== 0 ? (
+              data.map((room) => {
+                if (
+                  newMessage?.message &&
+                  newMessage?.userId === room.friendInfo?.userId &&
+                  room.unreadCount === 0
+                ) {
+                  room.unreadCount! += 1;
+                }
+                if (room.status !== IChatRoomStatus.FRIEND_REQUEST && newMessageCnt === 0) {
+                  room.unreadCount = 0;
+                }
+
+                return (
+                  <ListTag
+                    key={room._id}
+                    onClick={async () => {
+                      await setShowAlert(false);
+                      handleClick(room);
+                    }}
+                  >
+                    <ProfileAvatarImage
+                      src={room.friendInfo.profileImgUrl || DefaultAvatar}
+                      alt={room.friendInfo.username}
+                      width="60"
+                    />
+                    <IDwithLastMessage>
+                      <UserID>{room.friendInfo.username}</UserID>
+                      <LastMessageWithBadge>
+                        <LastMessage>
+                          {newMessage?.message && newMessage?.userId === room.friendInfo?.userId
+                            ? newMessage?.message
+                            : room.status == IChatRoomStatus.TERMINATED
+                            ? (room.message = '친구가 채팅방을 나갔어요')
+                            : room.status == IChatRoomStatus.FRIEND_REQUEST &&
+                              room.unreadCount === 0
+                            ? (room.message = '친구 요청을 보냈어요')
+                            : room.message}
+                        </LastMessage>
+                        {room.unreadCount! > 0 ? <UnreadCnt>{room.unreadCount}</UnreadCnt> : null}
+                      </LastMessageWithBadge>
+                    </IDwithLastMessage>
+                  </ListTag>
+                );
+              })
+            ) : (
+              <>
+                <Textbox> 채팅방에 아무도 없어요 🥲 </Textbox>
+                <Textbox> 친구 신청을 보내보아요 </Textbox>
+              </>
+            )}
           </>
         )}
       </UnorderedList>
       {friendRequestModal ? (
         <FriendRequest
-          setRooms={setRooms}
           setFriendRequestModal={setFriendRequestModal}
           friendInfo={FriendRequestProps}
         />

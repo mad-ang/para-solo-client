@@ -56,11 +56,7 @@ export default function FriendRequest(props) {
       props.friendInfo.username,
       status
     );
-    if (response) {
-      fetchRoomList(userId).then((data) => {
-        props.setRooms(data);
-      });
-    }
+
     props.setFriendRequestModal(false);
   }
 
