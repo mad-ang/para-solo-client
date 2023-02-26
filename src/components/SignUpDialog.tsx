@@ -35,13 +35,30 @@ export default function SignUpDialog() {
 
   const [failSignup, setFailSignup] = useState<boolean>(false);
   const [failMessage, setFailMessage] = useState<string>('회원가입에 실패했습니다');
-  // const onUserIdHandler = (event) => {
-  //   setUserId(event.currentTarget.value);
-  // }
 
-  // const onPasswordHandler = (event) => {
-  //       setPassword(event.currentTarget.value);
-  // }
+  const checkUserId = (userId: string): boolean => {
+    let success = true;
+    setUserIdErrorMsg('');
+    if (!userId || userId.length === 0) {
+      setUserIdErrorMsg('아이디가 필요해요');
+      success = false;
+    } else if (isCensored(userId)) {
+      setUserIdErrorMsg('적절하지 않은 문자가 포함되어 있습니다');
+      success = false;
+    }
+
+    return success;
+  };
+
+  const checkPassword = (password): boolean => {
+    setPwErrorMsg('');
+    if (!password || password.length === 0) {
+      setPwErrorMsg('비밀번호가 필요해요');
+      return false;
+    }
+
+    return true;
+  };
 
   const goToEntry = (event) => {
     event.preventDefault();
@@ -52,20 +69,8 @@ export default function SignUpDialog() {
     setFailSignup(false);
 
     try {
-      if (!userId || userId.length === 0) {
-        setUserIdErrorMsg('아이디가 필요해요');
-        return false;
-      }
+      if (!checkUserId(userId) || !checkPassword(password)) return false;
 
-      if (!password || password.length === 0) {
-        setPwErrorMsg('비밀번호가 필요해요');
-        return false;
-      }
-
-      if (isCensored(userId)) {
-        setUserIdErrorMsg('적절하지 않은 문자가 포함되어 있습니다');
-        return false;
-      }
       const body = {
         userId: userId,
         password: password,
@@ -105,9 +110,8 @@ export default function SignUpDialog() {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    setUserIdErrorMsg('');
-    setPwErrorMsg('');
-
+    checkUserId(userId);
+    checkPassword(password);
     handleSubmit();
   };
 
@@ -137,6 +141,12 @@ export default function SignUpDialog() {
           onInput={(e) => {
             setUserId((e.target as HTMLInputElement).value?.trim());
           }}
+          onFocus={(e) => {
+            checkUserId((e.target as HTMLInputElement).value?.trim());
+          }}
+          onBlur={(e) => {
+            checkUserId((e.target as HTMLInputElement).value?.trim());
+          }}
         />
         <TextField
           fullWidth
@@ -148,6 +158,12 @@ export default function SignUpDialog() {
           helperText={pwErrorMsg}
           onInput={(e) => {
             setPassword((e.target as HTMLInputElement).value);
+          }}
+          onFocus={(e) => {
+            checkPassword((e.target as HTMLInputElement).value?.trim());
+          }}
+          onBlur={(e) => {
+            checkPassword((e.target as HTMLInputElement).value?.trim());
           }}
           onKeyDown={handleKeyDown}
           type={showPassword ? 'text' : 'password'}
